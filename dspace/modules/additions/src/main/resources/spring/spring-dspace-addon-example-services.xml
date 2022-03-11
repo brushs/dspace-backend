@@ -21,4 +21,10 @@
 
     <bean id="org.dspace.example.Example" class="org.dspace.example.impl.ExampleImpl" />
 
+    <bean name="customValidationTwo" class="org.dspace.app.rest.submit.step.validation.CustomValidationTwo" scope="prototype">
+        <property name="name" value="upload"/>
+        <property name="itemService" ref="org.dspace.content.ItemServiceImpl"/>
+        <property name="uploadConfigurationService" ref="uploadConfigurationService"/>
+    </bean>
+
 </beans>
