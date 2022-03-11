@@ -1,43 +1,39 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-name: 'DSpace Java Build'
-variables:
-  - name: app
-    value: 'DSpaceJava'
-  - name: build_id
-    value: $(Build.BuildId)
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-  branches:
-    include:
-      - main
-      - oir-dev
+- main
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '8bbbbc97-33c8-402e-af00-550310380594'
+  imageRepository: 'dspacebackend'
+  containerRegistry: 'stevedspaceregistry.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
 
 stages:
-  - stage: DSPACE_CI
-    displayName: 'Build DSpace container image'
-    #    condition: and(always(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
-    #    variables:
-    #    - group: DSpace_Postgresql_Credentials
-    jobs:
-      - job: build_backend
-        timeoutInMinutes: 20
-        pool:
-            name: Apption Pool
-            demands:
-                - Agent.OS -equals Windows_NT
-                - Agent.Name -equals WIN10-BUILD
-        steps:
-          - task: Docker@2
-            displayName: 'Build and Push an image'
-            inputs:
-              command: 'buildAndPush'
-              dockerfile: 'Dockerfile'
-              repository: 'dspace-backend'
-              containerRegistry: 'stevedspaceregistry'
-              tags: |
-                $(Build.BuildId)
-                latest
-            condition: succeededOrFailed()
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
