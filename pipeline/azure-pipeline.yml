@@ -13,7 +13,7 @@ trigger:
   branches:
     include:
       - main
-      - develop
+      - oir-dev
 
 stages:
   - stage: DSPACE_CI
