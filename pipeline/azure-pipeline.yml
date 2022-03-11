@@ -1,0 +1,95 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+name: 'DSpace Java Build'
+variables:
+  - name: app
+    value: 'DSpaceJava'
+  - name: build_id
+    value: $(Build.BuildId)
+
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+stages:
+  - stage: DSPACE_CI
+    displayName: 'Build DSpace container image'
+    #    condition: and(always(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+    #    variables:
+    #    - group: DSpace_Postgresql_Credentials
+    jobs:
+      - job: mvn_package
+        timeoutInMinutes: 20
+        pool:
+            name: Apption Pool
+            demands:
+                - Agent.OS -equals Windows_NT
+                - Agent.Name -equals WIN10-BUILD
+        steps:
+          - task: Maven@3
+            condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release-ArisService-prod-')))
+            displayName: 'Provision resources to dev environment'
+            inputs:
+              mavenPomFile: 'api/pom.xml'
+              options: '-s settings.xml -Dspring-boot.run.profiles=prod -Dmaven.test.skip=true -DENV_DATASOURCE_PASSWORD=${ENV_DATASOURCE_PASSWORD_PROD}'
+              #         options: '-s settings.xml -Dmaven.test.skip=true'
+              javaHomeOption: path
+              jdkVersionOption: 1.8
+              jdkDirectory: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
+            env:
+              GIT_ACCESSTOKEN: $(Git.AccessToken)
+              GIT_USERNAME: $(Git.UserName)
+
+          - task: CopyFiles@2
+            displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+            inputs:
+              SourceFolder: '$(system.defaultworkingdirectory)'
+              Contents: 'api/target/*.jar'
+              TargetFolder: '$(build.artifactstagingdirectory)'
+            condition: succeededOrFailed()
+
+          - task: Bash@3
+            displayName: 'Save_Variables'
+            inputs:
+              targetType: inline
+              script: |
+                echo "$(app)" > $(Build.SourcesDirectory)/infrastructure/scripts/app.txt
+                echo "$(Build.BuildId)" > $(Build.SourcesDirectory)/infrastructure/scripts/buildid.txt
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact: drop'
+            inputs:
+              PathtoPublish: '$(build.artifactstagingdirectory)'
+            enabled: false
+            condition: succeededOrFailed()
+
+          - task: Docker@2
+            displayName: 'Build and Push an image'
+            inputs:
+              command: 'buildAndPush'
+              dockerfile: 'Dockerfile'
+              repository: 'arisservice'
+              containerRegistry: 'MT-HUB01-ACR-connection'
+              tags: |
+                $(Build.BuildId)
+                latest
+            condition: succeededOrFailed()
+
+          - task: CopyFiles@1
+            displayName: 'Copy_Files'
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)'
+              Contents: |
+                infrastructure/**
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact: drop'
+            inputs:
+              PathtoPublish: '$(build.artifactstagingdirectory)'
+            enabled: true
+            condition: succeededOrFailed()
