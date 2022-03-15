@@ -60,7 +60,7 @@ RUN apt-get update \
         && apt-get update \
   && apt-get install -y --no-install-recommends openssh-server \
   && echo "$SSH_PASSWD" | chpasswd
-COPY sshd_config /etc/ssh/
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 EXPOSE 8000 2222
 
 # Run the "server" webapp off the /server path (e.g. http://localhost:8080/server/)
