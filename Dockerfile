@@ -7,6 +7,15 @@
 # - maven:3-jdk-11 (see dspace-dependencies)
 # - note: default tag for branch: dspace/dspace: dspace/dspace:dspace-7_x
 
+ENV SSH_PASSWD "root:Docker!"
+RUN apt-get update \
+        && apt-get install -y --no-install-recommends dialog \
+        && apt-get update \
+  && apt-get install -y --no-install-recommends openssh-server \
+  && echo "$SSH_PASSWD" | chpasswd
+COPY sshd_config /etc/ssh/
+EXPOSE 8000 2222
+
 # Step 1 - Run Maven Build
 FROM dspace/dspace-dependencies:dspace-7_x as build
 ARG TARGET_DIR=dspace-installer
