@@ -70,3 +70,5 @@ RUN ln -s $DSPACE_INSTALL/webapps/server   /usr/local/tomcat/webapps/server
 # Please note that server webapp should only run on one path at a time.
 #RUN mv /usr/local/tomcat/webapps/ROOT /usr/local/tomcat/webapps/ROOT.bk && \
 #    ln -s $DSPACE_INSTALL/webapps/server   /usr/local/tomcat/webapps/ROOT
+
+CMD ["catalina.sh", "run"]
