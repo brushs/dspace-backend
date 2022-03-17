@@ -53,6 +53,9 @@ COPY --from=ant_build /dspace $DSPACE_INSTALL
 EXPOSE 8080 8009
 
 ENV JAVA_OPTS=-Xmx2000m
+ENV JAVA_HOME="/usr/local/openjdk-11"
+
+ENV PATH="/usr/local/openjdk-11/bin:${PATH}"
 
 # Run the "server" webapp off the /server path (e.g. http://localhost:8080/server/)
 RUN ln -s $DSPACE_INSTALL/webapps/server   /usr/local/tomcat/webapps/server
