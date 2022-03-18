@@ -57,6 +57,8 @@ ENV JAVA_OPTS=-Xmx2000m
 ENV JAVA_HOME /usr/local/openjdk-11
 ENV PATH $JAVA_HOME/bin:$PATH
 
+RUN export PATH=/usr/local/openjdk-11/bin:$PATH
+
 # Run the "server" webapp off the /server path (e.g. http://localhost:8080/server/)
 RUN ln -s $DSPACE_INSTALL/webapps/server   /usr/local/tomcat/webapps/server
 # If you wish to run "server" webapp off the ROOT path, then comment out the above RUN, and uncomment the below RUN.
