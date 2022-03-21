@@ -50,14 +50,10 @@ RUN ant init_installation update_configs update_code update_webapps
 FROM tomcat:8-jdk11
 ENV DSPACE_INSTALL=/dspace
 COPY --from=ant_build /dspace $DSPACE_INSTALL
-EXPOSE 8080 8009
 
 ENV JAVA_OPTS=-Xmx2000m
 
-ENV JAVA_HOME /usr/local/openjdk-11
-ENV PATH $JAVA_HOME/bin:$PATH
-
-RUN export PATH=/usr/local/openjdk-11/bin:$PATH
+ENV PATH="/usr/local/openjdk-11/bin:$PATH"
 
 # Run the "server" webapp off the /server path (e.g. http://localhost:8080/server/)
 RUN ln -s $DSPACE_INSTALL/webapps/server   /usr/local/tomcat/webapps/server
@@ -86,6 +82,6 @@ RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
 # Open port 2222 for SSH access
-EXPOSE 80 2222
+EXPOSE 8080 8009 2222
 
 CMD /usr/sbin/sshd && catalina.sh run
