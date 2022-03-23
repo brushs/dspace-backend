@@ -13,7 +13,7 @@ variables:
   dockerRegistryServiceConnection: '8bbbbc97-33c8-402e-af00-550310380594'
   imageRepository: 'dspacebackend'
   containerRegistry: 'stevedspaceregistry.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/solr/Dockerfile'
   tag: '$(Build.BuildId)'
   azureSubscription: 'Visual Studio Enterprise Subscription – MPN'
   appName: 'dspacebackendsteve'
