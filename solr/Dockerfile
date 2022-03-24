@@ -17,13 +17,14 @@ COPY sshd_config /etc/ssh/
 # Copy and configure the ssh_setup file
 RUN mkdir -p /tmp
 COPY ssh_setup.sh /tmp
+COPY core_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
 
-RUN mkdir -p /tmp2
-COPY core_setup.sh /tmp2
-# RUN chmod +x /tmp2/core_setup.sh \
+
+# COPY core_setup.sh /tmp
+# RUN chmod +x /tmp/core_setup.sh \
    # && (sleep 1;/tmp/core_setup.sh 2>&1 > /dev/null)
 
 # Open port 2222 for SSH access
