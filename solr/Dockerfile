@@ -29,4 +29,6 @@ USER $SOLR_USER
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
+CMD /usr/sbin/sshd -R && catalina.sh ru
+
 CMD solr-foreground
