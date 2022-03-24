@@ -1,6 +1,10 @@
 #!/bin/bash
 
     
+     entrypoint:
+    - /bin/bash
+    - '-c'
+    - |
       init-var-solr
       precreate-core authority /opt/solr/server/solr/configsets/authority
       cp -r -u /opt/solr/server/solr/configsets/authority/* authority
