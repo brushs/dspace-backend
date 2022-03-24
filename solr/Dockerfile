@@ -22,7 +22,7 @@ RUN chmod +x /tmp/ssh_setup.sh \
 
 
 RUN mkdir -p /data
-# COPY core_setup.sh /tmp
+COPY core_setup.sh /data
 # RUN chmod +x /tmp/core_setup.sh \
    # && (sleep 1;/tmp/core_setup.sh 2>&1 > /dev/null)
 
