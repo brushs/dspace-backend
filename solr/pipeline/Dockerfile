@@ -23,8 +23,15 @@ RUN chmod +x /tmp/ssh_setup.sh \
 #Copy 
 RUN mkdir -p /data
 COPY core_setup.sh /data
-RUN chmod +x /data/core_setup.sh \
-    && (sleep 1;/data/core_setup.sh 2>&1 > /dev/null)
+#working_dir: /var/solr/data
+   # volumes:
+    # Mount our local Solr core configs so that they are available as Solr configsets on container
+  #  - ./dspace/solr/authority:/opt/solr/server/solr/configsets/authority
+   # - ./dspace/solr/oai:/opt/solr/server/solr/configsets/oai
+   # - ./dspace/solr/search:/opt/solr/server/solr/configsets/search
+   # - ./dspace/solr/statistics:/opt/solr/server/solr/configsets/statistics
+    # Keep Solr data directory between reboots
+    #- solr_data:/var/solr/data
 
 # Open port 2222 for SSH access
 EXPOSE 8983 8009 2222
