@@ -23,4 +23,10 @@ RUN chmod +x /tmp/ssh_setup.sh \
 # Open port 2222 for SSH access
 EXPOSE 8983 8009 2222
 
+VOLUME /var/solr
+WORKDIR /opt/solr
+USER $SOLR_USER
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
 CMD /usr/sbin/sshd && solr-foreground
