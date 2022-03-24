@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
     - ./dspace/solr/authority:/opt/solr/server/solr/configsets/authority
     - ./dspace/solr/oai:/opt/solr/server/solr/configsets/oai
