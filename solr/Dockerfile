@@ -1,6 +1,8 @@
 
 FROM solr:8.11-slim
 
+USER root
+
 # Install OpenSSH and set the password for root to "Docker!"
 ENV SSH_PASSWD "root:Docker!"
 RUN apt-get update \
