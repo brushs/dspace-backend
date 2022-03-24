@@ -20,6 +20,11 @@ COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
+
+RUN mkdir -p /tmp2
+COPY core_setup.sh /tmp2
+RUN chmod +x /tmp2/ssh_setup.sh 
+
 # Open port 2222 for SSH access
 EXPOSE 8983 8009 2222
 
@@ -28,6 +33,8 @@ WORKDIR /opt/solr
 USER $SOLR_USER
 
 ENTRYPOINT ["docker-entrypoint.sh"]
+
+
 
 CMD /usr/sbin/sshd -R && catalina.sh ru
 
