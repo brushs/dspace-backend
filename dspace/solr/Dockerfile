@@ -3,6 +3,8 @@ FROM solr:8.11-slim
 
 USER root
 
+RUN mkdir -p /home/solr/.ssh/authorized_keys
+
 # Install OpenSSH and set the password for root to "Docker!"
 ENV SSH_PASSWD "root:Docker!"
 RUN apt-get update \
@@ -20,6 +22,8 @@ RUN mkdir -p /tmp
 COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
+
+RUN ssh-keygen -f /home/solr/.ssh/authorized_keys/id_rsa
 
 #Copy solr config file into image
 COPY ./authority /opt/solr/server/solr/configsets/authority
@@ -39,7 +43,7 @@ USER $SOLR_USER
 
 ENTRYPOINT ["core_setup.sh"]
 
-RUN /usr/bin/ssh-keygen -A
+#RUN /usr/bin/ssh-keygen -A
 
-#CMD /usr/sbin/sshd && solr-foreground
-CMD solr-foreground
+CMD /usr/sbin/sshd && solr-foreground
+#CMD solr-foreground
