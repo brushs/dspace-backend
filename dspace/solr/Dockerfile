@@ -41,4 +41,5 @@ USER $SOLR_USER
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-CMD /usr/sbin/sshd && solr-foreground
+#CMD /usr/sbin/sshd && solr-foreground
+CMD solr-foreground
