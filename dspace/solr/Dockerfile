@@ -6,9 +6,6 @@ USER root
 RUN apt-get update && \
       apt-get -y install sudo
 
-RUN mkdir -p /home/solr/.ssh
-RUN chmod -R 755 /home
-
 # Install OpenSSH and set the password for root to "Docker!"
 ENV SSH_PASSWD "root:Docker!"
 RUN apt-get update \
@@ -27,8 +24,6 @@ COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
-#RUN ssh-keygen -f /home/solr/.ssh/id_rsa
-
 #Copy solr config file into image
 COPY ./authority /opt/solr/server/solr/configsets/authority
 COPY ./oai /opt/solr/server/solr/configsets/oai
@@ -41,17 +36,10 @@ COPY --chown=0:0 core_setup.sh /opt/docker-solr/scripts
 # Open port 2222 for SSH access
 EXPOSE 8983 8009 2222
 
+# Taken from parent Dockerfile
 VOLUME /var/solr
 WORKDIR /opt/solr
-#USER $SOLR_USER
-
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-#RUN ssh-keygen -A
-
-#RUN PATH="/opt/solr/bin:/opt/docker-solr/scripts:$PATH"
-
-#CMD echo $PATH
 CMD /usr/sbin/sshd && sudo -u solr -E env "PATH=$PATH" /opt/docker-solr/scripts/solr-foreground
-#CMD solr-foreground
