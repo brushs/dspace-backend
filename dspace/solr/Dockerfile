@@ -38,6 +38,6 @@ VOLUME /var/solr
 WORKDIR /opt/solr
 USER $SOLR_USER
 
-ENTRYPOINT ["core_setup.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD /usr/sbin/sshd && solr-foreground
