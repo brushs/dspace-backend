@@ -28,8 +28,8 @@ COPY ./oai /opt/solr/server/solr/configsets/oai
 COPY ./search /opt/solr/server/solr/configsets/search
 COPY ./statistics /opt/solr/server/solr/configsets/statistics
 
-RUN mkdir -p /data
-COPY core_setup.sh /data
+#Copy setup file into image
+COPY --chown=0:0 core_setup.sh /opt/docker-solr/scripts
 
 # Open port 2222 for SSH access
 EXPOSE 8983 8009 2222
@@ -38,6 +38,6 @@ VOLUME /var/solr
 WORKDIR /opt/solr
 USER $SOLR_USER
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["core_setup.sh"]
 
 CMD /usr/sbin/sshd && solr-foreground
