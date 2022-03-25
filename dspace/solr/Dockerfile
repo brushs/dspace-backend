@@ -37,8 +37,9 @@ VOLUME /var/solr
 WORKDIR /opt/solr
 USER $SOLR_USER
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["core_setup.sh"]
 
 RUN /usr/bin/ssh-keygen -A
 
-CMD /usr/sbin/sshd && solr-foreground
+#CMD /usr/sbin/sshd && solr-foreground
+CMD solr-foreground
