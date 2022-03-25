@@ -14,13 +14,14 @@ RUN apt-get update \
 # Copy the sshd_config file to the /etc/ssh/ directory
 COPY sshd_config /etc/ssh/
 WORKDIR /etc/ssh/
-RUN ssh-keygen -A
 
 # Copy and configure the ssh_setup file
 RUN mkdir -p /tmp
 COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
+
+RUN /usr/bin/ssh-keygen -A
 
 #Copy solr config file into image
 COPY ./authority /opt/solr/server/solr/configsets/authority
