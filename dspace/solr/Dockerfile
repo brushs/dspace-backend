@@ -21,8 +21,6 @@ COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
-RUN /usr/bin/ssh-keygen -A
-
 #Copy solr config file into image
 COPY ./authority /opt/solr/server/solr/configsets/authority
 COPY ./oai /opt/solr/server/solr/configsets/oai
@@ -41,5 +39,6 @@ USER $SOLR_USER
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-#CMD /usr/sbin/sshd && solr-foreground
-CMD solr-foreground
+RUN /usr/bin/ssh-keygen -A
+
+CMD /usr/sbin/sshd && solr-foreground
