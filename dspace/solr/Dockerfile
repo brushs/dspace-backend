@@ -41,7 +41,7 @@ VOLUME /var/solr
 WORKDIR /opt/solr
 USER $SOLR_USER
 
-ENTRYPOINT ["docker_entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 #RUN /usr/bin/ssh-keygen -A
 
