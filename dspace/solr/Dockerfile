@@ -32,7 +32,7 @@ COPY ./search /opt/solr/server/solr/configsets/search
 COPY ./statistics /opt/solr/server/solr/configsets/statistics
 
 #Copy setup file into image
-COPY --chown=0:0 core_setup.sh /opt/docker-solr/scripts
+COPY core_setup.sh /opt/docker-solr/scripts
 
 # Open port 2222 for SSH access
 EXPOSE 8983 8009 2222
@@ -44,6 +44,8 @@ WORKDIR /opt/solr
 # Need this directory to sudo to this user
 RUN mkdir -p /home/solr
 
-ENTRYPOINT ["core_setup.sh"]
+RUN chmod -R 777 /opt/docker-solr/scripts
+
+ENTRYPOINT ["/opt/docker-solr/scripts/core_setup.sh"]
 
 CMD /usr/sbin/sshd && sudo -u solr -E env "PATH=$PATH" /opt/docker-solr/scripts/solr-foreground
