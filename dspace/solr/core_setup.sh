@@ -8,4 +8,5 @@ precreate-core search /opt/solr/server/solr/configsets/search
 cp -r -u /opt/solr/server/solr/configsets/search/* search
 precreate-core statistics /opt/solr/server/solr/configsets/statistics
 cp -r -u /opt/solr/server/solr/configsets/statistics/* statistics
-exec solr -f
+sudo chmod -R 777 /var
+sudo -u solr -E env "PATH=$PATH" solr -f

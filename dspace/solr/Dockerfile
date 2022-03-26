@@ -3,6 +3,7 @@ FROM solr:8.11-slim
 
 USER root
 
+# Need sudo
 RUN apt-get update && \
       apt-get -y install sudo
 
@@ -40,6 +41,9 @@ EXPOSE 8983 8009 2222
 VOLUME /var/solr
 WORKDIR /opt/solr
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+# Need this directory to sudo to this user
+RUN mkdir -p /home/solr
+
+ENTRYPOINT ["core_setup.sh"]
 
 CMD /usr/sbin/sshd && sudo -u solr -E env "PATH=$PATH" /opt/docker-solr/scripts/solr-foreground
