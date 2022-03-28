@@ -12,10 +12,10 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '8bbbbc97-33c8-402e-af00-550310380594'
   imageRepository: 'dspacesolr'
-  containerRegistry: 'stevedspaceregistry.azurecr.io'
+  containerRegistry: 'dspacesandbox.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/dspace/solr/Dockerfile'
   tag: '$(Build.BuildId)'
-  azureSubscription: 'Visual Studio Enterprise Subscription – MPN'
+  azureSubscription: 'NRCan Sandbox'
   appName: 'dspacesolrsteve2'
 
   # Agent VM image name
