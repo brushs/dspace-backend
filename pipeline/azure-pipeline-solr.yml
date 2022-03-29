@@ -10,7 +10,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'dspacesandbox'
+  dockerRegistryServiceConnection: 'ef53a2ff-0c14-4955-a936-56f979aaf6e9'
   imageRepository: 'dspacesolr'
   containerRegistry: 'dspacesandbox.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/dspace/solr/Dockerfile'
