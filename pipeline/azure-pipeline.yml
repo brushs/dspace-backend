@@ -16,7 +16,7 @@ variables:
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
   azureSubscription: 'nrcan-cmss-dsld-sandbox'
-  appName: 'dspacebackendsandboxsteve'
+  appName: 'dspacesandboxbackend'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
