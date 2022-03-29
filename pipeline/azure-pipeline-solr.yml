@@ -16,7 +16,7 @@ variables:
   dockerfilePath: '$(Build.SourcesDirectory)/dspace/solr/Dockerfile'
   tag: '$(Build.BuildId)'
   azureSubscription: 'nrcan-cmss-dsld-sandbox'
-  appName: 'dspacesolrsteve2'
+  appName: 'dspacesandboxsolr'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
