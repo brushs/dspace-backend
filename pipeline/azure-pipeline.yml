@@ -10,13 +10,13 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '8bbbbc97-33c8-402e-af00-550310380594'
+  dockerRegistryServiceConnection: 'ef53a2ff-0c14-4955-a936-56f979aaf6e9'
   imageRepository: 'dspacebackend'
   containerRegistry: 'stevedspaceregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-  azureSubscription: 'Visual Studio Enterprise Subscription – MPN'
-  appName: 'dspacebackendsteve'
+  azureSubscription: 'NRCan Sandbox'
+  appName: 'dspacebackendsandboxsteve'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
