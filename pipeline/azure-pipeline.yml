@@ -15,7 +15,7 @@ variables:
   containerRegistry: 'stevedspaceregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-  azureSubscription: 'NRCan Sandbox'
+  azureSubscription: 'nrcan-cmss-dsld-sandbox'
   appName: 'dspacebackendsandboxsteve'
 
   # Agent VM image name
