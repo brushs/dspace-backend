@@ -12,7 +12,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'ef53a2ff-0c14-4955-a936-56f979aaf6e9'
   imageRepository: 'dspacebackend'
-  containerRegistry: 'stevedspaceregistry.azurecr.io'
+  containerRegistry: 'dspacesandbox.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
   azureSubscription: 'nrcan-cmss-dsld-sandbox'
