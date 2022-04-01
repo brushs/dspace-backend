@@ -13,9 +13,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+    <!--
     <bean name="customValidationTwo" class="org.dspace.app.rest.submit.step.validation.CustomValidationTwo" scope="prototype">
         <property name="name" value="upload"/>
         <property name="itemService" ref="org.dspace.content.ItemServiceImpl"/>
     </bean>
-
+    -->
 </beans>
