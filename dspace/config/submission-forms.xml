@@ -116,6 +116,19 @@
             </row>
             <row>
                 <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>department</dc-element>
+                    <dc-qualifier>name</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Department Name</label>
+                    <style>col-sm-8</style>
+                    <input-type>onebox</input-type>
+                    <hint>Test field</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
                     <dc-qualifier>citation</dc-qualifier>

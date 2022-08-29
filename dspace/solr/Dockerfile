@@ -1,0 +1,51 @@
+
+FROM solr:8.11-slim
+
+USER root
+
+# Need sudo
+RUN apt-get update && \
+      apt-get -y install sudo
+
+# Install OpenSSH and set the password for root to "Docker!"
+ENV SSH_PASSWD "root:Docker!"
+RUN apt-get update \
+        && apt-get install -y --no-install-recommends dialog \
+        && apt-get update \
+  && apt-get install -y --no-install-recommends openssh-server \
+  && echo "$SSH_PASSWD" | chpasswd
+
+# Copy the sshd_config file to the /etc/ssh/ directory
+COPY sshd_config /etc/ssh/
+WORKDIR /etc/ssh/
+
+# Copy and configure the ssh_setup file
+RUN mkdir -p /tmp
+COPY ssh_setup.sh /tmp
+RUN chmod +x /tmp/ssh_setup.sh \
+    && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
+
+#Copy solr config file into image
+COPY ./authority /opt/solr/server/solr/configsets/authority
+COPY ./oai /opt/solr/server/solr/configsets/oai
+COPY ./search /opt/solr/server/solr/configsets/search
+COPY ./statistics /opt/solr/server/solr/configsets/statistics
+
+#Copy setup file into image
+COPY core_setup.sh /opt/docker-solr/scripts
+
+# Open port 2222 for SSH access
+EXPOSE 8983 8009 2222
+
+# Taken from parent Dockerfile
+VOLUME /var/solr
+WORKDIR /opt/solr
+
+# Need this directory to sudo to this user
+RUN mkdir -p /home/solr
+
+RUN chmod -R 777 /opt/docker-solr/scripts
+
+ENTRYPOINT ["/opt/docker-solr/scripts/core_setup.sh"]
+
+CMD /usr/sbin/sshd && sudo -u solr -E env "PATH=$PATH" /opt/docker-solr/scripts/solr-foreground
