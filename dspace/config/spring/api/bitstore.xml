@@ -7,8 +7,9 @@
         <property name="incoming" value="0"/>
         <property name="stores">
             <map>
-                <entry key="0" value-ref="localStore"/>
+                <!--<entry key="0" value-ref="localStore"/> -->
                 <!--<entry key="1" value-ref="s3Store"/>-->
+                <entry key="0" value-ref="azureStore"/>
             </map>
         </property>
     </bean>
@@ -36,4 +37,14 @@
 
     <!-- <bean name="localStore2 ... -->
     <!-- <bean name="s3Store2 ... -->
+    <bean name="azureStore" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
+        <!-- AWS Security credentials, with policies for specified bucket -->
+        <property name="connectionstring" value=""/>
+
+        <!-- container name to store assets in. example: longsight-dspace-auk -->
+        <property name="containerName" value=""/>
+        <!-- Subfolder to organize assets within the bucket, in case this bucket is shared  -->
+        <!-- Optional, default is root level of bucket -->
+        <!-- <property name="subfolder" value=""/> -->
+    </bean>
 </beans>
