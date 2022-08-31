@@ -840,6 +840,10 @@
                     <groupId>com.microsoft.azure</groupId>
                     <artifactId>msal4j</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>net.minidev</groupId>
+                    <artifactId>json-smart</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
