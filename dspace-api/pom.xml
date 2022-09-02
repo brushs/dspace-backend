@@ -623,23 +623,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>io.netty</groupId>
-                    <artifactId>netty-transport-native-unix-common</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-resolver</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-handler</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-buffer</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-transport-native-epoll</artifactId>
+                    <artifactId>*</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.fasterxml.woodstox</groupId>
@@ -676,15 +660,11 @@
                 </exclusion>
                 <exclusion>
                     <groupId>io.netty</groupId>
-                    <artifactId>netty-transport-native-unix-common</artifactId>
+                    <artifactId>*</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-transport-native-epoll</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-resolver</artifactId>
+                    <groupId>com.fasterxml.woodstox</groupId>
+                    <artifactId>woodstox-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -995,27 +975,27 @@
           <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-buffer</artifactId>
-            <version>4.1.68.Final</version>
+            <version>4.1.72.Final</version>
           </dependency>
           <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-transport</artifactId>
-            <version>4.1.68.Final</version>
+            <version>4.1.72.Final</version>
           </dependency>
           <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-common</artifactId>
-            <version>4.1.68.Final</version>
+            <version>4.1.72.Final</version>
           </dependency>
           <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-handler</artifactId>
-            <version>4.1.68.Final</version>
+            <version>4.1.72.Final</version>
           </dependency>
           <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-codec</artifactId>
-            <version>4.1.68.Final</version>
+            <version>4.1.72.Final</version>
           </dependency>
           <dependency>
             <groupId>org.apache.velocity</groupId>
