@@ -258,6 +258,45 @@
          <groupId>org.apache.solr</groupId>
          <artifactId>solr-solrj</artifactId>
          <version>${solr.client.version}</version>
+         <exclusions>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-buffer</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-transport</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-transport-native-unix-common</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-common</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-handler</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-transport-native-epoll</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-codec</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-resolver</artifactId>
+            </exclusion>
+
+            <exclusion>
+               <groupId>com.fasterxml.woodstox</groupId>
+               <artifactId>woodstox-core</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <!-- Solr Core is only needed for Integration Tests (to run a MockSolrServer) -->
       <!-- The following Solr / Lucene dependencies also support integration tests -->
@@ -284,6 +323,42 @@
             <exclusion>
                <groupId>org.eclipse.jetty</groupId>
                <artifactId>jetty-util</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-buffer</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-transport</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-transport-native-unix-common</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-common</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-handler</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-transport-native-epoll</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-codec</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>com.fasterxml.woodstox</groupId>
+               <artifactId>woodstox-core</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>io.netty</groupId>
+               <artifactId>netty-resolver</artifactId>
             </exclusion>
          </exclusions>
       </dependency>
