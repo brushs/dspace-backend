@@ -355,6 +355,10 @@ just adding new jar in the classloader</description>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-util</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
