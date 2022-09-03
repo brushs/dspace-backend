@@ -4,6 +4,9 @@ Copyright (c) Microsoft Corporation.
 */
 package org.dspace.storage.bitstore;
 
+
+
+import com.azure.storage.blob.BlobClient;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -18,27 +21,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import com.azure.storage.blob.specialized.BlockBlobClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
 //import com.azure.storage.common.StorageSharedKeyCredential;
 
 public class AzureBitStoreService implements BitStoreService{
 
     private static final Logger log = LogManager.getLogger(AzureBitStoreService.class);
 
+    private static final String CSA = "MD5";
 
     private String containerName = null;
     private String connectionstring;
 
     private String subfolder;
 
+    BlobServiceClient blobServiceClient;
 
     private static final ConfigurationService configurationService
             = DSpaceServicesFactory.getInstance().getConfigurationService();
     @Override
     public void init() throws IOException {
 
-        //BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(connectStr).buildClient();
-        //BlobContainerClient containerClient;
-
+        blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionstring).buildClient();
         // container name
         if (StringUtils.isEmpty(containerName)) {
             // get hostname of DSpace UI to use to name bucket
@@ -49,14 +55,14 @@ public class AzureBitStoreService implements BitStoreService{
         /**
 
          try {
-         if (!s3Service.doesBucketExist(containerName)) {
-         s3Service.createBucket(bucketName);
-         containerClient = blobServiceClient.createBlobContainer(containerName);
-         log.info("Creating new S3 Bucket: " + containerName);
+         if (!blobServiceClient.getBlobContainerClient(containerName);) {
+             containerClient = blobServiceClient.createBlobContainer(containerName);
+             BlobContainerClient containerClient = blobServiceClient.createBlobContainer(containerName);
+             log.info("Creating new container: " + containerName);
          }
-         } catch (AmazonClientException e) {
-         log.error(e);
-         throw new IOException(e);
+         } catch (Exception e) {
+            log.error(e);
+            throw new IOException(e);
          }
          */
 
@@ -78,13 +84,18 @@ public class AzureBitStoreService implements BitStoreService{
         String key = getFullKey(bitstream.getInternalId());
         //Copy istream to temp file, and send the file, with some metadata
         File scratchFile = File.createTempFile(bitstream.getInternalId(), "blobbs");
+        String fileName = scratchFile.getName();
         FileUtils.copyInputStreamToFile(in, scratchFile);
         long contentLength = scratchFile.length();
-
-        //bitstream.setSizeBytes(contentLength);
+        BlobContainerClient containerClient;
+        containerClient = blobServiceClient.getBlobContainerClient(containerName);
+        BlobClient blobClient = containerClient.getBlobClient(fileName);
+        blobClient.uploadFromFile(String.valueOf(scratchFile));
+        scratchFile.getName();
+        bitstream.setSizeBytes(contentLength);
         //bitstream.setChecksum(putObjectResult.getETag());
-        //bitstream.setChecksumAlgorithm(CSA);
-
+        bitstream.setChecksumAlgorithm(CSA);
+        scratchFile.delete();
         log.info("Azure mock put");
     }
 
