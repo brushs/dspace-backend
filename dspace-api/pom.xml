@@ -358,6 +358,11 @@
             <artifactId>ehcache</artifactId>
             <version>${ehcache.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-cache
              Caching dependencies for sherpa service. -->
         <dependency>
@@ -957,10 +962,6 @@
                 <exclusion>
                     <groupId>io.netty</groupId>
                     <artifactId>netty-codec-http</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.datatype</groupId>
-                    <artifactId>jackson-datatype-jsr310</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
