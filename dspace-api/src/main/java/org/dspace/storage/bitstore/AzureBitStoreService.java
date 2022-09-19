@@ -131,6 +131,9 @@ public class AzureBitStoreService implements BitStoreService{
     public Map about(Bitstream bitstream, Map attrs) throws IOException {
         String key = getFullKey(bitstream.getInternalId());
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+        //attrs.put("size_bytes", file.length());
+        //attrs.put("checksum", Utils.toHex(dis.getMessageDigest().digest()));
+        attrs.put("checksum_algorithm", CSA);
        /* try {
             ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, key);
         } catch (){
@@ -142,7 +145,13 @@ public class AzureBitStoreService implements BitStoreService{
 
     @Override
     public void remove(Bitstream bitstream) throws IOException {
-        log.info("Azure mock remove");
+        String sInternalId = bitstream.getInternalId();
+        StringBuilder bufFilename = new StringBuilder();
+        bufFilename.append(sInternalId);
+        bufFilename.append(".blobbs");
+        String filename = bufFilename.toString();
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+        containerClient.getBlobClient(filename).delete();
     }
     protected File getTempFile(Bitstream bitstream) throws  IOException {
             // Check that bitstream is not null
