@@ -18,6 +18,7 @@ import org.dspace.core.Utils;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,16 +74,19 @@ public class AzureBitStoreService implements BitStoreService{
 
     @Override
     public InputStream get(Bitstream bitstream) throws IOException {
-        log.info("Azure mock get");
-        String id =bitstream.getInternalId();
-        String downloadFileName = id +"blobbs";
-        //File downloadedFile = File.createTempFile(bitstream.getInternalId(), "blobbs");
+        String sInternalId =bitstream.getInternalId();
+        //String downloadFileName = sInternalId +"blobbs";
+        StringBuilder bufFilename = new StringBuilder();
+        bufFilename.append(sInternalId);
+        bufFilename.append(".blobbs");
+        String filename = bufFilename.toString();
+        //File downloadedFile = File.createTempFile(bitstream.getInternalId(), ".downloaded");
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
-        BlobClient blobClient = containerClient.getBlobClient(downloadFileName);
+        BlobClient blobClient = containerClient.getBlobClient(filename);
+        ByteArrayInputStream bis = new ByteArrayInputStream(blobClient.downloadContent().toBytes());
 
-        blobClient.downloadToFile(downloadFileName);
-
-        return null;
+        //blobClient.downloadToFile(downloadFileName);
+        return bis;
     }
 
     @Override
@@ -109,6 +113,7 @@ public class AzureBitStoreService implements BitStoreService{
     @Override
     public Map about(Bitstream bitstream, Map attrs) throws IOException {
         String key = getFullKey(bitstream.getInternalId());
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
        /* try {
             ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, key);
         } catch (){
