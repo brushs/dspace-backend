@@ -5,8 +5,10 @@ Copyright (c) Microsoft Corporation.
 package org.dspace.storage.bitstore;
 
 
-
 import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -20,10 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import com.azure.storage.blob.specialized.BlockBlobClient;
-import com.azure.storage.blob.BlobContainerClient;
-import com.azure.storage.blob.BlobServiceClient;
-import com.azure.storage.blob.BlobServiceClientBuilder;
 //import com.azure.storage.common.StorageSharedKeyCredential;
 
 public class AzureBitStoreService implements BitStoreService{
@@ -76,6 +74,14 @@ public class AzureBitStoreService implements BitStoreService{
     @Override
     public InputStream get(Bitstream bitstream) throws IOException {
         log.info("Azure mock get");
+        String id =bitstream.getInternalId();
+        String downloadFileName = id +"blobbs";
+        //File downloadedFile = File.createTempFile(bitstream.getInternalId(), "blobbs");
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+        BlobClient blobClient = containerClient.getBlobClient(downloadFileName);
+
+        blobClient.downloadToFile(downloadFileName);
+
         return null;
     }
 
@@ -83,7 +89,8 @@ public class AzureBitStoreService implements BitStoreService{
     public void put(Bitstream bitstream, InputStream in) throws IOException {
         String key = getFullKey(bitstream.getInternalId());
         //Copy istream to temp file, and send the file, with some metadata
-        File scratchFile = File.createTempFile(bitstream.getInternalId(), "blobbs");
+        //File scratchFile = File.createTempFile(bitstream.getInternalId(), "blobbs");
+        File scratchFile = getTempFile(bitstream);
         String fileName = scratchFile.getName();
         FileUtils.copyInputStreamToFile(in, scratchFile);
         long contentLength = scratchFile.length();
@@ -101,6 +108,12 @@ public class AzureBitStoreService implements BitStoreService{
 
     @Override
     public Map about(Bitstream bitstream, Map attrs) throws IOException {
+        String key = getFullKey(bitstream.getInternalId());
+       /* try {
+            ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, key);
+        } catch (){
+
+        }*/
         log.info("Azure mock about");
         return null;
     }
@@ -109,7 +122,33 @@ public class AzureBitStoreService implements BitStoreService{
     public void remove(Bitstream bitstream) throws IOException {
         log.info("Azure mock remove");
     }
+    protected File getTempFile(Bitstream bitstream) throws  IOException {
+            // Check that bitstream is not null
+            if (bitstream == null) {
+                return null;
+            }
 
+            // turn the internal_id into a file path relative to the assetstore
+            // directory
+            String sInternalId = bitstream.getInternalId();
+            String tempPath = System.getProperty("java.io.tmpdir");
+            //String name = sInternalId + ".blobbs";
+            StringBuilder bufFilename = new StringBuilder();
+            bufFilename.append(sInternalId);
+            bufFilename.append(".blobbs");
+            String name = bufFilename.toString();
+
+
+            File f = new File(tempPath, name);
+//            if (!name.equals(f.getName()) || f.isInvalid()) {
+//                if (System.getSecurityManager() != null)
+//                    throw new IOException("Unable to create temporary file");
+//                else
+//                    throw new IOException("Unable to create temporary file, "
+//                            + name);
+//            }
+            return f;
+    }
     public void setConnectionstring(String connectionstring) {
         this.connectionstring = connectionstring;
     }
