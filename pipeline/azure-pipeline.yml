@@ -19,8 +19,7 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool: 
-      name: $(agentPool)
+    pool: $(agentPool)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
