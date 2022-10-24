@@ -11,9 +11,8 @@ variables:
   tag: '$(Build.BuildId)'
   azureSubscription: '$(AZURE_SUBSCRIPTION)'
   appName: '$(APP_NAME)'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  agentPool: '$(AGENT_POOL_NAME)'
+  vmImageName: '$(VM_IMAGE_NAME)'
 
 stages:
 - stage: Build
@@ -21,7 +20,7 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool:
+    pool: $(agentPool)
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
