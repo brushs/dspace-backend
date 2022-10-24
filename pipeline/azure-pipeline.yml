@@ -11,7 +11,7 @@ variables:
   tag: '$(Build.BuildId)'
   azureSubscription: '$(AZURE_SUBSCRIPTION)'
   appName: '$(APP_NAME)'
-  agentPool: '$(AGENT_POOL_NAME)'
+  agentPool: '$(AGENT_POOL)'
 
 stages:
 - stage: Build
