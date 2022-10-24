@@ -1,8 +1,8 @@
 trigger:
-  oir-sandbox
+  - oir-sandbox
 
 resources:
-  repo: self
+  - repo: self
   
 extends:
   template: azure-pipeline.yml
