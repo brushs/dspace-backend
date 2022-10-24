@@ -1,5 +1,5 @@
 trigger:
-- oir-dev
+  - oir-dev
 
 resources:
   - repo: self
