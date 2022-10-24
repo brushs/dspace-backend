@@ -3,6 +3,6 @@ trigger:
 
 resources:
   - repo: self
-
+  
 extends:
-  template: resource-template.yml
+  template: azure-pipeline.yml
