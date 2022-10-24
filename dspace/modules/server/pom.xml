@@ -13,7 +13,7 @@ just adding new jar in the classloader</description>
     <parent>
         <artifactId>modules</artifactId>
         <groupId>org.dspace</groupId>
-        <version>7.1.1</version>
+        <version>7.3</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -278,6 +278,21 @@ just adding new jar in the classloader</description>
             <artifactId>dspace-server-webapp</artifactId>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>${solr.client.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.woodstox</groupId>
+                    <artifactId>woodstox-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- Test Dependencies -->
         <dependency>
@@ -324,9 +339,12 @@ just adding new jar in the classloader</description>
             <artifactId>mockito-inline</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Solr Core is only needed for Integration Tests (to run a MockSolrServer) -->
+        <!-- The following Solr / Lucene dependencies also support integration tests -->
         <dependency>
             <groupId>org.apache.solr</groupId>
-            <artifactId>solr-cell</artifactId>
+            <artifactId>solr-core</artifactId>
+            <version>${solr.client.version}</version>
             <scope>test</scope>
             <exclusions>
                 <!-- Newer version brought in by opencsv -->
@@ -346,6 +364,14 @@ just adding new jar in the classloader</description>
                 <exclusion>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-util</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.woodstox</groupId>
+                    <artifactId>woodstox-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

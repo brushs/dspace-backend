@@ -14,7 +14,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
@@ -39,7 +38,7 @@ import org.dspace.content.service.ItemService;
 import org.dspace.content.service.WorkspaceItemService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -86,8 +85,10 @@ public class PackagerIT extends AbstractIntegrationTestWithDatabase {
     }
 
     @After
-    public void destroy() throws SQLException, IOException {
+    @Override
+    public void destroy() throws Exception {
         tempFile.delete();
+        super.destroy();
     }
 
     @Test
