@@ -1,0 +1,8 @@
+trigger:
+- oir-dev
+
+resources:
+  - repo: self
+
+extends:
+  template: azure-pipeline.yml

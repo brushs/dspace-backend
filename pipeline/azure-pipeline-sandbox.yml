@@ -1,0 +1,8 @@
+trigger:
+- oir-sandbox
+
+resources:
+  - repo: self
+
+extends:
+  template: resource-template.yml

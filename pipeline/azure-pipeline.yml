@@ -2,21 +2,15 @@
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-- main
-
-resources:
-- repo: self
-
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'ef53a2ff-0c14-4955-a936-56f979aaf6e9'
-  imageRepository: 'dspacebackend'
-  containerRegistry: 'dspacesandbox.azurecr.io'
+  dockerRegistryServiceConnection: '$(DOCKER_REG_SERVICE_CONNECTION)'
+  imageRepository: '$(IMAGE_REPOSITORY)'
+  containerRegistry: '$(CONTAINER_REGISTRY)'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-  azureSubscription: 'nrcan-cmss-dsld-sandbox'
-  appName: 'dspacesandboxbackend'
+  azureSubscription: '$(AZURE_SUBSCRIPTION)'
+  appName: '$(APP_NAME)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'

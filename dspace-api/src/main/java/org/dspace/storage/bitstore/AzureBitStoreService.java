@@ -18,9 +18,13 @@ import org.dspace.core.Utils;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 //import com.azure.storage.common.StorageSharedKeyCredential;
 
@@ -73,42 +77,63 @@ public class AzureBitStoreService implements BitStoreService{
 
     @Override
     public InputStream get(Bitstream bitstream) throws IOException {
-        log.info("Azure mock get");
-        String id =bitstream.getInternalId();
-        String downloadFileName = id +"blobbs";
-        //File downloadedFile = File.createTempFile(bitstream.getInternalId(), "blobbs");
+        String sInternalId =bitstream.getInternalId();
+        //String downloadFileName = sInternalId +"blobbs";
+        StringBuilder bufFilename = new StringBuilder();
+        bufFilename.append(sInternalId);
+        bufFilename.append(".blobbs");
+        String filename = bufFilename.toString();
+        //File downloadedFile = File.createTempFile(bitstream.getInternalId(), ".downloaded");
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
-        BlobClient blobClient = containerClient.getBlobClient(downloadFileName);
+        BlobClient blobClient = containerClient.getBlobClient(filename);
+        ByteArrayInputStream bis = new ByteArrayInputStream(blobClient.downloadContent().toBytes());
 
-        blobClient.downloadToFile(downloadFileName);
-
-        return null;
+        //blobClient.downloadToFile(downloadFileName);
+        return bis;
     }
 
     @Override
     public void put(Bitstream bitstream, InputStream in) throws IOException {
-        String key = getFullKey(bitstream.getInternalId());
         //Copy istream to temp file, and send the file, with some metadata
-        //File scratchFile = File.createTempFile(bitstream.getInternalId(), "blobbs");
         File scratchFile = getTempFile(bitstream);
-        String fileName = scratchFile.getName();
-        FileUtils.copyInputStreamToFile(in, scratchFile);
-        long contentLength = scratchFile.length();
-        BlobContainerClient containerClient;
-        containerClient = blobServiceClient.getBlobContainerClient(containerName);
-        BlobClient blobClient = containerClient.getBlobClient(fileName);
-        blobClient.uploadFromFile(String.valueOf(scratchFile));
-        scratchFile.getName();
-        bitstream.setSizeBytes(contentLength);
-        //bitstream.setChecksum(putObjectResult.getETag());
-        bitstream.setChecksumAlgorithm(CSA);
-        scratchFile.delete();
-        log.info("Azure mock put");
+        try {
+
+            FileUtils.copyInputStreamToFile(in, scratchFile);
+
+            long contentLength = scratchFile.length();
+            BlobContainerClient containerClient;
+            containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+            String fileName = scratchFile.getName();
+            BlobClient blobClient = containerClient.getBlobClient(fileName);
+            blobClient.uploadFromFile(String.valueOf(scratchFile));
+            bitstream.setSizeBytes(contentLength);
+            try {
+                DigestInputStream dis = new DigestInputStream(in, MessageDigest.getInstance(CSA));
+                bitstream.setChecksum(Utils.toHex(dis.getMessageDigest().digest()));
+                bitstream.setChecksumAlgorithm(CSA);
+                scratchFile.delete();
+            } catch (NoSuchAlgorithmException e) {
+                // Should never happen
+                log.warn("Caught NoSuchAlgorithmException", e);
+            }
+        } catch (Exception e) {
+            log.error("put(" + bitstream.getInternalId() + ", inputstream)", e);
+            throw new IOException(e);
+        }finally {
+            if (scratchFile.exists()) {
+                scratchFile.delete();
+            }
+        }
     }
 
     @Override
     public Map about(Bitstream bitstream, Map attrs) throws IOException {
         String key = getFullKey(bitstream.getInternalId());
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+        //attrs.put("size_bytes", file.length());
+        //attrs.put("checksum", Utils.toHex(dis.getMessageDigest().digest()));
+        attrs.put("checksum_algorithm", CSA);
        /* try {
             ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, key);
         } catch (){
@@ -120,7 +145,13 @@ public class AzureBitStoreService implements BitStoreService{
 
     @Override
     public void remove(Bitstream bitstream) throws IOException {
-        log.info("Azure mock remove");
+        String sInternalId = bitstream.getInternalId();
+        StringBuilder bufFilename = new StringBuilder();
+        bufFilename.append(sInternalId);
+        bufFilename.append(".blobbs");
+        String filename = bufFilename.toString();
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+        containerClient.getBlobClient(filename).delete();
     }
     protected File getTempFile(Bitstream bitstream) throws  IOException {
             // Check that bitstream is not null
