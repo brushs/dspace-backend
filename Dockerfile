@@ -44,7 +44,8 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install vim
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nano
 
 # Download and install 'ant'
 RUN mkdir $ANT_HOME && \
