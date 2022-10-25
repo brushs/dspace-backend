@@ -42,6 +42,7 @@ ENV PATH $ANT_HOME/bin:$PATH
 RUN apt-get update \
     && apt-get install -y --no-install-recommends wget \
     && apt-get purge -y --auto-remove \
+    && apt-get install vim \
     && rm -rf /var/lib/apt/lists/*
 # Download and install 'ant'
 RUN mkdir $ANT_HOME && \
@@ -62,10 +63,6 @@ EXPOSE 8080 8009
 ENV JAVA_OPTS=-Xmx2000m
 
 # Setup Java for running commands
-ENV PATH="$PATH:/opt/java/openjdk/bin"
-RUN echo $PATH
-ENV JAVA_HOME="/opt/java/openjdk"
-
 RUN echo "export PATH=$PATH" >> ~/.bashrc
 
 
