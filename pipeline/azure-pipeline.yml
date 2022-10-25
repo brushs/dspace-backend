@@ -12,6 +12,7 @@ variables:
   azureSubscription: '$(AZURE_SUBSCRIPTION)'
   appName: '$(APP_NAME)'
   agentPool: '$(AGENT_POOL)'
+  buildCon: '$(Build.Repository.LocalPath)'
 
 stages:
 - stage: Build
@@ -29,6 +30,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         Dockerfile: $(dockerfilePath)
         tags: $(tag)
+        buildContext: $(buildCon)
 
     - task: Docker@2
       displayName: Push
