@@ -66,6 +66,9 @@ ENV PATH="$PATH:/opt/java/openjdk/bin"
 RUN echo $PATH
 ENV JAVA_HOME="/opt/java/openjdk"
 
+RUN echo "export PATH=$PATH:/opt/java/openjdk/bin" >> ~/.bashrc
+
+
 # Link the DSpace 'server' webapp into Tomcat's webapps directory.
 # This ensures that when we start Tomcat, it runs from /server path (e.g. http://localhost:8080/server/)
 RUN ln -s $DSPACE_INSTALL/webapps/server   /usr/local/tomcat/webapps/server
