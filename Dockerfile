@@ -10,6 +10,7 @@ ARG JDK_VERSION=11
 # Step 1 - Run Maven Build
 FROM dspace/dspace-dependencies:dspace-7_x as build
 ARG TARGET_DIR=dspace-installer
+ARG TARGET_ENV=APPTION
 WORKDIR /app
 # The dspace-installer directory will be written to /install
 RUN mkdir /install \
@@ -19,6 +20,10 @@ USER dspace
 # Copy the DSpace source code (from local machine) into the workdir (excluding .dockerignore contents)
 ADD --chown=dspace . /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
+
+RUN rm /app/dspace/config/local.cfg
+RUN mv /app/dspace/config/local.cfg.${TARGET_ENV} /app/dspace/config/local.cfg
+
 # Copy the dspace-installer directory to /install.  Clean up the build to keep the docker image small
 RUN mvn --no-transfer-progress package && \
   mv /app/dspace/target/${TARGET_DIR}/* /install && \
