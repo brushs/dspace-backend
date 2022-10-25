@@ -58,7 +58,8 @@ EXPOSE 8080 8009
 ENV JAVA_OPTS=-Xmx2000m
 
 # Setup Java for running commands
-ENV PATH="${PATH}:/opt/java/openjdk/bin"
+ENV PATH="$PATH:/opt/java/openjdk/bin"
+RUN echo $PATH
 ENV JAVA_HOME="/opt/java/openjdk"
 
 # Link the DSpace 'server' webapp into Tomcat's webapps directory.
