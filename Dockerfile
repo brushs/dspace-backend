@@ -21,7 +21,6 @@ USER dspace
 ADD --chown=dspace . /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
 
-RUN rm /app/dspace/config/local.cfg
 RUN mv /app/dspace/config/local.cfg.${TARGET_ENV} /app/dspace/config/local.cfg
 
 # Copy the dspace-installer directory to /install.  Clean up the build to keep the docker image small
