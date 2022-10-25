@@ -44,9 +44,6 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends nano
-
 # Download and install 'ant'
 RUN mkdir $ANT_HOME && \
     wget -qO- "https://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz" | tar -zx --strip-components=1 -C $ANT_HOME
@@ -64,6 +61,9 @@ COPY --from=ant_build /dspace $DSPACE_INSTALL
 EXPOSE 8080 8009
 # Give java extra memory (2GB)
 ENV JAVA_OPTS=-Xmx2000m
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nano
 
 # Setup Java for running commands
 RUN echo "export PATH=$PATH" >> ~/.bashrc
