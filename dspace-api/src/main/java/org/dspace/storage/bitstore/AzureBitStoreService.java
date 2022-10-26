@@ -85,11 +85,15 @@ public class AzureBitStoreService implements BitStoreService{
         String filename = bufFilename.toString();
         //File downloadedFile = File.createTempFile(bitstream.getInternalId(), ".downloaded");
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
-        BlobClient blobClient = containerClient.getBlobClient(filename);
-        ByteArrayInputStream bis = new ByteArrayInputStream(blobClient.downloadContent().toBytes());
-
-        //blobClient.downloadToFile(downloadFileName);
-        return bis;
+        try {
+            BlobClient blobClient = containerClient.getBlobClient(filename);
+            ByteArrayInputStream bis = new ByteArrayInputStream(blobClient.downloadContent().toBytes());
+            //blobClient.downloadToFile(downloadFileName);
+            return bis;
+        } catch ( Exception e) {
+            log.error("get(" + bufFilename + ")", e);
+            throw new IOException(e);
+        }
     }
 
     @Override
