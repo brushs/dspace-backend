@@ -30,19 +30,19 @@
 # DSpace installation directory.
 # This is the location where you want to install DSpace.
 # Windows note: Please remember to use forward slashes for all paths (e.g. C:/dspace)
-dspace.dir=C:/dspace/dspace7
+dspace.dir=/dspace
 
 # URL of DSpace backend ('server' webapp). Include port number etc.
 # DO NOT end it with '/'.
 # This is where REST API and all enabled server modules (OAI-PMH, SWORD,
 # SWORDv2, RDF, etc) will respond.
-dspace.server.url = http://localhost:8080/server
+dspace.server.url = https://dspacesandboxbackend.azurewebsites.net/server
 
 # URL of DSpace frontend (Angular UI). Include port number etc.
 # DO NOT end it with '/'.
 # This is used by the backend to provide links in emails, RSS feeds, Sitemaps,
 # etc.
-dspace.ui.url = http://localhost:4000
+dspace.ui.url = https://dspacesandboxfrontend.azurewebsites.net
 
 # Name of the site
 dspace.name = DSpace at My University
@@ -57,7 +57,7 @@ dspace.name = DSpace at My University
 # Solr server/webapp.
 # DSpace uses Solr for all search/browse capability (and for usage statistics).
 # Since DSpace 7, SOLR must be installed as a stand-alone service
-#solr.server = http://localhost:8983/solr
+#solr.server = https://dspacesandboxsolr.azurewebsites.net/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
@@ -70,7 +70,7 @@ swordv2-server.path = swordv2
 # URL for connecting to database
 #    * Postgres template: jdbc:postgresql://localhost:5432/dspace
 #    * Oracle template: jdbc:oracle:thin:@//localhost:1521/xe
-db.url = jdbc:postgresql://localhost:5432/dspace
+db.url = jdbc:postgresql://dspacesandbox.postgres.database.azure.com:5432/dspace
 
 # JDBC Driver
 #    * For Postgres: org.postgresql.Driver
