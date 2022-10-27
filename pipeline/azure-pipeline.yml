@@ -7,12 +7,12 @@ variables:
   dockerRegistryServiceConnection: '$(DOCKER_REG_SERVICE_CONNECTION)'
   imageRepository: '$(IMAGE_REPOSITORY)'
   containerRegistry: '$(CONTAINER_REGISTRY)'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)'
+  dockerfileName: '$(DOCKERFILE_NAME)'
   tag: '$(Build.BuildId)'
   azureSubscription: '$(AZURE_SUBSCRIPTION)'
   appName: '$(APP_NAME)'
   agentPool: '$(AGENT_POOL)'
-  buildCon: '$(Build.Repository.LocalPath)'
 
 stages:
 - stage: Build
@@ -28,9 +28,8 @@ stages:
         command: 'build'
         repository: $(imageRepository)
         containerRegistry: $(dockerRegistryServiceConnection)
-        Dockerfile: $(dockerfilePath)
+        Dockerfile: $(dockerfilePath)/$(dockerfileName)
         tags: $(tag)
-        buildContext: $(buildCon)
 
     - task: Docker@2
       displayName: Push
