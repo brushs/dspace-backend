@@ -7,8 +7,9 @@
         <property name="incoming" value="0"/>
         <property name="stores">
             <map>
-                <entry key="0" value-ref="localStore"/>
+                <!--<entry key="0" value-ref="localStore"/> -->
                 <!--<entry key="1" value-ref="s3Store"/>-->
+                <entry key="0" value-ref="azureStore"/>
             </map>
         </property>
     </bean>
@@ -36,4 +37,11 @@
 
     <!-- <bean name="localStore2 ... -->
     <!-- <bean name="s3Store2 ... -->
+    <bean name="azureStore" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
+        <property name="connectionstring" value="DefaultEndpointsProtocol=https;AccountName=cs210033fff9d54f545;AccountKey=PqIWdCfZ6Wk3yD/PGa1Aw407vh3blUgAPS/hjWrSGDp+UR3FJkxQIhbIMaOYwS1MDphdpE13d8y1us1mYLyW3g==;EndpointSuffix=core.windows.net"/>
+        <!-- container name to store assets in. example: longsight-dspace-auk -->
+        <property name="containerName" value="dspace1"/>
+        <!-- Optional, default is root level of bucket -->
+        <!-- <property name="subfolder" value=""/> -->
+    </bean>
 </beans>
