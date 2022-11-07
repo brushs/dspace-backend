@@ -64,6 +64,13 @@
             </DefaultRolloverStrategy>
             -->
         </Appender>
+        <!-- A3 is for missing console log -->
+        <Appender name='A3' type='Console' >
+            <!-- NOTE: The %equals patterns are providing a default value of "unknown" if "correlationID" or
+                 "requestID" are not currently set in the ThreadContext. -->
+            <Layout type='PatternLayout'
+                    pattern='%d %-5p %equals{%X{correlationID}}{}{unknown} %equals{%X{requestID}}{}{unknown} %c @ %m%n'/>
+        </Appender>
     </Appenders>
 
     <Loggers>
@@ -80,6 +87,12 @@
                 level='INFO'
                 additivity='false'>
             <AppenderRef ref='A2'/>
+        </Logger>
+
+        <Logger name='org.dspace'
+                level='${loglevel.dspace}'
+                additivity='false'>
+            <AppenderRef ref='A3'/>
         </Logger>
 
         <!-- Block services logging except on exceptions -->
