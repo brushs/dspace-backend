@@ -1,5 +1,6 @@
 trigger:
   - oir-dev
+  - oir-7.3-dev
 
 resources:
   - repo: self
