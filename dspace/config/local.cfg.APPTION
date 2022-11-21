@@ -236,3 +236,15 @@ db.schema = public
 
 # Maximum size of a multipart request (i.e. max total size of all files in one request)
 #spring.servlet.multipart.max-request-size = 512MB
+
+# The URL of the Token endpoint
+authentication-oidc.token-endpoint = https://login.microsoftonline.com/cebd5e62-1ccb-4888-8f5f-5d1dda653395/oauth2/v2.0/token
+
+# The URL of the Authorize endpoint
+authentication-oidc.authorize-endpoint = https://login.microsoftonline.com/cebd5e62-1ccb-4888-8f5f-5d1dda653395/oauth2/v2.0/authorize
+
+# The URL of the Introspect endpoint
+authentication-oidc.user-info-endpoint = https://graph.microsoft.com/oidc/userinfo
+
+# The registered client id
+authentication-oidc.client-id = 9afcdc44-1ff7-4e32-880b-82867957094f
