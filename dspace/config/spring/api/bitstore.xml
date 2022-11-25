@@ -9,7 +9,7 @@
             <map>
                 <!--<entry key="0" value-ref="localStore"/> -->
                 <!--<entry key="1" value-ref="s3Store"/>-->
-                <entry key="2" value-ref="azureStore"/>
+                <entry key="0" value-ref="azureStore"/>
             </map>
         </property>
     </bean>
