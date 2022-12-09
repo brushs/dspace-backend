@@ -249,3 +249,4 @@ authentication-oidc.user-info-endpoint = https://graph.microsoft.com/oidc/userin
 # The registered client id
 authentication-oidc.client-id = d7aec069-d768-4008-b0fa-88b70e09cd60
 
+plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
