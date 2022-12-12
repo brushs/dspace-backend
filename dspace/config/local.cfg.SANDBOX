@@ -60,7 +60,9 @@ azure.storage.account = DefaultEndpointsProtocol=https;AccountName=dspacea;Accou
 # Solr server/webapp.
 # DSpace uses Solr for all search/browse capability (and for usage statistics).
 # Since DSpace 7, SOLR must be installed as a stand-alone service
-#solr.server = https://dspacesandboxsolr.azurewebsites.net/solr
+# This is set by the App Service, but because the DSpace command line
+# doesn't use those settings it is also set here
+solr.server = https://dspacesandboxsolr.azurewebsites.net/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
