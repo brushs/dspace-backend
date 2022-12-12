@@ -47,8 +47,20 @@
         <name-map collection-handle="123456789/29" submission-name="JournalVolume"/>
         <name-map collection-handle="123456789/30" submission-name="JournalIssue"/>
         -->
+
+        <!-- Handles to collections with non-standard submission processes
+            need to be defined here. This file is not currently set to be
+            per Env, and if it was we would need to do all the config below
+            here several times (once per Env) when it should be constant. So
+            instead we'll just list all collections in all environments here. -->
+
+        <!-- Local Dev Collections -->
         <name-map collection-handle="123456789/2" submission-name="Publication"/>
         <name-map collection-handle="123456789/3" submission-name="Person"/>
+
+        <!-- Sandbox Collections -->
+
+
     </submission-map>
 
 
