@@ -71,6 +71,7 @@
                     <repeatable>false</repeatable>
                     <label>Title</label>
                     <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter the main title of the item.</hint>
                     <required>You must enter a main title for this item.</required>
                 </field>
@@ -1534,6 +1535,21 @@
             <pair>
                 <displayed-value>(Other)</displayed-value>
                 <stored-value>other</stored-value>
+            </pair>
+        </value-pairs>
+
+        <value-pairs value-pairs-name="gc_languages" dc-term="language_iso">
+            <pair>
+                <displayed-value>English</displayed-value>
+                <stored-value>en</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>French</displayed-value>
+                <stored-value>fr</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Other</displayed-value>
+                <stored-value></stored-value>
             </pair>
         </value-pairs>
 

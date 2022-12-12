@@ -32,4 +32,21 @@
   </dc-type>
 -->
 
+  <dc-schema>
+    <name>geospatial</name>
+    <namespace>http://dspace.org/namespace/geospatial/</namespace>
+  </dc-schema>
+
+  <dc-schema>
+    <name>nrcan</name>
+    <namespace>https://www.nrcan.gc.ca/</namespace>
+  </dc-schema>
+
+  <dc-type>
+    <schema>geospatial</schema>
+    <element>bbox</element>
+    <qualifier></qualifier>
+    <scope_note>Bounding box of geospatial data for resource.</scope_note>
+  </dc-type>
+
 </dspace-dc-types>

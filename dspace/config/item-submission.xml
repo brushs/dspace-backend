@@ -47,6 +47,8 @@
         <name-map collection-handle="123456789/29" submission-name="JournalVolume"/>
         <name-map collection-handle="123456789/30" submission-name="JournalIssue"/>
         -->
+        <name-map collection-handle="123456789/2" submission-name="Publication"/>
+        <name-map collection-handle="123456789/3" submission-name="Person"/>
     </submission-map>
 
 
@@ -278,7 +280,7 @@
         <submission-process name="Person">
             <step id="collection"/>
             <step id="personStep"/>
-            <step id="upload"/>
+        <!--<step id="upload"/>-->
             <step id="license"/>
         </submission-process>
 
