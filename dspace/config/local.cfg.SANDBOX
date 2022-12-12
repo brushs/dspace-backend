@@ -165,7 +165,7 @@ db.schema = public
 
 # CNRI Handle prefix
 # (Defaults to the reserved dummy/fake prefix of 123456789)
-#handle.prefix = 123456789s
+handle.prefix = 123456789s
 
 #######################
 # PROXY CONFIGURATION #
