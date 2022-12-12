@@ -71,7 +71,6 @@
                     <repeatable>false</repeatable>
                     <label>Title</label>
                     <input-type>onebox</input-type>
-                    <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter the main title of the item.</hint>
                     <required>You must enter a main title for this item.</required>
                 </field>
@@ -237,6 +236,18 @@
                     <required></required>
                 </field>
             </row>
+            <row>
+                <field>
+                    <dc-schema>geospatial</dc-schema>
+                    <dc-element>bbox</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Bounding Box</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the bounding box coordinates for this resource, if any exist.</hint>
+                    <required></required>
+                </field>
+            </row>
         </form>
 
 
@@ -271,9 +282,10 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
                     <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
+                    <repeatable>true</repeatable>
                     <label>Title</label>
                     <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter the main title of the item.</hint>
                     <required>You must enter a main title for this item.</required>
                 </field>
