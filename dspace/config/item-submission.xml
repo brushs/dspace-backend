@@ -59,7 +59,9 @@
         <name-map collection-handle="123456789/3" submission-name="Person"/>
 
         <!-- Sandbox Collections -->
-
+        <name-map collection-handle="123456789s/2" submission-name="Person"/>
+        <name-map collection-handle="123456789s/3" submission-name="Publication"/>
+        <name-map collection-handle="123456789s/4" submission-name="Publication"/>
 
     </submission-map>
 
