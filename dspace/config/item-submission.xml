@@ -55,8 +55,9 @@
             instead we'll just list all collections in all environments here. -->
 
         <!-- Local Dev Collections -->
-        <name-map collection-handle="123456789/2" submission-name="Publication"/>
-        <name-map collection-handle="123456789/3" submission-name="Person"/>
+        <name-map collection-handle="123456789/7" submission-name="Publication"/>
+        <name-map collection-handle="123456789/3" submission-name="Author"/>
+        <name-map collection-handle="123456789/6" submission-name="Person"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
@@ -116,6 +117,11 @@
             <type>submission-form</type>
         </step-definition>
         <step-definition id="personStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="authorStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -295,6 +301,17 @@
             <step id="collection"/>
             <step id="personStep"/>
         <!--<step id="upload"/>-->
+            <step id="license"/>
+        </submission-process>
+
+        <!--
+        Submission Process for 'Author' Entities
+        To enable: create a collection for Persons and add it to the <submission-map> tag linking to this process
+         -->
+        <submission-process name="Author">
+            <step id="collection"/>
+            <step id="authorStep"/>
+            <!--<step id="upload"/>-->
             <step id="license"/>
         </submission-process>
 

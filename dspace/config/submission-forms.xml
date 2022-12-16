@@ -205,9 +205,23 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier>abstract</dc-qualifier>
-                    <repeatable>false</repeatable>
+                    <repeatable>true</repeatable>
                     <label>Abstract</label>
                     <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the abstract of the item.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>summary</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Summary</label>
+                    <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter the abstract of the item.</hint>
                     <required></required>
                 </field>
@@ -229,22 +243,11 @@
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
                     <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
+                    <repeatable>true</repeatable>
                     <label>Description</label>
                     <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter any other description or comments in this box.</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>geospatial</dc-schema>
-                    <dc-element>bbox</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Bounding Box</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the bounding box coordinates for this resource, if any exist.</hint>
                     <required></required>
                 </field>
             </row>
@@ -298,6 +301,7 @@
                     <repeatable>true</repeatable>
                     <label>Other Titles</label>
                     <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
                     <hint>If the item has any alternative titles, please enter them here.</hint>
                     <required></required>
                 </field>
@@ -344,18 +348,6 @@
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
-                    <dc-element>relation</dc-element>
-                    <dc-qualifier>ispartofseries</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Series/Report No.</label>
-                    <input-type>series</input-type>
-                    <hint>Enter the series and number assigned to this item by your community.</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
                     <dc-qualifier></dc-qualifier>
                     <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
@@ -394,6 +386,262 @@
                         list, please select 'Other'. If the content does not really have a language (for example, if it
                         is a dataset or an image) please select 'N/A'.
                     </hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>geospatial</dc-schema>
+                    <dc-element>bbox</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Bounding Box</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the bounding box coordinates for this resource, if any exist.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>ispartofseries</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Series/Report No.</label>
+                    <input-type>series</input-type>
+                    <hint>Enter the series and number assigned to this item by your community.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>edition</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Edition</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the Edition # of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>volume</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Volume</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Enter the Volume # of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>issue</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Issue</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Enter the Issue # of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>article</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Article</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Enter the Article # of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>pagerange</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Page Range</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the page range of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>totalpages</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Total Pages</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the total number of pages of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>numberofmapsheets</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Number of Map Sheets</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the number of map sheets of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>openaccess</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Open Access Type</label>
+                    <input-type value-pairs-name="gc_open_access_types">list</input-type>
+                    <hint>Enter the Open Access types of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>media</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Media Type(s)</label>
+                    <input-type value-pairs-name="common_media_types">list</input-type>
+                    <hint>Select the Media Type(s) of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>filetype</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>File Type(s)</label>
+                    <input-type value-pairs-name="common_file_types">list</input-type>
+                    <hint>Select the File Type(s) of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>name</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Name</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the meeting</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>date</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Date</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the date of the meeting</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>city</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting City</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the city of the meeting</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>country</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Country</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the country of the meeting</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>nts</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>NTS</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the NTS of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>descriptors</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Descriptors</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the descriptors of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>workflowid</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Workflow ID</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the Workflow ID of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>illustration</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Illustration</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the illustration of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>policy</dc-element>
+                    <dc-qualifier>implication</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Policy Implications</label>
+                    <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the policy implications of this resource.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>notes</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Notes</label>
+                    <input-type>textarea</input-type>
+                    <hint>Additional notes</hint>
                     <required></required>
                 </field>
             </row>
@@ -456,16 +704,84 @@
                     <hint>Enter the birth date of the person</hint>
                 </field>
             </row>
-<!--            <row>-->
-<!--                <field>-->
-<!--                    <dc-schema>person</dc-schema>-->
-<!--                    <dc-element>identifier</dc-element>-->
-<!--                    <dc-qualifier>staffid</dc-qualifier>-->
-<!--                    <label>Staff ID</label>-->
-<!--                    <input-type>onebox</input-type>-->
-<!--                    <hint>Enter the staff id of the person</hint>-->
-<!--                </field>-->
-<!--            </row>-->
+                <row>
+                    <field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>identifier</dc-element>
+                        <dc-qualifier>employeeid</dc-qualifier>
+                        <label>Employee ID</label>
+                        <input-type>onebox</input-type>
+                        <hint>Enter the employee id of the person</hint>
+                </field>
+           </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>jobTitle</dc-element>
+                    <label>Job title</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the job title of the person</hint>
+                </field>
+            </row>
+        </form>
+
+        <form name="authorStep">
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>familyName</dc-element>
+                    <label>Last name</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the last name of the person</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>givenName</dc-element>
+                    <label>First name</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the first name of the person</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>email</dc-element>
+                    <label>Email</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the email of the person</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>orcid</dc-qualifier>
+                    <label>Orcid</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the orcid of the person</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>birthDate</dc-element>
+                    <label>Birth date</label>
+                    <input-type>date</input-type>
+                    <hint>Enter the birth date of the person</hint>
+                </field>
+            </row>
+            <!--            <row>-->
+            <!--                <field>-->
+            <!--                    <dc-schema>person</dc-schema>-->
+            <!--                    <dc-element>identifier</dc-element>-->
+            <!--                    <dc-qualifier>staffid</dc-qualifier>-->
+            <!--                    <label>Staff ID</label>-->
+            <!--                    <input-type>onebox</input-type>-->
+            <!--                    <hint>Enter the staff id of the person</hint>-->
+            <!--                </field>-->
+            <!--            </row>-->
             <row>
                 <field>
                     <dc-schema>person</dc-schema>
@@ -1550,6 +1866,44 @@
             </pair>
         </value-pairs>
 
+        <value-pairs value-pairs-name="common_file_types" dc-term="filetype">
+            <pair>
+                <displayed-value>PDF</displayed-value>
+                <stored-value>pdf</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Word</displayed-value>
+                <stored-value>word</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Excel</displayed-value>
+                <stored-value>excel</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>CSV</displayed-value>
+                <stored-value>csv</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Other</displayed-value>
+                <stored-value>other</stored-value>
+            </pair>
+        </value-pairs>
+
+        <value-pairs value-pairs-name="common_media_types" dc-term="media">
+            <pair>
+                <displayed-value>Paper</displayed-value>
+                <stored-value>paper</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Digital</displayed-value>
+                <stored-value>digital</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Other</displayed-value>
+                <stored-value>other</stored-value>
+            </pair>
+        </value-pairs>
+
         <value-pairs value-pairs-name="gc_languages" dc-term="language_iso">
             <pair>
                 <displayed-value>English</displayed-value>
@@ -1562,6 +1916,21 @@
             <pair>
                 <displayed-value>Other</displayed-value>
                 <stored-value></stored-value>
+            </pair>
+        </value-pairs>
+
+        <value-pairs value-pairs-name="gc_open_access_types" dc-term="openaccess">
+            <pair>
+                <displayed-value>Green</displayed-value>
+                <stored-value>green</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Gold</displayed-value>
+                <stored-value>gold</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Red</displayed-value>
+                <stored-value>red</stored-value>
             </pair>
         </value-pairs>
 

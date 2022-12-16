@@ -49,4 +49,151 @@
     <scope_note>Bounding box of geospatial data for resource.</scope_note>
   </dc-type>
 
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>edition</element>
+    <qualifier></qualifier>
+    <scope_note>Edition of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>volume</element>
+    <qualifier></qualifier>
+    <scope_note>Volume # of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>issue</element>
+    <qualifier></qualifier>
+    <scope_note>Issue # of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>article</element>
+    <qualifier></qualifier>
+    <scope_note>Article # of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>pagination</element>
+    <qualifier>pagerange</qualifier>
+    <scope_note>Range of pages in the publication for this resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>pagination</element>
+    <qualifier>totalpages</qualifier>
+    <scope_note>Total pages of resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>pagination</element>
+    <qualifier>numberofmapsheets</qualifier>
+    <scope_note>Number of Map Sheets.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>openaccess</element>
+    <qualifier></qualifier>
+    <scope_note>Open Access type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>filetype</element>
+    <qualifier></qualifier>
+    <scope_note>File type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>media</element>
+    <qualifier></qualifier>
+    <scope_note>Media type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the meeting.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>city</qualifier>
+    <scope_note>City where the meeting took place.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>date</qualifier>
+    <scope_note>Date of the meeting.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>country</qualifier>
+    <scope_note>Country where the meeting took place.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>summary</element>
+    <qualifier></qualifier>
+    <scope_note>Plain language summary of resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>nts</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>descriptors</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>illustration</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>workflowid</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>notes</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>identifier</element>
+    <qualifier>employeeid</qualifier>
+    <scope_note>NRCan Employee ID.</scope_note>
+  </dc-type>
+
 </dspace-dc-types>
