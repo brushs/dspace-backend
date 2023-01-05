@@ -130,4 +130,18 @@
         </rightCardinality>
         <copyToRight>true</copyToRight>
     </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Publisher</rightType>
+        <leftwardType>isPublisherOfPublication</leftwardType>
+        <rightwardType>isPublicationOfPublisher</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>

@@ -21,6 +21,7 @@
                 <entry key="isVolumeOfJournal" value-ref="isVolumeOfJournalMap"/>
                 <entry key="isIssueOfJournalVolume" value-ref="isIssueOfJournalVolumeMap"/>
                 <entry key="isJournalIssueOfPublication" value-ref="isJournalIssueOfPublicationMap"/>
+                <entry key="isPublisherOfPublication" value-ref="isPublisherOfPublicationMap"/>
             </map>
         </property>
     </bean>
@@ -254,4 +255,20 @@
         <property name="virtualMetadataConfiguration" ref="volumeJournal_uuid"/>
     </bean>
     <bean class="org.dspace.content.virtual.UUIDValue" id="volumeJournal_uuid"/>
+
+    <util:map id="isPublisherOfPublicationMap">
+        <entry key="dc.publisher" value-ref="publicationPublisher_publisher"/>
+    </util:map>
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationPublisher_publisher">
+        <property name="fields">
+            <util:list>
+                <value>dc.title</value>
+            </util:list>
+        </property>
+        <property name="separator">
+            <value>, </value>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
 </beans>

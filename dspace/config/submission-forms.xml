@@ -320,18 +320,26 @@
                     </hint>
                     <required>You must enter at least the year.</required>
                 </field>
-
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>publisher</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isPublisherOfPublication</relationship-type>
+                    <search-configuration>publisher</search-configuration>
+                    <repeatable>true</repeatable>
                     <label>Publisher</label>
-                    <style>col-sm-8</style>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the name of the publisher of the previously issued instance of this item.</hint>
+                    <hint>Enter the publisher's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>publisher</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
                     <required></required>
-                </field>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
             </row>
             <row>
                 <field>
@@ -353,6 +361,7 @@
                     <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
                     <repeatable>true</repeatable>
                     <label>Identifiers</label>
+                    <language value-pairs-name="gc_languages">true</language>
                     <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
                     <hint>If the item has any identification numbers or codes associated with
                         it, please enter the types and the actual numbers or codes.
@@ -789,6 +798,21 @@
                     <label>Job title</label>
                     <input-type>onebox</input-type>
                     <hint>Enter the job title of the person</hint>
+                </field>
+            </row>
+        </form>
+
+        <form name="publisherStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Name</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the publisher</hint>
                 </field>
             </row>
         </form>
@@ -1905,6 +1929,21 @@
         </value-pairs>
 
         <value-pairs value-pairs-name="gc_languages" dc-term="language_iso">
+            <pair>
+                <displayed-value>English</displayed-value>
+                <stored-value>en</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>French</displayed-value>
+                <stored-value>fr</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Other</displayed-value>
+                <stored-value></stored-value>
+            </pair>
+        </value-pairs>
+
+        <value-pairs value-pairs-name="nrcan_languages" dc-term="language_iso">
             <pair>
                 <displayed-value>English</displayed-value>
                 <stored-value>en</stored-value>

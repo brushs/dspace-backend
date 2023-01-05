@@ -196,4 +196,28 @@
     <scope_note>NRCan Employee ID.</scope_note>
   </dc-type>
 
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublisherOfPublication</element>
+      <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublisherOfPublication</element>
+      <qualifier>latestForDiscovery</qualifier>
+      <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublicationOfPublisher</element>
+      <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublicationOfPublisher</element>
+      <qualifier>latestForDiscovery</qualifier>
+      <scope_note></scope_note>
+  </dc-type>
+
 </dspace-dc-types>
