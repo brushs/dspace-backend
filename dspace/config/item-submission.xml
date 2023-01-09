@@ -59,6 +59,7 @@
         <name-map collection-handle="123456789/3" submission-name="Author"/>
         <name-map collection-handle="123456789/6" submission-name="Person"/>
         <name-map collection-handle="123456789/12" submission-name="Publisher"/>
+        <name-map collection-handle="123456789/16" submission-name="Country"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
@@ -113,11 +114,6 @@
             <type>submission-form</type>
         </step-definition>
         <step-definition id="publicationStep" mandatory="true">
-            <heading>submit.progressbar.describe.stepone</heading>
-            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
-            <type>submission-form</type>
-        </step-definition>
-        <step-definition id="publisherStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -236,6 +232,17 @@
             <heading>submit.progressbar.sherpapolicy</heading>
             <processing-class>org.dspace.app.rest.submit.step.SherpaPolicyStep</processing-class>
             <type>sherpaPolicy</type>
+        </step-definition>
+
+        <step-definition id="publisherStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="countryStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
         </step-definition>
     </step-definitions>
 
@@ -407,6 +414,11 @@
         <submission-process name="Publisher">
             <step id="collection"/>
             <step id="publisherStep"/>
+        </submission-process>
+
+        <submission-process name="Country">
+            <step id="collection"/>
+            <step id="countryStep"/>
         </submission-process>
     </submission-definitions>
 

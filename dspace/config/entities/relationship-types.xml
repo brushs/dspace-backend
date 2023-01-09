@@ -144,4 +144,18 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Country</rightType>
+        <leftwardType>isCountryOfPublication</leftwardType>
+        <rightwardType>isPublicationOfCountry</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>
