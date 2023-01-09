@@ -24,6 +24,7 @@
                 <entry key="isPublisherOfPublication" value-ref="isPublisherOfPublicationMap"/>
                 <entry key="isCountryOfPublication" value-ref="isCountryOfPublicationMap"/>
                 <entry key="isProvinceOfPublication" value-ref="isProvinceOfPublicationMap"/>
+                <entry key="isAreaOfPublication" value-ref="isAreaOfPublicationMap"/>
             </map>
         </property>
     </bean>
@@ -259,9 +260,9 @@
     <bean class="org.dspace.content.virtual.UUIDValue" id="volumeJournal_uuid"/>
 
     <util:map id="isPublisherOfPublicationMap">
-        <entry key="dc.publisher" value-ref="publicationPublisher_publisher"/>
+        <entry key="dc.publisher" value-ref="publicationPublisher_name"/>
     </util:map>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationPublisher_publisher">
+    <bean class="org.dspace.content.virtual.Multilingual" id="publicationPublisher_name">
         <property name="fields">
             <util:list>
                 <value>dc.title</value>
@@ -298,6 +299,19 @@
         <entry key="nrcan.province.name" value-ref="publicationProvince_name"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Multilingual" id="publicationProvince_name">
+        <property name="fields">
+            <util:list>
+                <value>dc.title</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+
+    <util:map id="isAreaOfPublicationMap">
+        <entry key="nrcan.area" value-ref="publicationArea_name"/>
+    </util:map>
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationArea_name">
         <property name="fields">
             <util:list>
                 <value>dc.title</value>

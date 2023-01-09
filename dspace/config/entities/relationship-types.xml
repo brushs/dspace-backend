@@ -172,4 +172,18 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Area</rightType>
+        <leftwardType>isAreaOfPublication</leftwardType>
+        <rightwardType>isPublicationOfArea</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>
