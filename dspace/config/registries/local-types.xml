@@ -207,7 +207,6 @@
       <qualifier>latestForDiscovery</qualifier>
       <scope_note></scope_note>
   </dc-type>
-
   <dc-type>
       <schema>relation</schema>
       <element>isPublicationOfPublisher</element>
@@ -244,7 +243,6 @@
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
-
   <dc-type>
     <schema>relation</schema>
     <element>isPublicationOfCountry</element>
@@ -257,4 +255,45 @@
     <scope_note></scope_note>
   </dc-type>
 
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>province</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan Code of the Province or Territory related to the publication.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>province</element>
+    <qualifier>isocode</qualifier>
+    <scope_note>ISO Code of the Province or Territory related to the publication.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>province</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the Province or Territory related to the publication.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isProvinceOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isProvinceOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfProvince</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfProvince</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
 </dspace-dc-types>

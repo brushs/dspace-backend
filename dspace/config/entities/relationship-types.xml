@@ -158,4 +158,18 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Province</rightType>
+        <leftwardType>isProvinceOfPublication</leftwardType>
+        <rightwardType>isPublicationOfProvince</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>

@@ -60,6 +60,7 @@
         <name-map collection-handle="123456789/6" submission-name="Person"/>
         <name-map collection-handle="123456789/12" submission-name="Publisher"/>
         <name-map collection-handle="123456789/16" submission-name="Country"/>
+        <name-map collection-handle="123456789/23" submission-name="Province"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
@@ -244,6 +245,11 @@
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
+        <step-definition id="provinceStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
     </step-definitions>
 
     <!-- The submission-definitions map lays out the detailed definition of -->
@@ -419,6 +425,11 @@
         <submission-process name="Country">
             <step id="collection"/>
             <step id="countryStep"/>
+        </submission-process>
+
+        <submission-process name="Province">
+            <step id="collection"/>
+            <step id="provinceStep"/>
         </submission-process>
     </submission-definitions>
 

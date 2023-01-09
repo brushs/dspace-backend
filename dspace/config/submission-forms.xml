@@ -343,6 +343,26 @@
             </row>
             <row>
                 <relation-field>
+                    <relationship-type>isProvinceOfPublication</relationship-type>
+                    <search-configuration>province</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Province/Territory</label>
+                    <hint>Enter the province or territory's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>province</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
+                <relation-field>
                     <relationship-type>isCountryOfPublication</relationship-type>
                     <search-configuration>country</search-configuration>
                     <repeatable>true</repeatable>
@@ -859,6 +879,41 @@
                     <language value-pairs-name="gc_languages">true</language>
                     <input-type>onebox</input-type>
                     <hint>Enter the name of the country</hint>
+                </field>
+            </row>
+        </form>
+
+        <form name="provinceStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>province</dc-element>
+                    <dc-qualifier>isocode</dc-qualifier>
+                    <label>ISO Province Code (2 char)</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the ISO Code of the Province or Territory</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>province</dc-element>
+                    <dc-qualifier>code</dc-qualifier>
+                    <label>NRCan defined code for the Province, Territory (or region)</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the NRCan of the Province or Territory (or region)</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Name</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the province or territory (or region)</hint>
                 </field>
             </row>
         </form>
