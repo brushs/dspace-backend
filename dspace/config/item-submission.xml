@@ -64,6 +64,7 @@
         <name-map collection-handle="123456789/205" submission-name="Area"/>
         <name-map collection-handle="123456789/1314" submission-name="Division"/>
         <name-map collection-handle="123456789/1397" submission-name="Sponsor"/>
+        <name-map collection-handle="123456789/1821" submission-name="Language"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
@@ -268,6 +269,11 @@
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
+        <step-definition id="languageStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
     </step-definitions>
 
     <!-- The submission-definitions map lays out the detailed definition of -->
@@ -463,6 +469,11 @@
         <submission-process name="Sponsor">
             <step id="collection"/>
             <step id="sponsorStep"/>
+        </submission-process>
+
+        <submission-process name="Language">
+            <step id="collection"/>
+            <step id="languageStep"/>
         </submission-process>
     </submission-definitions>
 

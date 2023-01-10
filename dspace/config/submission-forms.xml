@@ -442,6 +442,26 @@
                 </relation-field>
             </row>
             <row>
+                <relation-field>
+                    <relationship-type>isLanguageOfPublication</relationship-type>
+                    <search-configuration>language</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Language</label>
+                    <hint>Enter the language's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>language</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
@@ -1077,6 +1097,32 @@
                     <language value-pairs-name="gc_languages">true</language>
                     <input-type>onebox</input-type>
                     <hint>Enter the program of the Sponsor</hint>
+                </field>
+            </row>
+        </form>
+
+        <form name="languageStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>language</dc-element>
+                    <dc-qualifier>code</dc-qualifier>
+                    <label>ISO Code (2 CHAR)</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the code of the language</hint>
+                    <required>You must enter a code for this item.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Name</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the language</hint>
                 </field>
             </row>
         </form>

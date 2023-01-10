@@ -27,6 +27,7 @@
                 <entry key="isAreaOfPublication" value-ref="isAreaOfPublicationMap"/>
                 <entry key="isDivisionOfPublication" value-ref="isDivisionOfPublicationMap"/>
                 <entry key="isSponsorOfPublication" value-ref="isSponsorOfPublicationMap"/>
+                <entry key="isLanguageOfPublication" value-ref="isLanguageOfPublicationMap"/>
             </map>
         </property>
     </bean>
@@ -398,4 +399,28 @@
         <property name="useForPlace" value="true"/>
         <property name="populateWithNameVariant" value="true"/>
     </bean>
+
+    <util:map id="isLanguageOfPublicationMap">
+        <entry key="dc.language" value-ref="publicationLanguage_code"/>
+        <entry key="nrcan.language.name" value-ref="publicationLanguage_name"/>
+    </util:map>
+    <bean class="org.dspace.content.virtual.Multilingual" id="publicationLanguage_name">
+        <property name="fields">
+            <util:list>
+                <value>dc.title</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationLanguage_code">
+        <property name="fields">
+            <util:list>
+                <value>nrcan.language.code</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+
 </beans>
