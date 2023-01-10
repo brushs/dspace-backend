@@ -402,6 +402,26 @@
                 </relation-field>
             </row>
             <row>
+                <relation-field>
+                    <relationship-type>isDivisionOfPublication</relationship-type>
+                    <search-configuration>division</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Division</label>
+                    <hint>Enter the division's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>division</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
@@ -949,6 +969,44 @@
                     <language value-pairs-name="gc_languages">true</language>
                     <input-type>onebox</input-type>
                     <hint>Enter the name of the area</hint>
+                </field>
+            </row>
+        </form>
+
+        <form name="divisionStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>division</dc-element>
+                    <dc-qualifier>code</dc-qualifier>
+                    <label>Code</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the code of the Division</hint>
+                    <required>You must enter a code for this item.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Name</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the division</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>division</dc-element>
+                    <dc-qualifier>sector</dc-qualifier>
+                    <label>Sector</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the sector of the division</hint>
                 </field>
             </row>
         </form>

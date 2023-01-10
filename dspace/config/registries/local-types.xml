@@ -332,4 +332,46 @@
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>division</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan Division code.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>division</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the Division.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>division</element>
+    <qualifier>sector</qualifier>
+    <scope_note>Sector of the Division.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isDivisionOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isDivisionOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfDivision</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfDivision</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
 </dspace-dc-types>
