@@ -374,4 +374,52 @@
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan Sponsor code.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>project</qualifier>
+    <scope_note>NRCan Sponsor project.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>program</qualifier>
+    <scope_note>NRCan Sponsor program.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>url</qualifier>
+    <scope_note>NRCan Sponsor URL.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSponsorOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSponsorOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSponsor</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSponsor</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
 </dspace-dc-types>

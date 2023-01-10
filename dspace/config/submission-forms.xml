@@ -403,6 +403,26 @@
             </row>
             <row>
                 <relation-field>
+                    <relationship-type>isSponsorOfPublication</relationship-type>
+                    <search-configuration>sponsor</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Sponsor</label>
+                    <hint>Enter the sponsor.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>sponsor</dc-element>
+                        <dc-qualifier>project</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
+                <relation-field>
                     <relationship-type>isDivisionOfPublication</relationship-type>
                     <search-configuration>division</search-configuration>
                     <repeatable>true</repeatable>
@@ -1007,6 +1027,56 @@
                     <language value-pairs-name="gc_languages">true</language>
                     <input-type>onebox</input-type>
                     <hint>Enter the sector of the division</hint>
+                </field>
+            </row>
+        </form>
+
+        <form name="sponsorStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>sponsor</dc-element>
+                    <dc-qualifier>code</dc-qualifier>
+                    <label>Code</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the code of the Sponsor</hint>
+                    <required>You must enter a code for this item.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Project</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the project of the Sponsor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>sponsor</dc-element>
+                    <dc-qualifier>program</dc-qualifier>
+                    <label>Program</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the program of the Sponsor</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>sponsor</dc-element>
+                    <dc-qualifier>url</dc-qualifier>
+                    <label>URL</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the program of the Sponsor</hint>
                 </field>
             </row>
         </form>

@@ -26,6 +26,7 @@
                 <entry key="isProvinceOfPublication" value-ref="isProvinceOfPublicationMap"/>
                 <entry key="isAreaOfPublication" value-ref="isAreaOfPublicationMap"/>
                 <entry key="isDivisionOfPublication" value-ref="isDivisionOfPublicationMap"/>
+                <entry key="isSponsorOfPublication" value-ref="isSponsorOfPublicationMap"/>
             </map>
         </property>
     </bean>
@@ -349,6 +350,49 @@
         <property name="fields">
             <util:list>
                 <value>nrcan.division.sector</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+
+    <util:map id="isSponsorOfPublicationMap">
+        <entry key="nrcan.sponsor.code" value-ref="publicationSponsor_code"/>
+        <entry key="nrcan.sponsor.project" value-ref="publicationSponsor_project"/>
+        <entry key="nrcan.sponsor.program" value-ref="publicationSponsor_program"/>
+        <entry key="nrcan.sponsor.url" value-ref="publicationSponsor_url"/>
+    </util:map>
+    <bean class="org.dspace.content.virtual.Multilingual" id="publicationSponsor_project">
+        <property name="fields">
+            <util:list>
+                <value>dc.title</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationSponsor_code">
+        <property name="fields">
+            <util:list>
+                <value>nrcan.division.code</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+    <bean class="org.dspace.content.virtual.Multilingual" id="publicationSponsor_program">
+        <property name="fields">
+            <util:list>
+                <value>nrcan.sponsor.program</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+    <bean class="org.dspace.content.virtual.Multilingual" id="publicationSponsor_url">
+        <property name="fields">
+            <util:list>
+                <value>nrcan.sponsor.url</value>
             </util:list>
         </property>
         <property name="useForPlace" value="true"/>

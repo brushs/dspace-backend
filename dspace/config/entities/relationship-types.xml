@@ -200,4 +200,18 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Sponsor</rightType>
+        <leftwardType>isSponsorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfSponsor</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>
