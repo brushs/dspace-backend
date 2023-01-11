@@ -144,6 +144,8 @@ public class Multilingual implements VirtualMetadataConfiguration {
             for (MetadataValue metadataValue : resultList) {
                 if (StringUtils.isNotBlank(metadataValue.getValue())) {
                     resultValues.add(metadataValue);
+                    // TODO remove this break once SSC merge takes place
+                    break;
                 }
             }
         }
