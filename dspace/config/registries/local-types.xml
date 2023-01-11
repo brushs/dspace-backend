@@ -458,4 +458,70 @@
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan code for Serial.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>title</qualifier>
+    <scope_note>NRCan serial title.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>issn</qualifier>
+    <scope_note>NRCan serial ISSN.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>issne</qualifier>
+    <scope_note>NRCan serial ISSNE.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>notes</qualifier>
+    <scope_note>NRCan serial notes.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>url</qualifier>
+    <scope_note>NRCan serial url.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>urlname</qualifier>
+    <scope_note>NRCan serial url name.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSerialOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSerialOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSerial</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSerial</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
 </dspace-dc-types>
