@@ -66,11 +66,21 @@
         <name-map collection-handle="123456789/1397" submission-name="Sponsor"/>
         <name-map collection-handle="123456789/1821" submission-name="Language"/>
         <name-map collection-handle="123456789/1848" submission-name="Serial"/>
+        <name-map collection-handle="123456789/5241" submission-name="Publisher"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
         <name-map collection-handle="123456789s/3" submission-name="Publication"/>
         <name-map collection-handle="123456789s/4" submission-name="Publication"/>
+        <name-map collection-handle="123456789s/18" submission-name="Area"/>
+        <name-map collection-handle="123456789s/19" submission-name="Division"/>
+        <name-map collection-handle="123456789s/20" submission-name="Publisher"/>
+        <name-map collection-handle="123456789s/21" submission-name="Sponsor"/>
+        <name-map collection-handle="123456789s/22" submission-name="Serial"/>
+        <name-map collection-handle="123456789s/23" submission-name="Language"/>
+        <name-map collection-handle="123456789s/24" submission-name="Country"/>
+        <name-map collection-handle="123456789s/25" submission-name="Province"/>
+
 
     </submission-map>
 
