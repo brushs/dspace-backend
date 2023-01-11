@@ -438,23 +438,23 @@
 
   <dc-type>
     <schema>relation</schema>
-    <element>isSponsorOfPublication</element>
+    <element>isLanguageOfPublication</element>
     <scope_note></scope_note>
   </dc-type>
   <dc-type>
     <schema>relation</schema>
-    <element>isSponsorOfPublication</element>
+    <element>isLanguageOfPublication</element>
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
   <dc-type>
     <schema>relation</schema>
-    <element>isPublicationOfSponsor</element>
+    <element>isPublicationOfLanguage</element>
     <scope_note></scope_note>
   </dc-type>
   <dc-type>
     <schema>relation</schema>
-    <element>isPublicationOfSponsor</element>
+    <element>isPublicationOfLanguage</element>
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
