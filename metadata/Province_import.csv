@@ -1,0 +1,19 @@
+id,collection,dspace.entity.type,nrcan.province.code,nrcan.province.isocode,dc.title[en],dc.title[fr]
++,123456789s/25,Province,alta,AB,Alberta,Alberta
++,123456789s/25,Province,bc,BC,British Columbia,Colombie-Britannique
++,123456789s/25,Province,can,,Canada,Canada
++,123456789s/25,Province,man,MB,Manitoba,Manitoba
++,123456789s/25,Province,nb,NB,New Brunswick,Nouveau-Brunswick
++,123456789s/25,Province,ns,NS,Nova Scotia,Nouvelle-Écosse
++,123456789s/25,Province,off,,Offshore region,Région extracotière
++,123456789s/25,Province,offe,,Eastern offshore region,Région extracotière de l'est
++,123456789s/25,Province,offn,,Northern offshore region,Région extracotière du nord
++,123456789s/25,Province,offw,,Western offshore region,Région extracotière de l'ouest
++,123456789s/25,Province,ont,ON,Ontario,Ontario
++,123456789s/25,Province,pei,PE,Prince Edward Island,Île-du-Prince-Édouard
++,123456789s/25,Province,que,QC,Quebec,Québec
++,123456789s/25,Province,sask,SK,Saskatchewan,Saskatchewan
++,123456789s/25,Province,yukon,YK,Yukon,Yukon
++,123456789s/25,Province,nwt,NT,Northwest Territories,Territoires du Nord-Ouest
++,123456789s/25,Province,nunavut,NU,Nunavut,Nunavut
++,123456789s/25,Province,nfldlab,NL,Newfoundland and Labrador,Terre-Neuve-et-Labrador
