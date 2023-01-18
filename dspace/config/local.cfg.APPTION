@@ -41,7 +41,8 @@ dspace.server.url = https://dspacebackendsteve.azurewebsites.net/server
 # DO NOT end it with '/'.
 # This is used by the backend to provide links in emails, RSS feeds, Sitemaps,
 # etc.
-dspace.ui.url = https://dspaceangularsteve.azurewebsites.net
+#dspace.ui.url = https://dspaceangularsteve.azurewebsites.net
+dspace.ui.url = http://localhost:4000
 
 # Name of the site
 dspace.name = DSpace at My University
