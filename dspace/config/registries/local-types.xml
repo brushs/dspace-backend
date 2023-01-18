@@ -136,7 +136,14 @@
   <dc-type>
     <schema>nrcan</schema>
     <element>meeting</element>
-    <qualifier>date</qualifier>
+    <qualifier>startdate</qualifier>
+    <scope_note>Date of the meeting.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>enddate</qualifier>
     <scope_note>Date of the meeting.</scope_note>
   </dc-type>
 
@@ -521,6 +528,36 @@
   <dc-type>
     <schema>relation</schema>
     <element>isPublicationOfSerial</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>contributor</element>
+    <qualifier>corporateauthor</qualifier>
+    <scope_note>NRCan corporate author name.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isCorporateAuthorOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isCorporateAuthorOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCorporateAuthor</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCorporateAuthor</element>
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>

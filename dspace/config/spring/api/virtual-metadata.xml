@@ -29,6 +29,7 @@
                 <entry key="isSponsorOfPublication" value-ref="isSponsorOfPublicationMap"/>
                 <entry key="isLanguageOfPublication" value-ref="isLanguageOfPublicationMap"/>
                 <entry key="isSerialOfPublication" value-ref="isSerialOfPublicationMap"/>
+                <entry key="isCorporateAuthorOfPublication" value-ref="isCorporateAuthorOfPublicationMap"/>
             </map>
         </property>
     </bean>
@@ -275,6 +276,10 @@
         <property name="useForPlace" value="true"/>
         <property name="populateWithNameVariant" value="true"/>
     </bean>
+
+    <util:map id="isCorporateAuthorOfPublicationMap">
+        <entry key="nrcan.contributor.corporateauthor" value-ref="publicationPublisher_name"/>
+    </util:map>
 
     <util:map id="isCountryOfPublicationMap">
         <entry key="nrcan.country.name" value-ref="publicationCountry_name"/>

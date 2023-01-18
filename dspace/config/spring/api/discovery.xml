@@ -230,6 +230,7 @@
                 <ref bean="searchFilterIsPublicationOfSponsorRelation"/>
                 <ref bean="searchFilterIsPublicationOfLanguageRelation"/>
                 <ref bean="searchFilterIsPublicationOfSerialRelation"/>
+                <ref bean="searchFilterIsPublicationOfCorporateAuthorRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -373,6 +374,7 @@
                 <ref bean="searchFilterIsPublicationOfSponsorRelation"/>
                 <ref bean="searchFilterIsPublicationOfLanguageRelation"/>
                 <ref bean="searchFilterIsPublicationOfSerialRelation"/>
+                <ref bean="searchFilterIsPublicationOfCorporateAuthorRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -519,6 +521,7 @@
                 <ref bean="searchFilterIsPublicationOfSponsorRelation"/>
                 <ref bean="searchFilterIsPublicationOfLanguageRelation"/>
                 <ref bean="searchFilterIsPublicationOfSerialRelation"/>
+                <ref bean="searchFilterIsPublicationOfCorporateAuthorRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -669,6 +672,7 @@
                 <ref bean="searchFilterIsPublicationOfSponsorRelation"/>
                 <ref bean="searchFilterIsPublicationOfLanguageRelation"/>
                 <ref bean="searchFilterIsPublicationOfSerialRelation"/>
+                <ref bean="searchFilterIsPublicationOfCorporateAuthorRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -813,6 +817,7 @@
                 <ref bean="searchFilterIsPublicationOfSponsorRelation"/>
                 <ref bean="searchFilterIsPublicationOfLanguageRelation"/>
                 <ref bean="searchFilterIsPublicationOfSerialRelation"/>
+                <ref bean="searchFilterIsPublicationOfCorporateAuthorRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search (same as defaultConfiguration above)-->
@@ -1159,6 +1164,7 @@
                 <ref bean="searchFilterIsPublicationOfSponsorRelation"/>
                 <ref bean="searchFilterIsPublicationOfLanguageRelation"/>
                 <ref bean="searchFilterIsPublicationOfSerialRelation"/>
+                <ref bean="searchFilterIsPublicationOfCorporateAuthorRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -1236,6 +1242,7 @@
                 <ref bean="searchFilterIsPublicationOfSponsorRelation"/>
                 <ref bean="searchFilterIsPublicationOfLanguageRelation"/>
                 <ref bean="searchFilterIsPublicationOfSerialRelation"/>
+                <ref bean="searchFilterIsPublicationOfCorporateAuthorRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -3114,6 +3121,17 @@
         <property name="metadataFields">
             <list>
                 <value>relation.isPublicationOfSerial.latestForDiscovery</value>
+            </list>
+        </property>
+        <property name="isOpenByDefault" value="false"/>
+        <property name="pageSize" value="10"/>
+    </bean>
+
+    <bean id="searchFilterIsPublicationOfCorporateAuthorRelation" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+        <property name="indexFieldName" value="isPublicationOfCorporateAuthor"/>
+        <property name="metadataFields">
+            <list>
+                <value>relation.isPublicationOfCorporateAuthor.latestForDiscovery</value>
             </list>
         </property>
         <property name="isOpenByDefault" value="false"/>

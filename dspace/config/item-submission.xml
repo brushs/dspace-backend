@@ -129,8 +129,33 @@
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
-        <step-definition id="publicationStep" mandatory="true">
-            <heading>submit.progressbar.describe.stepone</heading>
+        <step-definition id="bibliographicStep" mandatory="true">
+            <heading>submit.progressbar.bibliographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="geographicStep" mandatory="true">
+            <heading>submit.progressbar.geographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="nrcanStep" mandatory="true">
+            <heading>submit.progressbar.nrcan</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="contentStep" mandatory="true">
+            <heading>submit.progressbar.content</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="describeStep" mandatory="true">
+            <heading>submit.progressbar.describe</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="referenceStep" mandatory="true">
+            <heading>submit.progressbar.reference</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
@@ -346,8 +371,12 @@
         <submission-process name="Publication">
             <step id="collection"/>
             <!-- Publications use a custom first step, but share page 2 with "traditional" Item form -->
-            <step id="publicationStep"/>
-            <step id="traditionalpagetwo"/>
+            <step id="bibliographicStep"/>
+            <step id="referenceStep"/>
+            <step id="geographicStep"/>
+            <step id="contentStep"/>
+            <step id="nrcanStep"/>
+            <step id="describeStep"/>
             <step id="upload"/>
             <step id="license"/>
         </submission-process>

@@ -230,11 +230,57 @@
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
-                    <dc-qualifier>sponsorship</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Sponsors</label>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Description</label>
                     <input-type>textarea</input-type>
-                    <hint>Enter the names of any sponsors and/or funding codes in the box.</hint>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter any other description or comments in this box.</hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
+
+        <!-- Form which defines the second page/section of the "traditional" DSpace submission process,
+     often used when depositing normal Items. -->
+        <form name="describeStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <!-- An input-type of tag MUST be marked as repeatable -->
+                    <repeatable>true</repeatable>
+                    <label>Subject Keywords</label>
+                    <input-type>tag</input-type>
+                    <hint>Enter appropriate subject keywords or phrases.</hint>
+                    <required></required>
+                    <vocabulary>srsc</vocabulary>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>abstract</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Abstract</label>
+                    <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the abstract of the item.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>summary</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Summary</label>
+                    <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the abstract of the item.</hint>
                     <required></required>
                 </field>
             </row>
@@ -253,12 +299,25 @@
             </row>
         </form>
 
-
         <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
              Since Publication Entities are very similar to normal Items, this is nearly identical to the
              'traditionalpageone' form. The only difference is the Author field can be used to link the
              Publication Entity to a Person Entity. -->
-        <form name="publicationStep">
+        <form name="bibliographicStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>type</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Publication Type</label>
+                    <input-type value-pairs-name="common_types">dropdown</input-type>
+                    <hint>Select the type(s) of content of the item. To select more than one value in the list, you may
+                        have to hold down the "CTRL" or "Shift" key.
+                    </hint>
+                    <required></required>
+                </field>
+            </row>
             <row>
                 <relation-field>
                     <relationship-type>isAuthorOfPublication</relationship-type>
@@ -273,6 +332,26 @@
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
                     <externalsources>orcid</externalsources>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isCorporateAuthorOfPublication</relationship-type>
+                    <search-configuration>publisher</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Corporate Author</label>
+                    <hint>Enter the corporate author's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>contributor</dc-element>
+                        <dc-qualifier>corporateauthor</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
                     <required></required>
                     <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
                          your institution. The below regex requires a comma to be present in the author field.
@@ -343,14 +422,69 @@
             </row>
             <row>
                 <relation-field>
-                    <relationship-type>isProvinceOfPublication</relationship-type>
-                    <search-configuration>province</search-configuration>
+                    <relationship-type>isLanguageOfPublication</relationship-type>
+                    <search-configuration>language</search-configuration>
                     <repeatable>true</repeatable>
-                    <label>Province/Territory</label>
-                    <hint>Enter the province or territory's name.</hint>
+                    <label>Language</label>
+                    <hint>Enter the language's name.</hint>
                     <linked-metadata-field>
                         <dc-schema>nrcan</dc-schema>
-                        <dc-element>province</dc-element>
+                        <dc-element>language</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+        </form>
+
+        <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
+             Since Publication Entities are very similar to normal Items, this is nearly identical to the
+             'traditionalpageone' form. The only difference is the Author field can be used to link the
+             Publication Entity to a Person Entity. -->
+        <form name="referenceStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>citation</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Citation</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the standard citation for the previously issued instance of this item.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+                    <repeatable>true</repeatable>
+                    <label>Identifiers</label>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
+                    <hint>If the item has any identification numbers or codes associated with
+                        it, please enter the types and the actual numbers or codes.
+                    </hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isSerialOfPublication</relationship-type>
+                    <search-configuration>serial</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Serial</label>
+                    <hint>Enter the serial's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>serial</dc-element>
                         <dc-qualifier>name</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
@@ -362,25 +496,93 @@
                 </relation-field>
             </row>
             <row>
-                <relation-field>
-                    <relationship-type>isCountryOfPublication</relationship-type>
-                    <search-configuration>country</search-configuration>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>ispartofseries</dc-qualifier>
                     <repeatable>true</repeatable>
-                    <label>Country</label>
-                    <hint>Enter the country's name.</hint>
-                    <linked-metadata-field>
-                        <dc-schema>nrcan</dc-schema>
-                        <dc-element>country</dc-element>
-                        <dc-qualifier>name</dc-qualifier>
-                        <input-type>onebox</input-type>
-                    </linked-metadata-field>
+                    <label>Series/Report No.</label>
+                    <input-type>series</input-type>
+                    <hint>Enter the series and number assigned to this item by your community.</hint>
                     <required></required>
-                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
-                         your institution. The below regex requires a comma to be present in the author field.
-                         However, this is disabled by default to support organizations as authors, etc. -->
-                    <!--<regex>\w+(,)+\w+</regex>-->
-                </relation-field>
+                </field>
             </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>edition</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Edition</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the Edition # of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>volume</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Volume</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Enter the Volume # of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>issue</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Issue</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Enter the Issue # of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>article</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Article</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Enter the Article # of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>pagerange</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Page Range</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the page range of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>totalpages</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Total Pages</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the total number of pages of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
+
+        <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
+             Since Publication Entities are very similar to normal Items, this is nearly identical to the
+             'traditionalpageone' form. The only difference is the Author field can be used to link the
+             Publication Entity to a Person Entity. -->
+        <form name="geographicStep">
             <row>
                 <relation-field>
                     <relationship-type>isAreaOfPublication</relationship-type>
@@ -401,6 +603,121 @@
                     <!--<regex>\w+(,)+\w+</regex>-->
                 </relation-field>
             </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isProvinceOfPublication</relationship-type>
+                    <search-configuration>province</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Province/Territory</label>
+                    <hint>Enter the province or territory's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>province</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+                <relation-field>
+                    <relationship-type>isCountryOfPublication</relationship-type>
+                    <search-configuration>country</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Country</label>
+                    <hint>Enter the country's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>country</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>geospatial</dc-schema>
+                    <dc-element>bbox</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Bounding Box</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the bounding box coordinates for this resource, if any exist.</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>name</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Name</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the meeting</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>startdate</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Start Date</label>
+                    <style>col-sm-4</style>
+                    <input-type>date</input-type>
+                    <hint>Enter the start date of the meeting</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>enddate</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting End Date</label>
+                    <style>col-sm-4</style>
+                    <input-type>date</input-type>
+                    <hint>Enter the end date of the meeting</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>city</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting City</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the city of the meeting</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>country</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Country</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the country of the meeting</hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
+
+        <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
+             Since Publication Entities are very similar to normal Items, this is nearly identical to the
+             'traditionalpageone' form. The only difference is the Author field can be used to link the
+             Publication Entity to a Person Entity. -->
+        <form name="nrcanStep">
             <row>
                 <relation-field>
                     <relationship-type>isSponsorOfPublication</relationship-type>
@@ -440,290 +757,6 @@
                          However, this is disabled by default to support organizations as authors, etc. -->
                     <!--<regex>\w+(,)+\w+</regex>-->
                 </relation-field>
-            </row>
-            <row>
-                <relation-field>
-                    <relationship-type>isLanguageOfPublication</relationship-type>
-                    <search-configuration>language</search-configuration>
-                    <repeatable>true</repeatable>
-                    <label>Language</label>
-                    <hint>Enter the language's name.</hint>
-                    <linked-metadata-field>
-                        <dc-schema>nrcan</dc-schema>
-                        <dc-element>language</dc-element>
-                        <dc-qualifier>name</dc-qualifier>
-                        <input-type>onebox</input-type>
-                    </linked-metadata-field>
-                    <required></required>
-                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
-                         your institution. The below regex requires a comma to be present in the author field.
-                         However, this is disabled by default to support organizations as authors, etc. -->
-                    <!--<regex>\w+(,)+\w+</regex>-->
-                </relation-field>
-            </row>
-            <row>
-                <relation-field>
-                    <relationship-type>isSerialOfPublication</relationship-type>
-                    <search-configuration>serial</search-configuration>
-                    <repeatable>true</repeatable>
-                    <label>Serial</label>
-                    <hint>Enter the serial's name.</hint>
-                    <linked-metadata-field>
-                        <dc-schema>nrcan</dc-schema>
-                        <dc-element>serial</dc-element>
-                        <dc-qualifier>name</dc-qualifier>
-                        <input-type>onebox</input-type>
-                    </linked-metadata-field>
-                    <required></required>
-                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
-                         your institution. The below regex requires a comma to be present in the author field.
-                         However, this is disabled by default to support organizations as authors, etc. -->
-                    <!--<regex>\w+(,)+\w+</regex>-->
-                </relation-field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>identifier</dc-element>
-                    <dc-qualifier>citation</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Citation</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the standard citation for the previously issued instance of this item.</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>identifier</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
-                    <repeatable>true</repeatable>
-                    <label>Identifiers</label>
-                    <language value-pairs-name="gc_languages">true</language>
-                    <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
-                    <hint>If the item has any identification numbers or codes associated with
-                        it, please enter the types and the actual numbers or codes.
-                    </hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>type</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Type</label>
-                    <input-type value-pairs-name="common_types">dropdown</input-type>
-                    <hint>Select the type(s) of content of the item. To select more than one value in the list, you may
-                        have to hold down the "CTRL" or "Shift" key.
-                    </hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>language</dc-element>
-                    <dc-qualifier>iso</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Language</label>
-                    <input-type value-pairs-name="common_iso_languages">dropdown</input-type>
-                    <hint>Select the language of the main content of the item. If the language does not appear in the
-                        list, please select 'Other'. If the content does not really have a language (for example, if it
-                        is a dataset or an image) please select 'N/A'.
-                    </hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>geospatial</dc-schema>
-                    <dc-element>bbox</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Bounding Box</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the bounding box coordinates for this resource, if any exist.</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>relation</dc-element>
-                    <dc-qualifier>ispartofseries</dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Series/Report No.</label>
-                    <input-type>series</input-type>
-                    <hint>Enter the series and number assigned to this item by your community.</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>edition</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Edition</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the Edition # of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>volume</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Volume</label>
-                    <input-type>onebox</input-type>
-                    <type-bind>Article</type-bind>
-                    <hint>Enter the Volume # of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>issue</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Issue</label>
-                    <input-type>onebox</input-type>
-                    <type-bind>Article</type-bind>
-                    <hint>Enter the Issue # of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>article</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Article</label>
-                    <input-type>onebox</input-type>
-                    <type-bind>Article</type-bind>
-                    <hint>Enter the Article # of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>pagination</dc-element>
-                    <dc-qualifier>pagerange</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Page Range</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the page range of the resource</hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>pagination</dc-element>
-                    <dc-qualifier>totalpages</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Total Pages</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the total number of pages of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>pagination</dc-element>
-                    <dc-qualifier>numberofmapsheets</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Number of Map Sheets</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the number of map sheets of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>openaccess</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Open Access Type</label>
-                    <input-type value-pairs-name="gc_open_access_types">list</input-type>
-                    <hint>Enter the Open Access types of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>media</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Media Type(s)</label>
-                    <input-type value-pairs-name="common_media_types">list</input-type>
-                    <hint>Select the Media Type(s) of the resource</hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>filetype</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>File Type(s)</label>
-                    <input-type value-pairs-name="common_file_types">list</input-type>
-                    <hint>Select the File Type(s) of the resource</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>meeting</dc-element>
-                    <dc-qualifier>name</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Meeting Name</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the name of the meeting</hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>meeting</dc-element>
-                    <dc-qualifier>date</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Meeting Date</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the date of the meeting</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>meeting</dc-element>
-                    <dc-qualifier>city</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Meeting City</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the city of the meeting</hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>meeting</dc-element>
-                    <dc-qualifier>country</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Meeting Country</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the country of the meeting</hint>
-                    <required></required>
-                </field>
             </row>
             <row>
                 <field>
@@ -791,6 +824,57 @@
                     <label>Notes</label>
                     <input-type>textarea</input-type>
                     <hint>Additional notes</hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
+
+        <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
+             Since Publication Entities are very similar to normal Items, this is nearly identical to the
+             'traditionalpageone' form. The only difference is the Author field can be used to link the
+             Publication Entity to a Person Entity. -->
+        <form name="contentStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>media</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Media Type(s)</label>
+                    <input-type value-pairs-name="common_media_types">list</input-type>
+                    <hint>Select the Media Type(s) of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>filetype</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>File Type(s)</label>
+                    <input-type value-pairs-name="common_file_types">list</input-type>
+                    <hint>Select the File Type(s) of the resource</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>openaccess</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Open Access Type</label>
+                    <input-type value-pairs-name="gc_open_access_types">list</input-type>
+                    <hint>Enter the Open Access types of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>numberofmapsheets</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Number of Map Sheets</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the number of map sheets of the resource</hint>
                     <required></required>
                 </field>
             </row>
@@ -2123,6 +2207,10 @@
 
     <form-value-pairs>
         <value-pairs value-pairs-name="common_identifiers" dc-term="identifier">
+            <pair>
+                <displayed-value>DOI</displayed-value>
+                <stored-value>doi</stored-value>
+            </pair>
             <pair>
                 <displayed-value>ISSN</displayed-value>
                 <stored-value>issn</stored-value>
