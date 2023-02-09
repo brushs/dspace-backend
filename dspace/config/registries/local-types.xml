@@ -561,4 +561,11 @@
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>author</element>
+    <qualifier>migrationid</qualifier>
+    <scope_note>NRCan name+ID to match for migration</scope_note>
+  </dc-type>
 </dspace-dc-types>

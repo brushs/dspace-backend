@@ -363,9 +363,12 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                         }
 
                         //find referenced item
+                        c.setExtraLogInfo(item.getID().toString());
                         Item relationItem = resolveRelatedItem(c, itemIdentifier);
                         if (null == relationItem) {
-                            throw new Exception("Could not find item for " + itemIdentifier);
+                            // Need to log and keep on going, can't stop processing
+                            //throw new Exception("Could not find item for " + itemIdentifier);
+                            continue;
                         }
 
                         //get entity type of entity and item
@@ -581,17 +584,30 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
             if (mdv.hasNext()) {
                 MetadataValue mdvVal = mdv.next();
                 UUID uuid = mdvVal.getDSpaceObject().getID();
-                if (mdv.hasNext()) {
-                    throw new Exception("Ambiguous reference; multiple matches in db: " + metaKey);
+                String lang = mdvVal.getLanguage();
+                if (mdv.hasNext() && mdv.next().getLanguage().equals(lang)) {
+                    log.error("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                            + " Key:" + metaKey + " Val:" + metaValue);
+                    //throw new Exception("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                    //        + " Key:" + metaKey + " Val:" + metaValue);
+                    return null;
                 }
                 item = itemService.find(c, uuid);
             }
         } catch (SQLException e) {
-            throw new Exception("Error looking up item by metadata reference: " + metaKey, e);
+            log.error("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
+                    + " Key:" + metaKey + " Val:" + metaValue);
+            //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
+            //        + " Key:" + metaKey + " Val:" + metaValue, e);
+            return null;
         }
 
         if (item == null) {
-            throw new Exception("Item not found by metadata reference: " + metaKey);
+            log.error("MIG_ERR_1 - Item not found by metadata reference - Item:" + c.getExtraLogInfo()
+                    + " Key:" + metaKey + " Val:" + metaValue);
+            //throw new Exception("MIG_ERR_1 - Item not found by metadata reference - Item:" + c.getExtraLogInfo()
+            //        + " Key:" + metaKey + " Val:" + metaValue);
+            return null;
         }
 
         return item;

@@ -1024,6 +1024,26 @@
                     <hint>Enter the job title of the person</hint>
                 </field>
             </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>employeeid</dc-qualifier>
+                    <label>NRCan Employee ID</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the employee ID of the Author</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>author</dc-element>
+                    <dc-qualifier>migrationid</dc-qualifier>
+                    <label>Migration ID</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the migration ID of the Author</hint>
+                </field>
+            </row>
         </form>
 
         <form name="publisherStep">
