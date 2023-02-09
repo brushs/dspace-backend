@@ -586,7 +586,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                 UUID uuid = mdvVal.getDSpaceObject().getID();
                 String lang = mdvVal.getLanguage();
                 if (mdv.hasNext() && mdv.next().getLanguage().equals(lang)) {
-                    log.error("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                    log.warn("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
                             + " Key:" + metaKey + " Val:" + metaValue);
                     //throw new Exception("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
                     //        + " Key:" + metaKey + " Val:" + metaValue);
@@ -595,7 +595,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                 item = itemService.find(c, uuid);
             }
         } catch (SQLException e) {
-            log.error("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
+            log.warn("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
                     + " Key:" + metaKey + " Val:" + metaValue);
             //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
             //        + " Key:" + metaKey + " Val:" + metaValue, e);
@@ -603,7 +603,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
         }
 
         if (item == null) {
-            log.error("MIG_ERR_1 - Item not found by metadata reference - Item:" + c.getExtraLogInfo()
+            log.warn("MIG_ERR_1 - Item not found by metadata reference - Item:" + c.getExtraLogInfo()
                     + " Key:" + metaKey + " Val:" + metaValue);
             //throw new Exception("MIG_ERR_1 - Item not found by metadata reference - Item:" + c.getExtraLogInfo()
             //        + " Key:" + metaKey + " Val:" + metaValue);
