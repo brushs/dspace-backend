@@ -86,7 +86,11 @@ public class AzureBitStoreService implements BitStoreService{
 
         StringBuilder bufFilename = new StringBuilder();
         bufFilename.append(sInternalId);
-        bufFilename.append(BLOB_SUFFIX);
+
+        if (bufFilename.indexOf(".") <= 0) {
+            bufFilename.append(BLOB_SUFFIX);
+        }
+
         String filename = bufFilename.toString();
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
         try {
@@ -143,7 +147,11 @@ public class AzureBitStoreService implements BitStoreService{
 
         StringBuilder bufFilename = new StringBuilder();
         bufFilename.append(sInternalId);
-        bufFilename.append(BLOB_SUFFIX);
+
+        if (bufFilename.indexOf(".") <= 0) {
+            bufFilename.append(BLOB_SUFFIX);
+        }
+
         String filename = bufFilename.toString();
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
 
