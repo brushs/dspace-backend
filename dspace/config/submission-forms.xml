@@ -1033,6 +1033,15 @@
                     <input-type>onebox</input-type>
                     <hint>Enter the employee ID of the Author</hint>
                 </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>author</dc-element>
+                    <dc-qualifier>isexternal</dc-qualifier>
+                    <label>External Author</label>
+                    <repeatable>false</repeatable>
+                    <input-type value-pairs-name="yes_no">list</input-type>
+                    <hint>Is this author external to NRCan</hint>
+                </field>
             </row>
             <row>
                 <field>
@@ -2452,6 +2461,17 @@
             <pair>
                 <displayed-value>Other</displayed-value>
                 <stored-value></stored-value>
+            </pair>
+        </value-pairs>
+
+        <value-pairs value-pairs-name="yes_no" dc-term="yes_no">
+            <pair>
+                <displayed-value>Yes</displayed-value>
+                <stored-value>yes</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>No</displayed-value>
+                <stored-value>no</stored-value>
             </pair>
         </value-pairs>
 
