@@ -51,7 +51,7 @@ dspace.name = DSpace at My University
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
 #assetstore.dir = ${dspace.dir}/assetstore
 
-azure.storage.account = DefaultEndpointsProtocol=https;AccountName=dspacea;AccountKey=9CYxzFmvdhod1Z0r+oPYdDPug9HKHcA5l5X6voJUmBphUCcLhDVgI46q0MFCB/Py3ehwXn6z+ASt3mS1cg==;EndpointSuffix=core.windows.net
+azure.storage.account = DefaultEndpointsProtocol=https;AccountName=dspaceassetstore;AccountKey=+kBzGL6Jvv4ZU6FveRJ9d9KZqqFZMb3YhdvLIZem24rc6X/MyfRawAn/R4ZfegmiQIzcWxB+8TG8+AStmTLFNA==;EndpointSuffix=core.windows.net
 
 
 # Default language for metadata values
