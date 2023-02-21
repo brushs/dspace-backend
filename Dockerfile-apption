@@ -21,12 +21,12 @@ USER dspace
 ADD --chown=dspace . /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
 
-ENV DB-PASSWORD $(cat ./secret.txt)
+ENV DB_PASSWORD $(cat ./secret.txt)
 
 RUN mv /app/dspace/config/local.cfg.APPTION /app/dspace/config/local.cfg
 
 # Replace the DB Password with the Azure Secret
-RUN sed -i 's/@db-password@/'"$DB-PASSWORD"'/g' /app/dspace/config/local.cfg
+RUN sed -i 's/@db-password@/'"$DB_PASSWORD"'/g' /app/dspace/config/local.cfg
 
 # Copy the dspace-installer directory to /install.  Clean up the build to keep the docker image small
 RUN mvn --no-transfer-progress package && \
