@@ -13,6 +13,7 @@ variables:
   azureSubscription: '$(AZURE_SUBSCRIPTION)'
   appName: '$(APP_NAME)'
   agentPool: '$(AGENT_POOL)'
+  keyVaultName: '$(KEY_VAULT_NAME)'
 
 stages:
 - stage: Build
@@ -22,6 +23,23 @@ stages:
     displayName: Build
     pool: $(agentPool)
     steps:
+
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: $(azureSubscription)
+        KeyVaultName: $(keyVaultName)
+        SecretsFilter: '*'
+        RunAsPreJob: false
+
+    - task: CmdLine@2
+      inputs:
+        script: 'echo db-password > secret.txt'
+
+    - task: CopyFiles@2
+      inputs:
+        Contents: secret.txt
+        targetFolder: '$(Build.SourcesDirectory)'
+
     - task: Docker@2
       displayName: Build
       inputs:
