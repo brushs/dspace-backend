@@ -21,10 +21,7 @@ USER dspace
 ADD --chown=dspace . /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
 
-RUN pwd
-RUN ls -l
-RUN echo $(ls -l)
-RUN cat ./secrets.txt
+RUN cat ./secret.txt
 
 RUN mv /app/dspace/config/local.cfg.APPTION /app/dspace/config/local.cfg
 
