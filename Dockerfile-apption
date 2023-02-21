@@ -11,6 +11,8 @@ ARG JDK_VERSION=11
 FROM dspace/dspace-dependencies:dspace-7_x as build
 ARG TARGET_DIR=dspace-installer
 
+RUN pwd
+RUN ls
 RUN cat secrets.txt
 
 WORKDIR /app
