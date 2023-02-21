@@ -28,7 +28,9 @@ RUN echo $DB_PASSWORD
 RUN mv /app/dspace/config/local.cfg.APPTION /app/dspace/config/local.cfg
 
 # Replace the DB Password with the Azure Secret
-RUN sed -i "s/@db-password@/\"$DB_PASSWORD\"/g" /app/dspace/config/local.cfg
+#RUN sed -i "s/@db-password@/\"$DB_PASSWORD\"/g" /app/dspace/config/local.cfg
+RUN echo $(printf 's/@db-password@/%s%/g' "$DB_PASSWORD")
+RUN sed -i $(printf 's/@db-password@/%s%/g' "$DB_PASSWORD") /app/dspace/config/local.cfg
 RUN cat /app/dspace/config/local.cfg
 
 # Copy the dspace-installer directory to /install.  Clean up the build to keep the docker image small
