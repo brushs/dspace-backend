@@ -87,7 +87,7 @@ db.dialect = org.hibernate.dialect.PostgreSQL94Dialect
 
 # Database username and password
 db.username = dspace
-db.password = dspace
+db.password = @db-password@
 
 # Database Schema name
 #    * For Postgres, this is often "public" (default schema)
