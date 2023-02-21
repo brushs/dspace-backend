@@ -13,7 +13,7 @@ ARG TARGET_DIR=dspace-installer
 
 RUN pwd
 RUN ls
-RUN cat secrets.txt
+RUN cat ../secrets.txt
 
 WORKDIR /app
 # The dspace-installer directory will be written to /install
