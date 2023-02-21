@@ -21,8 +21,13 @@ USER dspace
 ADD --chown=dspace . /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
 
+RUN echo pwd
+RUN ls -l
+
 ENV DB_PASSWORD "$(cat ./secret.txt)"
 RUN echo $DB_PASSWORD
+
+RUN printf '%s' $(cat ./secret.txt)
 
 ENV DB_PASSWORD $(cat ./secret.txt)
 RUN echo $DB_PASSWORD
