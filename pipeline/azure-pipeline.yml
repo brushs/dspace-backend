@@ -33,7 +33,7 @@ stages:
 
     - task: CmdLine@2
       inputs:
-        script: 'echo db-password > secret.txt'
+        script: 'echo $(db-password) > secret.txt'
 
     - task: CopyFiles@2
       inputs:
