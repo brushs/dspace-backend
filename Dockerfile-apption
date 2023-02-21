@@ -21,7 +21,8 @@ USER dspace
 ADD --chown=dspace . /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
 
-ENV DB_PASSWORD $(cat ./secret.txt)
+ENV DB_PASSWORD dspace
+#ENV DB_PASSWORD $(cat ./secret.txt)
 RUN echo $DB_PASSWORD
 
 RUN mv /app/dspace/config/local.cfg.APPTION /app/dspace/config/local.cfg
