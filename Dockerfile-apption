@@ -24,6 +24,9 @@ ADD --chown=dspace . /app/
 RUN echo pwd
 RUN ls -l
 
+RUN DB_PASSWORD=`cat ./secret.txt` && export DB_PASSWORD
+RUN echo $DB_PASSWORD
+
 ENV DB_PASSWORD `cat ./secret.txt`
 RUN echo $DB_PASSWORD
 
