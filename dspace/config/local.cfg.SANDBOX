@@ -51,8 +51,7 @@ dspace.name = DSpace at My University
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
 #assetstore.dir = ${dspace.dir}/assetstore
 
-azure.storage.account = DefaultEndpointsProtocol=https;AccountName=dspaceassetstore;AccountKey=+kBzGL6Jvv4ZU6FveRJ9d9KZqqFZMb3YhdvLIZem24rc6X/MyfRawAn/R4ZfegmiQIzcWxB+8TG8+AStmTLFNA==;EndpointSuffix=core.windows.net
-
+azure.storage.account = @storage-account@
 
 # Default language for metadata values
 #default.language = en_US
@@ -89,7 +88,7 @@ db.dialect = org.hibernate.dialect.PostgreSQL94Dialect
 
 # Database username and password
 db.username = dspace
-db.password = dspace
+db.password = @db-password@
 
 # Database Schema name
 #    * For Postgres, this is often "public" (default schema)
