@@ -1535,6 +1535,7 @@ prevent the generation of resource policy entry values with null dspace_object a
             fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true));
             fullMetadataValueList.addAll(dbMetadataValues);
 
+            /*
             MetadataValue val = new MetadataValue();
             MetadataField field = new MetadataField();
             MetadataSchema myschema = new MetadataSchema();
@@ -1545,6 +1546,7 @@ prevent the generation of resource policy entry values with null dspace_object a
             val.setMetadataField(field);
             val.setValue("CITE ME");
             fullMetadataValueList.add(val);
+             */
 
             item.setCachedMetadata(sortMetadataValueList(fullMetadataValueList));
         }
