@@ -24,6 +24,7 @@ ADD --chown=dspace . /app/
 RUN mv /app/dspace/config/local.cfg.APPTION /app/dspace/config/local.cfg
 
 # Replace the secret placeholders with the Azure secrets
+RUN echo $(cat ./storage_account.txt)
 RUN chmod +x /app/set_secrets.sh
 RUN /app/set_secrets.sh
 RUN cat /app/dspace/config/local.cfg
