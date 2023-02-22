@@ -24,9 +24,8 @@ ADD --chown=dspace . /app/
 RUN mv /app/dspace/config/local.cfg.APPTION /app/dspace/config/local.cfg
 
 # Replace the DB Password with the Azure Secret
-RUN chmod +x /app/setsecret.sh
-RUN ls -l
-RUN /app/setsecret.sh
+RUN chmod +x /app/set_secrets.sh
+RUN /app/set_secrets.sh
 #RUN sed -i $(printf 's/@db-password@/%s/g' "$DB_PASSWORD") /app/dspace/config/local.cfg
 RUN cat /app/dspace/config/local.cfg
 
