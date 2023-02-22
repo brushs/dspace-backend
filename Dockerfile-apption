@@ -28,6 +28,10 @@ RUN ls -l
 
 CMD ["/bin/bash"]
 
+RUN echo $(cat ./secret.txt)
+RUN echo "$(cat ./secret.txt)"
+RUN echo `cat ./secret.txt`
+
 RUN DB_PASSWORD=`cat ./secret.txt` && export DB_PASSWORD
 RUN echo $DB_PASSWORD
 
