@@ -24,11 +24,8 @@ ADD --chown=dspace . /app/
 RUN mv /app/dspace/config/local.cfg.APPTION /app/dspace/config/local.cfg
 
 # Replace the secret placeholders with the Azure secrets
-RUN echo $(cat ./db_password.txt)
-RUN echo $(cat ./storage_account.txt)
 RUN chmod +x /app/set_secrets.sh
 RUN /app/set_secrets.sh
-RUN cat /app/dspace/config/local.cfg
 
 # Copy the dspace-installer directory to /install.  Clean up the build to keep the docker image small
 RUN mvn --no-transfer-progress package && \
