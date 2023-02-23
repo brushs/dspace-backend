@@ -32,4 +32,547 @@
   </dc-type>
 -->
 
+  <dc-schema>
+    <name>geospatial</name>
+    <namespace>http://dspace.org/namespace/geospatial/</namespace>
+  </dc-schema>
+
+  <dc-schema>
+    <name>nrcan</name>
+    <namespace>https://www.nrcan.gc.ca/</namespace>
+  </dc-schema>
+
+  <dc-type>
+    <schema>geospatial</schema>
+    <element>bbox</element>
+    <qualifier></qualifier>
+    <scope_note>Bounding box of geospatial data for resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>edition</element>
+    <qualifier></qualifier>
+    <scope_note>Edition of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>volume</element>
+    <qualifier></qualifier>
+    <scope_note>Volume # of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>issue</element>
+    <qualifier></qualifier>
+    <scope_note>Issue # of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>article</element>
+    <qualifier></qualifier>
+    <scope_note>Article # of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>pagination</element>
+    <qualifier>pagerange</qualifier>
+    <scope_note>Range of pages in the publication for this resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>pagination</element>
+    <qualifier>totalpages</qualifier>
+    <scope_note>Total pages of resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>pagination</element>
+    <qualifier>numberofmapsheets</qualifier>
+    <scope_note>Number of Map Sheets.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>openaccess</element>
+    <qualifier></qualifier>
+    <scope_note>Open Access type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>filetype</element>
+    <qualifier></qualifier>
+    <scope_note>File type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>media</element>
+    <qualifier></qualifier>
+    <scope_note>Media type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the meeting.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>city</qualifier>
+    <scope_note>City where the meeting took place.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>startdate</qualifier>
+    <scope_note>Date of the meeting.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>enddate</qualifier>
+    <scope_note>Date of the meeting.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>country</qualifier>
+    <scope_note>Country where the meeting took place.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>summary</element>
+    <qualifier></qualifier>
+    <scope_note>Plain language summary of resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>nts</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>descriptors</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>illustration</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>workflowid</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>notes</element>
+    <qualifier></qualifier>
+    <scope_note>TBD.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>identifier</element>
+    <qualifier>employeeid</qualifier>
+    <scope_note>NRCan Employee ID.</scope_note>
+  </dc-type>
+
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublisherOfPublication</element>
+      <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublisherOfPublication</element>
+      <qualifier>latestForDiscovery</qualifier>
+      <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublicationOfPublisher</element>
+      <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+      <schema>relation</schema>
+      <element>isPublicationOfPublisher</element>
+      <qualifier>latestForDiscovery</qualifier>
+      <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>country</element>
+    <qualifier>code</qualifier>
+    <scope_note>ISO Code of the Country related to the publication.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>country</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the Country related to the publication.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isCountryOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isCountryOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCountry</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCountry</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>province</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan Code of the Province or Territory related to the publication.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>province</element>
+    <qualifier>isocode</qualifier>
+    <scope_note>ISO Code of the Province or Territory related to the publication.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>province</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the Province or Territory related to the publication.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isProvinceOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isProvinceOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfProvince</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfProvince</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>area</element>
+    <qualifier></qualifier>
+    <scope_note>NRCan Area.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>area</element>
+    <qualifier>source</qualifier>
+    <scope_note>Source of the Area.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isAreaOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isAreaOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfArea</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfArea</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>division</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan Division code.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>division</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the Division.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>division</element>
+    <qualifier>sector</qualifier>
+    <scope_note>Sector of the Division.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isDivisionOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isDivisionOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfDivision</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfDivision</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan Sponsor code.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>project</qualifier>
+    <scope_note>NRCan Sponsor project.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>program</qualifier>
+    <scope_note>NRCan Sponsor program.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sponsor</element>
+    <qualifier>url</qualifier>
+    <scope_note>NRCan Sponsor URL.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSponsorOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSponsorOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSponsor</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSponsor</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>language</element>
+    <qualifier>code</qualifier>
+    <scope_note>ISO language code.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>language</element>
+    <qualifier>name</qualifier>
+    <scope_note>NRCan language name.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isLanguageOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isLanguageOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfLanguage</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfLanguage</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan code for Serial.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>title</qualifier>
+    <scope_note>NRCan serial title.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>issn</qualifier>
+    <scope_note>NRCan serial ISSN.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>issne</qualifier>
+    <scope_note>NRCan serial ISSNE.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>notes</qualifier>
+    <scope_note>NRCan serial notes.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>url</qualifier>
+    <scope_note>NRCan serial url.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>urlname</qualifier>
+    <scope_note>NRCan serial url name.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSerialOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSerialOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSerial</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSerial</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>contributor</element>
+    <qualifier>corporateauthor</qualifier>
+    <scope_note>NRCan corporate author name.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isCorporateAuthorOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isCorporateAuthorOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCorporateAuthor</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCorporateAuthor</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>author</element>
+    <qualifier>migrationid</qualifier>
+    <scope_note>NRCan name+ID to match for migration</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>author</element>
+    <qualifier>isexternal</qualifier>
+    <scope_note>Is this author external to NRCan</scope_note>
+  </dc-type>
 </dspace-dc-types>

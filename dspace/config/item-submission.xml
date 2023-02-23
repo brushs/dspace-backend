@@ -47,6 +47,41 @@
         <name-map collection-handle="123456789/29" submission-name="JournalVolume"/>
         <name-map collection-handle="123456789/30" submission-name="JournalIssue"/>
         -->
+
+        <!-- Handles to collections with non-standard submission processes
+            need to be defined here. This file is not currently set to be
+            per Env, and if it was we would need to do all the config below
+            here several times (once per Env) when it should be constant. So
+            instead we'll just list all collections in all environments here. -->
+
+        <!-- Local Dev Collections -->
+        <name-map collection-handle="123456789/7" submission-name="Publication"/>
+        <name-map collection-handle="123456789/3" submission-name="Author"/>
+        <name-map collection-handle="123456789/6" submission-name="Person"/>
+        <name-map collection-handle="123456789/12" submission-name="Publisher"/>
+        <name-map collection-handle="123456789/16" submission-name="Country"/>
+        <name-map collection-handle="123456789/23" submission-name="Province"/>
+        <name-map collection-handle="123456789/205" submission-name="Area"/>
+        <name-map collection-handle="123456789/1314" submission-name="Division"/>
+        <name-map collection-handle="123456789/1397" submission-name="Sponsor"/>
+        <name-map collection-handle="123456789/1821" submission-name="Language"/>
+        <name-map collection-handle="123456789/1848" submission-name="Serial"/>
+        <name-map collection-handle="123456789/5241" submission-name="Publisher"/>
+
+        <!-- Sandbox Collections -->
+        <name-map collection-handle="123456789s/2" submission-name="Person"/>
+        <name-map collection-handle="123456789s/3" submission-name="Publication"/>
+        <name-map collection-handle="123456789s/4" submission-name="Publication"/>
+        <name-map collection-handle="123456789s/18" submission-name="Area"/>
+        <name-map collection-handle="123456789s/19" submission-name="Division"/>
+        <name-map collection-handle="123456789s/20" submission-name="Publisher"/>
+        <name-map collection-handle="123456789s/21" submission-name="Sponsor"/>
+        <name-map collection-handle="123456789s/22" submission-name="Serial"/>
+        <name-map collection-handle="123456789s/23" submission-name="Language"/>
+        <name-map collection-handle="123456789s/24" submission-name="Country"/>
+        <name-map collection-handle="123456789s/25" submission-name="Province"/>
+        <name-map collection-handle="123456789s/5494" submission-name="Author"/>
+
     </submission-map>
 
 
@@ -94,12 +129,42 @@
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
-        <step-definition id="publicationStep" mandatory="true">
-            <heading>submit.progressbar.describe.stepone</heading>
+        <step-definition id="bibliographicStep" mandatory="true">
+            <heading>submit.progressbar.bibliographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="geographicStep" mandatory="true">
+            <heading>submit.progressbar.geographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="nrcanStep" mandatory="true">
+            <heading>submit.progressbar.nrcan</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="contentStep" mandatory="true">
+            <heading>submit.progressbar.content</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="describeStep" mandatory="true">
+            <heading>submit.progressbar.describe</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="referenceStep" mandatory="true">
+            <heading>submit.progressbar.reference</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
         <step-definition id="personStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="authorStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -209,6 +274,47 @@
             <processing-class>org.dspace.app.rest.submit.step.SherpaPolicyStep</processing-class>
             <type>sherpaPolicy</type>
         </step-definition>
+
+        <step-definition id="publisherStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="countryStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="provinceStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="areaStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="divisionStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="sponsorStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="languageStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="serialStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
     </step-definitions>
 
     <!-- The submission-definitions map lays out the detailed definition of -->
@@ -265,8 +371,12 @@
         <submission-process name="Publication">
             <step id="collection"/>
             <!-- Publications use a custom first step, but share page 2 with "traditional" Item form -->
-            <step id="publicationStep"/>
-            <step id="traditionalpagetwo"/>
+            <step id="bibliographicStep"/>
+            <step id="referenceStep"/>
+            <step id="geographicStep"/>
+            <step id="contentStep"/>
+            <step id="nrcanStep"/>
+            <step id="describeStep"/>
             <step id="upload"/>
             <step id="license"/>
         </submission-process>
@@ -278,7 +388,18 @@
         <submission-process name="Person">
             <step id="collection"/>
             <step id="personStep"/>
-            <step id="upload"/>
+        <!--<step id="upload"/>-->
+            <step id="license"/>
+        </submission-process>
+
+        <!--
+        Submission Process for 'Author' Entities
+        To enable: create a collection for Persons and add it to the <submission-map> tag linking to this process
+         -->
+        <submission-process name="Author">
+            <step id="collection"/>
+            <step id="authorStep"/>
+            <!--<step id="upload"/>-->
             <step id="license"/>
         </submission-process>
 
@@ -363,6 +484,46 @@
         <submission-process name="openAIREOrganizationSubmission">
             <step id="collection"/>
             <step id="openAIREOrganizationForm"/>
+        </submission-process>
+
+        <submission-process name="Publisher">
+            <step id="collection"/>
+            <step id="publisherStep"/>
+        </submission-process>
+
+        <submission-process name="Country">
+            <step id="collection"/>
+            <step id="countryStep"/>
+        </submission-process>
+
+        <submission-process name="Province">
+            <step id="collection"/>
+            <step id="provinceStep"/>
+        </submission-process>
+
+        <submission-process name="Area">
+            <step id="collection"/>
+            <step id="areaStep"/>
+        </submission-process>
+
+        <submission-process name="Division">
+            <step id="collection"/>
+            <step id="divisionStep"/>
+        </submission-process>
+
+        <submission-process name="Sponsor">
+            <step id="collection"/>
+            <step id="sponsorStep"/>
+        </submission-process>
+
+        <submission-process name="Language">
+            <step id="collection"/>
+            <step id="languageStep"/>
+        </submission-process>
+
+        <submission-process name="Serial">
+            <step id="collection"/>
+            <step id="serialStep"/>
         </submission-process>
     </submission-definitions>
 

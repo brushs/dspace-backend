@@ -1,5 +1,6 @@
 trigger:
   - oir-sandbox
+  - oir-7.3-sandbox
 
 resources:
   - repo: self

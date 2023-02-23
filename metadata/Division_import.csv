@@ -1,0 +1,83 @@
+id,collection,dspace.entity.type,nrcan.division.code,dc.title[en],dc.title[fr],nrcan.division.sector[en],nrcan.division.sector[fr]
++,123456789s/19,Division,dpd,Data Processing Division,Division de traitement des données,Canada Centre for Remote Sensing ,Centre canadien de télédétection
++,123456789s/19,Division,cfspfc,Pacific Forestry Centre,Centre de foresterie du Pacifique,Canadian Forest Service,Service canadien des forêts
++,123456789s/19,Division,cfsafc,Atlantic Forestry Centre,Centre de foresterie de l'Atlantique,Canadian Forest Service,Service canadien des forêts
++,123456789s/19,Division,cfs,Canadian Forest Service,Service canadien des forêts,Canadian Forest Service,Service canadien des forêts
++,123456789s/19,Division,cfslfc,Laurentian Forestry Centre,Centre de foresterie des Laurentides,Canadian Forest Service,Service canadien des forêts
++,123456789s/19,Division,cfsnfc,Northern Forestry Centre,Centre de foresterie du Nord,Canadian Forest Service,Service canadien des forêts
++,123456789s/19,Division,cfsglfc,Great Lakes Researh Centre,Centre de foresterie des Grands Lacs,Canadian Forest Service,Service canadien des forêts
++,123456789s/19,Division,NRCan Library,NRCan Library,Bibliothèque de RNCan,Corporate Management and Services Sector ,Secteur de la gestion et des services intégrés
++,123456789s/19,Division,dsld,Digital Services and Libraries Division,Direction des services numériques et des bibliothèques,Corporate Management and Services Sector ,Secteur de la gestion et des services intégrés
++,123456789s/19,Division,cpd,Coordination and Planning Division,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,mcg,Minerals and Continental Geoscience Branch,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,cgd,Continental Geoscience Division,Division de la géologie du continent,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,mrd,Mineral Resources Division,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,tsd,Terrain Sciences Division,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gsmg,"Geophysics, Sedimentary and Marine Geoscience Branch",,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gid,Geoscience Information Division,Division d'information géoscientifique,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,cso,Chief Scientists Office,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,pcsp,Polar Continental Shelf Project,Programme du plateau continental polaire,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,pgc,Pacific Geoscience Centre,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,chis,Canadian Hazards Information Service,Service d'information sur les dangers naturels au Canada,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gscpv,GSC Pacific (Vancouver),CGC Pacifique (Vancouver),Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gscps,GSC Pacific (Sidney),CGC Pacifique (Sidney),Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,cngo,Canada-Nunavut Geoscience Office,Bureau géoscientifique Canada-Nunavut,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gicd,Geoscience Information and Communications Division,Division d'information géoscientifique et communications,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ppcd,"Policy, Planning and Coordination Division",,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ibc,International Boundary Commission,Commission de la Frontière internationale,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gsd,Geodetic Survey Division,Division des levés géodésiques,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,dad,Data Acquisition Division,Division de l'acquisition des données,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,eog,Earth Observation and GeoSolutions Divison,Division de l'observation de la Terre et des géosolutions,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ctio,"Centre for Topographic Information, Ottawa, CTIO","Centre d'information topographique d'Ottawa, CITO",Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ddd,Data Dissemination Division,Division de la diffusion des données,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,dmd,Data Management Division,Division de la gestion des données,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ctis,"Centre for Topographic Information, Sherbrooke",Centre d'information topographique de Sherbrooke,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gb,"Geographical Branch, Department of Mines & Technical Surveys",,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gd,Geophysics Division,Division géophysique,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,rggd,Resource Geophysics and Geochemistry Division,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ad,Applications Division,Division des applications,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,cti,Centre for Topographic Information,Centre d'information topographique,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,gad,GeoAccess Division,Division GéoAccès,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ESS,Earth Sciences Sector ,Secteur des sciences de la Terre,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,cncb,Central and Northern Canada Branch,Direction du Centre et du Nord du Canada,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,essi,ESS Info,Info SST,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,geoconnections,GeoConnections,GéoConnexions,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,mpo,Major Projects Office,Bureau des projets majeurs,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,rpo,RADARSAT Project Office,Bureau du projet RADARSAT,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,tad,Technology Assessment Division,Division d'evaluation des technologies,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,sgb,Surveyor General Branch,Direction de l'arpenteur général,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ecd,Eastern Canada Division,Division de l'Est du Canada,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ccgi,Canada Centre for Geospatial Information,,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,ccmeo,Canada Centre for mapping and earth observation,Le Centre canadien de cartographie et d'observation de la Terre,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,spob,Strategic Policy and Operations Branch,Direction de la politique stratégique et des opérations,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,CanmetENERGY,CanmetENERGY,CanmetENERGIE,Energy Efficiency and Technology Sector ,Secteur de l'efficacité énergétique et de la technologie de l’énergie
++,123456789s/19,Division,iets,,,Energy Efficiency and Technology Sector ,Secteur de l'efficacité énergétique et de la technologie de l’énergie
++,123456789s/19,Division,oerd,Office of Energy Research and Development,Bureau de recherche et de développement énergétiques,Energy Efficiency and Technology Sector ,Secteur de l'efficacité énergétique et de la technologie de l’énergie
++,123456789s/19,Division,ccd,GSC-Central Canada,CGC Centre du Canada,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,gscp,GSC Pacific,CGC Pacifique,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,gsca,GSC Atlantic,CGC Atlantique,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,gscq,GSC Quebec,CGC Québec,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,gscc,GSC Calgary,CGC Calgary,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,ncd,GSC-Northern Canada,CGC-Nord du Canada,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,gsc,Geological Survey of Canada,Commission géologique du Canada,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,cciad,Climate Change Impacts and Adaptation Division,Division des impacts et de l'adaptation liés aux changements climatiques,Lands and minerals Sector ,Secteur des minéraux et de la Terre
++,123456789s/19,Division,CanmetMINING,CanmetMINING,CanmetMINES,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,CanmetMATERIALS,CanmetMATERIALS,CanmetMATERIAUX,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,gscdgo,GSC-Director General's Office,CGC-Bureau du directeur général,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,geobase,GeoBase,GéoBase,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,CanmetCERL,CanmetCERL (Canadian Explosives Research Laboratory),CanmetLCRE (Laboratoire canadien de recherche sur les explosifs),Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,iead,Industry and Economic Analysis Division,Division de l'industrie et de l'analyse économique,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,atlas,The Atlas of Canada,L'Atlas du Canada,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,mmsd,Minerals and Metals Statistics Division,,Minerals and Metals Sector ,Secteur des minéraux et des métaux
++,123456789s/19,Division,ccrs,Canada Centre for Remote Sensing,Centre canadien de télédétection,Strategic Policy and Innovation Sector,Secteur de la politique stratégique et innovation
++,123456789s/19,Division,dgo,"Canada Centre for Remote Sensing, Director General's Office","Centre canadien de télédétection, Bureau du directeur général",Strategic Policy and Innovation Sector,Secteur de la politique stratégique et innovation
++,123456789s/19,Division,cgdi,Canadian Geospatial Data Infrastructure,Infrastructure canadienne de données géospatiales,Strategic Policy and Innovation Sector ,Secteur de la politique stratégique et innovation
++,123456789s/19,Division,fgp,Federal Geospatial Platform,Plateforme géospatiale fédérale,Strategic Policy and Innovation Sector ,Secteur de la politique stratégique et innovation
++,123456789s/19,Division,progeval,Program Evaluation,Évaluation du programme,Strategic Policy and Results Sector ,Secteur de la politique stratégique et des résultats
++,123456789s/19,Division,smrss,,,Surveys Mapping and Remote Sensing Sector ,"Secteur des levés, de la cartographie et de la télédétection"
++,123456789s/19,Division,do,Dominion Observatories Branch,Observatoires fédéraux du Canada,,
++,123456789s/19,Division,doi,Department of Interior,Département de l'Intérieur,,
++,123456789s/19,Division,epb,Earth Physics Branch,Direction de la physique du globe,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,smb,Surveys and Mapping Branch,Direction des levés et de la cartographie,Earth Sciences Sector ,Secteur des sciences de la Terre
++,123456789s/19,Division,Canmet,Canada Centre for Mineral and Energy Technology,Centre canadien de la technologie des minéraux et de l'énergie,Lands and Minerals Sector ,Secteur des terres et des minéraux
++,123456789s/19,Division,mds,Mineral Development Sector,Secteur de l'exploitation minérale,,

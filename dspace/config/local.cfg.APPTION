@@ -50,6 +50,10 @@ dspace.name = DSpace at My University
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
 #assetstore.dir = ${dspace.dir}/assetstore
 
+# This setting requires a default value in order for the DSpace command line util to work
+# This should get overwritten by env config variables in Azure App Service
+azure.storage.account = @storage-account@
+
 # Default language for metadata values
 #default.language = en_US
 
@@ -83,7 +87,7 @@ db.dialect = org.hibernate.dialect.PostgreSQL94Dialect
 
 # Database username and password
 db.username = dspace
-db.password = dspace
+db.password = @db-password@
 
 # Database Schema name
 #    * For Postgres, this is often "public" (default schema)
@@ -159,7 +163,7 @@ db.schema = public
 
 # CNRI Handle prefix
 # (Defaults to the reserved dummy/fake prefix of 123456789)
-#handle.prefix = 123456789
+handle.prefix = 123456789a
 
 #######################
 # PROXY CONFIGURATION #
@@ -232,3 +236,17 @@ db.schema = public
 
 # Maximum size of a multipart request (i.e. max total size of all files in one request)
 #spring.servlet.multipart.max-request-size = 512MB
+
+# The URL of the Token endpoint
+authentication-oidc.token-endpoint = https://login.microsoftonline.com/cebd5e62-1ccb-4888-8f5f-5d1dda653395/oauth2/v2.0/token
+
+# The URL of the Authorize endpoint
+authentication-oidc.authorize-endpoint = https://login.microsoftonline.com/cebd5e62-1ccb-4888-8f5f-5d1dda653395/oauth2/v2.0/authorize
+
+# The URL of the Introspect endpoint
+authentication-oidc.user-info-endpoint = https://graph.microsoft.com/oidc/userinfo
+
+# The registered client id
+authentication-oidc.client-id = 9afcdc44-1ff7-4e32-880b-82867957094f
+
+plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication

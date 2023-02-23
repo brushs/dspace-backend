@@ -51,13 +51,17 @@ dspace.name = DSpace at My University
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
 #assetstore.dir = ${dspace.dir}/assetstore
 
+azure.storage.account = @storage-account@
+
 # Default language for metadata values
 #default.language = en_US
 
 # Solr server/webapp.
 # DSpace uses Solr for all search/browse capability (and for usage statistics).
 # Since DSpace 7, SOLR must be installed as a stand-alone service
-#solr.server = https://dspacesandboxsolr.azurewebsites.net/solr
+# This is set by the App Service, but because the DSpace command line
+# doesn't use those settings it is also set here
+solr.server = https://dspacesandboxsolr.azurewebsites.net/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
@@ -84,7 +88,7 @@ db.dialect = org.hibernate.dialect.PostgreSQL94Dialect
 
 # Database username and password
 db.username = dspace
-db.password = dspace
+db.password = @db-password@
 
 # Database Schema name
 #    * For Postgres, this is often "public" (default schema)
@@ -160,7 +164,7 @@ db.schema = public
 
 # CNRI Handle prefix
 # (Defaults to the reserved dummy/fake prefix of 123456789)
-#handle.prefix = 123456789
+handle.prefix = 123456789s
 
 #######################
 # PROXY CONFIGURATION #
@@ -233,3 +237,17 @@ db.schema = public
 
 # Maximum size of a multipart request (i.e. max total size of all files in one request)
 #spring.servlet.multipart.max-request-size = 512MB
+
+# The URL of the Token endpoint
+authentication-oidc.token-endpoint = https://login.microsoftonline.com/05c95b33-90ca-49d5-b644-288b930b912b/oauth2/v2.0/token
+
+# The URL of the Authorize endpoint
+authentication-oidc.authorize-endpoint = https://login.microsoftonline.com/05c95b33-90ca-49d5-b644-288b930b912b/oauth2/v2.0/authorize
+
+# The URL of the Introspect endpoint
+authentication-oidc.user-info-endpoint = https://graph.microsoft.com/oidc/userinfo
+
+# The registered client id
+authentication-oidc.client-id = d7aec069-d768-4008-b0fa-88b70e09cd60
+
+plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication

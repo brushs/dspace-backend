@@ -9,6 +9,7 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobProperties;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,7 @@ public class AzureBitStoreService implements BitStoreService{
     private static final Logger log = LogManager.getLogger(AzureBitStoreService.class);
 
     private static final String CSA = "MD5";
+    private static final String BLOB_SUFFIX = ".blobbs";
 
     private String containerName = null;
     private String connectionstring;
@@ -77,20 +79,25 @@ public class AzureBitStoreService implements BitStoreService{
 
     @Override
     public InputStream get(Bitstream bitstream) throws IOException {
-        String sInternalId =bitstream.getInternalId();
-        //String downloadFileName = sInternalId +"blobbs";
+        String sInternalId = bitstream.getInternalId();
+        if (sInternalId.startsWith("-R")) {
+            sInternalId = sInternalId.substring(2);
+        }
+
         StringBuilder bufFilename = new StringBuilder();
         bufFilename.append(sInternalId);
-        bufFilename.append(".blobbs");
+
+        if (bufFilename.indexOf(".") <= 0) {
+            bufFilename.append(BLOB_SUFFIX);
+        }
+
         String filename = bufFilename.toString();
-        //File downloadedFile = File.createTempFile(bitstream.getInternalId(), ".downloaded");
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
         try {
             BlobClient blobClient = containerClient.getBlobClient(filename);
             ByteArrayInputStream bis = new ByteArrayInputStream(blobClient.downloadContent().toBytes());
-            //blobClient.downloadToFile(downloadFileName);
             return bis;
-        } catch ( Exception e) {
+        } catch (Exception e) {
             log.error("get(" + bufFilename + ")", e);
             throw new IOException(e);
         }
@@ -133,17 +140,39 @@ public class AzureBitStoreService implements BitStoreService{
 
     @Override
     public Map about(Bitstream bitstream, Map attrs) throws IOException {
-        String key = getFullKey(bitstream.getInternalId());
-        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
-        //attrs.put("size_bytes", file.length());
-        //attrs.put("checksum", Utils.toHex(dis.getMessageDigest().digest()));
-        attrs.put("checksum_algorithm", CSA);
-       /* try {
-            ObjectMetadata objectMetadata = s3Service.getObjectMetadata(bucketName, key);
-        } catch (){
+        String sInternalId = bitstream.getInternalId();
+        if (sInternalId.startsWith("-R")) {
+            sInternalId = sInternalId.substring(2);
+        }
 
-        }*/
-        log.info("Azure mock about");
+        StringBuilder bufFilename = new StringBuilder();
+        bufFilename.append(sInternalId);
+
+        if (bufFilename.indexOf(".") <= 0) {
+            bufFilename.append(BLOB_SUFFIX);
+        }
+
+        String filename = bufFilename.toString();
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+        log.info("Retrieving Blob: " + filename);
+        BlobClient blobClient = containerClient.getBlobClient(filename);
+        BlobProperties properties = blobClient.getProperties();
+
+        if (properties != null) {
+            if (attrs.containsKey("size_bytes")) {
+                attrs.put("size_bytes", properties.getBlobSize());
+            }
+            if (attrs.containsKey("checksum")) {
+                attrs.put("checksum", properties.getETag());
+                attrs.put("checksum_algorithm", CSA);
+            }
+            if (attrs.containsKey("modified")) {
+                attrs.put("modified", String.valueOf(properties.getLastModified().toEpochSecond()));
+            }
+            return attrs;
+        }
+
         return null;
     }
 
@@ -157,6 +186,7 @@ public class AzureBitStoreService implements BitStoreService{
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
         containerClient.getBlobClient(filename).delete();
     }
+
     protected File getTempFile(Bitstream bitstream) throws  IOException {
             // Check that bitstream is not null
             if (bitstream == null) {

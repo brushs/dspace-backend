@@ -130,4 +130,130 @@
         </rightCardinality>
         <copyToRight>true</copyToRight>
     </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Publisher</rightType>
+        <leftwardType>isPublisherOfPublication</leftwardType>
+        <rightwardType>isPublicationOfPublisher</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Publisher</rightType>
+        <leftwardType>isCorporateAuthorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfCorporateAuthor</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Country</rightType>
+        <leftwardType>isCountryOfPublication</leftwardType>
+        <rightwardType>isPublicationOfCountry</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Province</rightType>
+        <leftwardType>isProvinceOfPublication</leftwardType>
+        <rightwardType>isPublicationOfProvince</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Area</rightType>
+        <leftwardType>isAreaOfPublication</leftwardType>
+        <rightwardType>isPublicationOfArea</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Division</rightType>
+        <leftwardType>isDivisionOfPublication</leftwardType>
+        <rightwardType>isPublicationOfDivision</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Sponsor</rightType>
+        <leftwardType>isSponsorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfSponsor</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Language</rightType>
+        <leftwardType>isLanguageOfPublication</leftwardType>
+        <rightwardType>isPublicationOfLanguage</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Serial</rightType>
+        <leftwardType>isSerialOfPublication</leftwardType>
+        <rightwardType>isPublicationOfSerial</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
 </relationships>

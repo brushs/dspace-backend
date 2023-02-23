@@ -38,7 +38,7 @@
     <!-- <bean name="localStore2 ... -->
     <!-- <bean name="s3Store2 ... -->
     <bean name="azureStore" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
-        <property name="connectionstring" value="DefaultEndpointsProtocol=https;AccountName=cs210033fff9d54f545;AccountKey=PqIWdCfZ6Wk3yD/PGa1Aw407vh3blUgAPS/hjWrSGDp+UR3FJkxQIhbIMaOYwS1MDphdpE13d8y1us1mYLyW3g==;EndpointSuffix=core.windows.net"/>
+        <property name="connectionstring" value="${azure.storage.account}"/>
         <!-- container name to store assets in. example: longsight-dspace-auk -->
         <property name="containerName" value="dspace1"/>
         <!-- Optional, default is root level of bucket -->
