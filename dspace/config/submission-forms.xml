@@ -440,6 +440,59 @@
                     <!--<regex>\w+(,)+\w+</regex>-->
                 </relation-field>
             </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isMonographicAuthorOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Monographic Author</label>
+                    <hint>Enter the author's name (Family name, Given names).</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>monographic</dc-element>
+                        <dc-qualifier>author</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>monographic</dc-element>
+                    <dc-qualifier>title</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Monographic Title</label>
+                    <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the monographic title related to the item.</hint>
+                </field>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isMonographicCorporateAuthorOfPublication</relationship-type>
+                    <search-configuration>publisher</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Monographic Corporate Author</label>
+                    <hint>Enter the corporate author's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>monographic</dc-element>
+                        <dc-qualifier>corporateauthor</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
         </form>
 
         <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.
@@ -573,6 +626,16 @@
                     <label>Total Pages</label>
                     <input-type>onebox</input-type>
                     <hint>Enter the total number of pages of the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>totalsheets</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Total Sheets</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the total number of sheets of the resource</hint>
                     <required></required>
                 </field>
             </row>
@@ -869,12 +932,12 @@
                 </field>
                 <field>
                     <dc-schema>nrcan</dc-schema>
-                    <dc-element>pagination</dc-element>
-                    <dc-qualifier>numberofmapsheets</dc-qualifier>
+                    <dc-element>map</dc-element>
+                    <dc-qualifier>numberofmaps</dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Number of Map Sheets</label>
+                    <label>Number of Maps</label>
                     <input-type>onebox</input-type>
-                    <hint>Enter the number of map sheets of the resource</hint>
+                    <hint>Enter the number of map of the resource</hint>
                     <required></required>
                 </field>
             </row>

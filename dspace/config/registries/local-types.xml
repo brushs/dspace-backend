@@ -94,8 +94,22 @@
   <dc-type>
     <schema>nrcan</schema>
     <element>pagination</element>
-    <qualifier>numberofmapsheets</qualifier>
-    <scope_note>Number of Map Sheets.</scope_note>
+    <qualifier>totalsheets</qualifier>
+    <scope_note>Total sheets of resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>map</element>
+    <qualifier>numberofmaps</qualifier>
+    <scope_note>Number of Maps.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>map</element>
+    <qualifier></qualifier>
+    <scope_note>A map associated with the item.</scope_note>
   </dc-type>
 
   <dc-type>
@@ -575,4 +589,154 @@
     <qualifier>isexternal</qualifier>
     <scope_note>Is this author external to NRCan</scope_note>
   </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>sourcesystem</element>
+    <qualifier></qualifier>
+    <scope_note>The system which provided this entry to the OSTR</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>publication</element>
+    <qualifier>externalurl</qualifier>
+    <scope_note>The URL of the publication if hosted externally</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>abstract</element>
+    <qualifier>language</qualifier>
+    <scope_note>The official language of the abstract that appears in the actual publication</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>doctype</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>geospatial</schema>
+    <element>polygon</element>
+    <qualifier></qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>geospatial</schema>
+    <element>polygon</element>
+    <qualifier>degrees</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>policy</element>
+    <qualifier>paae</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>policy</element>
+    <qualifier>implication</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>policy</element>
+    <qualifier>relevance</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>geopsurvey</element>
+    <qualifier></qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>geography</element>
+    <qualifier></qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>webaccessible</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>relationref</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>articlenumber</element>
+    <qualifier></qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>readme</element>
+    <qualifier></qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>monographic</element>
+    <qualifier>title</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>monographic</element>
+    <qualifier>title</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isMonographicCorporateAuthorOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isMonographicCorporateAuthorOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCorporateMonographicAuthor</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfCorporateMonographicAuthor</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>contdescr</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
 </dspace-dc-types>
