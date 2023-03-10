@@ -281,8 +281,8 @@
     <field name="SolrIndexer.lastIndexed" type="date" indexed="true" stored="true" default="NOW" multiValued="false" omitNorms="true" />
     <field name="lastModified" type="date" indexed="true" stored="true" default="NOW" multiValued="false" omitNorms="true" />
     <!-- By J for geospatial functions -->
-    <field name="nrcan.geospatial.geolocation" type="location" stored="true" indexed="true"/>
-    <field name="nrcan.geospatial.bbox" type="boundingbox" stored="true" indexed="true"/>
+    <field name="geospatial.geolocation" type="location" stored="true" indexed="true"/>
+    <field name="geospatial.bbox" type="boundingbox" stored="true" indexed="true"/>
 
      <!-- Dynamic field used to store the relation metadata as a keywordFilter -->
      <dynamicField name="relation.*" type="keywordFilter" indexed="true" stored="true" omitNorms="true" multiValued="true"/>
