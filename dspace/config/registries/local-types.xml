@@ -65,6 +65,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>reportnumber</element>
+    <qualifier></qualifier>
+    <scope_note>Report # of the resource.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>issue</element>
     <qualifier></qualifier>
     <scope_note>Issue # of the resource.</scope_note>
@@ -683,6 +690,27 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>relationurl</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>relation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>relationphoto</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>articlenumber</element>
     <qualifier></qualifier>
     <scope_note></scope_note>
@@ -736,6 +764,141 @@
     <schema>nrcan</schema>
     <element>legacy</element>
     <qualifier>contdescr</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>alternateformat</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>printdate</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>map</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>isorhasmap</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>mapdigital</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>secserial</element>
+    <qualifier>0number</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>secserial</element>
+    <qualifier>1number</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>secserial</element>
+    <qualifier>2number</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>secserial</element>
+    <qualifier>3number</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>secserial</element>
+    <qualifier>4number</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSecondarySerialOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isSecondarySerialOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSecondarySerial</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfSecondarySerial</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>status</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>openaccesstype</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>daterecordmod</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>daterecordsent</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>previousfilename</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>thumbnail</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
