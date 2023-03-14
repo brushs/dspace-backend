@@ -739,23 +739,23 @@
 
   <dc-type>
     <schema>relation</schema>
-    <element>isMonographicCorporateAuthorOfPublication</element>
+    <element>isMonoCorpAuthorOfPublication</element>
     <scope_note></scope_note>
   </dc-type>
   <dc-type>
     <schema>relation</schema>
-    <element>isMonographicCorporateAuthorOfPublication</element>
+    <element>isMonoCorpAuthorOfPublication</element>
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
   <dc-type>
     <schema>relation</schema>
-    <element>isPublicationOfCorporateMonographicAuthor</element>
+    <element>isPublicationOfMonoCorpAuthor</element>
     <scope_note></scope_note>
   </dc-type>
   <dc-type>
     <schema>relation</schema>
-    <element>isPublicationOfCorporateMonographicAuthor</element>
+    <element>isPublicationOfMonoCorpAuthor</element>
     <qualifier>latestForDiscovery</qualifier>
     <scope_note></scope_note>
   </dc-type>
@@ -899,6 +899,76 @@
     <schema>nrcan</schema>
     <element>legacy</element>
     <qualifier>thumbnail</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>classification</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>relationerratum</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>duration</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>archivalfile</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>gid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>broad</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>descriptor</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>geoscan</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>gc</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>other</qualifier>
     <scope_note></scope_note>
   </dc-type>
 

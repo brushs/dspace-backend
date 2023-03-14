@@ -274,8 +274,8 @@
     <type>
         <leftType>Publication</leftType>
         <rightType>Publisher</rightType>
-        <leftwardType>isMonographicCorporateAuthorOfPublication</leftwardType>
-        <rightwardType>isPublicationOfMonographicCorporateAuthor</rightwardType>
+        <leftwardType>isMonoCorpAuthorOfPublication</leftwardType>
+        <rightwardType>isPublicationOfMonoCorpAuthor</rightwardType>
         <leftCardinality>
             <min>0</min>
         </leftCardinality>

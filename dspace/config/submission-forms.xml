@@ -488,7 +488,7 @@
             </row>
             <row>
                 <relation-field>
-                    <relationship-type>isMonographicCorporateAuthorOfPublication</relationship-type>
+                    <relationship-type>isMonoCorpAuthorOfPublication</relationship-type>
                     <search-configuration>publisher</search-configuration>
                     <repeatable>true</repeatable>
                     <label>Monographic Corporate Author</label>
