@@ -592,6 +592,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>publisher</element>
+    <qualifier>migrationid</qualifier>
+    <scope_note>NRCan name to match for migration</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>author</element>
     <qualifier>isexternal</qualifier>
     <scope_note>Is this author external to NRCan</scope_note>
@@ -678,6 +685,20 @@
     <schema>nrcan</schema>
     <element>legacy</element>
     <qualifier>webaccessible</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>download</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>sponsor</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
@@ -877,6 +898,13 @@
   <dc-type>
     <schema>nrcan</schema>
     <element>legacy</element>
+    <qualifier>thesis</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
     <qualifier>daterecordmod</qualifier>
     <scope_note></scope_note>
   </dc-type>
@@ -934,6 +962,20 @@
     <schema>dc</schema>
     <element>identifier</element>
     <qualifier>gid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>pmt</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>catn</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
