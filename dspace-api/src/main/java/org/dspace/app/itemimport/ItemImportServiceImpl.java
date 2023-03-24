@@ -585,7 +585,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                 MetadataValue mdvVal = mdv.next();
                 UUID uuid = mdvVal.getDSpaceObject().getID();
                 String lang = mdvVal.getLanguage();
-                if (mdv.hasNext() && mdv.next().getLanguage().equals(lang)) {
+                if (mdv.hasNext() && (mdv.next().getLanguage() == null || mdv.next().getLanguage().equals(lang))) {
                     log.warn("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
                             + " Key:" + metaKey + " Val:" + metaValue);
                     //throw new Exception("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
