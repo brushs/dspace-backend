@@ -7,24 +7,10 @@
  */
 package org.dspace.app.rest;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.dspace.app.rest.converter.ConverterService;
 import org.dspace.app.rest.converter.EPersonConverter;
 import org.dspace.app.rest.link.HalLinkService;
-import org.dspace.app.rest.model.AuthenticationStatusRest;
-import org.dspace.app.rest.model.AuthenticationTokenRest;
-import org.dspace.app.rest.model.AuthnRest;
-import org.dspace.app.rest.model.EPersonRest;
-import org.dspace.app.rest.model.GroupRest;
+import org.dspace.app.rest.model.*;
 import org.dspace.app.rest.model.hateoas.AuthenticationStatusResource;
 import org.dspace.app.rest.model.hateoas.AuthenticationTokenResource;
 import org.dspace.app.rest.model.hateoas.AuthnResource;
@@ -34,9 +20,14 @@ import org.dspace.app.rest.projection.Projection;
 import org.dspace.app.rest.security.RestAuthenticationService;
 import org.dspace.app.rest.utils.ContextUtil;
 import org.dspace.app.rest.utils.Utils;
+import org.dspace.authenticate.IPAuthentication;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.core.Context;
+import org.dspace.eperson.Group;
+import org.dspace.kernel.ServiceManager;
 import org.dspace.service.ClientInfoService;
+import org.dspace.services.ConfigurationService;
+import org.dspace.utils.DSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -53,6 +44,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Rest controller that handles authentication on the REST API together with the Spring Security filters
@@ -87,6 +88,12 @@ public class AuthenticationRestController implements InitializingBean {
 
     @Autowired
     private Utils utils;
+
+
+    private final ServiceManager serviceManager = new DSpace().getServiceManager();
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     @Override
     public void afterPropertiesSet() {
@@ -304,6 +311,36 @@ public class AuthenticationRestController implements InitializingBean {
             //We have a user, so the login was successful.
             return ResponseEntity.ok().build();
         }
+    }
+
+
+    private IPAuthentication getIpAuthentication() {
+        return serviceManager.getServiceByName("ipAuthentication", IPAuthentication.class);
+    }
+    /**
+
+     */
+    @RequestMapping(value = "/validateip", method = { RequestMethod.GET})
+    public ResponseEntity vadidateIp(HttpServletRequest request) {
+        log.info("validating ip");
+        String addr = clientInfoService.getClientIp(request);
+        String remoteIp = request.getRemoteAddr();
+
+        String ipGroup = configurationService.getProperty("ipgroup");
+
+        Context context = ContextUtil.obtainContext(request);
+
+        try {
+
+            List<Group> groups  = this.getIpAuthentication().getSpecialGroups(context,request);
+            for (Group group : groups) {
+                if (group.getName().equals(ipGroup))
+                    return ResponseEntity.status(HttpStatus.OK).body("allowed");
+            }
+        } catch (SQLException e) {
+            log.error( "Error:" + e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("denied");
     }
 
 }
