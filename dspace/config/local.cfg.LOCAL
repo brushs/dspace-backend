@@ -250,3 +250,6 @@ authentication-oidc.client-id = 9afcdc44-1ff7-4e32-880b-82867957094f
 
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
 
+# for IP range validation end point, as group name that allowed to login
+ipgroup = Administrator
+
