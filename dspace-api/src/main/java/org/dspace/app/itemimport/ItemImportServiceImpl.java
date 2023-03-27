@@ -600,6 +600,12 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
             //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
             //        + " Key:" + metaKey + " Val:" + metaValue, e);
             return null;
+        } catch (Exception e) {
+            log.warn("MIG_ERR_4 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                    + " Key:" + metaKey + " Val:" + metaValue);
+            //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
+            //        + " Key:" + metaKey + " Val:" + metaValue, e);
+            return null;
         }
 
         if (item == null) {
