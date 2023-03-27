@@ -299,4 +299,18 @@
         <copyToLeft>true</copyToLeft>
     </type>
 
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isPrimaryContactOfPublication</leftwardType>
+        <rightwardType>isPublicationOfPrimaryContact</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
 </relationships>

@@ -506,6 +506,26 @@
                     <!--<regex>\w+(,)+\w+</regex>-->
                 </relation-field>
             </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isPrimaryContactOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>false</repeatable>
+                    <label>Primary Contact</label>
+                    <hint>Enter the primary contact's name (Family name, Given names).</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>primarycontact</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
         </form>
 
         <!-- Form which defines the *first* metadata page/section for depositing Publication Entities.

@@ -1112,4 +1112,34 @@
     <scope_note></scope_note>
   </dc-type>
 
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPrimaryContactOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPrimaryContactOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfPrimaryContact</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfPrimaryContact</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>primarycontact</element>
+    <qualifier></qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
 </dspace-dc-types>
