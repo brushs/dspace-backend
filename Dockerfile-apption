@@ -105,6 +105,7 @@ EXPOSE 8080 8009 2222
 
 # Install "unzip" for migration files
 RUN apt-get install unzip
+RUN apt-get install zip
 
 # Create directory for migration and logs
 RUN mkdir -p /dspace/migration/logs
