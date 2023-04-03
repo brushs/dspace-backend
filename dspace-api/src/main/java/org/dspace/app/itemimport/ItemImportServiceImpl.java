@@ -1181,7 +1181,14 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                             sDescription = sDescription.replaceFirst("description:", "");
                         }
 
-                        registerBitstream(c, i, iAssetstore, sFilePath, sBundle, sDescription);
+                        try {
+                            registerBitstream(c, i, iAssetstore, sFilePath, sBundle, sDescription);
+                        } catch (Exception e) {
+                            log.warn("MIG_ERR_5 - Error adding bitstream - Item:" + i.getID()
+                                    + " Bundle:" + sBundle + " Path:" + sFilePath);
+                        }
+
+
                         System.out.println("\tRegistering Bitstream: " + sFilePath
                             + "\tAssetstore: " + iAssetstore
                             + "\tBundle: " + sBundle

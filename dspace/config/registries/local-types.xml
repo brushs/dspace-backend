@@ -1142,4 +1142,27 @@
     <scope_note></scope_note>
   </dc-type>
 
+  <dc-type>
+    <schema>relation</schema>
+    <element>isMonographicAuthorOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isMonographicAuthorOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfMonographicAuthor</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfMonographicAuthor</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
 </dspace-dc-types>
