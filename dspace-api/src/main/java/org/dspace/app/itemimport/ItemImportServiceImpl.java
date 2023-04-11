@@ -338,7 +338,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
       * @throws Exception
       */
     protected void addRelationships(Context c, String sourceDir) throws Exception {
-
+        log.info("Adding Relationships");
         for (Map.Entry<String, Item> itemEntry : itemFolderMap.entrySet()) {
 
             String folderName = itemEntry.getKey();
@@ -410,7 +410,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                             relationshipService.create(c, leftItem, rightItem, foundRelationshipType, -1, -1);
                         // relationshipService.update(c, persistedRelationship);
 
-                        System.out.println("\tAdded relationship (type: " + relationshipType + ") from " +
+                        log.info("Added relationship (type: " + relationshipType + ") from " +
                             leftItem.getHandle() + " to " + rightItem.getHandle());
 
                     }
@@ -454,7 +454,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
 
         if (file.exists()) {
 
-            System.out.println("\tProcessing relationships file: " + filename);
+            log.info("Processing relationships file: " + filename);
 
             BufferedReader br = null;
             try {
