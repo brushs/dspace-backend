@@ -375,6 +375,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
 
                         //get entity type of entity and item
                         String itemEntityType = getEntityType(item);
+                        log.info("Got item entity type");
                         String relatedEntityType = getEntityType(relationItem);
 
                         log.info("Matching Relationships");
