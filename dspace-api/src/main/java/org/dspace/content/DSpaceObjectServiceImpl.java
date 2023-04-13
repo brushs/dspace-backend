@@ -587,6 +587,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
 
     @Override
     public void update(Context context, T dso) throws SQLException, AuthorizeException {
+        log.info("Updating in the Super");
         if (dso.isMetadataModified()) {
             /*
             Update the order of the metadata values
@@ -656,6 +657,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 }
             }
         }
+        log.info("Updated in the Super");
     }
 
     /**

@@ -375,11 +375,13 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                         String itemEntityType = getEntityType(item);
                         String relatedEntityType = getEntityType(relationItem);
 
+                        log.info("Matching Relationships");
                         //find matching relationship type
                         List<RelationshipType> relTypes = relationshipTypeService.findByLeftwardOrRightwardTypeName(
                             c, relationshipType);
                         RelationshipType foundRelationshipType = RelationshipUtils.matchRelationshipType(
                             relTypes, relatedEntityType, itemEntityType, relationshipType);
+                        log.info("Done Matching Relationships");
 
                         if (foundRelationshipType == null) {
                             throw new Exception("No Relationship type found for:\n" +
@@ -406,6 +408,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                         }
 
                         // Create the relationship
+                        log.info("Creating Relationships");
                         Relationship persistedRelationship =
                             relationshipService.create(c, leftItem, rightItem, foundRelationshipType, -1, -1);
                         // relationshipService.update(c, persistedRelationship);
@@ -420,6 +423,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
             }
 
         }
+        log.info("All Done Adding Relationships");
 
     }
 
