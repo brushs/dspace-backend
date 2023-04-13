@@ -364,7 +364,9 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
 
                         //find referenced item
                         c.setExtraLogInfo(item.getID().toString());
+                        log.info("Resolving related item");
                         Item relationItem = resolveRelatedItem(c, itemIdentifier);
+                        log.info("Resolved related item");
                         if (null == relationItem) {
                             // Need to log and keep on going, can't stop processing
                             //throw new Exception("Could not find item for " + itemIdentifier);
