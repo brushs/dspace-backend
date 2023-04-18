@@ -377,6 +377,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                         String itemEntityType = getEntityType(item);
                         log.info("Got item entity type");
                         String relatedEntityType = getEntityType(relationItem);
+                        log.info("Item Entity Type: " + itemEntityType + " Related Type: " + relatedEntityType);
 
                         log.info("Matching Relationships");
                         //find matching relationship type
@@ -437,7 +438,16 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
      * @return
      */
     protected String getEntityType(Item item) throws Exception {
-        return itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY).get(0).getValue();
+        //return itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY).get(0).getValue();
+        for (MetadataValue dcv : item.getMetadata()) {
+            if (dcv.getMetadataField().getMetadataSchema().getName().contentEquals("dspace")
+                    && dcv.getMetadataField().getElement().contentEquals("entity")
+                    && dcv.getMetadataField().getQualifier().contentEquals("type")) {
+
+                return dcv.getValue();
+            }
+        }
+        return null;
     }
 
     /**
