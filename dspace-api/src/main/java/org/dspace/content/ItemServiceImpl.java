@@ -555,7 +555,7 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
 
     @Override
     public void update(Context context, Item item) throws SQLException, AuthorizeException {
-        log.info("Check Auth");
+
         // Check authorisation
         // only do write authorization if user is not an editor
         if (!canEdit(context, item)) {
@@ -566,7 +566,7 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
             + item.getID()));
 
         super.update(context, item);
-        log.info("Updated Super");
+
         // Set sequence IDs for bitstreams in Item. To guarantee uniqueness,
         // sequence IDs are assigned in sequential order (starting with 1)
         int sequence = 0;
@@ -582,7 +582,7 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
                 }
             }
         }
-        log.info("Updated Bundles");
+
         // start sequencing bitstreams without sequence IDs
         sequence++;
         for (Bundle bund : bunds) {
@@ -597,13 +597,13 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
                 }
             }
         }
-        log.info("Updated Bitstreams");
+
         if (item.isMetadataModified() || item.isModified()) {
             // Set the last modified date
             item.setLastModified(new Date());
 
             itemDAO.save(context, item);
-            log.info("Saved Item");
+
             if (item.isMetadataModified()) {
                 context.addEvent(new Event(Event.MODIFY_METADATA, item.getType(), item.getID(), item.getDetails(),
                                            getIdentifiers(context, item)));
@@ -614,7 +614,7 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
             item.clearModified();
             item.clearDetails();
         }
-        log.info("Update Done");
+
     }
 
     @Override

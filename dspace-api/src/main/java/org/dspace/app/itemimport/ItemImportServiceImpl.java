@@ -338,7 +338,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
       * @throws Exception
       */
     protected void addRelationships(Context c, String sourceDir) throws Exception {
-        log.info("Adding Relationships");
+
         for (Map.Entry<String, Item> itemEntry : itemFolderMap.entrySet()) {
 
             String folderName = itemEntry.getKey();
@@ -364,9 +364,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
 
                         //find referenced item
                         c.setExtraLogInfo(item.getID().toString());
-                        log.info("Resolving related item");
                         Item relationItem = resolveRelatedItem(c, itemIdentifier);
-                        log.info("Resolved related item");
                         if (null == relationItem) {
                             // Need to log and keep on going, can't stop processing
                             //throw new Exception("Could not find item for " + itemIdentifier);
@@ -375,17 +373,13 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
 
                         //get entity type of entity and item
                         String itemEntityType = getEntityType(item);
-                        log.info("Got item entity type");
                         String relatedEntityType = getEntityType(relationItem);
-                        log.info("Item Entity Type: " + itemEntityType + " Related Type: " + relatedEntityType);
 
-                        log.info("Matching Relationships");
                         //find matching relationship type
                         List<RelationshipType> relTypes = relationshipTypeService.findByLeftwardOrRightwardTypeName(
                             c, relationshipType);
                         RelationshipType foundRelationshipType = RelationshipUtils.matchRelationshipType(
                             relTypes, relatedEntityType, itemEntityType, relationshipType);
-                        log.info("Done Matching Relationships");
 
                         if (foundRelationshipType == null) {
                             throw new Exception("No Relationship type found for:\n" +
@@ -412,7 +406,6 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                         }
 
                         // Create the relationship
-                        log.info("Creating Relationships");
                         Relationship persistedRelationship =
                             relationshipService.create(c, leftItem, rightItem, foundRelationshipType, -1, -1);
                         // relationshipService.update(c, persistedRelationship);
