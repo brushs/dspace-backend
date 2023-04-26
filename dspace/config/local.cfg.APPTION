@@ -44,7 +44,7 @@ dspace.server.url = https://dspacebackendsteve.azurewebsites.net/server
 dspace.ui.url = https://dspaceangularsteve.azurewebsites.net
 
 # Name of the site
-dspace.name = DSpace at My University
+#dspace.name = NRCAN Open Science and Technology Repository
 
 # assetstore.dir, look at DSPACE/config/spring/api/bitstore.xml for more options
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
