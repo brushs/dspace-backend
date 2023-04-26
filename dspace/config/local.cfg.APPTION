@@ -39,12 +39,11 @@ dspace.server.url = https://dspacebackendsteve.azurewebsites.net/server
 
 # URL of DSpace frontend (Angular UI). Include port number etc.
 # DO NOT end it with '/'.
-# This is used by the backend to provide links in emails, RSS feeds, Sitemaps,
-# etc.
+# This is used by the backend to provide links in emails, RSS feeds, Sitemaps, etc.
 dspace.ui.url = https://dspaceangularsteve.azurewebsites.net
 
 # Name of the site
-#dspace.name = NRCAN Open Science and Technology Repository
+dspace.name = NRCAN Open Science and Technology Repository - Apption Dev
 
 # assetstore.dir, look at DSPACE/config/spring/api/bitstore.xml for more options
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
