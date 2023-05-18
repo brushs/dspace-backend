@@ -21,7 +21,7 @@ USER dspace
 ADD --chown=dspace dspace /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
 
-RUN mv /app/dspace/config/local.cfg.PROD /app/dspace/config/local.cfg
+RUN mv /app/dspace/config/local.cfg.SANDBOX /app/dspace/config/local.cfg
 
 # Replace the secret placeholders with the Azure secrets
 RUN chmod +x /app/set_secrets.sh
