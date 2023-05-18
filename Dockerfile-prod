@@ -18,7 +18,7 @@ RUN mkdir /install \
     && chown -Rv dspace: /app
 USER dspace
 # Copy the DSpace source code (from local machine) into the workdir (excluding .dockerignore contents)
-ADD --chown=dspace dspace /app/
+ADD --chown=dspace . /app/
 # Build DSpace (note: this build doesn't include the optional, deprecated "dspace-rest" webapp)
 
 RUN mv /app/dspace/config/local.cfg.SANDBOX /app/dspace/config/local.cfg
