@@ -45,7 +45,7 @@ dspace.server.url = https://dspacesandboxbackend.azurewebsites.net/server
 dspace.ui.url = https://dspacesandboxfrontend.azurewebsites.net
 
 # Name of the site
-dspace.name = DSpace at My University
+dspace.name = Open Science and Technology Repository
 
 # assetstore.dir, look at DSPACE/config/spring/api/bitstore.xml for more options
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
@@ -74,7 +74,7 @@ swordv2-server.path = swordv2
 # URL for connecting to database
 #    * Postgres template: jdbc:postgresql://localhost:5432/dspace
 #    * Oracle template: jdbc:oracle:thin:@//localhost:1521/xe
-db.url = jdbc:postgresql://dspacesandbox.postgres.database.azure.com:5432/dspace
+db.url = jdbc:postgresql://ostr-prod.postgres.database.azure.com:5432/dspace
 
 # JDBC Driver
 #    * For Postgres: org.postgresql.Driver
@@ -164,7 +164,7 @@ db.schema = public
 
 # CNRI Handle prefix
 # (Defaults to the reserved dummy/fake prefix of 123456789)
-handle.prefix = 123456789s
+handle.prefix = 1842
 
 #######################
 # PROXY CONFIGURATION #
