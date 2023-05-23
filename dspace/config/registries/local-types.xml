@@ -23,6 +23,11 @@
     <namespace>http://dspace.org/namespace/local/</namespace>
   </dc-schema>
 
+  <dc-schema>
+    <name>relation</name>
+    <namespace>http://dspace.org/relation</namespace>
+  </dc-schema>
+
 <!--
   <dc-type>
     <schema>local</schema>
