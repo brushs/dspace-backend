@@ -36,13 +36,13 @@ dspace.dir=/dspace
 # DO NOT end it with '/'.
 # This is where REST API and all enabled server modules (OAI-PMH, SWORD,
 # SWORDv2, RDF, etc) will respond.
-dspace.server.url = https://dspacesandboxbackend.azurewebsites.net/server
+dspace.server.url = https://ostr-backend-prod.azurewebsites.net/server
 
 # URL of DSpace frontend (Angular UI). Include port number etc.
 # DO NOT end it with '/'.
 # This is used by the backend to provide links in emails, RSS feeds, Sitemaps,
 # etc.
-dspace.ui.url = https://dspacesandboxfrontend.azurewebsites.net
+dspace.ui.url = https://ostr-frontend-prod.azurewebsites.net
 
 # Name of the site
 dspace.name = Open Science and Technology Repository
@@ -248,6 +248,6 @@ authentication-oidc.authorize-endpoint = https://login.microsoftonline.com/05c95
 authentication-oidc.user-info-endpoint = https://graph.microsoft.com/oidc/userinfo
 
 # The registered client id
-authentication-oidc.client-id = d7aec069-d768-4008-b0fa-88b70e09cd60
+authentication-oidc.client-id = cf5caf73-e383-4240-88c1-a4be1593deb4
 
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
