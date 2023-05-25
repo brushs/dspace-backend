@@ -83,6 +83,9 @@
         <name-map collection-handle="123456789s/25" submission-name="Province"/>
         <name-map collection-handle="123456789s/5494" submission-name="Author"/>
 
+        <!-- Prod Collections -->
+        <name-map collection-handle="1845/6" submission-name="Country"/>
+
     </submission-map>
 
 
