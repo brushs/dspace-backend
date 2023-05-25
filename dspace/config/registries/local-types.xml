@@ -505,14 +505,8 @@
     <scope_note>NRCan serial title.</scope_note>
   </dc-type>
   <dc-type>
-    <schema>nrcan</schema>
-    <element>serial</element>
-    <qualifier>issn</qualifier>
-    <scope_note>NRCan serial ISSN.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>serial</element>
+    <schema>dc</schema>
+    <element>identifier</element>
     <qualifier>issne</qualifier>
     <scope_note>NRCan serial ISSNE.</scope_note>
   </dc-type>
@@ -527,6 +521,12 @@
     <element>serial</element>
     <qualifier>url</qualifier>
     <scope_note>NRCan serial url.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>publisher</qualifier>
+    <scope_note>NRCan serial publisher.</scope_note>
   </dc-type>
   <dc-type>
     <schema>nrcan</schema>

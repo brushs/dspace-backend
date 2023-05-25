@@ -1382,16 +1382,16 @@
             </row>
             <row>
                 <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>serial</dc-element>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
                     <dc-qualifier>issn</dc-qualifier>
                     <label>ISSN</label>
                     <input-type>onebox</input-type>
                     <hint>Enter the ISSN of the serial</hint>
                 </field>
                 <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>serial</dc-element>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
                     <dc-qualifier>issne</dc-qualifier>
                     <label>ISSNE</label>
                     <input-type>onebox</input-type>
@@ -1400,9 +1400,9 @@
             </row>
             <row>
                 <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>serial</dc-element>
-                    <dc-qualifier>url</dc-qualifier>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>uri</dc-qualifier>
                     <label>URL</label>
                     <input-type>onebox</input-type>
                     <hint>Enter the URL of the serial</hint>
@@ -1426,6 +1426,16 @@
                     <label>Notes</label>
                     <input-type>onebox</input-type>
                     <hint>Enter the Notes related to the serial</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>serial</dc-element>
+                    <dc-qualifier>publisher</dc-qualifier>
+                    <label>Serial Publisher</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the Publisher of the serial</hint>
                 </field>
             </row>
         </form>
