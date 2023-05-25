@@ -85,6 +85,13 @@
 
         <!-- Prod Collections -->
         <name-map collection-handle="1845/6" submission-name="Country"/>
+        <name-map collection-handle="1845/266" submission-name="Area"/>
+        <name-map collection-handle="1845/267" submission-name="Division"/>
+        <name-map collection-handle="1845/269" submission-name="Publisher"/>
+        <name-map collection-handle="1845/271" submission-name="Sponsor"/>
+        <name-map collection-handle="1845/270" submission-name="Serial"/>
+        <name-map collection-handle="1845/268" submission-name="Language"/>
+        <name-map collection-handle="1845/265" submission-name="Province"/>
 
     </submission-map>
 
