@@ -618,6 +618,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>author</element>
+    <qualifier>firstname</qualifier>
+    <scope_note>First name of author</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>sourcesystem</element>
     <qualifier></qualifier>
     <scope_note>The system which provided this entry to the OSTR</scope_note>
