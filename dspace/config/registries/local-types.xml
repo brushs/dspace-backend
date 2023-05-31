@@ -23,6 +23,11 @@
     <namespace>http://dspace.org/namespace/local/</namespace>
   </dc-schema>
 
+  <dc-schema>
+    <name>relation</name>
+    <namespace>http://dspace.org/relation</namespace>
+  </dc-schema>
+
 <!--
   <dc-type>
     <schema>local</schema>
@@ -500,14 +505,8 @@
     <scope_note>NRCan serial title.</scope_note>
   </dc-type>
   <dc-type>
-    <schema>nrcan</schema>
-    <element>serial</element>
-    <qualifier>issn</qualifier>
-    <scope_note>NRCan serial ISSN.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>serial</element>
+    <schema>dc</schema>
+    <element>identifier</element>
     <qualifier>issne</qualifier>
     <scope_note>NRCan serial ISSNE.</scope_note>
   </dc-type>
@@ -522,6 +521,12 @@
     <element>serial</element>
     <qualifier>url</qualifier>
     <scope_note>NRCan serial url.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>serial</element>
+    <qualifier>publisher</qualifier>
+    <scope_note>NRCan serial publisher.</scope_note>
   </dc-type>
   <dc-type>
     <schema>nrcan</schema>
@@ -609,6 +614,13 @@
     <element>author</element>
     <qualifier>isexternal</qualifier>
     <scope_note>Is this author external to NRCan</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>author</element>
+    <qualifier>firstname</qualifier>
+    <scope_note>First name of author</scope_note>
   </dc-type>
 
   <dc-type>
@@ -1162,6 +1174,99 @@
     <schema>relation</schema>
     <element>isPublicationOfMonographicAuthor</element>
     <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>identifier</element>
+    <qualifier>nrnuserid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>identifier</element>
+    <qualifier>cfsid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <!-- FOSRC Fields -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>title</element>
+    <qualifier>fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>title</element>
+    <qualifier>alternative-fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>provenance-fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>abstract-fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>contact-address</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>email-address</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>tableofcontents-fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>rights</element>
+    <qualifier>fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>rights</element>
+    <qualifier>license-fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>uri-home-page</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>uri-home-page-fosrctranslation</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
