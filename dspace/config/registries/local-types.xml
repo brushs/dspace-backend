@@ -558,6 +558,67 @@
     <scope_note></scope_note>
   </dc-type>
 
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>journal</element>
+    <qualifier>code</qualifier>
+    <scope_note>NRCan code for Journal.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>journal</element>
+    <qualifier>title</qualifier>
+    <scope_note>NRCan journal title.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>journal</element>
+    <qualifier>notes</qualifier>
+    <scope_note>NRCan journal notes.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>journal</element>
+    <qualifier>url</qualifier>
+    <scope_note>NRCan journal url.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>journal</element>
+    <qualifier>publisher</qualifier>
+    <scope_note>NRCan journal publisher.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>journal</element>
+    <qualifier>urlname</qualifier>
+    <scope_note>NRCan journal url name.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>relation</schema>
+    <element>isJournalOfPublication</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isJournalOfPublication</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfJournal</element>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>relation</schema>
+    <element>isPublicationOfJournal</element>
+    <qualifier>latestForDiscovery</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
   <dc-type>
     <schema>nrcan</schema>
     <element>contributor</element>

@@ -594,6 +594,26 @@
                 </field>
             </row>
             <row>
+                <relation-field>
+                    <relationship-type>isJournalOfPublication</relationship-type>
+                    <search-configuration>nrcanJournal</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Journal</label>
+                    <hint>Enter the journal's name.</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>journal</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                    <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
+                         your institution. The below regex requires a comma to be present in the author field.
+                         However, this is disabled by default to support organizations as authors, etc. -->
+                    <!--<regex>\w+(,)+\w+</regex>-->
+                </relation-field>
+            </row>
+            <row>
                 <field>
                     <dc-schema>nrcan</dc-schema>
                     <dc-element>edition</dc-element>
@@ -1635,6 +1655,90 @@
             </row>
         </form>
 
+        <form name="nrcanJournalStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>journal</dc-element>
+                    <dc-qualifier>code</dc-qualifier>
+                    <label>Journal Code</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the code of the serial</hint>
+                    <required>You must enter a code for this item.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Title</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the title of the serial</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>issn</dc-qualifier>
+                    <label>ISSN</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the ISSN of the serial</hint>
+                </field>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>issne</dc-qualifier>
+                    <label>ISSNE</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the ISSNE of the serial</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>uri</dc-qualifier>
+                    <label>URL</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the URL of the serial</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>journal</dc-element>
+                    <dc-qualifier>urlname</dc-qualifier>
+                    <label>URL Name</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the URL name of the serial</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>journal</dc-element>
+                    <dc-qualifier>notes</dc-qualifier>
+                    <label>Notes</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the Notes related to the serial</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>journal</dc-element>
+                    <dc-qualifier>publisher</dc-qualifier>
+                    <label>Journal Publisher</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the Publisher of the journal</hint>
+                </field>
+            </row>
+        </form>
+
         <!-- Form which defines the metadata page/section for depositing Journal Entities -->
         <form name="journalStep">
             <row>
@@ -1682,7 +1786,6 @@
                     <hint>Enter the publisher of the journal</hint>
                 </field>
             </row>
-
         </form>
 
         <!-- Form which defines the metadata page/section for depositing JournalVolume Entities -->

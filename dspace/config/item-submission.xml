@@ -68,6 +68,7 @@
         <name-map collection-handle="123456789/1848" submission-name="Serial"/>
         <name-map collection-handle="123456789/5241" submission-name="Publisher"/>
         <name-map collection-handle="123456789/5333" submission-name="Publication"/>
+        <name-map collection-handle="123456789/17366" submission-name="Journal"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
@@ -187,6 +188,11 @@
             <type>submission-form</type>
         </step-definition>
         <step-definition id="orgUnitStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="nrcanJournalStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -443,9 +449,7 @@
          -->
         <submission-process name="Journal">
             <step id="collection"/>
-            <step id="journalStep"/>
-            <step id="upload"/>
-            <step id="license"/>
+            <step id="nrcanJournalStep"/>
         </submission-process>
 
         <!--

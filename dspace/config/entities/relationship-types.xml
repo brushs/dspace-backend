@@ -259,6 +259,20 @@
 
     <type>
         <leftType>Publication</leftType>
+        <rightType>Journal</rightType>
+        <leftwardType>isJournalOfPublication</leftwardType>
+        <rightwardType>isPublicationOfJournal</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
         <rightType>Person</rightType>
         <leftwardType>isMonographicAuthorOfPublication</leftwardType>
         <rightwardType>isPublicationOfMonographicAuthor</rightwardType>
