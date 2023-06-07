@@ -4,12 +4,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" default-lazy-init="true">
 
     <bean name="org.dspace.storage.bitstore.BitstreamStorageService" class="org.dspace.storage.bitstore.BitstreamStorageServiceImpl">
-        <property name="incoming" value="0"/>
+        <property name="incoming" value="1"/>
         <property name="stores">
             <map>
                 <!--<entry key="0" value-ref="localStore"/> -->
                 <!--<entry key="1" value-ref="s3Store"/>-->
-                <entry key="0" value-ref="azureStore"/>
+                <entry key="0" value-ref="azureStoreGEOSCAN"/>
+                <entry key="1" value-ref="azureStoreCurrent"/>
+                <entry key="2" value-ref="azureStoreGEOSCANThumbs"/>
             </map>
         </property>
     </bean>
@@ -37,10 +39,26 @@
 
     <!-- <bean name="localStore2 ... -->
     <!-- <bean name="s3Store2 ... -->
-    <bean name="azureStore" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
+    <bean name="azureStoreCurrent" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
         <property name="connectionstring" value="${azure.storage.account}"/>
         <!-- container name to store assets in. example: longsight-dspace-auk -->
         <property name="containerName" value="dspace1"/>
+        <!-- Optional, default is root level of bucket -->
+        <!-- <property name="subfolder" value=""/> -->
+    </bean>
+
+    <bean name="azureStoreGEOSCAN" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
+        <property name="connectionstring" value="${azure.storage.account}"/>
+        <!-- container name to store assets in. example: longsight-dspace-auk -->
+        <property name="containerName" value="dspace0"/>
+        <!-- Optional, default is root level of bucket -->
+        <!-- <property name="subfolder" value=""/> -->
+    </bean>
+
+    <bean name="azureStoreGEOSCANThumbs" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
+        <property name="connectionstring" value="${azure.storage.account}"/>
+        <!-- container name to store assets in. example: longsight-dspace-auk -->
+        <property name="containerName" value="dspace2"/>
         <!-- Optional, default is root level of bucket -->
         <!-- <property name="subfolder" value=""/> -->
     </bean>
