@@ -355,7 +355,7 @@
             <row>
                 <relation-field>
                     <relationship-type>isCorporateAuthorOfPublication</relationship-type>
-                    <search-configuration>publisher</search-configuration>
+                    <search-configuration>corporateAuthor</search-configuration>
                     <repeatable>true</repeatable>
                     <label>Corporate Author</label>
                     <hint>Enter the corporate author's name.</hint>
@@ -489,7 +489,7 @@
             <row>
                 <relation-field>
                     <relationship-type>isMonoCorpAuthorOfPublication</relationship-type>
-                    <search-configuration>publisher</search-configuration>
+                    <search-configuration>corporateAuthor</search-configuration>
                     <repeatable>true</repeatable>
                     <label>Monographic Corporate Author</label>
                     <hint>Enter the corporate author's name.</hint>
@@ -1182,6 +1182,21 @@
                     <language value-pairs-name="gc_languages">true</language>
                     <input-type>onebox</input-type>
                     <hint>Enter the name of the publisher</hint>
+                </field>
+            </row>
+        </form>
+
+        <form name="corporateAuthorStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Name</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the corporate Author</hint>
                 </field>
             </row>
         </form>
