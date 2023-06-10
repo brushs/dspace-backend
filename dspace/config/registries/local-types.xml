@@ -665,6 +665,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>corpauthor</element>
+    <qualifier>migrationid</qualifier>
+    <scope_note>NRCan name to match for migration</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>area</element>
     <qualifier>migrationid</qualifier>
     <scope_note>NRCan name to match for migration</scope_note>
