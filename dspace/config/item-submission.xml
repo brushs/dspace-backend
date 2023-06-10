@@ -85,7 +85,7 @@
         <name-map collection-handle="123456789s/25" submission-name="Province"/>
         <name-map collection-handle="123456789s/5494" submission-name="Author"/>
         <name-map collection-handle="123456789s/21846" submission-name="Journal"/>
-        <name-map collection-handle="123456789/17366" submission-name="CorporateAuthor"/>
+        <name-map collection-handle="123456789s/25505" submission-name="CorporateAuthor"/>
 
         <!-- Prod Collections -->
         <name-map collection-handle="1845/6" submission-name="Country"/>
@@ -99,7 +99,7 @@
         <name-map collection-handle="1845/5997" submission-name="Author"/>
         <name-map collection-handle="1845/56908" submission-name="Journal"/>
         <name-map collection-handle="1845/60977" submission-name="Publication"/>
-        <name-map collection-handle="123456789/17366" submission-name="CorporateAuthor"/>
+        <name-map collection-handle="1845/72638" submission-name="CorporateAuthor"/>
 
     </submission-map>
 
