@@ -405,6 +405,8 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                             rightItem = item;
                         }
 
+                        log.info("Adding relationship");
+
                         // Create the relationship
                         Relationship persistedRelationship =
                             relationshipService.create(c, leftItem, rightItem, foundRelationshipType, -1, -1);
@@ -611,8 +613,8 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
             //        + " Key:" + metaKey + " Val:" + metaValue, e);
             return null;
         } catch (Exception e) {
-            log.warn("MIG_ERR_4 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
-                    + " Key:" + metaKey + " Val:" + metaValue);
+            log.warn("MIG_ERR_4 - Unknown exception - Item:" + c.getExtraLogInfo()
+                    + " Key:" + metaKey + " Val:" + metaValue + " Err:" + e.getMessage());
             //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
             //        + " Key:" + metaKey + " Val:" + metaValue, e);
             return null;
