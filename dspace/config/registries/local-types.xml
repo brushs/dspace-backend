@@ -1251,10 +1251,18 @@
     <qualifier>nrnuserid</qualifier>
     <scope_note></scope_note>
   </dc-type>
+
   <dc-type>
     <schema>nrcan</schema>
     <element>identifier</element>
     <qualifier>cfsid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>division</element>
+    <qualifier>migrationid</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
