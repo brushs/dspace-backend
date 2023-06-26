@@ -70,6 +70,7 @@
         <name-map collection-handle="123456789/5333" submission-name="Publication"/>
         <name-map collection-handle="123456789/17366" submission-name="Journal"/>
         <name-map collection-handle="123456789/21436" submission-name="CorporateAuthor"/>
+        <name-map collection-handle="123456789/21460" submission-name="Publication"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
