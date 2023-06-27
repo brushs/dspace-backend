@@ -1261,6 +1261,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>author</element>
+    <qualifier>cfsmigrationid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>division</element>
     <qualifier>migrationid</qualifier>
     <scope_note></scope_note>
