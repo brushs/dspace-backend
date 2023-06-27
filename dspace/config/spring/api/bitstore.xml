@@ -12,6 +12,7 @@
                 <entry key="0" value-ref="azureStoreGEOSCAN"/>
                 <entry key="1" value-ref="azureStoreCurrent"/>
                 <entry key="2" value-ref="azureStoreGEOSCANThumbs"/>
+                <entry key="3" value-ref="azureStoreCFSMigrated"/>
             </map>
         </property>
     </bean>
@@ -59,6 +60,14 @@
         <property name="connectionstring" value="${azure.storage.account}"/>
         <!-- container name to store assets in. example: longsight-dspace-auk -->
         <property name="containerName" value="dspace2"/>
+        <!-- Optional, default is root level of bucket -->
+        <!-- <property name="subfolder" value=""/> -->
+    </bean>
+    
+    <bean name="azureStoreCFSMigrated" class="org.dspace.storage.bitstore.AzureBitStoreService" scope="singleton">
+        <property name="connectionstring" value="${azure.storage.account}"/>
+        <!-- container name to store assets in. example: longsight-dspace-auk -->
+        <property name="containerName" value="dspace3"/>
         <!-- Optional, default is root level of bucket -->
         <!-- <property name="subfolder" value=""/> -->
     </bean>
