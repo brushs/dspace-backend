@@ -1273,6 +1273,13 @@
     <scope_note></scope_note>
   </dc-type>
 
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>journal</element>
+    <qualifier>migrationid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
   <!-- FOSRC Fields -->
   <dc-type>
     <schema>dc</schema>
