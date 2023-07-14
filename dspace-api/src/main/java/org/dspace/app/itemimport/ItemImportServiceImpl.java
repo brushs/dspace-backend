@@ -597,12 +597,15 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                 MetadataValue mdvVal = mdv.next();
                 UUID uuid = mdvVal.getDSpaceObject().getID();
                 String lang = mdvVal.getLanguage();
-                if (mdv.hasNext() && (mdv.next().getLanguage() == null || mdv.next().getLanguage().equals(lang))) {
-                    log.warn("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
-                            + " Key:" + metaKey + " Val:" + metaValue);
-                    //throw new Exception("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
-                    //        + " Key:" + metaKey + " Val:" + metaValue);
-                    return null;
+                if (mdv.hasNext()) {
+                    mdvVal = mdv.next();
+                    if (mdvVal.getLanguage() == null || mdvVal.getLanguage().equals(lang)) {
+                        log.warn("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                                + " Key:" + metaKey + " Val:" + metaValue);
+                        //throw new Exception("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                        //        + " Key:" + metaKey + " Val:" + metaValue);
+                        return null;
+                    }
                 }
                 item = itemService.find(c, uuid);
             }
@@ -614,7 +617,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
             return null;
         } catch (Exception e) {
             log.warn("MIG_ERR_4 - Unknown exception - Item:" + c.getExtraLogInfo()
-                    + " Key:" + metaKey + " Val:" + metaValue + " Err:" + e.getMessage());
+                    + " Key:" + metaKey + " Val:" + metaValue + " Err:" + e.toString() + ": " + e.getLocalizedMessage());
             //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
             //        + " Key:" + metaKey + " Val:" + metaValue, e);
             return null;
