@@ -208,11 +208,12 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
+                <ref bean="searchFilterType"/>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
-                <ref bean="searchFilterContentInOriginalBundle"/>
-                <ref bean="searchFilterEntityType"/>
+                <!--<ref bean="searchFilterContentInOriginalBundle"/>
+                <ref bean="searchFilterEntityType"/> -->
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -220,6 +221,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterType"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
@@ -1147,6 +1149,7 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
+                <ref bean="searchFilterType" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
@@ -1163,6 +1166,7 @@
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterType" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
