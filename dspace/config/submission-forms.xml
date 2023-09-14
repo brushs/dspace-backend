@@ -466,6 +466,7 @@
                         <dc-qualifier>author</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
+                    <type-bind>Book chapter</type-bind>
                     <externalsources>orcid</externalsources>
                     <required></required>
                     <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
@@ -481,6 +482,7 @@
                     <dc-qualifier>title</dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>Monographic Title</label>
+                    <type-bind>Book chapter</type-bind>
                     <input-type>onebox</input-type>
                     <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter the monographic title related to the item.</hint>
@@ -499,6 +501,7 @@
                         <dc-qualifier>corporateauthor</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
+                    <type-bind>Book chapter</type-bind>
                     <required></required>
                     <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
                          your institution. The below regex requires a comma to be present in the author field.
