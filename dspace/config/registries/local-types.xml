@@ -182,6 +182,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>meeting</element>
+    <qualifier>place</qualifier>
+    <scope_note>The place where the meeting took place.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>summary</element>
     <qualifier></qualifier>
     <scope_note>Plain language summary of resource.</scope_note>
