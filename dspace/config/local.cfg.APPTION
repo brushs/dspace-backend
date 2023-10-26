@@ -59,7 +59,7 @@ azure.storage.account = @storage-account@
 # Solr server/webapp.
 # DSpace uses Solr for all search/browse capability (and for usage statistics).
 # Since DSpace 7, SOLR must be installed as a stand-alone service
-solr.server = http://dspacesolr.eastus.cloudapp.azure.com:8983/solr
+solr.server = http://dspacesolrsteve2.azurewebsites.net/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
