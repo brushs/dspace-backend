@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Technologies Online Tools 1.0 (https://www.liquid-technologies.com) -->
+<xs:schema xmlns:jats="http://www.ncbi.nlm.nih.gov/JATS1" xmlns:ai="http://www.crossref.org/AccessIndicators.xsd" xmlns:fr="http://www.crossref.org/fundref.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mml="http://www.w3.org/1998/Math/MathML" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.crossref.org/schema/5.3.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="schema1.xsd" namespace="http://www.ncbi.nlm.nih.gov/JATS1" />
+  <xs:import schemaLocation="schema2.xsd" namespace="http://www.crossref.org/AccessIndicators.xsd" />
+  <xs:element name="doi_batch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="head">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="doi_batch_id" type="xs:unsignedLong" />
+              <xs:element name="timestamp" type="xs:unsignedLong" />
+              <xs:element name="depositor">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="depositor_name" type="xs:string" />
+                    <xs:element name="email_address" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="registrant" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="body">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="report-paper">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="report-paper_metadata">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="contributors">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="person_name">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="given_name" type="xs:string" />
+                                      <xs:element name="surname" type="xs:string" />
+                                      <xs:element minOccurs="0" name="affiliations">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="institution">
+                                              <xs:complexType>
+                                                <xs:sequence>
+                                                  <xs:element name="institution_name" type="xs:string" />
+                                                  <xs:element name="institution_id">
+                                                    <xs:complexType>
+                                                      <xs:simpleContent>
+                                                        <xs:extension base="xs:string">
+                                                          <xs:attribute name="type" type="xs:string" use="required" />
+                                                        </xs:extension>
+                                                      </xs:simpleContent>
+                                                    </xs:complexType>
+                                                  </xs:element>
+                                                </xs:sequence>
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element minOccurs="0" name="ORCID">
+                                        <xs:complexType>
+                                          <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                              <xs:attribute name="authenticated" type="xs:boolean" use="required" />
+                                            </xs:extension>
+                                          </xs:simpleContent>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="sequence" type="xs:string" use="required" />
+                                    <xs:attribute name="contributor_role" type="xs:string" use="required" />
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element minOccurs="0" name="organization">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute name="sequence" type="xs:string" use="required" />
+                                        <xs:attribute name="contributor_role" type="xs:string" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="titles">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" name="edition_number" type="xs:string" />
+                          <xs:element minOccurs="0" maxOccurs="unbounded" ref="jats:abstract" />
+                          <xs:element name="publication_date">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="year" type="xs:unsignedShort" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" name="publisher_item">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="item_number">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:unsignedShort">
+                                        <xs:attribute name="item_number_type" type="xs:string" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element ref="ai:program" />
+                          <xs:element name="doi_data">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="doi" type="xs:string" />
+                                <xs:element name="resource" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="language" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

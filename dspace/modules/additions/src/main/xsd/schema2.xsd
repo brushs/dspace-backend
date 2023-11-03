@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Technologies Online Tools 1.0 (https://www.liquid-technologies.com) -->
+<xs:schema xmlns:tns="http://www.crossref.org/AccessIndicators.xsd" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.crossref.org/AccessIndicators.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="program">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="free_to_read">
+          <xs:complexType>
+            <xs:attribute name="start_date" type="xs:date" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="license_ref">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="applies_to" type="xs:string" use="required" />
+                <xs:attribute name="start_date" type="xs:date" use="required" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

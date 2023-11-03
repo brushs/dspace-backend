@@ -250,3 +250,13 @@ authentication-oidc.client-id = 9afcdc44-1ff7-4e32-880b-82867957094f
 
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
 
+# Credentials used to authenticate against the registration agency:
+identifier.doi.user = username
+identifier.doi.password = password
+
+# URL for the DOI resolver.  This will be the stem for generated DOIs.
+#identifier.doi.resolver = https://doi.org
+
+# DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
+# The Prefix will be assigned by the registration agency.
+identifier.doi.prefix = 10.5072

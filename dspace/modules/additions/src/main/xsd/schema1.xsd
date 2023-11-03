@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Technologies Online Tools 1.0 (https://www.liquid-technologies.com) -->
+<xs:schema xmlns:tns="http://www.ncbi.nlm.nih.gov/JATS1" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.ncbi.nlm.nih.gov/JATS1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="schema3.xsd" namespace="http://www.w3.org/XML/1998/namespace" />
+  <xs:element name="abstract">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="p">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute ref="xml:lang" use="required" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
