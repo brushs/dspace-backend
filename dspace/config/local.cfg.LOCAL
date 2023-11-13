@@ -263,3 +263,4 @@ identifier.doi.prefix = 10.5072
 
 # Hidden metadata fields
 metadata.hide.relation.isPublicationOfProvince = true
+metadata.hide.relation.isPublicationOfProvince.latestForDiscovery = true

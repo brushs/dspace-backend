@@ -254,3 +254,4 @@ plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authen
 
 # Hidden metadata fields
 metadata.hide.relation.isPublicationOfProvince = true
+metadata.hide.relation.isPublicationOfProvince.latestForDiscovery = true
