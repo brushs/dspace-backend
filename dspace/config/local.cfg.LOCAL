@@ -260,3 +260,6 @@ identifier.doi.password = password
 # DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
 # The Prefix will be assigned by the registration agency.
 identifier.doi.prefix = 10.5072
+
+# Hidden metadata fields
+metadata.hide.dc.description.provenance = true

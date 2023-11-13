@@ -251,3 +251,6 @@ authentication-oidc.user-info-endpoint = https://graph.microsoft.com/oidc/userin
 authentication-oidc.client-id = cf5caf73-e383-4240-88c1-a4be1593deb4
 
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
+
+# Hidden metadata fields
+metadata.hide.dc.description.provenance = true
