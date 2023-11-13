@@ -253,4 +253,4 @@ authentication-oidc.client-id = d7aec069-d768-4008-b0fa-88b70e09cd60
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
 
 # Hidden metadata fields
-metadata.hide.dc.description.provenance = true
+metadata.hide.relation.isPublicationOfProvince = true

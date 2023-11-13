@@ -198,6 +198,7 @@
                     <list>
                         <value>dc.description.provenance</value>
                         <value>relation.isPublicationOfProvince</value>
+                        <value>relation.isPublicationOfProvince.latestForDiscovery</value>
                     </list>
                 </entry>
             </map>

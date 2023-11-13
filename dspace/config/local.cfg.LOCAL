@@ -262,4 +262,4 @@ identifier.doi.password = password
 identifier.doi.prefix = 10.5072
 
 # Hidden metadata fields
-metadata.hide.dc.description.provenance = true
+metadata.hide.relation.isPublicationOfProvince = true
