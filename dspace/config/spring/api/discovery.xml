@@ -197,6 +197,7 @@
                     <key><util:constant static-field="org.dspace.core.Constants.ITEM"/></key>
                     <list>
                         <value>dc.description.provenance</value>
+                        <value>relation.isPublicationOfProvince</value>
                     </list>
                 </entry>
             </map>
@@ -1339,6 +1340,7 @@
                         <ref bean="sortGivenName"/>
                         <ref bean="sortBirthDate"/>
                         <ref bean="sortDateAccessioned"/>
+                        <ref bean="sortLastModified"/>
                     </list>
                 </property>
             </bean>
