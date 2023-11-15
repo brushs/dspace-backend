@@ -61,7 +61,7 @@ azure.storage.account = @storage-account@
 # Since DSpace 7, SOLR must be installed as a stand-alone service
 # This is set by the App Service, but because the DSpace command line
 # doesn't use those settings it is also set here
-solr.server = https://dspacesandboxsolr.azurewebsites.net/solr
+solr.server = https://ostr-solr.azure.cloud.nrcan-rncan.gc.ca/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
