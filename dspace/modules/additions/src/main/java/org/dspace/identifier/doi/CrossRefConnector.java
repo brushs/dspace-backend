@@ -9,21 +9,24 @@ package org.dspace.identifier.doi;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.DSpaceObject;
@@ -48,13 +51,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Pascal-Nicolas Becker
@@ -69,6 +70,8 @@ public class CrossRefConnector
     static final String CFG_PASSWORD = "identifier.doi.password";
     static final String CFG_PREFIX
         = "identifier.doi.prefix";
+    static final String CFG_URL
+            = "identifier.doi.url";
     static final String CFG_PUBLISHER
         = "crosswalk.dissemination.DataCite.publisher";
     static final String CFG_DATAMANAGER
@@ -78,22 +81,6 @@ public class CrossRefConnector
     static final String CFG_NAMESPACE
         = "crosswalk.dissemination.DataCite.namespace";
 
-    /**
-     * Stores the scheme used to connect to the DataCite server. It will be set
-     * by spring dependency injection.
-     */
-    protected String SCHEME;
-    /**
-     * Stores the hostname of the DataCite server. Set by spring dependency
-     * injection.
-     */
-    protected String HOST;
-
-    /**
-     * Path on the DataCite server used to generate DOIs. Set by spring
-     * dependency injection.
-     */
-    protected String DOI_PATH;
     /**
      * Path on the DataCite server used to register metadata. Set by spring
      * dependency injection.
@@ -116,6 +103,8 @@ public class CrossRefConnector
 
     protected String USERNAME;
     protected String PASSWORD;
+    protected String URL;
+
     @Autowired
     protected HandleService handleService;
 
@@ -123,66 +112,8 @@ public class CrossRefConnector
         this.xwalk = null;
         this.USERNAME = null;
         this.PASSWORD = null;
+        this.URL = null;
     }
-
-    /**
-     * Used to set the scheme to connect the DataCite server. Used by spring
-     * dependency injection.
-     *
-     * @param DATACITE_SCHEME Probably https or http.
-     */
-    @Autowired(required = true)
-    public void setDATACITE_SCHEME(String DATACITE_SCHEME) {
-        this.SCHEME = DATACITE_SCHEME;
-    }
-
-    /**
-     * Set the hostname of the DataCite server. Used by spring dependency
-     * injection.
-     *
-     * @param DATACITE_HOST Hostname to connect to register DOIs (f.e. test.datacite.org).
-     */
-    @Autowired(required = true)
-    public void setDATACITE_HOST(String DATACITE_HOST) {
-        this.HOST = DATACITE_HOST;
-    }
-
-    /**
-     * Set the path on the DataCite server to register DOIs. Used by spring
-     * dependency injection.
-     *
-     * @param DATACITE_DOI_PATH Path to register DOIs, f.e. /doi.
-     */
-    @Autowired(required = true)
-    public void setDATACITE_DOI_PATH(String DATACITE_DOI_PATH) {
-        if (!DATACITE_DOI_PATH.startsWith("/")) {
-            DATACITE_DOI_PATH = "/" + DATACITE_DOI_PATH;
-        }
-        if (!DATACITE_DOI_PATH.endsWith("/")) {
-            DATACITE_DOI_PATH = DATACITE_DOI_PATH + "/";
-        }
-
-        this.DOI_PATH = DATACITE_DOI_PATH;
-    }
-
-    /**
-     * Set the path to register metadata on DataCite server. Used by spring
-     * dependency injection.
-     *
-     * @param DATACITE_METADATA_PATH Path to register metadata, f.e. /mds.
-     */
-    @Autowired(required = true)
-    public void setDATACITE_METADATA_PATH(String DATACITE_METADATA_PATH) {
-        if (!DATACITE_METADATA_PATH.startsWith("/")) {
-            DATACITE_METADATA_PATH = "/" + DATACITE_METADATA_PATH;
-        }
-        if (!DATACITE_METADATA_PATH.endsWith("/")) {
-            DATACITE_METADATA_PATH = DATACITE_METADATA_PATH + "/";
-        }
-
-        this.METADATA_PATH = DATACITE_METADATA_PATH;
-    }
-
 
     @Autowired(required = true)
     public void setConfigurationService(ConfigurationService configurationService) {
@@ -241,13 +172,24 @@ public class CrossRefConnector
         return this.PASSWORD;
     }
 
+    protected String getUrl() {
+        if (null == this.URL) {
+            this.URL = this.configurationService.getProperty(CFG_URL);
+            if (null == this.URL) {
+                throw new RuntimeException("Unable to load url from "
+                        + "configuration. Cannot find property " +
+                        CFG_URL + ".");
+            }
+        }
+        return this.URL;
+    }
 
     @Override
     public boolean isDOIReserved(Context context, String doi)
         throws DOIIdentifierException {
         // get mds/metadata/<doi>
-        DataCiteResponse resp = this.sendMetadataGetRequest(doi);
-
+        CrossRefResponse resp = this.sendMetadataGetRequest(doi);
+        log.info("isDOIReserved");
         switch (resp.getStatusCode()) {
             // 200 -> reserved
             // if (200 && dso != null) -> compare url (out of response-content) with dso
@@ -284,7 +226,9 @@ public class CrossRefConnector
     @Override
     public boolean isDOIRegistered(Context context, String doi)
         throws DOIIdentifierException {
-        DataCiteResponse response = sendDOIGetRequest(doi);
+
+        log.info("isDOIRegistered");
+        CrossRefResponse response = sendDOIGetRequest(doi);
 
         switch (response.getStatusCode()) {
             // status code 200 means the doi is reserved and registered
@@ -323,7 +267,7 @@ public class CrossRefConnector
         }
 
         // delete mds/metadata/<doi>
-        DataCiteResponse resp = this.sendMetadataDeleteRequest(doi);
+        CrossRefResponse resp = this.sendMetadataDeleteRequest(doi);
         switch (resp.getStatusCode()) {
             //ok
             case (200): {
@@ -351,7 +295,7 @@ public class CrossRefConnector
     public void reserveDOI(Context context, DSpaceObject dso, String doi)
         throws DOIIdentifierException {
         this.prepareXwalk();
-
+        log.info("registerDOI");
         DSpaceObjectService<DSpaceObject> dSpaceObjectService = ContentServiceFactory.getInstance()
                                                                                      .getDSpaceObjectService(dso);
 
@@ -430,7 +374,7 @@ public class CrossRefConnector
         }
 
         // send metadata as post to mds/metadata
-        DataCiteResponse resp = this.sendMetadataPostRequest(doi, root);
+        CrossRefResponse resp = this.sendMetadataPostRequest(doi, root);
 
         switch (resp.getStatusCode()) {
             // 201 -> created / ok
@@ -466,19 +410,14 @@ public class CrossRefConnector
     public void registerDOI(Context context, DSpaceObject dso, String doi)
         throws DOIIdentifierException {
         // DataCite wants us to reserve a DOI before we can register it
-        if (!this.isDOIReserved(context, doi)) {
-            // the DOIIdentifierProvider should catch and handle this
-            throw new DOIIdentifierException("You need to reserve a DOI "
-                                                 + "before you can register it.",
-                                             DOIIdentifierException.RESERVE_FIRST);
-        }
+        log.info("registerDOI");
 
         // send doi=<doi>\nurl=<url> to mds/doi
-        DataCiteResponse resp = null;
+        CrossRefResponse resp = null;
         try {
             resp = this.sendDOIPostRequest(doi,
                                            handleService.resolveToURL(context, dso.getHandle()));
-        } catch (SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             log.error("Caught SQL-Exception while resolving handle to URL: "
                           + e.getMessage());
             throw new RuntimeException(e);
@@ -529,36 +468,81 @@ public class CrossRefConnector
         this.reserveDOI(context, dso, doi);
     }
 
-    protected DataCiteResponse sendDOIPostRequest(String doi, String url)
-        throws DOIIdentifierException {
+    protected CrossRefResponse sendDOIPostRequest(String doi, String url)
+            throws DOIIdentifierException, URISyntaxException {
+        log.info("sendDOIPostRequest");
         // post mds/doi/
         // body must contaion "doi=<doi>\nurl=<url>}n"
-        URIBuilder uribuilder = new URIBuilder();
-        uribuilder.setScheme(SCHEME).setHost(HOST).setPath(DOI_PATH);
-
+        //URI uri = new URI(this.URL);
+        //uribuilder.setScheme("https").setHost(HOST).setPath(DOI_PATH);
+/*
         HttpPost httppost = null;
         try {
-            httppost = new HttpPost(uribuilder.build());
-        } catch (URISyntaxException e) {
+            httppost = new HttpPost(uri);
+        } catch (Exception e) {
             log.error("The URL we constructed to check a DOI "
                           + "produced a URISyntaxException. Please check the configuration parameters!");
-            log.error("The URL was {}.", SCHEME + "://" + HOST +
-                DOI_PATH + "/" + doi.substring(DOI.SCHEME.length()));
+            log.error("The URL was {}.", this.URL);
             throw new RuntimeException("The URL we constructed to check a DOI "
                                            + "produced a URISyntaxException. Please check the configuration " +
                                            "parameters!",
                                        e);
         }
-
+*/
         // assemble request content:
         HttpEntity reqEntity = null;
         try {
+            /*
             String req = "doi=" + doi.substring(DOI.SCHEME.length()) + "\n" + "url=" + url + "\n";
             ContentType contentType = ContentType.create("text/plain", "UTF-8");
             reqEntity = new StringEntity(req, contentType);
-            httppost.setEntity(reqEntity);
 
-            return sendHttpRequest(httppost, doi);
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("login_id", this.USERNAME));
+            params.add(new BasicNameValuePair("login_pw", this.PASSWORD));
+            params.add(new BasicNameValuePair("operation", "doMDUpload"));
+            httppost.setEntity(new UrlEncodedFormEntity(params));
+*/
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            log.info("URL: " + getUrl());
+            HttpPost uploadFile = new HttpPost(getUrl());
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody("operation", "doMDUpload", ContentType.TEXT_PLAIN);
+            builder.addTextBody("login_id", getUsername(), ContentType.TEXT_PLAIN);
+            builder.addTextBody("login_passwd", getPassword(), ContentType.TEXT_PLAIN);
+
+            // This attaches the file to the POST:
+            File f = new File("C:\\dspace\\crossref1.xml");
+            builder.addBinaryBody(
+                    "fname",
+                    new FileInputStream(f),
+                    ContentType.APPLICATION_OCTET_STREAM,
+                    f.getName()
+            );
+
+            HttpEntity multipart = builder.build();
+            uploadFile.setEntity(multipart);
+            CloseableHttpResponse response = httpClient.execute(uploadFile);
+            HttpEntity responseEntity = response.getEntity();
+            log.info(responseEntity.toString());
+            log.info(EntityUtils.toString(response.getEntity()));
+            //EntityUtils.consume(httpResponse.getEntity());
+            CrossRefResponse crossRefResponse = new CrossRefResponse(response.getStatusLine().getStatusCode(),
+                    responseEntity.toString());
+
+            return crossRefResponse;
+
+            //return sendHttpRequest(httppost, doi);
+        } catch (UnsupportedEncodingException e) {
+            log.error("Caught an Exception while releasing a HTTPEntity:"
+                    + e.getMessage());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             // release resources
             try {
@@ -568,12 +552,14 @@ public class CrossRefConnector
                              + ioe.getMessage());
             }
         }
+        return null;
     }
 
 
-    protected DataCiteResponse sendMetadataDeleteRequest(String doi)
+    protected CrossRefResponse sendMetadataDeleteRequest(String doi)
         throws DOIIdentifierException {
         // delete mds/metadata/<doi>
+        /*
         URIBuilder uribuilder = new URIBuilder();
         uribuilder.setScheme(SCHEME).setHost(HOST).setPath(METADATA_PATH
                                                                + doi.substring(DOI.SCHEME.length()));
@@ -592,20 +578,24 @@ public class CrossRefConnector
                                        e);
         }
         return sendHttpRequest(httpdelete, doi);
+
+         */
+        return null;
     }
 
-    protected DataCiteResponse sendDOIGetRequest(String doi)
+    protected CrossRefResponse sendDOIGetRequest(String doi)
         throws DOIIdentifierException {
-        return sendGetRequest(doi, DOI_PATH);
+        return null;
     }
 
-    protected DataCiteResponse sendMetadataGetRequest(String doi)
+    protected CrossRefResponse sendMetadataGetRequest(String doi)
         throws DOIIdentifierException {
-        return sendGetRequest(doi, METADATA_PATH);
+        return null;
     }
 
-    protected DataCiteResponse sendGetRequest(String doi, String path)
+    protected CrossRefResponse sendGetRequest(String doi, String path)
         throws DOIIdentifierException {
+        /*
         URIBuilder uribuilder = new URIBuilder();
         uribuilder.setScheme(SCHEME).setHost(HOST).setPath(path
                                                                + doi.substring(DOI.SCHEME.length()));
@@ -624,9 +614,11 @@ public class CrossRefConnector
                                        e);
         }
         return sendHttpRequest(httpget, doi);
+        */
+        return null;
     }
 
-    protected DataCiteResponse sendMetadataPostRequest(String doi, Element metadataRoot)
+    protected CrossRefResponse sendMetadataPostRequest(String doi, Element metadataRoot)
         throws DOIIdentifierException {
         Format format = Format.getCompactFormat();
         format.setEncoding("UTF-8");
@@ -634,10 +626,11 @@ public class CrossRefConnector
         return sendMetadataPostRequest(doi, xout.outputString(new Document(metadataRoot)));
     }
 
-    protected DataCiteResponse sendMetadataPostRequest(String doi, String metadata)
+    protected CrossRefResponse sendMetadataPostRequest(String doi, String metadata)
         throws DOIIdentifierException {
         // post mds/metadata/
         // body must contain metadata in DataCite-XML.
+        /*
         URIBuilder uribuilder = new URIBuilder();
         uribuilder.setScheme(SCHEME).setHost(HOST).setPath(METADATA_PATH);
 
@@ -672,6 +665,8 @@ public class CrossRefConnector
                              + ioe.getMessage());
             }
         }
+        */
+        return null;
     }
 
     /**
@@ -683,14 +678,15 @@ public class CrossRefConnector
      * @return response from DataCite
      * @throws DOIIdentifierException if DOI error
      */
-    protected DataCiteResponse sendHttpRequest(HttpUriRequest req, String doi)
+    protected CrossRefResponse sendHttpRequest(HttpUriRequest req, String doi)
         throws DOIIdentifierException {
+        /*
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(new AuthScope(HOST, 443),
                 new UsernamePasswordCredentials(this.getUsername(), this.getPassword()));
-
+*/
         HttpClientContext httpContext = HttpClientContext.create();
-        httpContext.setCredentialsProvider(credentialsProvider);
+//        httpContext.setCredentialsProvider(credentialsProvider);
 
         HttpEntity entity = null;
         try ( CloseableHttpClient httpclient = HttpClientBuilder.create().build(); ) {
@@ -779,7 +775,7 @@ public class CrossRefConnector
             }
 
 
-            return new DataCiteResponse(statusCode, content);
+            return new CrossRefResponse(statusCode, content);
         } catch (IOException e) {
             log.warn("Caught an IOException: " + e.getMessage());
             throw new RuntimeException(e);
@@ -848,11 +844,11 @@ public class CrossRefConnector
         return root.addContent(0, identifier);
     }
 
-    protected class DataCiteResponse {
+    protected class CrossRefResponse {
         private final int statusCode;
         private final String content;
 
-        protected DataCiteResponse(int statusCode, String content) {
+        protected CrossRefResponse(int statusCode, String content) {
             this.statusCode = statusCode;
             this.content = content;
         }
