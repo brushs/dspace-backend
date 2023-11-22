@@ -86,7 +86,7 @@ db.dialect = org.hibernate.dialect.PostgreSQL94Dialect
 
 # Database username and password
 db.username = dspace
-db.password = dspace
+db.password = *****
 
 # Database Schema name
 #    * For Postgres, this is often "public" (default schema)
@@ -236,6 +236,9 @@ db.schema = public
 # Maximum size of a multipart request (i.e. max total size of all files in one request)
 #spring.servlet.multipart.max-request-size = 512MB
 
+# The registered client secret
+authentication-oidc.client-secret=*****
+
 # The URL of the Token endpoint
 authentication-oidc.token-endpoint = https://login.microsoftonline.com/cebd5e62-1ccb-4888-8f5f-5d1dda653395/oauth2/v2.0/token
 
@@ -252,7 +255,7 @@ plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authen
 
 # Credentials used to authenticate against the registration agency:
 identifier.doi.user = nrcan
-identifier.doi.password = password
+identifier.doi.password = *****
 
 # URL for the DOI resolver.  This will be the stem for generated DOIs.
 #identifier.doi.resolver = https://doi.org
@@ -260,8 +263,13 @@ identifier.doi.password = password
 # DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
 # The Prefix will be assigned by the registration agency.
 identifier.doi.prefix = 10.4095
-
+identifier.doi.namespaceseparator =
 identifier.doi.url = https://test.crossref.org/servlet/deposit
+
+crossref.version=5.3.0
+crossref.registrant=Natural Resources Canada
+crossref.depositor.name=OSTR Team
+crossref.depositor.email=*****
 
 # Hidden metadata fields
 metadata.hide.relation.isPublicationOfProvince = true

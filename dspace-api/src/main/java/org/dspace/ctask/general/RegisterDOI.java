@@ -30,7 +30,7 @@ public class RegisterDOI extends AbstractCurationTask {
     // Curation task status
     private int status = Curator.CURATE_SUCCESS;
     // The skipFilter boolean has a default value of 'true', as per intended operation
-    private boolean skipFilter = true;
+    private boolean skipFilter = false;
     // The distributed boolean has a default value of 'false' for safest operation
     private boolean distributed = false;
     // Prefix for configuration module
@@ -47,7 +47,7 @@ public class RegisterDOI extends AbstractCurationTask {
     public void init(Curator curator, String taskId) throws IOException {
         super.init(curator, taskId);
         // Get 'skip filter' behaviour from configuration, with a default value of 'true'
-        skipFilter = configurationService.getBooleanProperty(PLUGIN_PREFIX + ".skip-filter", true);
+        skipFilter = configurationService.getBooleanProperty(PLUGIN_PREFIX + ".skip-filter", false);
         // Get distribution behaviour from configuration, with a default value of 'false'
         distributed = configurationService.getBooleanProperty(PLUGIN_PREFIX + ".distributed", false);
         log.debug("PLUGIN_PREFIX = " + PLUGIN_PREFIX + ", skipFilter = " + skipFilter +

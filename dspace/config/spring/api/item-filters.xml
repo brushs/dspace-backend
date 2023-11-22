@@ -94,8 +94,8 @@
           class="org.dspace.content.logic.condition.MetadataValueMatchCondition">
         <property name="parameters">
             <map>
-                <entry key="field" value="dc.identifier.uri" />
-                <entry key="pattern" value="10.12345/" />
+                <entry key="field" value="dc.identifier.doi" />
+                <entry key="pattern" value=".*" />
             </map>
         </property>
     </bean>
@@ -203,6 +203,8 @@
                         </bean>
                         <!-- Create DOIs for items only that do have at least one bitstream. -->
                         <ref bean="has-at-least-one-bitstream_condition"/>
+                        <ref bean="has-doi-suffix_condition"/>
+                        <ref bean="has-doi-eligible-set_condition"/>
                     </list>
                 </property>
             </bean>
@@ -335,5 +337,30 @@
         </property>
     </bean>
 
+    <!--
+         A filter that checks if any value of dc.identifier.uri contains "10.12345/".
+    -->
+    <bean id="has-doi-suffix_condition"
+          class="org.dspace.content.logic.condition.MetadataValueMatchCondition">
+        <property name="parameters">
+            <map>
+                <entry key="field" value="nrcan.doi.suffix" />
+                <entry key="pattern" value=".*" />
+            </map>
+        </property>
+    </bean>
+
+    <!--
+     A filter that checks if any value of dc.identifier.uri contains "10.12345/".
+-->
+    <bean id="has-doi-eligible-set_condition"
+          class="org.dspace.content.logic.condition.MetadataValueMatchCondition">
+        <property name="parameters">
+            <map>
+                <entry key="field" value="nrcan.doi.eligible" />
+                <entry key="pattern" value="Y" />
+            </map>
+        </property>
+    </bean>
 
 </beans>

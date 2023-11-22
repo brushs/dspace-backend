@@ -81,6 +81,7 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
     public static final Integer UPDATE_BEFORE_REGISTRATION = 7;
     public static final Integer TO_BE_DELETED = 8;
     public static final Integer DELETED = 9;
+    public static final Integer PENDING = 10;
 
     @Autowired(required = true)
     protected DOIService doiService;
@@ -451,7 +452,8 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
             }
         }
 
-        // safe DOI as metadata of the item
+        // save DOI as metadata of the item
+        /* We don't do this for CrossRef
         try {
             saveDOIToObject(context, dso, doi);
         } catch (AuthorizeException ae) {
@@ -459,8 +461,9 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         }
+        */
 
-        doiRow.setStatus(IS_REGISTERED);
+        doiRow.setStatus(PENDING);
         doiService.update(context, doiRow);
     }
 
@@ -1012,7 +1015,7 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
 
             doi = doiService.create(context);
             doiIdentifier = this.getPrefix() + "/" + this.getNamespaceSeparator() +
-                doi.getID();
+                itemService.getMetadataFirstValue((Item) dso, "nrcan", "doi", "suffix", null);
         }
 
         // prepare new doiRow
