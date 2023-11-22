@@ -58,6 +58,15 @@ stages:
         Contents: crossref_password.txt
         targetFolder: '$(Build.SourcesDirectory)'
 
+    - task: CmdLine@2
+      inputs:
+        script: 'echo $(crossref-email) > crossref_email.txt'
+
+    - task: CopyFiles@2
+      inputs:
+        Contents: crossref_email.txt
+        targetFolder: '$(Build.SourcesDirectory)'
+
     - task: Docker@2
       displayName: Build
       inputs:
