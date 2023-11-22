@@ -84,7 +84,7 @@ public class DOIOrganiser {
      * @param args  - the command line arguments to parse as parameters
      */
     public static void main(String[] args) {
-        LOG.debug("Starting DOI organiser ");
+        LOG.info("Starting DOI organiser ");
 
         // setup Context
         Context context = new Context();
@@ -236,6 +236,7 @@ public class DOIOrganiser {
                     System.err.println("There are no objects in the database "
                                            + "that could be registered.");
                 }
+                LOG.info("DOI Loop");
                 for (DOI doi : dois) {
                     organiser.register(doi);
                     context.uncacheEntity(doi);
@@ -399,6 +400,9 @@ public class DOIOrganiser {
      * @throws DOIIdentifierException
      */
     public void register(DOI doiRow, boolean skipFilter) throws SQLException, DOIIdentifierException {
+
+        LOG.info("register");
+
         DSpaceObject dso = doiRow.getDSpaceObject();
         if (Constants.ITEM != dso.getType()) {
             throw new IllegalArgumentException("Currenty DSpace supports DOIs for Items only.");

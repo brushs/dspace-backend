@@ -1294,6 +1294,19 @@
     <scope_note></scope_note>
   </dc-type>
 
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>doi</element>
+    <qualifier>suffix</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>doi</element>
+    <qualifier>eligible</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
   <!-- FOSRC Fields -->
   <dc-type>
     <schema>dc</schema>

@@ -81,6 +81,7 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
     public static final Integer UPDATE_BEFORE_REGISTRATION = 7;
     public static final Integer TO_BE_DELETED = 8;
     public static final Integer DELETED = 9;
+    public static final Integer PENDING = 10;
 
     @Autowired(required = true)
     protected DOIService doiService;
@@ -232,6 +233,9 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
     @Override
     public String register(Context context, DSpaceObject dso, boolean skipFilter)
         throws IdentifierException {
+
+        log.info("register");
+
         if (!(dso instanceof Item)) {
             // DOI are currently assigned only to Item
             return null;
@@ -324,6 +328,9 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
     @Override
     public void reserve(Context context, DSpaceObject dso, String identifier, boolean skipFilter)
         throws IdentifierException, IllegalArgumentException {
+
+        log.info("reserve");
+
         String doi = doiService.formatIdentifier(identifier);
         DOI doiRow = null;
 
@@ -374,6 +381,9 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
      */
     public void reserveOnline(Context context, DSpaceObject dso, String identifier, boolean skipFilter)
             throws IdentifierException, IllegalArgumentException, SQLException {
+
+        log.info("reserveOnline");
+
         String doi = doiService.formatIdentifier(identifier);
         // get TableRow and ensure DOI belongs to dso regarding our db
         DOI doiRow = loadOrCreateDOI(context, dso, doi, skipFilter);
@@ -401,7 +411,7 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
      */
     public void registerOnline(Context context, DSpaceObject dso, String identifier)
         throws IdentifierException, IllegalArgumentException, SQLException {
-
+        log.info("registerOnline");
         registerOnline(context, dso, identifier, false);
 
     }
@@ -418,7 +428,7 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
      */
     public void registerOnline(Context context, DSpaceObject dso, String identifier, boolean skipFilter)
             throws IdentifierException, IllegalArgumentException, SQLException {
-        log.debug("registerOnline: skipFilter is " + skipFilter);
+        log.info("registerOnline: skipFilter is " + skipFilter);
 
         String doi = doiService.formatIdentifier(identifier);
         // get TableRow and ensure DOI belongs to dso regarding our db
@@ -442,7 +452,8 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
             }
         }
 
-        // safe DOI as metadata of the item
+        // save DOI as metadata of the item
+        /* We don't do this for CrossRef
         try {
             saveDOIToObject(context, dso, doi);
         } catch (AuthorizeException ae) {
@@ -450,8 +461,9 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         }
+        */
 
-        doiRow.setStatus(IS_REGISTERED);
+        doiRow.setStatus(PENDING);
         doiService.update(context, doiRow);
     }
 
@@ -584,6 +596,8 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
      */
     @Override
     public String mint(Context context, DSpaceObject dso, boolean skipFilter) throws IdentifierException {
+
+        log.info("mint");
 
         String doi = null;
         try {
@@ -833,6 +847,9 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
      */
     public DSpaceObject getObjectByDOI(Context context, String identifier)
             throws SQLException, DOIIdentifierException, IllegalArgumentException {
+
+        log.info("getObject");
+
         String doi = doiService.formatIdentifier(identifier);
         DOI doiRow = doiService.findByDoi(context, doi.substring(DOI.SCHEME.length()));
 
@@ -861,6 +878,8 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
     public String getDOIByObject(Context context, DSpaceObject dso) throws SQLException {
 //        String sql = "SELECT * FROM Doi WHERE resource_type_id = ? " +
 //                "AND resource_id = ? AND ((status != ? AND status != ?) OR status IS NULL)";
+
+        log.info("getDOI");
 
         DOI doiRow = doiService.findDOIByDSpaceObject(context, dso, Arrays.asList(DELETED, TO_BE_DELETED));
         if (null == doiRow) {
@@ -996,7 +1015,7 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
 
             doi = doiService.create(context);
             doiIdentifier = this.getPrefix() + "/" + this.getNamespaceSeparator() +
-                doi.getID();
+                itemService.getMetadataFirstValue((Item) dso, "nrcan", "doi", "suffix", null);
         }
 
         // prepare new doiRow
@@ -1107,6 +1126,9 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
      */
     @Override
     public void checkMintable(Context context, DSpaceObject dso) throws DOIIdentifierNotApplicableException {
+
+        log.info("checkMintable");
+
         // If the check fails, an exception will be thrown to be caught by the calling method
         if (this.filterService != null && contentServiceFactory
             .getDSpaceObjectService(dso).getTypeText(dso).equals("ITEM")) {
