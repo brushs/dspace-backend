@@ -252,6 +252,21 @@ authentication-oidc.client-id = d7aec069-d768-4008-b0fa-88b70e09cd60
 
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
 
+# Credentials used to authenticate against the registration agency:
+identifier.doi.user = nrcan
+identifier.doi.password = *****
+
+# DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
+# The Prefix will be assigned by the registration agency.
+identifier.doi.prefix = 10.4095
+identifier.doi.namespaceseparator =
+identifier.doi.url = https://test.crossref.org/servlet/deposit
+
+crossref.version=5.3.0
+crossref.registrant=Natural Resources Canada
+crossref.depositor.name=OSTR Team
+crossref.depositor.email=*****
+
 # Hidden metadata fields
 metadata.hide.relation.isPublicationOfProvince = true
 metadata.hide.relation.isPublicationOfProvince.latestForDiscovery = true

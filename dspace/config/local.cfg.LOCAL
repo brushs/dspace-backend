@@ -257,9 +257,6 @@ plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authen
 identifier.doi.user = nrcan
 identifier.doi.password = *****
 
-# URL for the DOI resolver.  This will be the stem for generated DOIs.
-#identifier.doi.resolver = https://doi.org
-
 # DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
 # The Prefix will be assigned by the registration agency.
 identifier.doi.prefix = 10.4095
