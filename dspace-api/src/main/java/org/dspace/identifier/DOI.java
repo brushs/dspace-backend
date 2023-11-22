@@ -32,7 +32,9 @@ import org.dspace.core.ReloadableEntity;
 @Table(name = "doi")
 public class DOI
     implements Identifier, ReloadableEntity<Integer> {
-    public static final String SCHEME = "doi:";
+
+    //public static final String SCHEME = "doi:";
+    public static final String SCHEME = "";
 
     @Id
     @Column(name = "doi_id")

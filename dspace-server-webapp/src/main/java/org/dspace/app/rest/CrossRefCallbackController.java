@@ -56,7 +56,7 @@ public class CrossRefCallbackController {
         Context context = obtainContext(request);
 
         DSpaceObject dso = itemService.find(context, uuid);
-        DoiBatch batch = xmlBuilder.buildCrossRefSubmission(context, dso);
+        DoiBatch batch = xmlBuilder.buildCrossRefSubmission(context, dso, "10.4905/123456");
 
         response.setContentType("application/xml");
         response.setHeader("Content-Disposition", "attachment; filename=" + "temp" + ".xml");

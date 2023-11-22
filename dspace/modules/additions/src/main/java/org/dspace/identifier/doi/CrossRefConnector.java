@@ -86,7 +86,7 @@ public class CrossRefConnector implements DOIConnector {
     public void registerDOI(Context context, DSpaceObject dso, String doi)
         throws DOIIdentifierException {
 
-        log.info("registerDOI");
+        log.info("registerDOI: " + doi);
 
         CrossRefResponse resp = null;
         try {
