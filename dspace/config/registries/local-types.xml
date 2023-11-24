@@ -262,7 +262,7 @@
   <dc-type>
     <schema>nrcan</schema>
     <element>country</element>
-    <qualifier>code</qualifier>
+    <qualifier>isocode</qualifier>
     <scope_note>ISO Code of the Country related to the publication.</scope_note>
   </dc-type>
   <dc-type>
@@ -1305,6 +1305,12 @@
     <element>doi</element>
     <qualifier>eligible</qualifier>
     <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>isocode</qualifier>
+    <scope_note>ISO code of entity.</scope_note>
   </dc-type>
 
   <!-- FOSRC Fields -->

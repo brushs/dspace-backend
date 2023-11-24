@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
-    default-lazy-init="true">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       default-lazy-init="true">
 
     <bean class="org.dspace.content.virtual.VirtualMetadataPopulator">
         <property name="map">
@@ -29,6 +29,7 @@
                 <entry key="isSponsorOfPublication" value-ref="isSponsorOfPublicationMap"/>
                 <entry key="isLanguageOfPublication" value-ref="isLanguageOfPublicationMap"/>
                 <entry key="isSerialOfPublication" value-ref="isSerialOfPublicationMap"/>
+                <entry key="isJournalOfPublication" value-ref="isJournalOfPublicationMap"/>
                 <entry key="isCorporateAuthorOfPublication" value-ref="isCorporateAuthorOfPublicationMap"/>
             </map>
         </property>
@@ -283,7 +284,7 @@
 
     <util:map id="isCountryOfPublicationMap">
         <entry key="nrcan.country.name" value-ref="publicationCountry_name"/>
-        <entry key="nrcan.country.code" value-ref="publicationCountry_code"/>
+        <entry key="nrcan.country.isocode" value-ref="publicationCountry_code"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Multilingual" id="publicationCountry_name">
         <property name="fields">
@@ -297,7 +298,7 @@
     <bean class="org.dspace.content.virtual.Concatenate" id="publicationCountry_code">
         <property name="fields">
             <util:list>
-                <value>nrcan.country.code</value>
+                <value>dc.identifier.isocode</value>
             </util:list>
         </property>
         <property name="useForPlace" value="true"/>
@@ -306,6 +307,7 @@
 
     <util:map id="isProvinceOfPublicationMap">
         <entry key="nrcan.province.name" value-ref="publicationProvince_name"/>
+        <entry key="nrcan.province.isocode" value-ref="publicationProvince_code"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Multilingual" id="publicationProvince_name">
         <property name="fields">
@@ -316,25 +318,30 @@
         <property name="useForPlace" value="true"/>
         <property name="populateWithNameVariant" value="true"/>
     </bean>
+    <bean class="org.dspace.content.virtual.Concatenate" id="publicationProvince_code">
+        <property name="fields">
+            <util:list>
+                <value>dc.identifier.isocode</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
 
     <util:map id="isAreaOfPublicationMap">
         <entry key="nrcan.area" value-ref="publicationArea_name"/>
     </util:map>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationArea_name">
+    <bean class="org.dspace.content.virtual.Multilingual" id="publicationArea_name">
         <property name="fields">
             <util:list>
                 <value>dc.title</value>
             </util:list>
-        </property>
-        <property name="separator">
-            <value>, </value>
         </property>
         <property name="useForPlace" value="true"/>
         <property name="populateWithNameVariant" value="true"/>
     </bean>
 
     <util:map id="isDivisionOfPublicationMap">
-        <entry key="nrcan.division.code" value-ref="publicationDivision_code"/>
         <entry key="nrcan.division.name" value-ref="publicationDivision_name"/>
         <entry key="nrcan.division.sector" value-ref="publicationDivision_sector"/>
     </util:map>
@@ -342,15 +349,6 @@
         <property name="fields">
             <util:list>
                 <value>dc.title</value>
-            </util:list>
-        </property>
-        <property name="useForPlace" value="true"/>
-        <property name="populateWithNameVariant" value="true"/>
-    </bean>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationDivision_code">
-        <property name="fields">
-            <util:list>
-                <value>nrcan.division.code</value>
             </util:list>
         </property>
         <property name="useForPlace" value="true"/>
@@ -399,7 +397,7 @@
         <property name="useForPlace" value="true"/>
         <property name="populateWithNameVariant" value="true"/>
     </bean>
-    <bean class="org.dspace.content.virtual.Multilingual" id="publicationSponsor_url">
+    <bean class="org.dspace.content.virtual.Collected" id="publicationSponsor_url">
         <property name="fields">
             <util:list>
                 <value>nrcan.sponsor.url</value>
@@ -425,7 +423,20 @@
     <bean class="org.dspace.content.virtual.Concatenate" id="publicationLanguage_code">
         <property name="fields">
             <util:list>
-                <value>nrcan.language.code</value>
+                <value>dc.identifier.isocode</value>
+            </util:list>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+
+    <util:map id="isJournalOfPublicationMap">
+        <entry key="nrcan.journal.title" value-ref="publicationJournal_title"/>
+    </util:map>
+    <bean class="org.dspace.content.virtual.Multilingual" id="publicationJournal_title">
+        <property name="fields">
+            <util:list>
+                <value>dc.title</value>
             </util:list>
         </property>
         <property name="useForPlace" value="true"/>
@@ -433,12 +444,7 @@
     </bean>
 
     <util:map id="isSerialOfPublicationMap">
-        <entry key="nrcan.serial.code" value-ref="publicationSerial_code"/>
         <entry key="nrcan.serial.title" value-ref="publicationSerial_title"/>
-        <entry key="nrcan.serial.issn" value-ref="publicationSerial_issn"/>
-        <entry key="nrcan.serial.issne" value-ref="publicationSerial_issne"/>
-        <entry key="nrcan.serial.url" value-ref="publicationSerial_url"/>
-        <entry key="nrcan.serial.urlname" value-ref="publicationSerial_urlname"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Multilingual" id="publicationSerial_title">
         <property name="fields">
@@ -449,49 +455,5 @@
         <property name="useForPlace" value="true"/>
         <property name="populateWithNameVariant" value="true"/>
     </bean>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationSerial_code">
-        <property name="fields">
-            <util:list>
-                <value>nrcan.serial.code</value>
-            </util:list>
-        </property>
-        <property name="useForPlace" value="true"/>
-        <property name="populateWithNameVariant" value="true"/>
-    </bean>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationSerial_urlname">
-        <property name="fields">
-            <util:list>
-                <value>nrcan.serial.urlname</value>
-            </util:list>
-        </property>
-        <property name="useForPlace" value="true"/>
-        <property name="populateWithNameVariant" value="true"/>
-    </bean>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationSerial_url">
-        <property name="fields">
-            <util:list>
-                <value>nrcan.serial.url</value>
-            </util:list>
-        </property>
-        <property name="useForPlace" value="true"/>
-        <property name="populateWithNameVariant" value="true"/>
-    </bean>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationSerial_issn">
-        <property name="fields">
-            <util:list>
-                <value>nrcan.serial.issn</value>
-            </util:list>
-        </property>
-        <property name="useForPlace" value="true"/>
-        <property name="populateWithNameVariant" value="true"/>
-    </bean>
-    <bean class="org.dspace.content.virtual.Concatenate" id="publicationSerial_issne">
-        <property name="fields">
-            <util:list>
-                <value>nrcan.serial.issne</value>
-            </util:list>
-        </property>
-        <property name="useForPlace" value="true"/>
-        <property name="populateWithNameVariant" value="true"/>
-    </bean>
+
 </beans>
