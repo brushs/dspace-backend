@@ -83,12 +83,12 @@ public class RightTiltedRelationshipMetadataServiceIT extends RelationshipMetada
 
         //request the virtual metadata of the journal issue
         List<RelationshipMetadataValue> issueRelList =
-            relationshipMetadataService.getRelationshipMetadata(leftItem, true);
+            relationshipMetadataService.getRelationshipMetadata(leftItem, true, null);
         assertThat(issueRelList.size(), equalTo(0));
 
         //request the virtual metadata of the journal volume
         List<RelationshipMetadataValue> volumeRelList =
-            relationshipMetadataService.getRelationshipMetadata(rightItem, true);
+            relationshipMetadataService.getRelationshipMetadata(rightItem,true, null);
         assertThat(volumeRelList.size(), equalTo(3));
 
         assertThat(volumeRelList.get(0).getValue(), equalTo(String.valueOf(leftItem.getID())));

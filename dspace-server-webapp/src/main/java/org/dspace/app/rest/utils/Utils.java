@@ -581,19 +581,34 @@ public class Utils {
             projections.add(converter.getProjection(projectionName));
         }
 
-
         if (!embedRels.isEmpty()) {
             Set<String> embedSizes = new HashSet<>(getValues(servletRequest, "embed.size"));
             projections.add(new EmbedRelsProjection(embedRels, embedSizes));
         }
 
+        List<String> languages = getValues(servletRequest, "language");
+        String language = String.join(",", languages);
+        if (StringUtils.isEmpty(language)) {
+            HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+            language = httpRequest.getHeader("Accept-Language");
+        }
+
         if (projections.isEmpty()) {
-            return Projection.DEFAULT;
+            Projection projection = Projection.DEFAULT;
+            projection.setLanguage(language);
+            return projection;
         } else if (projections.size() == 1) {
+            projections.get(0).setLanguage(language);
             return projections.get(0);
         } else {
+            if (StringUtils.isNotEmpty(language)) {
+                for (Projection proj : projections) {
+                    proj.setLanguage(language);
+                }
+            }
             return new CompositeProjection(projections);
         }
+
     }
 
     /**

@@ -147,4 +147,8 @@ public interface Projection {
      */
     PageRequest getPagingOptions(String rel, HALResource<? extends RestAddressableModel> resource,
                                  Link... oldLinks);
+
+    String getLanguage();
+
+    void setLanguage(String language);
 }
