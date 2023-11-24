@@ -294,7 +294,7 @@ public class CustomRelationshipMetadataServiceImpl implements RelationshipMetada
 
                 // Set Language
                 relationshipMetadataValue.setLanguage(entry.getLanguage());
-                relationshipMetadataValue.setPlace(entry.getPlace());
+                relationshipMetadataValue.setPlace(relationship.getLeftPlace());
 
                 if (relationshipMetadataValue != null) {
                     resultingMetadataValueList.add(relationshipMetadataValue);
