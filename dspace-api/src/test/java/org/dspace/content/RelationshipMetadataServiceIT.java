@@ -186,7 +186,7 @@ public class RelationshipMetadataServiceIT extends AbstractIntegrationTestWithDa
 
         //request the virtual metadata of the publication only
         List<RelationshipMetadataValue> leftList = relationshipMetadataService
-            .getRelationshipMetadata(leftItem, true);
+            .getRelationshipMetadata(leftItem, true, null);
         assertThat(leftList.size(), equalTo(3));
 
         assertThat(leftList.get(0).getValue(), equalTo(String.valueOf(rightItem.getID())));
@@ -217,7 +217,7 @@ public class RelationshipMetadataServiceIT extends AbstractIntegrationTestWithDa
 
         //request the virtual metadata of the publication
         List<RelationshipMetadataValue> rightList = relationshipMetadataService
-            .getRelationshipMetadata(rightItem, true);
+            .getRelationshipMetadata(rightItem,true, null);
         assertThat(rightList.size(), equalTo(2));
 
         assertThat(rightList.get(0).getValue(), equalTo(String.valueOf(leftItem.getID())));
@@ -289,7 +289,7 @@ public class RelationshipMetadataServiceIT extends AbstractIntegrationTestWithDa
         assertThat(relationshipMetadataList.size(), equalTo(1));
 
         //request the virtual metadata of the publication only
-        List<RelationshipMetadataValue> list = relationshipMetadataService.getRelationshipMetadata(leftItem, true);
+        List<RelationshipMetadataValue> list = relationshipMetadataService.getRelationshipMetadata(leftItem,true, null);
         assertThat(list.size(), equalTo(0));
     }
 
@@ -398,7 +398,7 @@ public class RelationshipMetadataServiceIT extends AbstractIntegrationTestWithDa
 
         //request the virtual metadata of the journal issue
         List<RelationshipMetadataValue> issueRelList =
-            relationshipMetadataService.getRelationshipMetadata(leftItem, true);
+            relationshipMetadataService.getRelationshipMetadata(leftItem,true, null);
         assertThat(issueRelList.size(), equalTo(3));
 
         assertThat(issueRelList.get(0).getValue(), equalTo(String.valueOf(rightItem.getID())));
@@ -423,7 +423,7 @@ public class RelationshipMetadataServiceIT extends AbstractIntegrationTestWithDa
 
         //request the virtual metadata of the journal volume
         List<RelationshipMetadataValue> volumeRelList =
-            relationshipMetadataService.getRelationshipMetadata(rightItem, true);
+            relationshipMetadataService.getRelationshipMetadata(rightItem,true, null);
         assertThat(volumeRelList.size(), equalTo(3));
 
         assertThat(volumeRelList.get(0).getValue(), equalTo(String.valueOf(leftItem.getID())));
@@ -563,7 +563,7 @@ public class RelationshipMetadataServiceIT extends AbstractIntegrationTestWithDa
         assertThat(relationshipMetadataList.size(), equalTo(1));
 
         //request the virtual metadata of the publication only
-        List<RelationshipMetadataValue> list = relationshipMetadataService.getRelationshipMetadata(leftItem, true);
+        List<RelationshipMetadataValue> list = relationshipMetadataService.getRelationshipMetadata(leftItem,true, null);
         assertThat(list.size(), equalTo(0));
     }
 

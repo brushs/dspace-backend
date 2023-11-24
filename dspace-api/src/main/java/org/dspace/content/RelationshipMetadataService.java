@@ -28,7 +28,7 @@ public interface RelationshipMetadataService {
      *                              VirtualMetadataPopulator functionality or not
      * @return      The list of MetadataValue objects constructed through the Relationships
      */
-    public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata);
+    public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata, String lang);
 
     /**
      * Retrieves the list of RelationshipMetadataValue objects specific to only one Relationship of the item.
@@ -49,7 +49,7 @@ public interface RelationshipMetadataService {
      * @return                      The list of virtual metadata values
      */
     public List<RelationshipMetadataValue> findRelationshipMetadataValueForItemRelationship(
-        Context context, Item item, String entityType, Relationship relationship, boolean enableVirtualMetadata)
+        Context context, Item item, String entityType, Relationship relationship, boolean enableVirtualMetadata, String lang)
         throws SQLException;
 
     /**

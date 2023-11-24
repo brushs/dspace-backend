@@ -54,7 +54,7 @@ public class RelationshipMetadataServiceImpl implements RelationshipMetadataServ
     protected MetadataFieldService metadataFieldService;
 
     @Override
-    public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata) {
+    public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata, String lang) {
         Context context = new Context();
         List<RelationshipMetadataValue> fullMetadataValueList = new LinkedList<>();
         try {
@@ -77,7 +77,7 @@ public class RelationshipMetadataServiceImpl implements RelationshipMetadataServ
                 for (Relationship relationship : relationships) {
                     fullMetadataValueList
                         .addAll(findRelationshipMetadataValueForItemRelationship(context, item, entityType.getLabel(),
-                                relationship, enableVirtualMetadata));
+                                relationship, enableVirtualMetadata, lang));
                 }
 
             }
@@ -175,7 +175,8 @@ public class RelationshipMetadataServiceImpl implements RelationshipMetadataServ
 
     @Override
     public List<RelationshipMetadataValue> findRelationshipMetadataValueForItemRelationship(
-            Context context, Item item, String entityType, Relationship relationship, boolean enableVirtualMetadata)
+            Context context, Item item, String entityType, Relationship relationship, boolean enableVirtualMetadata,
+            String lang)
         throws SQLException {
         List<RelationshipMetadataValue> resultingMetadataValueList = new LinkedList<>();
         RelationshipType relationshipType = relationship.getRelationshipType();
