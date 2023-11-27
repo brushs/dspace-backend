@@ -7,6 +7,16 @@
  */
 package org.dspace.app.rest;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.dspace.app.rest.converter.ConverterService;
 import org.dspace.app.rest.converter.EPersonConverter;
 import org.dspace.app.rest.link.HalLinkService;
@@ -45,15 +55,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 /**
  * Rest controller that handles authentication on the REST API together with the Spring Security filters
