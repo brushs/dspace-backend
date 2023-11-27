@@ -62,7 +62,11 @@ public abstract class DSpaceObjectConverter<M extends DSpaceObject, R extends or
         if (obj.getID() != null) {
             resource.setUuid(obj.getID().toString());
         }
-        resource.setName(obj.getName());
+        if (projection.getLanguage() != null) {
+            resource.setName(obj.getName(projection.getLanguage()));
+        } else {
+            resource.setName(obj.getName());
+        }
 
         MetadataValueList metadataValues = getPermissionFilteredMetadata(
                 ContextUtil.obtainCurrentRequestContext(), obj);

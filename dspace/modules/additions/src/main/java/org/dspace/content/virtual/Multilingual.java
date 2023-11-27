@@ -14,6 +14,7 @@ import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -126,7 +127,7 @@ public class Multilingual implements VirtualMetadataConfiguration {
      * @param item      The item that will be used to either retrieve metadata values from
      * @return The String values for all of the retrieved metadatavalues
      */
-    public List<MetadataValue> getMultilingualValues(Context context, Item item) {
+    public List<MetadataValue> getMultilingualValues(Context context, Item item, String lang) {
         List<MetadataValue> resultValues = new LinkedList<>();
         List<String> value = this.getFields();
         for (String s : value) {
@@ -141,11 +142,23 @@ public class Multilingual implements VirtualMetadataConfiguration {
                             null,
                     Item.ANY, false);
 
+            List<String> langs = null;
+            if (lang != null && !lang.equals(Item.ANY)) {
+                langs = Arrays.asList(lang.split(","));
+            } else {
+                langs = Arrays.asList(context.getCurrentLocale().getLanguage());
+            }
+
             for (MetadataValue metadataValue : resultList) {
                 if (StringUtils.isNotBlank(metadataValue.getValue())) {
-                    resultValues.add(metadataValue);
-                    // TODO remove this break once SSC merge takes place
-                    break;
+                    if (langs != null) {
+                        if (langs.contains(metadataValue.getLanguage())) {
+                            resultValues.add(metadataValue);
+                        }
+                    } else {
+                        resultValues.add(metadataValue);
+                    }
+
                 }
             }
         }

@@ -587,10 +587,10 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
 
     @Override
     public void update(Context context, T dso) throws SQLException, AuthorizeException {
+        /*
         if (dso.isMetadataModified()) {
-            /*
-            Update the order of the metadata values
-             */
+            //Update the order of the metadata values
+
             // A map created to store the latest place for each metadata field
             Map<MetadataField, Integer> fieldToLastPlace = new HashMap<>();
             List<MetadataValue> metadataValues;
@@ -656,6 +656,7 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                 }
             }
         }
+         */
     }
 
     /**

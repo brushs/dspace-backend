@@ -61,7 +61,7 @@ azure.storage.account = @storage-account@
 # Since DSpace 7, SOLR must be installed as a stand-alone service
 # This is set by the App Service, but because the DSpace command line
 # doesn't use those settings it is also set here
-solr.server = https://dspacesandboxsolr.azurewebsites.net/solr
+solr.server = http://ostr-solr.azure.cloud.nrcan-rncan.gc.ca/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
@@ -251,3 +251,73 @@ authentication-oidc.user-info-endpoint = https://graph.microsoft.com/oidc/userin
 authentication-oidc.client-id = d7aec069-d768-4008-b0fa-88b70e09cd60
 
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
+
+# Credentials used to authenticate against the registration agency:
+identifier.doi.user = nrcan
+identifier.doi.password = @crossref-password@
+
+# DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
+# The Prefix will be assigned by the registration agency.
+identifier.doi.prefix = 10.4095
+identifier.doi.namespaceseparator =
+identifier.doi.url = https://test.crossref.org/servlet/deposit
+
+crossref.version=5.3.0
+crossref.registrant=Natural Resources Canada
+crossref.depositor.name=OSTR Team
+crossref.depositor.email=@crossref-email@
+
+# Hidden metadata fields
+metadata.hide.relation.isPublicationOfProvince = true
+metadata.hide.relation.isPublicationOfProvince.latestForDiscovery = true
+metadata.hide.dc.date.updated = true
+metadata.hide.dc.description.contact-address = true
+metadata.hide.dc.description.provenance = true
+metadata.hide.dc.identifier.ppi = true
+metadata.hide.dc.subject.other = true
+metadata.hide.geospatial.polygon.degrees = true
+metadata.hide.nrcan.abstract.language = true
+metadata.hide.nrcan.area.migrationid = true
+metadata.hide.nrcan.area.source = true
+metadata.hide.nrcan.author.cfsmigrationid = true
+metadata.hide.nrcan.author.isexternal = true
+metadata.hide.nrcan.author.migrationid = true
+metadata.hide.nrcan.corpauthor.migrationid = true
+metadata.hide.nrcan.division.code = true
+metadata.hide.nrcan.division.migrationid = true
+metadata.hide.nrcan.journal.code = true
+metadata.hide.nrcan.journal.migrationid = true
+metadata.hide.nrcan.journal.notes = true
+metadata.hide.nrcan.journal.publisher = true
+metadata.hide.nrcan.journal.urlname = true
+metadata.hide.nrcan.legacy.alternateformat = true
+metadata.hide.nrcan.legacy.archivalfile = true
+metadata.hide.nrcan.legacy.bbox = true
+metadata.hide.nrcan.legacy.contdescr = true
+metadata.hide.nrcan.legacy.daterecordmod = true
+metadata.hide.nrcan.legacy.daterecordsent = true
+metadata.hide.nrcan.legacy.doctype = true
+metadata.hide.nrcan.legacy.download = true
+metadata.hide.nrcan.legacy.duration = true
+metadata.hide.nrcan.legacy.isorhasmap = true
+metadata.hide.nrcan.legacy.map = true
+metadata.hide.nrcan.legacy.mapdigital = true
+metadata.hide.nrcan.legacy.openaccesstype = true
+metadata.hide.nrcan.legacy.previousfilename = true
+metadata.hide.nrcan.legacy.printdate = true
+metadata.hide.nrcan.legacy.relation = true
+metadata.hide.nrcan.legacy.relationerratum= true
+metadata.hide.nrcan.legacy.relationphoto = true
+metadata.hide.nrcan.legacy.relationurl = true
+metadata.hide.nrcan.legacy.sponsor = true
+metadata.hide.nrcan.legacy.status = true
+metadata.hide.nrcan.legacy.thesis = true
+metadata.hide.nrcan.legacy.webaccessible = true
+metadata.hide.nrcan.notes = true
+metadata.hide.nrcan.province.code = true
+metadata.hide.nrcan.publisher.migrationid = true
+metadata.hide.nrcan.serial.code = true
+metadata.hide.nrcan.serial.notes = true
+metadata.hide.nrcan.serial.publisher = true
+metadata.hide.nrcan.serial.urlname = true
+metadata.hide.nrcan.sourcesystem = true

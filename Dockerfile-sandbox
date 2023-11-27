@@ -100,6 +100,13 @@ COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
+# Install "unzip" for migration files
+RUN apt-get install unzip
+RUN apt-get install zip
+
+# Create directory for migration and logs
+RUN mkdir -p /dspace/migration/logs
+
 # Open port 2222 for SSH access
 EXPOSE 8080 8009 2222
 

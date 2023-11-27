@@ -147,7 +147,7 @@
 
     <type>
         <leftType>Publication</leftType>
-        <rightType>Publisher</rightType>
+        <rightType>CorporateAuthor</rightType>
         <leftwardType>isCorporateAuthorOfPublication</leftwardType>
         <rightwardType>isPublicationOfCorporateAuthor</rightwardType>
         <leftCardinality>
@@ -259,6 +259,20 @@
 
     <type>
         <leftType>Publication</leftType>
+        <rightType>Journal</rightType>
+        <leftwardType>isJournalOfPublication</leftwardType>
+        <rightwardType>isPublicationOfJournal</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
         <rightType>Person</rightType>
         <leftwardType>isMonographicAuthorOfPublication</leftwardType>
         <rightwardType>isPublicationOfMonographicAuthor</rightwardType>
@@ -273,7 +287,7 @@
 
     <type>
         <leftType>Publication</leftType>
-        <rightType>Publisher</rightType>
+        <rightType>CorporateAuthor</rightType>
         <leftwardType>isMonoCorpAuthorOfPublication</leftwardType>
         <rightwardType>isPublicationOfMonoCorpAuthor</rightwardType>
         <leftCardinality>
@@ -290,6 +304,20 @@
         <rightType>Serial</rightType>
         <leftwardType>isSecondarySerialOfPublication</leftwardType>
         <rightwardType>isPublicationOfSecondarySerial</rightwardType>
+        <leftCardinality>
+            <min>0</min>
+        </leftCardinality>
+        <rightCardinality>
+            <min>0</min>
+        </rightCardinality>
+        <copyToLeft>true</copyToLeft>
+    </type>
+
+    <type>
+        <leftType>Publication</leftType>
+        <rightType>Person</rightType>
+        <leftwardType>isPrimaryContactOfPublication</leftwardType>
+        <rightwardType>isPublicationOfPrimaryContact</rightwardType>
         <leftCardinality>
             <min>0</min>
         </leftCardinality>

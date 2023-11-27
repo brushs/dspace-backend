@@ -61,6 +61,8 @@ FROM tomcat:9-jdk${JDK_VERSION}
 ENV DSPACE_INSTALL=/dspace
 # Copy the /dspace directory from 'ant_build' containger to /dspace in this container
 COPY --from=ant_build /dspace $DSPACE_INSTALL
+# Copy the GeoDB directory from 'build' containger to /dspace in this container
+COPY db/GeoLite2-City.mmdb $DSPACE_INSTALL/geo/GeoLite2-City.mmdb
 # Expose Tomcat port and AJP port
 EXPOSE 8080 8009
 # Give java extra memory (2GB)
@@ -102,5 +104,12 @@ RUN chmod +x /tmp/ssh_setup.sh \
 
 # Open port 2222 for SSH access
 EXPOSE 8080 8009 2222
+
+# Install "unzip" for migration files
+RUN apt-get install unzip
+RUN apt-get install zip
+
+# Create directory for migration and logs
+RUN mkdir -p /dspace/migration/logs
 
 CMD /usr/sbin/sshd && catalina.sh run

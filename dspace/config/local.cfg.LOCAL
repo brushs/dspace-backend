@@ -45,7 +45,7 @@ dspace.server.url = http://localhost:8080/server
 dspace.ui.url = http://localhost:4000
 
 # Name of the site
-dspace.name = DSpace at My University
+dspace.name = NRCAN Open Science and Technology Repository
 
 # assetstore.dir, look at DSPACE/config/spring/api/bitstore.xml for more options
 # default is ${dspace.dir}/assetstore, uncomment and modify if you need to use a different path
@@ -86,7 +86,7 @@ db.dialect = org.hibernate.dialect.PostgreSQL94Dialect
 
 # Database username and password
 db.username = dspace
-db.password = dspace
+db.password = *****
 
 # Database Schema name
 #    * For Postgres, this is often "public" (default schema)
@@ -236,6 +236,9 @@ db.schema = public
 # Maximum size of a multipart request (i.e. max total size of all files in one request)
 #spring.servlet.multipart.max-request-size = 512MB
 
+# The registered client secret
+authentication-oidc.client-secret=*****
+
 # The URL of the Token endpoint
 authentication-oidc.token-endpoint = https://login.microsoftonline.com/cebd5e62-1ccb-4888-8f5f-5d1dda653395/oauth2/v2.0/token
 
@@ -250,6 +253,73 @@ authentication-oidc.client-id = 9afcdc44-1ff7-4e32-880b-82867957094f
 
 plugin.sequence.org.dspace.authenticate.AuthenticationMethod = org.dspace.authenticate.OidcAuthentication, org.dspace.authenticate.PasswordAuthentication
 
+# Credentials used to authenticate against the registration agency:
+identifier.doi.user = nrcan
+identifier.doi.password = *****
+
+# DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
+# The Prefix will be assigned by the registration agency.
+identifier.doi.prefix = 10.4095
+identifier.doi.namespaceseparator =
+identifier.doi.url = https://test.crossref.org/servlet/deposit
+
+crossref.version=5.3.0
+crossref.registrant=Natural Resources Canada
+crossref.depositor.name=OSTR Team
+crossref.depositor.email=*****
+
+# Hidden metadata fields
+metadata.hide.dc.date.updated = true
+metadata.hide.dc.description.contact-address = true
+metadata.hide.dc.description.provenance = true
+metadata.hide.dc.identifier.ppi = true
+metadata.hide.dc.subject.other = true
+metadata.hide.geospatial.polygon.degrees = true
+metadata.hide.nrcan.abstract.language = true
+metadata.hide.nrcan.area.migrationid = true
+metadata.hide.nrcan.area.source = true
+metadata.hide.nrcan.author.cfsmigrationid = true
+metadata.hide.nrcan.author.isexternal = true
+metadata.hide.nrcan.author.migrationid = true
+metadata.hide.nrcan.corpauthor.migrationid = true
+metadata.hide.nrcan.division.code = true
+metadata.hide.nrcan.division.migrationid = true
+metadata.hide.nrcan.journal.code = true
+metadata.hide.nrcan.journal.migrationid = true
+metadata.hide.nrcan.journal.notes = true
+metadata.hide.nrcan.journal.publisher = true
+metadata.hide.nrcan.journal.urlname = true
+metadata.hide.nrcan.legacy.alternateformat = true
+metadata.hide.nrcan.legacy.archivalfile = true
+metadata.hide.nrcan.legacy.bbox = true
+metadata.hide.nrcan.legacy.contdescr = true
+metadata.hide.nrcan.legacy.daterecordmod = true
+metadata.hide.nrcan.legacy.daterecordsent = true
+metadata.hide.nrcan.legacy.doctype = true
+metadata.hide.nrcan.legacy.download = true
+metadata.hide.nrcan.legacy.duration = true
+metadata.hide.nrcan.legacy.isorhasmap = true
+metadata.hide.nrcan.legacy.map = true
+metadata.hide.nrcan.legacy.mapdigital = true
+metadata.hide.nrcan.legacy.openaccesstype = true
+metadata.hide.nrcan.legacy.previousfilename = true
+metadata.hide.nrcan.legacy.printdate = true
+metadata.hide.nrcan.legacy.relation = true
+metadata.hide.nrcan.legacy.relationerratum= true
+metadata.hide.nrcan.legacy.relationphoto = true
+metadata.hide.nrcan.legacy.relationurl = true
+metadata.hide.nrcan.legacy.sponsor = true
+metadata.hide.nrcan.legacy.status = true
+metadata.hide.nrcan.legacy.thesis = true
+metadata.hide.nrcan.legacy.webaccessible = true
+metadata.hide.nrcan.notes = true
+metadata.hide.nrcan.province.code = true
+metadata.hide.nrcan.publisher.migrationid = true
+metadata.hide.nrcan.serial.code = true
+metadata.hide.nrcan.serial.notes = true
+metadata.hide.nrcan.serial.publisher = true
+metadata.hide.nrcan.serial.urlname = true
+metadata.hide.nrcan.sourcesystem = true
+
 # for IP range validation end point, as group name that allowed to login
 ipgroup = Administrator
-

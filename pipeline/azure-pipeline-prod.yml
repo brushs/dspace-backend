@@ -1,0 +1,8 @@
+trigger:
+  - ostr-prod
+
+resources:
+  - repo: self
+  
+extends:
+  template: azure-pipeline.yml

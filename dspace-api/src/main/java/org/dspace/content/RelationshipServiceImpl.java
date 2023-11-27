@@ -115,15 +115,22 @@ public class RelationshipServiceImpl implements RelationshipService {
 
     @Override
     public Relationship create(Context context, Relationship relationship) throws SQLException, AuthorizeException {
+        log.info("Check valid");
         if (isRelationshipValidToCreate(context, relationship)) {
+            log.info("Check Auth valid");
             if (authorizeService.authorizeActionBoolean(context, relationship.getLeftItem(), Constants.WRITE) ||
                 authorizeService.authorizeActionBoolean(context, relationship.getRightItem(), Constants.WRITE)) {
                 // This order of execution should be handled in the creation (create, updateplace, update relationship)
                 // for a proper place allocation
+                log.info("Create Relationship");
                 Relationship relationshipToReturn = relationshipDAO.create(context, relationship);
+                log.info("Update Place");
                 updatePlaceInRelationship(context, relationshipToReturn, null, null, true, true);
+                log.info("update");
                 update(context, relationshipToReturn);
+                log.info("update items");
                 updateItemsInRelationship(context, relationship);
+                log.info("done");
                 return relationshipToReturn;
             } else {
                 throw new AuthorizeException(
@@ -868,7 +875,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             String entityTypeString = itemService.getEntityTypeLabel(relationship.getLeftItem());
             List<RelationshipMetadataValue> relationshipMetadataValues =
                 relationshipMetadataService.findRelationshipMetadataValueForItemRelationship(context,
-                    relationship.getLeftItem(), entityTypeString, relationship, true);
+                    relationship.getLeftItem(), entityTypeString, relationship, true, null);
             for (RelationshipMetadataValue relationshipMetadataValue : relationshipMetadataValues) {
                 // This adds the plain text metadata values on the same spot as the virtual values.
                 // This will be overruled in org.dspace.content.DSpaceObjectServiceImpl.update
@@ -894,7 +901,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             String entityTypeString = itemService.getEntityTypeLabel(relationship.getRightItem());
             List<RelationshipMetadataValue> relationshipMetadataValues =
                 relationshipMetadataService.findRelationshipMetadataValueForItemRelationship(context,
-                    relationship.getRightItem(), entityTypeString, relationship, true);
+                    relationship.getRightItem(), entityTypeString, relationship, true, null);
             for (RelationshipMetadataValue relationshipMetadataValue : relationshipMetadataValues) {
                 itemService.addMetadata(context, relationship.getRightItem(),
                                                      relationshipMetadataValue.getMetadataField().

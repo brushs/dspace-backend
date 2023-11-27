@@ -405,12 +405,14 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                             rightItem = item;
                         }
 
+                        log.info("Adding relationship");
+
                         // Create the relationship
                         Relationship persistedRelationship =
                             relationshipService.create(c, leftItem, rightItem, foundRelationshipType, -1, -1);
                         // relationshipService.update(c, persistedRelationship);
 
-                        System.out.println("\tAdded relationship (type: " + relationshipType + ") from " +
+                        log.info("Added relationship (type: " + relationshipType + ") from " +
                             leftItem.getHandle() + " to " + rightItem.getHandle());
 
                     }
@@ -420,6 +422,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
             }
 
         }
+        log.info("All Done Adding Relationships");
 
     }
 
@@ -430,7 +433,16 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
      * @return
      */
     protected String getEntityType(Item item) throws Exception {
-        return itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY).get(0).getValue();
+        //return itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY).get(0).getValue();
+        for (MetadataValue dcv : item.getMetadata()) {
+            if (dcv.getMetadataField().getMetadataSchema().getName().contentEquals("dspace")
+                    && dcv.getMetadataField().getElement().contentEquals("entity")
+                    && dcv.getMetadataField().getQualifier().contentEquals("type")) {
+
+                return dcv.getValue();
+            }
+        }
+        return null;
     }
 
     /**
@@ -454,7 +466,7 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
 
         if (file.exists()) {
 
-            System.out.println("\tProcessing relationships file: " + filename);
+            log.info("Processing relationships file: " + filename);
 
             BufferedReader br = null;
             try {
@@ -585,18 +597,27 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                 MetadataValue mdvVal = mdv.next();
                 UUID uuid = mdvVal.getDSpaceObject().getID();
                 String lang = mdvVal.getLanguage();
-                if (mdv.hasNext() && mdv.next().getLanguage().equals(lang)) {
-                    log.warn("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
-                            + " Key:" + metaKey + " Val:" + metaValue);
-                    //throw new Exception("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
-                    //        + " Key:" + metaKey + " Val:" + metaValue);
-                    return null;
+                if (mdv.hasNext()) {
+                    mdvVal = mdv.next();
+                    if (mdvVal.getLanguage() == null || mdvVal.getLanguage().equals(lang)) {
+                        log.warn("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                                + " Key:" + metaKey + " Val:" + metaValue);
+                        //throw new Exception("MIG_ERR_2 - Ambiguous reference; multiple matches in db - Item:" + c.getExtraLogInfo()
+                        //        + " Key:" + metaKey + " Val:" + metaValue);
+                        return null;
+                    }
                 }
                 item = itemService.find(c, uuid);
             }
         } catch (SQLException e) {
             log.warn("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
                     + " Key:" + metaKey + " Val:" + metaValue);
+            //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
+            //        + " Key:" + metaKey + " Val:" + metaValue, e);
+            return null;
+        } catch (Exception e) {
+            log.warn("MIG_ERR_4 - Unknown exception - Item:" + c.getExtraLogInfo()
+                    + " Key:" + metaKey + " Val:" + metaValue + " Err:" + e.toString() + ": " + e.getLocalizedMessage());
             //throw new Exception("MIG_ERR_3 - Error looking up item by metadata reference - Item:" + c.getExtraLogInfo()
             //        + " Key:" + metaKey + " Val:" + metaValue, e);
             return null;
@@ -1175,7 +1196,14 @@ public class ItemImportServiceImpl implements ItemImportService, InitializingBea
                             sDescription = sDescription.replaceFirst("description:", "");
                         }
 
-                        registerBitstream(c, i, iAssetstore, sFilePath, sBundle, sDescription);
+                        try {
+                            registerBitstream(c, i, iAssetstore, sFilePath, sBundle, sDescription);
+                        } catch (Exception e) {
+                            log.warn("MIG_ERR_5 - Error adding bitstream - Item:" + i.getID()
+                                    + " Bundle:" + sBundle + " Path:" + sFilePath);
+                        }
+
+
                         System.out.println("\tRegistering Bitstream: " + sFilePath
                             + "\tAssetstore: " + iAssetstore
                             + "\tBundle: " + sBundle

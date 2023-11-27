@@ -555,6 +555,7 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
 
     @Override
     public void update(Context context, Item item) throws SQLException, AuthorizeException {
+
         // Check authorisation
         // only do write authorization if user is not an editor
         if (!canEdit(context, item)) {
@@ -613,6 +614,7 @@ public class ItemServiceImpl extends DSpaceObjectServiceImpl<Item> implements It
             item.clearModified();
             item.clearDetails();
         }
+
     }
 
     @Override
@@ -1532,7 +1534,7 @@ prevent the generation of resource policy entry values with null dspace_object a
             List<MetadataValue> dbMetadataValues = item.getMetadata();
 
             List<MetadataValue> fullMetadataValueList = new LinkedList<>();
-            fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true));
+            fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true, lang));
             fullMetadataValueList.addAll(dbMetadataValues);
 
             /*

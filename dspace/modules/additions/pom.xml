@@ -24,6 +24,7 @@
    <properties>
        <!-- This is the path to the root [dspace-src] directory. -->
        <root.basedir>${basedir}/../../..</root.basedir>
+      <jaxb-runtime.version>4.0.0</jaxb-runtime.version>
    </properties>
 
    <build>
@@ -56,6 +57,26 @@
                   </configuration>
                </execution>
             </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jaxb2-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+               <execution>
+                  <id>xjc</id>
+                  <goals>
+                     <goal>xjc</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <configuration>
+               <sources>
+                  <source>src/main/xsd</source>
+               </sources>
+               <outputDirectory>${basedir}/target/generated-sources/jaxb</outputDirectory>
+               <clearOutputDir>true</clearOutputDir>
+            </configuration>
          </plugin>
       </plugins>
    </build>
@@ -398,6 +419,25 @@
          <scope>test</scope>
       </dependency>
 
+      <dependency>
+         <groupId>org.glassfish.jaxb</groupId>
+         <artifactId>jaxb-runtime</artifactId>
+         <version>${jaxb-runtime.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>jakarta.xml.bind</groupId>
+         <artifactId>jakarta.xml.bind-api</artifactId>
+         <version>4.0.0</version>
+      </dependency>
+      <!--
+      <dependency>
+         <groupId>com.sun.xml.bind</groupId>
+         <artifactId>jaxb-impl</artifactId>
+         <version>4.0.0</version>
+         <scope>runtime</scope>
+      </dependency>
+      -->
    </dependencies>
 
 </project>

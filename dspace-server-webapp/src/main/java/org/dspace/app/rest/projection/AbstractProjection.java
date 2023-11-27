@@ -21,6 +21,8 @@ import org.springframework.hateoas.Link;
  */
 public abstract class AbstractProjection implements Projection {
 
+    private String language;
+
     @Override
     public <T> T transformModel(T modelObject) {
         return modelObject;
@@ -51,6 +53,16 @@ public abstract class AbstractProjection implements Projection {
     public PageRequest getPagingOptions(String rel, HALResource<? extends RestAddressableModel> resource,
                                         Link... oldLinks) {
         return null;
+    }
+
+    @Override
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    @Override
+    public String getLanguage() {
+        return language;
     }
 
 }

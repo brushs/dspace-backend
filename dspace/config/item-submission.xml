@@ -68,6 +68,9 @@
         <name-map collection-handle="123456789/1848" submission-name="Serial"/>
         <name-map collection-handle="123456789/5241" submission-name="Publisher"/>
         <name-map collection-handle="123456789/5333" submission-name="Publication"/>
+        <name-map collection-handle="123456789/17366" submission-name="Journal"/>
+        <name-map collection-handle="123456789/21436" submission-name="CorporateAuthor"/>
+        <name-map collection-handle="123456789/21460" submission-name="Publication"/>
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
@@ -82,6 +85,23 @@
         <name-map collection-handle="123456789s/24" submission-name="Country"/>
         <name-map collection-handle="123456789s/25" submission-name="Province"/>
         <name-map collection-handle="123456789s/5494" submission-name="Author"/>
+        <name-map collection-handle="123456789s/21846" submission-name="Journal"/>
+        <name-map collection-handle="123456789s/25505" submission-name="CorporateAuthor"/>
+
+        <!-- Prod Collections -->
+        <name-map collection-handle="1845/6" submission-name="Country"/>
+        <name-map collection-handle="1845/266" submission-name="Area"/>
+        <name-map collection-handle="1845/267" submission-name="Division"/>
+        <name-map collection-handle="1845/269" submission-name="Publisher"/>
+        <name-map collection-handle="1845/271" submission-name="Sponsor"/>
+        <name-map collection-handle="1845/270" submission-name="Serial"/>
+        <name-map collection-handle="1845/268" submission-name="Language"/>
+        <name-map collection-handle="1845/265" submission-name="Province"/>
+        <name-map collection-handle="1845/5997" submission-name="Author"/>
+        <name-map collection-handle="1845/56908" submission-name="Journal"/>
+        <name-map collection-handle="1845/60977" submission-name="Publication"/>
+        <name-map collection-handle="1845/72638" submission-name="CorporateAuthor"/>
+        <name-map collection-handle="1845/139304" submission-name="Publication"/>
 
     </submission-map>
 
@@ -176,6 +196,11 @@
             <type>submission-form</type>
         </step-definition>
         <step-definition id="orgUnitStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="nrcanJournalStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -277,6 +302,11 @@
         </step-definition>
 
         <step-definition id="publisherStep" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="corporateAuthorStep" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -432,9 +462,7 @@
          -->
         <submission-process name="Journal">
             <step id="collection"/>
-            <step id="journalStep"/>
-            <step id="upload"/>
-            <step id="license"/>
+            <step id="nrcanJournalStep"/>
         </submission-process>
 
         <!--
@@ -490,6 +518,11 @@
         <submission-process name="Publisher">
             <step id="collection"/>
             <step id="publisherStep"/>
+        </submission-process>
+
+        <submission-process name="CorporateAuthor">
+            <step id="collection"/>
+            <step id="corporateAuthorStep"/>
         </submission-process>
 
         <submission-process name="Country">

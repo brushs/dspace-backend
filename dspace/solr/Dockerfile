@@ -17,7 +17,7 @@ RUN apt-get update \
 
 # Copy the sshd_config file to the /etc/ssh/ directory
 COPY sshd_config /etc/ssh/
-WORKDIR /etc/ssh/
+#WORKDIR /etc/ssh/
 
 # Copy and configure the ssh_setup file
 RUN mkdir -p /tmp
@@ -47,5 +47,7 @@ RUN mkdir -p /home/solr
 RUN chmod -R 777 /opt/docker-solr/scripts
 
 ENTRYPOINT ["/opt/docker-solr/scripts/core_setup.sh"]
+
+ENV SOLR_JAVA_MEM="-Xms4096m -Xmx4096m"
 
 CMD /usr/sbin/sshd && sudo -u solr -E env "PATH=$PATH" /opt/docker-solr/scripts/solr-foreground

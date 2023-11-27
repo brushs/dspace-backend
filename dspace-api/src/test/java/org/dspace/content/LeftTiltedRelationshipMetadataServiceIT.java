@@ -71,7 +71,7 @@ public class LeftTiltedRelationshipMetadataServiceIT extends RelationshipMetadat
 
         //request the virtual metadata of the publication only
         List<RelationshipMetadataValue> leftList = relationshipMetadataService
-            .getRelationshipMetadata(leftItem, true);
+            .getRelationshipMetadata(leftItem, true, null);
         assertThat(leftList.size(), equalTo(3));
 
         assertThat(leftList.get(0).getValue(), equalTo(String.valueOf(rightItem.getID())));
@@ -101,7 +101,7 @@ public class LeftTiltedRelationshipMetadataServiceIT extends RelationshipMetadat
 
         //request the virtual metadata of the publication
         List<RelationshipMetadataValue> rightList = relationshipMetadataService
-            .getRelationshipMetadata(rightItem, true);
+            .getRelationshipMetadata(rightItem, true, null);
         assertThat(rightList.size(), equalTo(0));
     }
 
