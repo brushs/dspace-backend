@@ -79,7 +79,7 @@ public interface DOIConnector {
      * @param doi     DOI string to register
      * @throws DOIIdentifierException if DOI error
      */
-    public void registerDOI(Context context, DSpaceObject dso, String doi)
+    public String registerDOI(Context context, DSpaceObject dso, String doi)
         throws DOIIdentifierException;
 
     /**

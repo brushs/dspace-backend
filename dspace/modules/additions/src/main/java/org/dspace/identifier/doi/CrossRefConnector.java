@@ -83,7 +83,7 @@ public class CrossRefConnector implements DOIConnector {
     }
 
     @Override
-    public void registerDOI(Context context, DSpaceObject dso, String doi)
+    public String registerDOI(Context context, DSpaceObject dso, String doi)
         throws DOIIdentifierException {
 
         log.info("registerDOI: " + doi);
@@ -102,7 +102,7 @@ public class CrossRefConnector implements DOIConnector {
             // This does not mean that the DOI was created, only that they accepted our post request
             // Processing is queued and they will send a callback to the URL we specified
             case (200): {
-                return;
+                return resp.getBatchId();
             }
             // Catch all other http status codes as they indicate an issue.
             default: {
@@ -157,7 +157,7 @@ public class CrossRefConnector implements DOIConnector {
             log.info(EntityUtils.toString(response.getEntity()));
 
             CrossRefResponse crossRefResponse = new CrossRefResponse(response.getStatusLine().getStatusCode(),
-                    responseEntity.toString());
+                    responseEntity.toString(), String.valueOf(batch.getHead().getDoiBatchId()));
 
             return crossRefResponse;
 
@@ -217,10 +217,12 @@ public class CrossRefConnector implements DOIConnector {
     protected class CrossRefResponse {
         private final int statusCode;
         private final String content;
+        private final String batchId;
 
-        protected CrossRefResponse(int statusCode, String content) {
+        protected CrossRefResponse(int statusCode, String content, String batchId) {
             this.statusCode = statusCode;
             this.content = content;
+            this.batchId = batchId;
         }
 
         protected int getStatusCode() {
@@ -229,6 +231,10 @@ public class CrossRefConnector implements DOIConnector {
 
         protected String getContent() {
             return this.content;
+        }
+
+        protected String getBatchId() {
+            return this.batchId;
         }
     }
 }
