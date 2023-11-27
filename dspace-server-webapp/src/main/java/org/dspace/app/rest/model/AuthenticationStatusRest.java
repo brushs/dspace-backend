@@ -21,6 +21,8 @@ public class AuthenticationStatusRest extends BaseObjectRest<Integer> {
     private boolean authenticated;
     private String authenticationMethod;
 
+    private boolean withinIpRange;
+
     private EPersonRest ePersonRest;
     private List<GroupRest> specialGroups;
 
@@ -95,6 +97,13 @@ public class AuthenticationStatusRest extends BaseObjectRest<Integer> {
         this.authenticationMethod = authenticationMethod;
     }
 
+    public boolean getWithinIpRange(){
+        return withinIpRange;
+    }
+
+    public void setWithinIpRange(final boolean withinIpRange){
+        this.withinIpRange = withinIpRange;
+    }
     public void setSpecialGroups(List<GroupRest> groupList) {
         this.specialGroups = groupList;
     }

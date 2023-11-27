@@ -142,6 +142,26 @@ public class AuthenticationRestController implements InitializingBean {
         authenticationStatusRest.setProjection(projection);
         authenticationStatusRest.setSpecialGroups(groupList);
 
+        //***************
+        String addr = clientInfoService.getClientIp(request);
+        String remoteIp = request.getRemoteAddr();
+
+        String ipGroup = configurationService.getProperty("ipgroup");
+
+        try {
+            authenticationStatusRest.setWithinIpRange(false);
+            List<Group> groups  = this.getIpAuthentication().getSpecialGroups(context,request);
+            for (Group group : groups) {
+                if (group.getName().equals(ipGroup))
+                    authenticationStatusRest.setWithinIpRange(true);
+            }
+        } catch (SQLException e) {
+            log.error( "Error:" + e.getMessage());
+        }
+
+
+        //*********************
+
         AuthenticationStatusResource authenticationStatusResource = converter.toResource(authenticationStatusRest);
 
         return authenticationStatusResource;
