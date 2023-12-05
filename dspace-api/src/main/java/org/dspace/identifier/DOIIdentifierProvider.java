@@ -82,6 +82,8 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
     public static final Integer TO_BE_DELETED = 8;
     public static final Integer DELETED = 9;
     public static final Integer PENDING = 10;
+    public static final Integer CALLBACK_PROCESSING_PENDING = 11;
+    public static final Integer ERROR = 12;
 
     @Autowired(required = true)
     protected DOIService doiService;
@@ -439,9 +441,10 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
                     + "is marked as DELETED.", DOIIdentifierException.DOI_IS_DELETED);
         }
 
+        String batchId = null;
         // register DOI Online
         try {
-            connector.registerDOI(context, dso, doi);
+            batchId = connector.registerDOI(context, dso, doi);
         } catch (DOIIdentifierException die) {
             // do we have to reserve DOI before we can register it?
             if (die.getCode() == DOIIdentifierException.RESERVE_FIRST) {
@@ -464,6 +467,7 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
         */
 
         doiRow.setStatus(PENDING);
+        doiRow.setBatchId(batchId);
         doiService.update(context, doiRow);
     }
 
@@ -1145,6 +1149,23 @@ public class DOIIdentifierProvider extends FilteredIdentifierProvider {
             }
         } else {
             log.debug("DOI Identifier Provider: filterService is null (ie. don't prevent DOI minting)");
+        }
+    }
+
+    public void processCallback(Context context, String batchId, String retrieveUrl) throws Exception {
+
+        DOI doi = doiService.findByBatchId(context, batchId);
+        if (null == doi) {
+            throw new Exception("DOI for Batch ID: " + batchId + " not found");
+        }
+
+        doi.setStatus(CALLBACK_PROCESSING_PENDING);
+        doi.setRetrieveUrl(retrieveUrl);
+
+        try {
+            doiService.update(context, doi);
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot save DOI to database for unknown reason.");
         }
     }
 }

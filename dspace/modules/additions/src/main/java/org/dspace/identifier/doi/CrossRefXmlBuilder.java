@@ -155,7 +155,7 @@ public class CrossRefXmlBuilder {
     private Head buildHead() {
         Head head = new Head();
 
-        String timeStamp = new SimpleDateFormat("yyyyMMddHHmm").format(new java.util.Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
 
         head.setDoiBatchId(new BigInteger(timeStamp));
         head.setTimestamp(new BigInteger(timeStamp));
