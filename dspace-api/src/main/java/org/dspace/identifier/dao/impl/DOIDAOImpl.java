@@ -45,6 +45,16 @@ public class DOIDAOImpl extends AbstractHibernateDAO<DOI> implements DOIDAO {
     }
 
     @Override
+    public DOI findByBatchId(Context context, String batchId) throws SQLException {
+        CriteriaBuilder criteriaBuilder = getCriteriaBuilder(context);
+        CriteriaQuery criteriaQuery = getCriteriaQuery(criteriaBuilder, DOI.class);
+        Root<DOI> doiRoot = criteriaQuery.from(DOI.class);
+        criteriaQuery.select(doiRoot);
+        criteriaQuery.where(criteriaBuilder.equal(doiRoot.get(DOI_.batchId), batchId));
+        return uniqueResult(context, criteriaQuery, false, DOI.class);
+    }
+
+    @Override
     public DOI findDOIByDSpaceObject(Context context, DSpaceObject dso, List<Integer> statusToExclude)
         throws SQLException {
         CriteriaBuilder criteriaBuilder = getCriteriaBuilder(context);

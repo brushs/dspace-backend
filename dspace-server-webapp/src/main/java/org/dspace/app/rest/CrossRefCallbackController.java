@@ -1,12 +1,11 @@
 package org.dspace.app.rest;
 
 import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.PropertyException;
 import org.crossref.schema._5_3.DoiBatch;
 import org.dspace.content.DSpaceObject;
-import org.dspace.content.service.DSpaceObjectService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
+import org.dspace.identifier.DOIIdentifierProvider;
 import org.dspace.identifier.doi.CrossRefXmlBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +33,12 @@ public class CrossRefCallbackController {
 
     private static final Logger log = LoggerFactory.getLogger(CrossRefCallbackController.class);
 
+    private static final String HEADER_BATCH_ID = "CROSSREF-EXTERNAL-ID";
+    private static final String HEADER_RETRIEVE_URL = "CROSSREF-RETRIEVE-URL";
+
+    @Autowired
+    private DOIIdentifierProvider doiIdentifierProvider;
+
     @Autowired
     private CrossRefXmlBuilder xmlBuilder;
 
@@ -41,9 +46,22 @@ public class CrossRefCallbackController {
     private ItemService itemService;
 
     @RequestMapping ("/callback")
-    public void search(HttpServletRequest request,
+    public void processCallback(HttpServletRequest request,
                        HttpServletResponse response) {
         log.info("Callback Received");
+        Context context = obtainContext(request);
+
+        try {
+            String batchId = request.getHeader(HEADER_BATCH_ID);
+            log.info("Batch ID: " + batchId);
+
+            String retrieveUrl = request.getHeader(HEADER_RETRIEVE_URL);
+            doiIdentifierProvider.processCallback(context, batchId, retrieveUrl);
+
+            context.commit();
+        } catch (Exception e) {
+            log.error("Error processing callback notification", e);
+        }
     }
 
     @RequestMapping ("/testbuild/{uuid}")
