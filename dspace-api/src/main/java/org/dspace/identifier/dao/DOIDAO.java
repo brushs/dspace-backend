@@ -25,6 +25,8 @@ import org.dspace.identifier.DOI;
 public interface DOIDAO extends GenericDAO<DOI> {
     public DOI findByDoi(Context context, String doi) throws SQLException;
 
+    public DOI findByBatchId(Context context, String batchId) throws SQLException;
+
     public DOI findDOIByDSpaceObject(Context context, DSpaceObject dso, List<Integer> statusToExclude)
         throws SQLException;
 

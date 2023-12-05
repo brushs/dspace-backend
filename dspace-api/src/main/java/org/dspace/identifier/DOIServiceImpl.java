@@ -63,6 +63,11 @@ public class DOIServiceImpl implements DOIService {
     }
 
     @Override
+    public DOI findByBatchId(Context context, String batchId) throws SQLException {
+        return doiDAO.findByBatchId(context, batchId);
+    }
+
+    @Override
     public DOI findDOIByDSpaceObject(Context context, DSpaceObject dso) throws SQLException {
         return doiDAO.findDOIByDSpaceObject(context, dso);
     }

@@ -53,6 +53,9 @@ public interface DOIService {
      */
     public DOI findByDoi(Context context, String doi) throws SQLException;
 
+    public DOI findByBatchId(Context context, String batchId) throws SQLException;
+
+
     /**
      * Find the DOI assigned to a given DSpace Object.
      *
