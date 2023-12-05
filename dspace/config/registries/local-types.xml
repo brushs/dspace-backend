@@ -230,7 +230,7 @@
   </dc-type>
 
   <dc-type>
-    <schema>nrcan</schema>
+    <schema>dc</schema>
     <element>identifier</element>
     <qualifier>employeeid</qualifier>
     <scope_note>NRCan Employee ID.</scope_note>
@@ -1253,14 +1253,14 @@
   </dc-type>
 
   <dc-type>
-    <schema>nrcan</schema>
+    <schema>dc</schema>
     <element>identifier</element>
     <qualifier>nrnuserid</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
   <dc-type>
-    <schema>nrcan</schema>
+    <schema>dc</schema>
     <element>identifier</element>
     <qualifier>cfsid</qualifier>
     <scope_note></scope_note>
