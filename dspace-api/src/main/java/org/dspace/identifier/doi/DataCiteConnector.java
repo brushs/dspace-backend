@@ -463,7 +463,7 @@ public class DataCiteConnector
     }
 
     @Override
-    public void registerDOI(Context context, DSpaceObject dso, String doi)
+    public String registerDOI(Context context, DSpaceObject dso, String doi)
         throws DOIIdentifierException {
         // DataCite wants us to reserve a DOI before we can register it
         if (!this.isDOIReserved(context, doi)) {
@@ -487,7 +487,7 @@ public class DataCiteConnector
         switch (resp.statusCode) {
             // 201 -> created/updated -> okay
             case (201): {
-                return;
+                return null;
             }
             // 400 -> wrong domain, wrong prefix, wrong request body
             case (400): {

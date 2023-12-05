@@ -55,6 +55,12 @@ public class DOI
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "batch_id")
+    private String batchId;
+
+    @Column(name = "retrieve_url")
+    private String retrieveUrl;
+
     /**
      * Protected constructor, create object using:
      * {@link org.dspace.identifier.service.DOIService#create(Context)}
@@ -107,5 +113,21 @@ public class DOI
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
+    }
+
+    public String getRetrieveUrl() {
+        return retrieveUrl;
+    }
+
+    public void setRetrieveUrl(String retrieveUrl) {
+        this.retrieveUrl = retrieveUrl;
     }
 }
