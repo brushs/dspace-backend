@@ -268,6 +268,10 @@ crossref.depositor.name=OSTR Team
 crossref.depositor.email=@crossref-email@
 
 # Hidden metadata fields
+metadata.hide.relation.isPublicationOfProvince = true
+metadata.hide.relation.isPublicationOfProvince.latestForDiscovery = true
+metadata.hide.relation.isPublicationOfLanguage = true
+metadata.hide.relation.isPublicationOfLanguage.latestForDiscovery = true
 metadata.hide.dc.date.updated = true
 metadata.hide.dc.description.contact-address = true
 metadata.hide.dc.description.provenance = true

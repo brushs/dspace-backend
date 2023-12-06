@@ -408,8 +408,8 @@
     </bean>
 
     <util:map id="isLanguageOfPublicationMap">
-        <entry key="dc.language" value-ref="publicationLanguage_code"/>
-        <entry key="nrcan.language.name" value-ref="publicationLanguage_name"/>
+        <entry key="dc.language.iso" value-ref="publicationLanguage_code"/>
+        <entry key="dc.language" value-ref="publicationLanguage_name"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Multilingual" id="publicationLanguage_name">
         <property name="fields">
