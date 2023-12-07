@@ -29,8 +29,11 @@
                 <entry key="isSponsorOfPublication" value-ref="isSponsorOfPublicationMap"/>
                 <entry key="isLanguageOfPublication" value-ref="isLanguageOfPublicationMap"/>
                 <entry key="isSerialOfPublication" value-ref="isSerialOfPublicationMap"/>
+                <entry key="isSecondarySerialOfPublication" value-ref="isSecSerialOfPublicationMap"/>
                 <entry key="isJournalOfPublication" value-ref="isJournalOfPublicationMap"/>
                 <entry key="isCorporateAuthorOfPublication" value-ref="isCorporateAuthorOfPublicationMap"/>
+                <entry key="isMonographicAuthorOfPublication" value-ref="isMonoAuthorOfPublicationMap"/>
+                <entry key="isMonoCorpAuthorOfPublication" value-ref="isMonoCorporateAuthorOfPublicationMap"/>
             </map>
         </property>
     </bean>
@@ -282,6 +285,10 @@
         <entry key="nrcan.contributor.corporateauthor" value-ref="publicationPublisher_name"/>
     </util:map>
 
+    <util:map id="isMonoCorporateAuthorOfPublicationMap">
+        <entry key="nrcan.contributor.monographiccorporateauthor" value-ref="publicationPublisher_name"/>
+    </util:map>
+
     <util:map id="isCountryOfPublicationMap">
         <entry key="nrcan.country.name" value-ref="publicationCountry_name"/>
         <entry key="nrcan.country.isocode" value-ref="publicationCountry_code"/>
@@ -455,5 +462,13 @@
         <property name="useForPlace" value="true"/>
         <property name="populateWithNameVariant" value="true"/>
     </bean>
+
+    <util:map id="isSecSerialOfPublicationMap">
+        <entry key="nrcan.secondaryserial.title" value-ref="publicationSerial_title"/>
+    </util:map>
+
+    <util:map id="isMonoAuthorOfPublicationMap">
+        <entry key="nrcan.contributor.monographicauthor" value-ref="publicationAuthor_author"/>
+    </util:map>
 
 </beans>
