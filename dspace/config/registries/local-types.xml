@@ -926,35 +926,35 @@
 
   <dc-type>
     <schema>nrcan</schema>
-    <element>secserial</element>
+    <element>secondaryserial</element>
     <qualifier>0number</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
   <dc-type>
     <schema>nrcan</schema>
-    <element>secserial</element>
+    <element>secondaryserial</element>
     <qualifier>1number</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
   <dc-type>
     <schema>nrcan</schema>
-    <element>secserial</element>
+    <element>secondaryserial</element>
     <qualifier>2number</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
   <dc-type>
     <schema>nrcan</schema>
-    <element>secserial</element>
+    <element>secondaryserial</element>
     <qualifier>3number</qualifier>
     <scope_note></scope_note>
   </dc-type>
 
   <dc-type>
     <schema>nrcan</schema>
-    <element>secserial</element>
+    <element>secondaryserial</element>
     <qualifier>4number</qualifier>
     <scope_note></scope_note>
   </dc-type>
