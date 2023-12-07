@@ -927,6 +927,13 @@
   <dc-type>
     <schema>nrcan</schema>
     <element>secondaryserial</element>
+    <qualifier>title</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>secondaryserial</element>
     <qualifier>0number</qualifier>
     <scope_note></scope_note>
   </dc-type>
