@@ -61,7 +61,7 @@ azure.storage.account = @storage-account@
 # Since DSpace 7, SOLR must be installed as a stand-alone service
 # This is set by the App Service, but because the DSpace command line
 # doesn't use those settings it is also set here
-solr.server = http://ostr-solr-sandbox.azure.cloud.nrcan-rncan.gc.ca/solr
+solr.server = https://ostr-solr-sandbox.azure.cloud.nrcan-rncan.gc.ca/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
@@ -270,6 +270,8 @@ crossref.depositor.email=@crossref-email@
 # Hidden metadata fields
 metadata.hide.relation.isPublicationOfProvince = true
 metadata.hide.relation.isPublicationOfProvince.latestForDiscovery = true
+metadata.hide.relation.isPublicationOfLanguage = true
+metadata.hide.relation.isPublicationOfLanguage.latestForDiscovery = true
 metadata.hide.dc.date.updated = true
 metadata.hide.dc.description.contact-address = true
 metadata.hide.dc.description.provenance = true
@@ -320,6 +322,11 @@ metadata.hide.nrcan.legacy.webaccessible = true
 metadata.hide.nrcan.notes = true
 metadata.hide.nrcan.province.code = true
 metadata.hide.nrcan.publisher.migrationid = true
+metadata.hide.nrcan.secondaryserial.0number = true
+metadata.hide.nrcan.secondaryserial.1number = true
+metadata.hide.nrcan.secondaryserial.2number = true
+metadata.hide.nrcan.secondaryserial.3number = true
+metadata.hide.nrcan.secondaryserial.4number = true
 metadata.hide.nrcan.serial.code = true
 metadata.hide.nrcan.serial.notes = true
 metadata.hide.nrcan.serial.publisher = true
