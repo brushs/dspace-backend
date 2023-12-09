@@ -168,7 +168,7 @@ Common usage:
     <!-- ============================================================= -->
 
     <target name="update"
-            depends="update_configs,update_code,test_database,update_webapps"
+            depends="update_configs,update_code,update_webapps"
             description="Update installed code and web applications (without clobbering data/config)">
     </target>
 
@@ -822,7 +822,7 @@ Common usage:
     <!-- ============================================================= -->
 
     <target name="fresh_install"
-            depends="init_installation,init_configs,test_database,install_code"
+            depends="init_installation,init_configs,install_code"
             description="Do a fresh install of the system, overwriting any data">
 
         <delete failonerror="no">

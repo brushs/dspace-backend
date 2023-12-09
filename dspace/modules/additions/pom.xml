@@ -430,14 +430,38 @@
          <artifactId>jakarta.xml.bind-api</artifactId>
          <version>4.0.0</version>
       </dependency>
-      <!--
       <dependency>
-         <groupId>com.sun.xml.bind</groupId>
-         <artifactId>jaxb-impl</artifactId>
-         <version>4.0.0</version>
-         <scope>runtime</scope>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-web</artifactId>
+         <version>${spring-boot.version}</version>
+         <exclusions>
+            <!-- Later version provided by dspace-api -->
+            <exclusion>
+               <groupId>org.hibernate.validator</groupId>
+               <artifactId>hibernate-validator</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-core</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
-      -->
+       <!--
+       <dependency>
+          <groupId>com.sun.xml.bind</groupId>
+          <artifactId>jaxb-impl</artifactId>
+          <version>4.0.0</version>
+          <scope>runtime</scope>
+       </dependency>
+       -->
    </dependencies>
 
 </project>
