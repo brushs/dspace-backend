@@ -291,7 +291,7 @@
 
     <util:map id="isCountryOfPublicationMap">
         <entry key="nrcan.country.name" value-ref="publicationCountry_name"/>
-        <entry key="nrcan.country.isocode" value-ref="publicationCountry_code"/>
+        <entry key="nrcan.country.iso" value-ref="publicationCountry_code"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Multilingual" id="publicationCountry_name">
         <property name="fields">
@@ -305,7 +305,7 @@
     <bean class="org.dspace.content.virtual.Concatenate" id="publicationCountry_code">
         <property name="fields">
             <util:list>
-                <value>dc.identifier.isocode</value>
+                <value>dc.identifier.iso</value>
             </util:list>
         </property>
         <property name="useForPlace" value="true"/>
@@ -314,7 +314,7 @@
 
     <util:map id="isProvinceOfPublicationMap">
         <entry key="nrcan.province.name" value-ref="publicationProvince_name"/>
-        <entry key="nrcan.province.isocode" value-ref="publicationProvince_code"/>
+        <entry key="nrcan.province.iso" value-ref="publicationProvince_code"/>
     </util:map>
     <bean class="org.dspace.content.virtual.Multilingual" id="publicationProvince_name">
         <property name="fields">
@@ -328,7 +328,7 @@
     <bean class="org.dspace.content.virtual.Concatenate" id="publicationProvince_code">
         <property name="fields">
             <util:list>
-                <value>dc.identifier.isocode</value>
+                <value>dc.identifier.iso</value>
             </util:list>
         </property>
         <property name="useForPlace" value="true"/>
@@ -430,7 +430,7 @@
     <bean class="org.dspace.content.virtual.Concatenate" id="publicationLanguage_code">
         <property name="fields">
             <util:list>
-                <value>dc.identifier.isocode</value>
+                <value>dc.identifier.iso</value>
             </util:list>
         </property>
         <property name="useForPlace" value="true"/>
