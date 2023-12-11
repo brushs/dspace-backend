@@ -262,7 +262,7 @@
   <dc-type>
     <schema>nrcan</schema>
     <element>country</element>
-    <qualifier>isocode</qualifier>
+    <qualifier>iso</qualifier>
     <scope_note>ISO Code of the Country related to the publication.</scope_note>
   </dc-type>
   <dc-type>
@@ -304,7 +304,7 @@
   <dc-type>
     <schema>nrcan</schema>
     <element>province</element>
-    <qualifier>isocode</qualifier>
+    <qualifier>iso</qualifier>
     <scope_note>ISO Code of the Province or Territory related to the publication.</scope_note>
   </dc-type>
   <dc-type>
@@ -1323,7 +1323,7 @@
   <dc-type>
     <schema>dc</schema>
     <element>identifier</element>
-    <qualifier>isocode</qualifier>
+    <qualifier>iso</qualifier>
     <scope_note>ISO code of entity.</scope_note>
   </dc-type>
 
