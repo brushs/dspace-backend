@@ -590,7 +590,9 @@ public class Utils {
         String language = String.join(",", languages);
         if (StringUtils.isEmpty(language)) {
             HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-            language = httpRequest.getHeader("Accept-Language");
+            language = httpRequest.getHeader("Accept-Language").contains("en") ?
+                    (httpRequest.getHeader("Accept-Language").contains("fr") ? "en,fr" : "en" ) :
+                    (httpRequest.getHeader("Accept-Language").contains("fr") ? "fr" : null);
         }
 
         if (projections.isEmpty()) {
