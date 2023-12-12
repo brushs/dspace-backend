@@ -8,14 +8,10 @@
 package org.dspace.app.rest.converter;
 
 import java.sql.SQLException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dspace.app.rest.model.MetadataRest;
 import org.dspace.app.rest.model.MetadataValueList;
 import org.dspace.app.rest.model.MetadataValueRest;
@@ -27,6 +23,7 @@ import org.dspace.content.MetadataValue;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.DSpaceObjectService;
 import org.dspace.core.Context;
+import org.eclipse.jetty.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -49,26 +46,58 @@ public class MetadataConverter implements DSpaceConverter<MetadataValueList, Met
     public MetadataRest convert(MetadataValueList metadataValues,
                                 Projection projection) {
         // Convert each value to a DTO while retaining place order in a map of key -> SortedSet
-        Map<String, SortedSet<MetadataValueRest>> mapOfSortedSets = new HashMap<>();
-        for (MetadataValue metadataValue : metadataValues) {
-            String key = metadataValue.getMetadataField().toString('.');
-            SortedSet<MetadataValueRest> set = mapOfSortedSets.get(key);
-            if (set == null) {
-                set = new TreeSet<>(Comparator.comparingInt(MetadataValueRest::getPlace));
-                mapOfSortedSets.put(key, set);
+        if (!StringUtils.isEmpty(projection.getLanguage()) && projection.getLanguage().contains(",")) {
+            Map<String, Map<String, SortedSet<MetadataValueRest>>> mapOfLanguageMaps = new HashMap<>();
+            for (MetadataValue metadataValue : metadataValues) {
+                String key = metadataValue.getMetadataField().toString('.');
+                Map<String, SortedSet<MetadataValueRest>> map = mapOfLanguageMaps.get(key);
+                if (map == null) {
+                    map = new HashMap<>();
+                    mapOfLanguageMaps.put(key, map);
+                }
+                SortedSet<MetadataValueRest> set = map.get(metadataValue.getLanguage());
+                if (set == null) {
+                    set = new TreeSet<>(Comparator.comparingInt(MetadataValueRest::getPlace));
+                    map.put(metadataValue.getLanguage(), set);
+                }
+                set.add(converter.toRest(metadataValue, projection));
             }
-            set.add(converter.toRest(metadataValue, projection));
+
+            MetadataRest metadataRest = new MetadataRest();
+
+            // Populate MetadataRest's map of key -> List while respecting SortedSet's order
+            Map<String, List<MetadataValueRest>> mapOfLists = metadataRest.getMap();
+            for (Map.Entry<String, Map<String, SortedSet<MetadataValueRest>>> fieldEntry : mapOfLanguageMaps.entrySet()) {
+                List<MetadataValueRest> metadataValueRestList = new ArrayList<>();
+                for (SortedSet<MetadataValueRest> sortedSet : fieldEntry.getValue().values()) {
+                    metadataValueRestList.addAll(sortedSet);
+                }
+                mapOfLists.put(fieldEntry.getKey(), metadataValueRestList);
+            }
+
+            return metadataRest;
+        } else {
+            Map<String, SortedSet<MetadataValueRest>> mapOfSortedSets = new HashMap<>();
+            for (MetadataValue metadataValue : metadataValues) {
+                String key = metadataValue.getMetadataField().toString('.');
+                SortedSet<MetadataValueRest> set = mapOfSortedSets.get(key);
+                if (set == null) {
+                    set = new TreeSet<>(Comparator.comparingInt(MetadataValueRest::getPlace));
+                    mapOfSortedSets.put(key, set);
+                }
+                set.add(converter.toRest(metadataValue, projection));
+            }
+
+            MetadataRest metadataRest = new MetadataRest();
+
+            // Populate MetadataRest's map of key -> List while respecting SortedSet's order
+            Map<String, List<MetadataValueRest>> mapOfLists = metadataRest.getMap();
+            for (Map.Entry<String, SortedSet<MetadataValueRest>> entry : mapOfSortedSets.entrySet()) {
+                mapOfLists.put(entry.getKey(), entry.getValue().stream().collect(Collectors.toList()));
+            }
+
+            return metadataRest;
         }
-
-        MetadataRest metadataRest = new MetadataRest();
-
-        // Populate MetadataRest's map of key -> List while respecting SortedSet's order
-        Map<String, List<MetadataValueRest>> mapOfLists = metadataRest.getMap();
-        for (Map.Entry<String, SortedSet<MetadataValueRest>> entry : mapOfSortedSets.entrySet()) {
-            mapOfLists.put(entry.getKey(), entry.getValue().stream().collect(Collectors.toList()));
-        }
-
-        return metadataRest;
     }
 
     @Override
