@@ -15,6 +15,7 @@ CREATE TABLE vocabulary
 CREATE TABLE term
 (
     id                        INTEGER PRIMARY KEY,
+    external_id               VARCHAR(64),
     name_en                   VARCHAR(64) NOT NULL,
     name_fr                   VARCHAR(64) NOT NULL,
     description_en            VARCHAR(512),

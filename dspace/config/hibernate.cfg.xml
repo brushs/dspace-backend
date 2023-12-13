@@ -93,5 +93,8 @@
         <mapping class="org.dspace.orcid.OrcidHistory" />
         <mapping class="org.dspace.orcid.OrcidToken"/>
 
+        <mapping class="org.dspace.content.Vocabulary"/>
+        <mapping class="org.dspace.content.Term"/>
+
     </session-factory>
 </hibernate-configuration>
