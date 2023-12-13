@@ -56,6 +56,8 @@ public class CrossRefCallbackController {
             log.info("Batch ID: " + batchId);
 
             String retrieveUrl = request.getHeader(HEADER_RETRIEVE_URL);
+            log.info("Retrieve URL: " + retrieveUrl);
+
             doiIdentifierProvider.processCallback(context, batchId, retrieveUrl);
 
             context.commit();
