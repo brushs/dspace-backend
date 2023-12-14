@@ -60,12 +60,12 @@ import org.junit.Test;
  * @author Mark H. Wood
  * @author Pascal-Nicolas Becker
  */
-public class DOIIdentifierProviderTest
+public class DataCiteDOIIdentifierProviderTest
     extends AbstractUnitTest {
     /**
      * log4j category
      */
-    private static final Logger log = LogManager.getLogger(DOIIdentifierProviderTest.class);
+    private static final Logger log = LogManager.getLogger(DataCiteDOIIdentifierProviderTest.class);
 
     private static final String PREFIX = "10.5072";
     private static final String NAMESPACE_SEPARATOR = "dspaceUnitTests-";
@@ -83,9 +83,9 @@ public class DOIIdentifierProviderTest
     private static Collection collection;
 
     private static DOIConnector connector;
-    private DOIIdentifierProvider provider;
+    private DataCiteDOIIdentifierProvider provider;
 
-    public DOIIdentifierProviderTest() {
+    public DataCiteDOIIdentifierProviderTest() {
     }
 
     /**
@@ -122,7 +122,7 @@ public class DOIIdentifierProviderTest
 
             connector = mock(DOIConnector.class);
 
-            provider = new DOIIdentifierProvider();
+            provider = new DataCiteDOIIdentifierProvider();
             provider.doiService = doiService;
             provider.contentServiceFactory = ContentServiceFactory.getInstance();
             provider.itemService = itemService;

@@ -1,6 +1,11 @@
 package org.dspace.app.rest;
 
 import jakarta.xml.bind.JAXBException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.crossref.schema._5_3.DoiBatch;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.service.ItemService;
@@ -18,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
@@ -27,7 +33,7 @@ import java.util.UUID;
 
 import static org.dspace.app.rest.utils.ContextUtil.obtainContext;
 
-@Controller
+@RestController
 @RequestMapping("/crossref")
 public class CrossRefCallbackController {
 
@@ -86,4 +92,5 @@ public class CrossRefCallbackController {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         marshaller.marshal(batch, response.getOutputStream());
     }
+
 }
