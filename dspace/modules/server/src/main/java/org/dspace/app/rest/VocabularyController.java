@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.dspace.app.rest.utils.ContextUtil.obtainContext;
 
-@Controller
+@RestController
 @RequestMapping("/vocabulary")
 public class VocabularyController {
 

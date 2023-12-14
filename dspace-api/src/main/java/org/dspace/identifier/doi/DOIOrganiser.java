@@ -26,6 +26,11 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dspace.content.DSpaceObject;
@@ -121,6 +126,8 @@ public class DOIOrganiser {
                 "Perform online metadata update for all identifiers queued for metadata update.");
         options.addOption("d", "delete-all", false,
                 "Perform online deletion for all identifiers queued for deletion.");
+        options.addOption("c", "callback-process-all", false,
+                "Perform callback response processing for all identifiers queued for processing.");
 
         options.addOption("q", "quiet", false,
                 "Turn the command line output off.");
@@ -170,6 +177,14 @@ public class DOIOrganiser {
 
         options.addOption(delete);
 
+        Option callback = Option.builder()
+                .longOpt("callback-process-all")
+                .hasArg()
+                .desc("Process callback responses for all pending DOIs.")
+                .build();
+
+        options.addOption(callback);
+
         // initialize parser
         CommandLineParser parser = new DefaultParser();
         CommandLine line = null;
@@ -200,6 +215,8 @@ public class DOIOrganiser {
                     DOIIdentifierProvider.UPDATE_REGISTERED,
                     DOIIdentifierProvider.UPDATE_RESERVED);
             organiser.list("deletion", null, null, DOIIdentifierProvider.TO_BE_DELETED);
+            organiser.list("callback pending", null, null, DOIIdentifierProvider.PENDING);
+            organiser.list("callback processing", null, null, DOIIdentifierProvider.CALLBACK_PROCESSING_PENDING);
         }
 
         DOIService doiService = IdentifierServiceFactory.getInstance().getDOIService();
@@ -291,6 +308,28 @@ public class DOIOrganiser {
             }
         }
 
+        if (line.hasOption('c')) {
+            try {
+                List<DOI> dois = doiService
+                        .getDOIsByStatus(context, Arrays.asList(DOIIdentifierProvider.CALLBACK_PROCESSING_PENDING));
+                if (dois.isEmpty()) {
+                    System.err.println("There are no objects in the database "
+                            + "ready for callback processing.");
+                }
+
+                Iterator<DOI> iterator = dois.iterator();
+                while (iterator.hasNext()) {
+                    DOI doi = iterator.next();
+                    iterator.remove();
+                    organiser.processCallback(doi);
+                    context.uncacheEntity(doi);
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error in database connection:" + ex.getMessage());
+                ex.printStackTrace(System.err);
+            }
+        }
+
         if (line.hasOption("reserve-doi")) {
             String identifier = line.getOptionValue("reserve-doi");
 
@@ -359,7 +398,7 @@ public class DOIOrganiser {
      * @param err           - error output stream (eg. STDERR)
      * @param status        - status codes
      */
-    public void list(String processName, PrintStream out, PrintStream err, Integer ... status) {
+    private void list(String processName, PrintStream out, PrintStream err, Integer ... status) {
         String indent = "    ";
         if (null == out) {
             out = System.out;
@@ -398,7 +437,7 @@ public class DOIOrganiser {
      * @throws SQLException
      * @throws DOIIdentifierException
      */
-    public void register(DOI doiRow, boolean skipFilter) throws SQLException, DOIIdentifierException {
+    private void register(DOI doiRow, boolean skipFilter) throws SQLException, DOIIdentifierException {
         DSpaceObject dso = doiRow.getDSpaceObject();
         if (Constants.ITEM != dso.getType()) {
             throw new IllegalArgumentException("Currenty DSpace supports DOIs for Items only.");
@@ -471,7 +510,7 @@ public class DOIOrganiser {
      * @throws SQLException
      * @throws DOIIdentifierException
      */
-    public void register(DOI doiRow) throws SQLException, DOIIdentifierException {
+    private void register(DOI doiRow) throws SQLException, DOIIdentifierException {
         if (this.skipFilter) {
             System.out.println("Skipping the filter for " + doiRow.getDoi());
         }
@@ -484,7 +523,7 @@ public class DOIOrganiser {
      * @throws SQLException
      * @throws DOIIdentifierException
      */
-    public void reserve(DOI doiRow) {
+    private void reserve(DOI doiRow) {
         if (this.skipFilter) {
             System.out.println("Skipping the filter for " + doiRow.getDoi());
         }
@@ -497,7 +536,7 @@ public class DOIOrganiser {
      * @throws SQLException
      * @throws DOIIdentifierException
      */
-    public void reserve(DOI doiRow, boolean skipFilter) {
+    private void reserve(DOI doiRow, boolean skipFilter) {
         DSpaceObject dso = doiRow.getDSpaceObject();
         if (Constants.ITEM != dso.getType()) {
             throw new IllegalArgumentException("Currently DSpace supports DOIs for Items only.");
@@ -560,7 +599,7 @@ public class DOIOrganiser {
      * Update metadata for a DOI
      * @param doiRow    - DOI to update
      */
-    public void update(DOI doiRow) {
+    private void update(DOI doiRow) {
         DSpaceObject dso = doiRow.getDSpaceObject();
         if (Constants.ITEM != dso.getType()) {
             throw new IllegalArgumentException("Currently DSpace supports DOIs for Items only.");
@@ -621,7 +660,7 @@ public class DOIOrganiser {
      * @param identifier    - DOI to delete
      * @throws SQLException
      */
-    public void delete(String identifier) throws SQLException {
+    private void delete(String identifier) throws SQLException {
         String doi = null;
         DOI doiRow = null;
 
@@ -679,7 +718,7 @@ public class DOIOrganiser {
      *                                  DSpaceObject.
      * @throws IdentifierException      if identifier error
      */
-    public DOI resolveToDOI(String identifier)
+    private DOI resolveToDOI(String identifier)
             throws SQLException, IllegalArgumentException, IllegalStateException, IdentifierException {
         if (null == identifier || identifier.isEmpty()) {
             throw new IllegalArgumentException("Identifier is null or empty.");
@@ -788,6 +827,57 @@ public class DOIOrganiser {
             if (!quiet) {
                 System.err.println("Unable to send email alert.");
             }
+        }
+    }
+
+    private void processCallback(DOI doi) {
+        try {
+            // Create an HttpClient
+            HttpClient httpClient = HttpClients.createDefault();
+
+            // Specify the URL of the XML resource
+            String url = doi.getRetrieveUrl();
+
+            // Create an HTTP GET request
+            HttpGet httpGet = new HttpGet(url);
+
+            // Execute the request and get the response
+            HttpResponse response = httpClient.execute(httpGet);
+
+            // Check if the request was successful (status code 200)
+            if (response.getStatusLine().getStatusCode() == 200) {
+                // Read the XML response
+                String xmlResponse = EntityUtils.toString(response.getEntity());
+
+                // Now, 'xmlResponse' contains the XML document
+                System.out.println("XML Response:\n" + xmlResponse);
+
+                int batchIdPos = xmlResponse.indexOf("<batch_id>");
+                String batchId = xmlResponse.substring(batchIdPos + 10, batchIdPos + 24);
+
+                if (doi.getBatchId().contentEquals(batchId)) {
+                    doi.setStatus(DOIIdentifierProvider.ERROR);
+                    LOG.error("Error - invalid batchId - DOI record ID: " + doi.getID());
+                    return;
+                }
+
+                int indexPos = xmlResponse.indexOf("<success_count>");
+                String successCount = xmlResponse.substring(indexPos + 15, indexPos + 16);
+
+                if (successCount.contentEquals("1")) {
+                    provider.saveDOIToObject(context, doi.getDSpaceObject(), doi.getDoi());
+                    doi.setStatus(DOIIdentifierProvider.IS_REGISTERED);
+                } else {
+                    doi.setStatus(DOIIdentifierProvider.ERROR);
+                    LOG.error("Error creating DOI - DOI record ID: " + doi.getID());
+                }
+            } else {
+                System.out.println("HTTP Request Failed with status code: " + response.getStatusLine().getStatusCode());
+            }
+
+        } catch (Exception e) {
+            // Don't update the status as this is a system error and we can reprocess
+            LOG.error("Error", e);
         }
     }
 

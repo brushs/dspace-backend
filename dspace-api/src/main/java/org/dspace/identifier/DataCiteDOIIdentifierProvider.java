@@ -1035,7 +1035,8 @@ public class DataCiteDOIIdentifierProvider extends FilteredIdentifierProvider im
      * @throws AuthorizeException  if authorization error
      * @throws IdentifierException if identifier error
      */
-    protected void saveDOIToObject(Context context, DSpaceObject dso, String doi)
+    @Override
+    public void saveDOIToObject(Context context, DSpaceObject dso, String doi)
             throws SQLException, AuthorizeException, IdentifierException {
         // FIXME
         if (!(dso instanceof Item)) {

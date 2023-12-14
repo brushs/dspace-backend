@@ -1047,7 +1047,8 @@ public class CrossRefDOIIdentifierProvider extends FilteredIdentifierProvider im
      * @throws AuthorizeException  if authorization error
      * @throws IdentifierException if identifier error
      */
-    protected void saveDOIToObject(Context context, DSpaceObject dso, String doi)
+    @Override
+    public void saveDOIToObject(Context context, DSpaceObject dso, String doi)
             throws SQLException, AuthorizeException, IdentifierException {
         // FIXME
         if (!(dso instanceof Item)) {
@@ -1056,8 +1057,7 @@ public class CrossRefDOIIdentifierProvider extends FilteredIdentifierProvider im
         }
         Item item = (Item) dso;
 
-        itemService.addMetadata(context, item, MD_SCHEMA, DOI_ELEMENT, DOI_QUALIFIER, null,
-            doiService.DOIToExternalForm(doi));
+        itemService.addMetadata(context, item, MD_SCHEMA, DOI_ELEMENT, DOI_QUALIFIER, null, doi);
         try {
             itemService.update(context, item);
         } catch (SQLException | AuthorizeException ex) {

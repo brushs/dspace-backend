@@ -1,5 +1,6 @@
 package org.dspace.identifier;
 
+import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
 import org.dspace.identifier.doi.DOIIdentifierException;
@@ -25,10 +26,9 @@ public interface DOIIdentifierProvider {
     String CFG_NAMESPACE_SEPARATOR = "identifier.doi.namespaceseparator";
 
     // Metadata field name elements
-    // TODO: move these to MetadataSchema or some such?
     String MD_SCHEMA = "dc";
     String DOI_ELEMENT = "identifier";
-    String DOI_QUALIFIER = "uri";
+    String DOI_QUALIFIER = "doi";
 
     String register(Context context, DSpaceObject dso, boolean skipFilter)
             throws IdentifierException;
@@ -53,4 +53,7 @@ public interface DOIIdentifierProvider {
             throws IdentifierNotFoundException, IdentifierNotResolvableException;
 
     void processCallback(Context context, String batchId, String retrieveUrl) throws SQLException;
+
+    void saveDOIToObject(Context context, DSpaceObject dso, String doi)
+            throws SQLException, AuthorizeException, IdentifierException;
 }
