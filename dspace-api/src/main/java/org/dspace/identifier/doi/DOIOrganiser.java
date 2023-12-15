@@ -855,7 +855,7 @@ public class DOIOrganiser {
                 int batchIdPos = xmlResponse.indexOf("<batch_id>");
                 String batchId = xmlResponse.substring(batchIdPos + 10, batchIdPos + 24);
 
-                if (doi.getBatchId().contentEquals(batchId)) {
+                if (!doi.getBatchId().contentEquals(batchId)) {
                     doi.setStatus(DOIIdentifierProvider.ERROR);
                     LOG.error("Error - invalid batchId - DOI record ID: " + doi.getID());
                     return;
