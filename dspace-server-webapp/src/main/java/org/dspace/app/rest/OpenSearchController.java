@@ -154,7 +154,7 @@ public class OpenSearchController {
             if (dsoObject != null) {
                 container = scopeResolver.resolveScope(context, dsoObject);
                 DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-                        .getDiscoveryConfigurationByNameOrDso("site", container);
+                        .getDiscoveryConfigurationByNameOrDso("site", container, null);
                 queryArgs.setDiscoveryConfigurationName(discoveryConfiguration.getId());
                 queryArgs.addFilterQueries(discoveryConfiguration.getDefaultFilterQueries()
                         .toArray(

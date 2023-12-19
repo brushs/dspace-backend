@@ -84,7 +84,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
 
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject);
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, null);
 
         return discoverConfigurationConverter.convert(discoveryConfiguration, utils.obtainProjection());
     }
@@ -96,7 +96,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
         Context context = obtainContext();
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject);
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, null);
 
         DiscoverResult searchResult = null;
         DiscoverQuery discoverQuery = null;
@@ -116,12 +116,13 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
                      discoveryConfiguration, projection);
     }
 
-    public FacetConfigurationRest getFacetsConfiguration(final String dsoScope, final String configuration) {
+    public FacetConfigurationRest getFacetsConfiguration(final String dsoScope, final String configuration,
+                                                         String language) {
         Context context = obtainContext();
 
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject);
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, language);
 
         return discoverFacetConfigurationConverter.convert(configuration, dsoScope, discoveryConfiguration);
     }
@@ -138,7 +139,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
 
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject);
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, utils.obtainProjection().getLanguage());
 
         DiscoverQuery discoverQuery = queryBuilder.buildFacetQuery(context, scopeObject, discoveryConfiguration, prefix,
                 query, searchFilters, dsoTypes, page, facetName);
@@ -157,7 +158,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
         Pageable page = PageRequest.of(1, 1);
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject);
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, null);
 
         DiscoverResult searchResult = null;
         DiscoverQuery discoverQuery = null;
