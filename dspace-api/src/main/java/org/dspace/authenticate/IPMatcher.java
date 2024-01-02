@@ -64,7 +64,7 @@ public class IPMatcher {
         String ipPart = ipSpec;
         String[] parts = ipSpec.split("/");
 
-        if (parts[0].chars().filter(ch -> ch == ':').count() >= 2) { // looks like IPv6
+        if (parts[0].indexOf(':') >= 0) { // looks like IPv6
             try {
                 network = Inet6Address.getByName(parts[0]).getAddress();
             } catch (UnknownHostException e) {
@@ -117,12 +117,7 @@ public class IPMatcher {
             switch (parts.length) {
                 case 2:
                     // Some kind of slash notation -- we'll need a full network IP
-                    if (parts[0].contains(":")) {
-                        ipPart = parts[0].substring(0, parts[0].indexOf(":"));
-                    } else {
-                        ipPart = parts[0];
-                    }
-                    log.error("IP MATCH: " + ipPart);
+                    ipPart = parts[0];
                     mustHave4 = true;
 
                     String[] maskParts = parts[1].split("\\.");
