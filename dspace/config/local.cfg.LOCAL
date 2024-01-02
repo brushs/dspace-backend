@@ -333,3 +333,6 @@ metadata.hide.nrcan.serial.notes = true
 metadata.hide.nrcan.serial.publisher = true
 metadata.hide.nrcan.serial.urlname = true
 metadata.hide.nrcan.sourcesystem = true
+
+# for IP range validation end point, as group name that allowed to login
+ipgroup = Administrator
