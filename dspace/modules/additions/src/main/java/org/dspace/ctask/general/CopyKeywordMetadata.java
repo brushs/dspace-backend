@@ -13,16 +13,10 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.content.MetadataValue;
 import org.dspace.content.Term;
-import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.factory.VocabularyServiceFactory;
-import org.dspace.content.service.ItemService;
 import org.dspace.content.service.VocabularyService;
 import org.dspace.curate.AbstractCurationTask;
 import org.dspace.curate.Curator;
-import org.dspace.identifier.DOIIdentifierProvider;
-import org.dspace.identifier.IdentifierException;
-import org.dspace.identifier.doi.DOIIdentifierNotApplicableException;
-import org.dspace.utils.DSpace;
 
 import java.io.IOException;
 import java.sql.SQLException;
