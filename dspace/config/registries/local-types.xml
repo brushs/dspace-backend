@@ -1132,6 +1132,20 @@
   <dc-type>
     <schema>dc</schema>
     <element>subject</element>
+    <qualifier>cfs_en</qualifier>
+    <scope_note>CFS Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>cfs_fr</qualifier>
+    <scope_note>CFS Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
     <qualifier>other</qualifier>
     <scope_note></scope_note>
   </dc-type>
