@@ -70,6 +70,7 @@
 
     <!-- An optional logical item filter can be included in provider configuration based
     on the filters defined in item-filters.xml, eg. -->
+    <!--
     <bean id="org.dspace.identifier.DOIIdentifierProvider"
         class="org.dspace.identifier.DOIIdentifierProvider"
         scope="singleton">
@@ -79,8 +80,17 @@
             ref="org.dspace.identifier.doi.DOIConnector" />
         <property name="filterService" ref="doi-filter" />
     </bean>
+    -->
+    <bean id="org.dspace.identifier.DOIIdentifierProvider"
+          class="org.dspace.identifier.doi.CrossRefDOIIdentifierProvider"
+          scope="singleton">
+        <property name="configurationService"
+                  ref="org.dspace.services.ConfigurationService" />
+        <property name="DOIConnector"
+                  ref="org.dspace.identifier.doi.DOIConnector" />
+        <property name="filterService" ref="doi-filter" />
+    </bean>
 
-    
     <!-- The DOIConnector will handle the API calls to your DOI registration
          agency for the DOIIdentifierProvider. If your registration agency
          tells you to use the DataCite API directly, you can use the
@@ -89,12 +99,16 @@
          e.g. EZID is part of DataCite but provides their own APIs. The following
          DataCiteConnector won't work if EZID is your registration agency.
     -->
+    <!--
     <bean id="org.dspace.identifier.doi.DOIConnector"
-        class="org.dspace.identifier.doi.CrossRefConnector"
+        class="org.dspace.identifier.doi.DataCiteConnector"
         scope="singleton">
     </bean>
-
-    <bean id="crossRefXmlBuilder" class="org.dspace.identifier.doi.CrossRefXmlBuilder" />
+    -->
+    <bean id="org.dspace.identifier.doi.DOIConnector"
+          class="org.dspace.identifier.doi.CrossRefConnector"
+          scope="singleton">
+    </bean>
 
     <!-- Provider to mint and register DOIs using EZID as the registrar.
     -->
@@ -138,5 +152,7 @@
 
     </bean>
     -->
+
+    <bean id="crossRefXmlBuilder" class="org.dspace.identifier.doi.CrossRefXmlBuilder" />
 
 </beans>

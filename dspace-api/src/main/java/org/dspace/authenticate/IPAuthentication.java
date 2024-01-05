@@ -174,6 +174,8 @@ public class IPAuthentication implements AuthenticationMethod {
         // Get the user's IP address
         String addr = clientInfoService.getClientIp(request);
 
+        log.error("IP CHECK: " + addr);
+
         for (IPMatcher ipm : ipMatchers) {
             try {
                 if (ipm.match(addr)) {

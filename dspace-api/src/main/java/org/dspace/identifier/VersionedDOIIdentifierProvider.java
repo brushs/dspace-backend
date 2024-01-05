@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Marsa Haoua
  * @author Pascal-Nicolas Becker (dspace at pascal dash becker dot de)
  */
-public class VersionedDOIIdentifierProvider extends DOIIdentifierProvider {
+public class VersionedDOIIdentifierProvider extends DataCiteDOIIdentifierProvider {
     /**
      * log4j category
      */
