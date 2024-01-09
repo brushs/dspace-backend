@@ -201,6 +201,8 @@
                         <value>dc.description.provenance</value>
                         <value>relation.isPublicationOfProvince</value>
                         <value>relation.isPublicationOfProvince.latestForDiscovery</value>
+                        <value>relation.isPublicationOfLanguage</value>
+                        <value>relation.isPublicationOfLanguage.latestForDiscovery</value>
                     </list>
                 </entry>
             </map>
