@@ -162,8 +162,8 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
     protected void update(Context context, IndexFactory indexableObjectService,
                           IndexableObject indexableObject) throws IOException, SQLException, SolrServerException {
-        final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
-        indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
+        //final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
+        //indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
     }
 
     /**
@@ -176,11 +176,11 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     protected void update(Context context, IndexFactory indexableObjectService, IndexableObject indexableObject,
                           boolean preDB) throws IOException, SQLException, SolrServerException {
         if (preDB) {
-            final SolrInputDocument solrInputDocument =
-                    indexableObjectService.buildNewDocument(context, indexableObject);
-            indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
+            //final SolrInputDocument solrInputDocument =
+            //        indexableObjectService.buildNewDocument(context, indexableObject);
+            //indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
         } else {
-            update(context, indexableObjectService, indexableObject);
+            //update(context, indexableObjectService, indexableObject);
         }
     }
 
