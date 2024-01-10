@@ -41,10 +41,14 @@ public class DiscoveryConfigurationService {
         this.toIgnoreMetadataFields = toIgnoreMetadataFields;
     }
 
-    public DiscoveryConfiguration getDiscoveryConfiguration(IndexableObject dso) {
+    public DiscoveryConfiguration getDiscoveryConfiguration(IndexableObject dso, String language) {
         String name;
         if (dso == null) {
-            name = "default";
+            if (language != null && language.contains("fr")) {
+                name = "default-fr";
+            } else {
+                name = "default-en";
+            }
         } else if (dso instanceof IndexableDSpaceObject) {
             name = ((IndexableDSpaceObject) dso).getIndexedObject().getHandle();
         } else {
@@ -68,11 +72,12 @@ public class DiscoveryConfigurationService {
     }
 
     public DiscoveryConfiguration getDiscoveryConfigurationByNameOrDso(final String configurationName,
-                                                                       final IndexableObject dso) {
+                                                                       final IndexableObject dso,
+                                                                       final String language) {
         if (StringUtils.isNotBlank(configurationName) && getMap().containsKey(configurationName)) {
             return getMap().get(configurationName);
         } else {
-            return getDiscoveryConfiguration(dso);
+            return getDiscoveryConfiguration(dso, language);
         }
     }
 
