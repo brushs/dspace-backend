@@ -332,3 +332,6 @@ metadata.hide.nrcan.serial.notes = true
 metadata.hide.nrcan.serial.publisher = true
 metadata.hide.nrcan.serial.urlname = true
 metadata.hide.nrcan.sourcesystem = true
+
+ipgroup = Administrator
+authentication-ip.Administrator  = 132.156.0.0/16, 205.193.40.0/24, 192.197.81.0/24, 205.194.32.24/29

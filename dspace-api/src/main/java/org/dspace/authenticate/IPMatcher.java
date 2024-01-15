@@ -246,6 +246,11 @@ public class IPMatcher {
         log.debug("ipIn: " + ipIn);
         byte[] candidate;
 
+        // Contains a port#
+        if (ipIn.chars().filter(ch -> ch == ':').count() == 1) {
+            ipIn = ipIn.substring(0, ipIn.indexOf(":"));
+        }
+
         if (ipIn.indexOf(':') < 0) {
             candidate = new byte[4];
             ipToBytes(ipIn, candidate, true);
