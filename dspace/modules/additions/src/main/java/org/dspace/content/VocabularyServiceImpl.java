@@ -22,19 +22,8 @@ public class VocabularyServiceImpl implements VocabularyService {
     @Override
     public Vocabulary findByName(Context context, String name)
             throws IOException, SQLException {
+
         return vocabularyDAO.findByName(context, name);
-    }
-
-    @Override
-    public List<Term> findByName(Context context, String termName, String vocabularyName)
-            throws IOException, SQLException {
-
-        Vocabulary vocabulary = null;
-        if (!StringUtils.isEmpty(vocabularyName)) {
-            vocabulary = vocabularyDAO.findByName(context, vocabularyName);
-        }
-
-        return termDAO.findByName(context, termName, vocabulary == null ? null : vocabulary.getId());
     }
 
     @Override
@@ -43,4 +32,5 @@ public class VocabularyServiceImpl implements VocabularyService {
 
         return termDAO.findByName(context, termName, vocabularyId);
     }
+
 }
