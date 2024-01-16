@@ -100,7 +100,7 @@ public class CopyKeywordMetadata extends AbstractCurationTask {
      */
     private void performMetadataCopy(Item item) throws SQLException, IOException, AuthorizeException {
         // If not recently updated, return
-        // TODO provide CLI option to skip this check, parameterize minusDays
+        // TODO provide CLI option to skip this check (not sure possible), parameterize minusDays in config
         LocalDate lastModified = item.getLastModified().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate compareDate = LocalDate.now().minusDays(2);
 
@@ -109,18 +109,23 @@ public class CopyKeywordMetadata extends AbstractCurationTask {
         }
 
         // TODO pull from config
-        List<String> fieldsToProcess = new ArrayList<>();
-        fieldsToProcess.add("dc.subject.cfs");
+        Map<String, Integer> fieldsToProcess = new HashMap<String, Integer>();
+        fieldsToProcess.put("dc.subject.cfs", 5);
+        fieldsToProcess.put("dc.subject.gc", 2);
+        fieldsToProcess.put("dc.subject.broad", 3);
+        fieldsToProcess.put("dc.subject.geoscan", 1);
 
-        for (String metadataField : fieldsToProcess) {
+        for (String metadataField : fieldsToProcess.keySet()) {
             // Get Item metadata
             List<MetadataValue> mdvs = itemService.getMetadataByMetadataString(item, metadataField);
+
+            Integer vocabularyId = fieldsToProcess.get(metadataField);
 
             for (MetadataValue mdv : mdvs) {
                 log.info("Processing Value: " + mdv.getValue());
                 // TODO Limit check to specific vocabulary based on config?
                 // Check to see if any terms are matched
-                List<Term> terms = vocabularyService.findByName(Curator.curationContext(), mdv.getValue(), null);
+                List<Term> terms = vocabularyService.findByName(Curator.curationContext(), mdv.getValue(), vocabularyId);
 
                 if (terms != null && terms.size() > 0) {
                     Map<String, String> mappedMetadataFields = new HashMap<>();
@@ -152,6 +157,10 @@ public class CopyKeywordMetadata extends AbstractCurationTask {
                             itemService.updateLastModified(Curator.curationContext(), item);
                         }
                     }
+                }
+                else {
+                    // No matching text was found in Vocabulary
+                    log.warn("Subject not found in Vocabulary - ID: " + item.getID() + " Val - " + mdv.getValue());
                 }
             }
         }

@@ -15,4 +15,7 @@ public interface VocabularyService {
 
     List<Term> findByName(Context context, String termName, String vocabularyName)
             throws IOException, SQLException;
+
+    List<Term> findByName(Context context, String termName, Integer vocabularyId)
+            throws IOException, SQLException;
 }

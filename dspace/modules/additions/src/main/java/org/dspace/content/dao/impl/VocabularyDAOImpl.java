@@ -34,8 +34,8 @@ public class VocabularyDAOImpl extends AbstractHibernateDAO<Vocabulary> implemen
         CriteriaQuery cq = getCriteriaQuery(cb, Vocabulary.class);
         Root<Vocabulary> root = cq.from(Vocabulary.class);
 
-        Predicate nameEn = cb.equal(root.get("nameEn"), name);
-        Predicate nameFr = cb.equal(root.get("nameFr"), name);
+        Predicate nameEn = cb.equal(cb.upper(root.get("nameEn")), name.toUpperCase());
+        Predicate nameFr = cb.equal(cb.upper(root.get("nameFr")), name.toUpperCase());
 
         cq.select(root).where(cb.or(nameEn, nameFr));
 

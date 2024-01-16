@@ -1146,6 +1146,48 @@
   <dc-type>
     <schema>dc</schema>
     <element>subject</element>
+    <qualifier>broad_en</qualifier>
+    <scope_note>Broad Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>broad_fr</qualifier>
+    <scope_note>Broad Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>gc_en</qualifier>
+    <scope_note>GC Core Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>gc_fr</qualifier>
+    <scope_note>GC Core Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>geoscan_en</qualifier>
+    <scope_note>GEOSCAN Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>geoscan_fr</qualifier>
+    <scope_note>GEOSCAN Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
     <qualifier>other</qualifier>
     <scope_note></scope_note>
   </dc-type>

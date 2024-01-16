@@ -36,4 +36,11 @@ public class VocabularyServiceImpl implements VocabularyService {
 
         return termDAO.findByName(context, termName, vocabulary == null ? null : vocabulary.getId());
     }
+
+    @Override
+    public List<Term> findByName(Context context, String termName, Integer vocabularyId)
+            throws IOException, SQLException {
+
+        return termDAO.findByName(context, termName, vocabularyId);
+    }
 }

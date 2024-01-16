@@ -216,8 +216,8 @@
             <list>
                 <ref bean="searchFilterType"/>
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubjectCFS_en" />
-                <ref bean="searchFilterSubjectCFS_fr" />
+                <ref bean="searchFilterSubject_en" />
+                <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterEntityType"/>
@@ -231,8 +231,8 @@
                 <ref bean="searchFilterType"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubjectCFS_en" />
-                <ref bean="searchFilterSubjectCFS_fr" />
+                <ref bean="searchFilterSubject_en" />
+                <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
@@ -366,7 +366,7 @@
             <list>
                 <ref bean="searchFilterType"/>
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubjectCFS_en" />
+                <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
             </list>
@@ -379,7 +379,7 @@
                 <ref bean="searchFilterType"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubjectCFS_en" />
+                <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
@@ -513,7 +513,7 @@
             <list>
                 <ref bean="searchFilterType"/>
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubjectCFS_fr" />
+                <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
             </list>
@@ -526,7 +526,7 @@
                 <ref bean="searchFilterType"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
-                <ref bean="searchFilterSubjectCFS_fr" />
+                <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterFileNameInOriginalBundle" />
@@ -3442,8 +3442,8 @@
         <!-- List of tagclouds to appear, one for every search filter, one after the other -->
         <property name="tagCloudFacets">
             <list>
-                <ref bean="searchFilterSubjectCFS_en" />
-                <ref bean="searchFilterSubjectCFS_fr" />
+                <ref bean="searchFilterSubject_en" />
+                <ref bean="searchFilterSubject_fr" />
             </list>
         </property>
     </bean>
@@ -3455,7 +3455,7 @@
         <!-- List of tagclouds to appear, one for every search filter, one after the other -->
         <property name="tagCloudFacets">
             <list>
-                <ref bean="searchFilterSubjectCFS_en" />
+                <ref bean="searchFilterSubject_en" />
             </list>
         </property>
     </bean>
@@ -3467,7 +3467,7 @@
         <!-- List of tagclouds to appear, one for every search filter, one after the other -->
         <property name="tagCloudFacets">
             <list>
-                <ref bean="searchFilterSubjectCFS_fr" />
+                <ref bean="searchFilterSubject_fr" />
             </list>
         </property>
     </bean>
@@ -3783,20 +3783,26 @@
 
     </bean>
 
-    <bean id="searchFilterSubjectCFS_en" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
-        <property name="indexFieldName" value="subject_cfs_en" />
+    <bean id="searchFilterSubject_en" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="subject_en" />
         <property name="metadataFields">
             <list>
                 <value>dc.subject.cfs_en</value>
+                <value>dc.subject.broad_en</value>
+                <value>dc.subject.gc_en</value>
+                <value>dc.subject.geoscan_en</value>
             </list>
         </property>
     </bean>
 
-    <bean id="searchFilterSubjectCFS_fr" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
-        <property name="indexFieldName" value="subject_cfs_fr"/>
+    <bean id="searchFilterSubject_fr" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="subject_fr"/>
         <property name="metadataFields">
             <list>
                 <value>dc.subject.cfs_fr</value>
+                <value>dc.subject.broad_fr</value>
+                <value>dc.subject.gc_fr</value>
+                <value>dc.subject.geoscan_fr</value>
             </list>
         </property>
     </bean>
