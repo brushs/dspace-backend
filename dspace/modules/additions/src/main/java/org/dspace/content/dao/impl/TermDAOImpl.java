@@ -33,8 +33,8 @@ public class TermDAOImpl extends AbstractHibernateDAO<Term> implements TermDAO {
         CriteriaQuery cq = getCriteriaQuery(cb, Term.class);
         Root<Term> root = cq.from(Term.class);
 
-        Predicate nameEn = cb.equal(root.get("nameEn"), name);
-        Predicate nameFr = cb.equal(root.get("nameFr"), name);
+        Predicate nameEn = cb.equal(cb.upper(root.get("nameEn")), name.toUpperCase());
+        Predicate nameFr = cb.equal(cb.upper(root.get("nameFr")), name.toUpperCase());
 
         if (vocabularyId != null) {
             Predicate vocabulary = cb.equal(root.get("vocabularyId"), vocabularyId);
