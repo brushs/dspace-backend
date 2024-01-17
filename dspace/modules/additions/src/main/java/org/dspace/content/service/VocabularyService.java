@@ -13,7 +13,16 @@ public interface VocabularyService {
     Vocabulary findByName(Context context, String name)
             throws IOException, SQLException;
 
+    Vocabulary findById(Context context, int vocabularyId)
+            throws IOException, SQLException;
+
     List<Term> findByName(Context context, String termName, Integer vocabularyId)
+            throws IOException, SQLException;
+
+    List<Term> getRootTerms(Context context, int vocabularyId)
+            throws IOException, SQLException;
+
+    List<Term> getChildTerms(Context context, int termId)
             throws IOException, SQLException;
 
 }

@@ -27,10 +27,29 @@ public class VocabularyServiceImpl implements VocabularyService {
     }
 
     @Override
+    public Vocabulary findById(Context context, int vocabularyId)
+            throws IOException, SQLException {
+
+        return vocabularyDAO.findByID(context, Vocabulary.class, vocabularyId);
+    }
+
+    @Override
     public List<Term> findByName(Context context, String termName, Integer vocabularyId)
             throws IOException, SQLException {
 
         return termDAO.findByName(context, termName, vocabularyId);
+    }
+
+    @Override
+    public List<Term> getRootTerms(Context context, int vocabularyId) throws IOException, SQLException {
+
+        return termDAO.getRootTerms(context, vocabularyId);
+    }
+
+    @Override
+    public List<Term> getChildTerms(Context context, int termId) throws IOException, SQLException {
+
+        return termDAO.getChildTerms(context, termId);
     }
 
 }
