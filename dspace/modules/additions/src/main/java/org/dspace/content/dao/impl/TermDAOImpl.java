@@ -8,9 +8,7 @@
 package org.dspace.content.dao.impl;
 
 import org.dspace.content.Term;
-import org.dspace.content.Vocabulary;
 import org.dspace.content.dao.TermDAO;
-import org.dspace.content.dao.VocabularyDAO;
 import org.dspace.core.AbstractHibernateDAO;
 import org.dspace.core.Context;
 
@@ -38,10 +36,33 @@ public class TermDAOImpl extends AbstractHibernateDAO<Term> implements TermDAO {
 
         if (vocabularyId != null) {
             Predicate vocabulary = cb.equal(root.get("vocabularyId"), vocabularyId);
-            return list(context, cq.select(root).where(cb.or(nameEn, nameFr, vocabulary)), true, Term.class, -1, 0);
+            return list(context, cq.select(root).where(cb.and(cb.or(nameEn, nameFr), vocabulary)), true, Term.class, -1, 0);
         }
 
         return list(context, cq.select(root).where(cb.or(nameEn, nameFr)), true, Term.class, -1, 0);
+    }
+
+    @Override
+    public List<Term> getRootTerms(Context context, int vocabularyId) throws SQLException {
+        CriteriaBuilder cb = getCriteriaBuilder(context);
+        CriteriaQuery cq = getCriteriaQuery(cb, Term.class);
+        Root<Term> root = cq.from(Term.class);
+
+        Predicate nullParent = cb.isNull(root.get("parentTermId"));
+        Predicate vocabId = cb.equal(root.get("vocabularyId"), vocabularyId);
+
+        return list(context, cq.select(root).where(cb.and(nullParent, vocabId)), true, Term.class, -1, 0);
+    }
+
+    @Override
+    public List<Term> getChildTerms(Context context, int termId) throws SQLException {
+        CriteriaBuilder cb = getCriteriaBuilder(context);
+        CriteriaQuery cq = getCriteriaQuery(cb, Term.class);
+        Root<Term> root = cq.from(Term.class);
+
+        Predicate children = cb.equal(root.get("parentTermId"), termId);
+
+        return list(context, cq.select(root).where(children), true, Term.class, -1, 0);
     }
 
 }
