@@ -114,6 +114,7 @@ public class CopyKeywordMetadata extends AbstractCurationTask {
         fieldsToProcess.put("dc.subject.gc", 2);
         fieldsToProcess.put("dc.subject.broad", 3);
         fieldsToProcess.put("dc.subject.geoscan", 1);
+        fieldsToProcess.put("dc.subject.descriptor", 4);
 
         for (String metadataField : fieldsToProcess.keySet()) {
             // Get Item metadata
@@ -153,7 +154,8 @@ public class CopyKeywordMetadata extends AbstractCurationTask {
                             log.info("Adding new value");
                             // Copy to new metadata field
                             String[] tokens = mappedMetadataField.getKey().split("\\.");
-                            itemService.addMetadata(Curator.curationContext(), item, tokens[0], tokens[1], tokens[2], null, mappedMetadataField.getValue());
+                            itemService.addMetadata(Curator.curationContext(), item, tokens[0], tokens[1], tokens[2],
+                                    mappedMetadataField.getKey().endsWith("_en") ? "en" : "fr", mappedMetadataField.getValue());
                             itemService.updateLastModified(Curator.curationContext(), item);
                         }
                     }
