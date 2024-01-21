@@ -1160,6 +1160,20 @@
   <dc-type>
     <schema>dc</schema>
     <element>subject</element>
+    <qualifier>descriptor_en</qualifier>
+    <scope_note>Descriptor Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>descriptor_fr</qualifier>
+    <scope_note>Descriptor Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
     <qualifier>gc_en</qualifier>
     <scope_note>GC Core Subjects.</scope_note>
   </dc-type>
