@@ -1208,6 +1208,20 @@
 
   <dc-type>
     <schema>dc</schema>
+    <element>type_en</element>
+    <qualifier></qualifier>
+    <scope_note>Publication Type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>type_fr</element>
+    <qualifier></qualifier>
+    <scope_note>Publication Type.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
     <element>relation</element>
     <qualifier>isrequiredby</qualifier>
     <scope_note></scope_note>

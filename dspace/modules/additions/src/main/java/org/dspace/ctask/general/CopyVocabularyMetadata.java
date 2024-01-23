@@ -22,21 +22,20 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CopyKeywordMetadata extends AbstractCurationTask {
+public class CopyVocabularyMetadata extends AbstractCurationTask {
     // Curation task status
     private int status = Curator.CURATE_SUCCESS;
     // The distributed boolean has a default value of 'false' for safest operation
     private boolean distributed = false;
     // Prefix for configuration module
-    private static final String PLUGIN_PREFIX = "copy-keyword";
+    private static final String PLUGIN_PREFIX = "copy-vocab";
     // Logger
-    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(CopyKeywordMetadata.class);
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(CopyVocabularyMetadata.class);
 
     protected VocabularyService vocabularyService;
 
@@ -115,6 +114,7 @@ public class CopyKeywordMetadata extends AbstractCurationTask {
         fieldsToProcess.put("dc.subject.broad", 3);
         fieldsToProcess.put("dc.subject.geoscan", 1);
         fieldsToProcess.put("dc.subject.descriptor", 4);
+        fieldsToProcess.put("dc.type", 6);
 
         for (String metadataField : fieldsToProcess.keySet()) {
             // Get Item metadata
@@ -154,7 +154,7 @@ public class CopyKeywordMetadata extends AbstractCurationTask {
                             log.info("Adding new value");
                             // Copy to new metadata field
                             String[] tokens = mappedMetadataField.getKey().split("\\.");
-                            itemService.addMetadata(Curator.curationContext(), item, tokens[0], tokens[1], tokens[2],
+                            itemService.addMetadata(Curator.curationContext(), item, tokens[0], tokens[1], tokens.length == 3 ? tokens[2] : null,
                                     mappedMetadataField.getKey().endsWith("_en") ? "en" : "fr", mappedMetadataField.getValue());
                             itemService.updateLastModified(Curator.curationContext(), item);
                         }

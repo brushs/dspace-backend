@@ -215,6 +215,8 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterType"/>
+                <ref bean="searchFilterType_en"/>
+                <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterSubject_fr" />
@@ -229,6 +231,8 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterType"/>
+                <ref bean="searchFilterType_en"/>
+                <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject_en" />
@@ -364,7 +368,7 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
-                <ref bean="searchFilterType"/>
+                <ref bean="searchFilterType_en"/>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterIssued" />
@@ -376,7 +380,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
-                <ref bean="searchFilterType"/>
+                <ref bean="searchFilterType_en"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject_en" />
@@ -511,7 +515,7 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
-                <ref bean="searchFilterType"/>
+                <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
@@ -523,7 +527,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
-                <ref bean="searchFilterType"/>
+                <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject_fr" />
@@ -3857,6 +3861,24 @@
         <property name="metadataFields">
             <list>
                 <value>dc.type</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="searchFilterType_en" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="itemtype_en" />
+        <property name="metadataFields">
+            <list>
+                <value>dc.type_en</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="searchFilterType_fr" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="itemtype_fr" />
+        <property name="metadataFields">
+            <list>
+                <value>dc.type_fr</value>
             </list>
         </property>
     </bean>
