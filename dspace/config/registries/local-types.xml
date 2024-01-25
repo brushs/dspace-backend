@@ -727,6 +727,13 @@
   </dc-type>
 
   <dc-type>
+    <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>type</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
     <schema>geospatial</schema>
     <element>polygon</element>
     <qualifier></qualifier>
