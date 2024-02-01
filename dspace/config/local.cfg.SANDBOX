@@ -283,7 +283,6 @@ metadata.hide.dc.subject.broad = true
 metadata.hide.dc.subject.descriptor = true
 metadata.hide.dc.subject.gc = true
 metadata.hide.dc.subject.geoscan = true
-metadata.hide.dc.subject.other = true
 metadata.hide.geospatial.polygon.degrees = true
 metadata.hide.nrcan.abstract.language = true
 metadata.hide.nrcan.area.migrationid = true
