@@ -47,8 +47,6 @@ public class CitationServiceImpl implements CitationService {
     private static String FIELD_MONOGRAPH = "nrcan.monographic.title";
     private static String FIELD_EDITOR = "nrcan.contributor.monographicauthor";
 
-    private static final String DOI_PREFIX = "https://doi.org/";
-
     protected CitationServiceImpl() {
         if (mds == null) {
             mds = new MetadataSchema();
@@ -221,7 +219,7 @@ public class CitationServiceImpl implements CitationService {
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
-            return "<i>" + fmdvs.get(0).getValue() + "</i>, ";
+            return fmdvs.get(0).getValue() + ", ";
         }
     }
 
@@ -259,7 +257,7 @@ public class CitationServiceImpl implements CitationService {
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
-            return DOI_PREFIX + fmdvs.get(0).getValue();
+            return fmdvs.get(0).getValue();
         }
     }
 

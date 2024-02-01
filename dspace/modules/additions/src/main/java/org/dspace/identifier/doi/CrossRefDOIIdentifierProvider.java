@@ -60,6 +60,7 @@ public class CrossRefDOIIdentifierProvider extends FilteredIdentifierProvider im
      */
     private DOIConnector connector;
 
+    private static final String DOI_PREFIX = "https://doi.org/";
     static final char SLASH = '/';
 
     @Autowired(required = true)
@@ -1056,6 +1057,10 @@ public class CrossRefDOIIdentifierProvider extends FilteredIdentifierProvider im
                 contentServiceFactory.getDSpaceObjectService(dso).getTypeText(dso) + ".");
         }
         Item item = (Item) dso;
+
+        if (!doi.startsWith(DOI_PREFIX)) {
+            doi = DOI_PREFIX + doi;
+        }
 
         itemService.addMetadata(context, item, MD_SCHEMA, DOI_ELEMENT, DOI_QUALIFIER, null, doi);
         try {
