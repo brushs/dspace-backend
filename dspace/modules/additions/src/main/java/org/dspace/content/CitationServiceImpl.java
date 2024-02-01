@@ -30,7 +30,8 @@ public class CitationServiceImpl implements CitationService {
 
     private static String ENTITY_TYPE_PUBLICATION = "Publication";
 
-    private static String FIELD_TYPE = "dc.type_en";
+    private static String FIELD_TYPE_EN = "dc.type_en";
+    private static String FIELD_TYPE = "dc.type";
     private static String FIELD_AUTHORS = "dc.contributor.author";
     private static String FIELD_DATE_ISSUED = "dc.date.issued";
     private static String FIELD_TITLE = "dc.title";
@@ -72,9 +73,12 @@ public class CitationServiceImpl implements CitationService {
 
         mdv.setMetadataField(mdf);
 
-        List<MetadataValue> typeList = getFilteredList(mdvs, FIELD_TYPE);
+        List<MetadataValue> typeList = getFilteredList(mdvs, FIELD_TYPE_EN);
         if (typeList == null || typeList.size() == 0) {
-            return null;
+            typeList = getFilteredList(mdvs, FIELD_TYPE);
+            if (typeList == null || typeList.size() == 0) {
+                return null;
+            }
         }
 
         String type = typeList.get(0).getValue();
