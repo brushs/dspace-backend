@@ -9,3 +9,4 @@ INSERT INTO term VALUES (60005, null,'Conference Material','Matériel de confér
 INSERT INTO term VALUES (60006, null,'Map','Carte', '', '', true, 6, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (60007, null,'Report','Rapport', '', '', true, 6, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (60008, null,'Thesis','Thèse', '', '', true, 6, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (60009, null,'Web Resource','Ressource Web', '', '', true, 6, null, 'system', current_timestamp, 'system', current_timestamp);
