@@ -23,6 +23,10 @@ public class CitationServiceImpl implements CitationService {
     private static String TYPE_BOOK_CHAPTER = "Book Chapter";
     private static String TYPE_REPORT = "Report";
     private static String TYPE_MAP = "Map";
+    private static String TYPE_CONFERENCE_MATERIAL = "Conference Material";
+    private static String TYPE_ABSTRACT = "Abstract";
+    private static String TYPE_WEB_RESOURCE = "Web Resource";
+    private static String TYPE_THESIS = "Thesis";
 
     private static String ENTITY_TYPE_PUBLICATION = "Publication";
 
@@ -90,6 +94,14 @@ public class CitationServiceImpl implements CitationService {
             mdv.setValue(getReportCitation(mdvs));
         } else if (type.contentEquals(TYPE_BOOK_CHAPTER)) {
             mdv.setValue(getChapterCitation(mdvs));
+        } else if (type.contentEquals(TYPE_THESIS)) {
+            mdv.setValue(getReportCitation(mdvs));
+        } else if (type.contentEquals(TYPE_ABSTRACT)) {
+            mdv.setValue(getChapterCitation(mdvs));
+        } else if (type.contentEquals(TYPE_CONFERENCE_MATERIAL)) {
+            mdv.setValue(getChapterCitation(mdvs));
+        } else if (type.contentEquals(TYPE_WEB_RESOURCE)) {
+            mdv.setValue(getReportCitation(mdvs));
         } else {
             return null;
         }
@@ -133,6 +145,7 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
+        sb.append(getTitleLanguage(mdvs).equals("en") ? "In " : "Dans ");
         sb.append(getEditor(mdvs));
         sb.append(getMonographicName(mdvs));
         sb.append(getField(mdvs, FIELD_EDITION, ","));
@@ -191,6 +204,15 @@ public class CitationServiceImpl implements CitationService {
             return "";
         } else {
             return fmdvs.get(0).getValue() + ". ";
+        }
+    }
+
+    private String getTitleLanguage(List<MetadataValue> mdvs) {
+        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_TITLE);
+        if (fmdvs == null || fmdvs.size() == 0) {
+            return "";
+        } else {
+            return fmdvs.get(0).getLanguage();
         }
     }
 
