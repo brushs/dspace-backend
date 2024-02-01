@@ -113,12 +113,7 @@ public class IndexClient extends DSpaceRunnable<IndexDiscoveryScriptConfiguratio
                     IndexFactory indexableObjectService = IndexObjectFactoryFactory.getInstance().
                             getIndexFactoryByType("Item");
                     if (indexableObjectService == null) {
-                        handler.logError("It's NULL");
-                        for (IndexFactory indf : IndexObjectFactoryFactory.getInstance().getIndexFactories()) {
-                            handler.logError("NAME: " + indf.getClass().getName() + " TYPE: " + indf.getType());
-                        }
                         indexableObjectService = IndexObjectFactoryFactory.getInstance().getIndexFactories().get(0);
-
                     }
                     indexableObject = indexableObjectService.findIndexableObject(context, dso.getID().toString());
                 }
