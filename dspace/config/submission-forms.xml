@@ -2526,6 +2526,10 @@
                 <displayed-value>Thesis</displayed-value>
                 <stored-value>Thesis</stored-value>
             </pair>
+            <pair>
+                <displayed-value>Web Resource</displayed-value>
+                <stored-value>Web Resource</stored-value>
+            </pair>
         </value-pairs>
 
         <!-- default language order: (from dspace 1.2.1)
