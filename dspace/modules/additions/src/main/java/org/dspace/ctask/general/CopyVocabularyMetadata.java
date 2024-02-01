@@ -144,6 +144,7 @@ public class CopyVocabularyMetadata extends AbstractCurationTask {
                         } else {
                             List<String> mdvValues = mappedMdvs.stream()
                                     .map(MetadataValue::getValue)
+                                    .filter(x -> x != null)
                                     .collect(Collectors.toList());
 
                             mappedValueExists = mdvValues.stream().anyMatch(value -> value.equals(mappedMetadataField.getValue()));

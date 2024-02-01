@@ -17,13 +17,13 @@
           scope="prototype">
         <property name="name" value="submission-form"/>
         <property name="configurationService" ref="org.dspace.services.ConfigurationService"/>
-        <property name="itemService" ref="org.dspace.content.ItemServiceImpl"/>
+        <property name="itemService" ref="org.dspace.content.CustomItemServiceImpl"/>
         <property name="metadataAuthorityService" ref="org.dspace.content.authority.MetadataAuthorityServiceImpl"/>
     </bean>
 
     <bean name="uploadValidation" class="org.dspace.app.rest.submit.step.validation.UploadValidation" scope="prototype">
         <property name="name" value="upload"/>
-        <property name="itemService" ref="org.dspace.content.ItemServiceImpl"/>
+        <property name="itemService" ref="org.dspace.content.CustomItemServiceImpl"/>
         <property name="uploadConfigurationService" ref="uploadConfigurationService"/>
     </bean>
 

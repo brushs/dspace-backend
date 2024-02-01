@@ -38,7 +38,7 @@
     <bean class="org.dspace.orcid.model.validator.impl.OrcidValidatorImpl" />
     
     <bean class="org.dspace.orcid.service.impl.OrcidEntityFactoryServiceImpl">
-    	<constructor-arg name="itemService" ref="org.dspace.content.ItemServiceImpl" />
+    	<constructor-arg name="itemService" ref="org.dspace.content.CustomItemServiceImpl" />
     	<constructor-arg name="entityFactories">
     		<list>
     			<bean class="org.dspace.orcid.model.factory.impl.OrcidWorkFactory">
