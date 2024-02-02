@@ -119,4 +119,4 @@ COPY cron_jobs /tmp/dspace_crontab
 # Remove ^M characters and append the contents to the system's crontab
 RUN sed -i 's/\r$//' /tmp/dspace_crontab && cat /tmp/dspace_crontab >> /etc/crontab
 
-CMD /usr/sbin/sshd && cron -f && catalina.sh run
+CMD /usr/sbin/sshd && catalina.sh run
