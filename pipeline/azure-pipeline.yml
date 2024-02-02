@@ -89,7 +89,8 @@ stages:
     displayName: Push stage
     jobs:
       - job: DeployWeb
-        displayName: Build
+        displayName: Deployment
+        deployment: ($environment)
         pool: $(agentPool)
         environment:
           name: ($environment)
