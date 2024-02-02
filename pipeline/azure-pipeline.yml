@@ -14,7 +14,7 @@ variables:
   appName: '$(APP_NAME)'
   agentPool: '$(AGENT_POOL)'
   keyVaultName: '$(KEY_VAULT_NAME)'
-  environment: '$(ENVIRONMENT)'
+  environment: '$(ENV_NAME)'
 
 stages:
 - stage: Build
