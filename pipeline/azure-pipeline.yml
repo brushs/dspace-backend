@@ -88,12 +88,10 @@ stages:
 - stage: Deploy
   displayName: Push stage
   jobs:
-  - job: DeployWeb
+  - deployment: DeployContainer
     displayName: Deployment
-    deployment: ($environment)
     pool: $(agentPool)
-    environment:
-      name: ($environment)
+    environment: ($environment)
     steps:
 
     - task: AzureWebAppContainer@1
