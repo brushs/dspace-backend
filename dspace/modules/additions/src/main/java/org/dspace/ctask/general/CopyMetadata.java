@@ -27,15 +27,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CopyVocabularyMetadata extends AbstractCurationTask {
+public class CopyMetadata extends AbstractCurationTask {
     // Curation task status
     private int status = Curator.CURATE_SUCCESS;
     // The distributed boolean has a default value of 'false' for safest operation
     private boolean distributed = false;
     // Prefix for configuration module
-    private static final String PLUGIN_PREFIX = "copy-vocab";
+    private static final String PLUGIN_PREFIX = "copy-metadata";
     // Logger
-    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(CopyVocabularyMetadata.class);
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(CopyMetadata.class);
 
     protected VocabularyService vocabularyService;
 
