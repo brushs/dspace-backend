@@ -23,7 +23,8 @@ stages:
   - job: Build
     displayName: Build
     pool: $(agentPool)
-    environment: ($environment)
+    environment:
+      name: ($environment)
     steps:
 
     - task: AzureKeyVault@2
