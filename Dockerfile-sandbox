@@ -117,4 +117,4 @@ RUN sed -i 's/\r$//' /tmp/dspace_crontab && cat /tmp/dspace_crontab >> /etc/cron
 # Open port 2222 for SSH access
 EXPOSE 8080 8009 2222
 
-CMD /usr/sbin/sshd && cron -f  && catalina.sh run
+CMD /usr/sbin/sshd && cron -f && catalina.sh run

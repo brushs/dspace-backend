@@ -112,4 +112,11 @@ RUN apt-get install zip
 # Create directory for migration and logs
 RUN mkdir -p /dspace/migration/logs
 
-CMD /usr/sbin/sshd && catalina.sh run
+RUN apt-get install -y cron
+
+# Add cron jobs: Copy local cron file into the image
+COPY cron_jobs /tmp/dspace_crontab
+# Remove ^M characters and append the contents to the system's crontab
+RUN sed -i 's/\r$//' /tmp/dspace_crontab && cat /tmp/dspace_crontab >> /etc/crontab
+
+CMD /usr/sbin/sshd && cron -f && catalina.sh run
