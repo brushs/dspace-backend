@@ -96,6 +96,8 @@ COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
+RUN apt-get install -y cron
+
 # Add cron jobs: Copy local cron file into the image
 COPY cron_jobs /tmp/dspace_crontab
 # Remove ^M characters and append the contents to the system's crontab
