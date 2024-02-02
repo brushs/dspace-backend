@@ -91,7 +91,7 @@ stages:
   - deployment: DeployContainer
     displayName: Deployment
     pool: $(agentPool)
-    environment: ($environment)
+    environment: $(environment)
     strategy:
       runOnce:
         deploy:
