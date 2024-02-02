@@ -96,7 +96,12 @@ COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
     && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
+# Add cron jobs: Copy local cron file into the image
+COPY cron_jobs /tmp/dspace_crontab
+# Remove ^M characters and append the contents to the system's crontab
+RUN sed -i 's/\r$//' /tmp/dspace_crontab && cat /tmp/dspace_crontab >> /etc/crontab
+
 # Open port 2222 for SSH access
 EXPOSE 8080 8009 2222
 
-CMD /usr/sbin/sshd && catalina.sh run
+CMD /usr/sbin/sshd && cron -f && catalina.sh run
