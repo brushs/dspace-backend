@@ -861,8 +861,6 @@ public class CrossRefDOIIdentifierProvider extends FilteredIdentifierProvider im
 //        String sql = "SELECT * FROM Doi WHERE resource_type_id = ? " +
 //                "AND resource_id = ? AND ((status != ? AND status != ?) OR status IS NULL)";
 
-        log.info("getDOI");
-
         DOI doiRow = doiService.findDOIByDSpaceObject(context, dso, Arrays.asList(DELETED, TO_BE_DELETED));
         if (null == doiRow) {
             return null;
