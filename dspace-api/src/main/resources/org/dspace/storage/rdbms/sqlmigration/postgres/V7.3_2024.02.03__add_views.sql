@@ -109,3 +109,4 @@ from
        and mfr.qualifier in ('cfs_en','broad_en','descriptor_en','gc_en','geoscan_en')
      group by dspace_object_id) subject_en
     on typ.dspace_object_id = subject_en.dspace_object_id;
+

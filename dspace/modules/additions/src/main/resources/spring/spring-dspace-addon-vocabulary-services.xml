@@ -26,6 +26,7 @@
 
     <bean id="org.dspace.content.dao.VocabularyDAO"  class="org.dspace.content.dao.impl.VocabularyDAOImpl"/>
     <bean id="org.dspace.content.dao.TermDAO"  class="org.dspace.content.dao.impl.TermDAOImpl"/>
+    <bean id="org.dspace.content.dao.MetadataLanguageSummaryDAO"  class="org.dspace.content.dao.impl.MetadataLanguageSummaryDAOImpl"/>
 
     <bean id="vocabularyServiceFactory" class="org.dspace.content.factory.VocabularyServiceFactoryImpl"/>
 

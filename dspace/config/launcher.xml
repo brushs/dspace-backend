@@ -48,6 +48,13 @@
         </step>
     </command>
     <command>
+        <name>copy-metadata</name>
+        <description>Copies metadata to language specific fields for search filters</description>
+        <step>
+            <class>org.dspace.metadata.CopyMetadata</class>
+        </step>
+    </command>
+    <command>
         <name>create-administrator</name>
         <description>Create a DSpace administrator account</description>
         <step>

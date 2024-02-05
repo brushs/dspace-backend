@@ -95,6 +95,7 @@
 
         <mapping class="org.dspace.content.Vocabulary"/>
         <mapping class="org.dspace.content.Term"/>
+        <mapping class="org.dspace.content.MetadataLanguageSummary"/>
 
     </session-factory>
 </hibernate-configuration>

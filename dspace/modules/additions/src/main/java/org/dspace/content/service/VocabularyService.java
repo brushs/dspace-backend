@@ -1,5 +1,6 @@
 package org.dspace.content.service;
 
+import org.dspace.content.MetadataLanguageSummary;
 import org.dspace.content.Term;
 import org.dspace.content.Vocabulary;
 import org.dspace.core.Context;
@@ -23,6 +24,9 @@ public interface VocabularyService {
             throws IOException, SQLException;
 
     List<Term> getChildTerms(Context context, int termId)
+            throws IOException, SQLException;
+
+    List<MetadataLanguageSummary> getItemsForMetadataProcessing(Context context, int limit)
             throws IOException, SQLException;
 
 }
