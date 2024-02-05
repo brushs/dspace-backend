@@ -572,7 +572,7 @@
         <property name="defaultFilterQueries">
             <list>
                 <!--Only find items, communities and collections-->
-                <value>(search.resourcetype:Item AND latestVersion:true) AND dspace.entity.type:Publication</value>
+                <value>(search.resourcetype:Item AND latestVersion:true) AND dspace.entity.type:Publicationf</value>
             </list>
         </property>
         <!--The configuration for the recent submissions-->
@@ -3793,8 +3793,6 @@
             <list>
                 <value>dc.subject.cfs_en</value>
                 <value>dc.subject.broad_en</value>
-                <value>dc.subject.gc_en</value>
-                <value>dc.subject.geoscan_en</value>
             </list>
         </property>
     </bean>
@@ -3805,8 +3803,6 @@
             <list>
                 <value>dc.subject.cfs_fr</value>
                 <value>dc.subject.broad_fr</value>
-                <value>dc.subject.gc_fr</value>
-                <value>dc.subject.geoscan_fr</value>
             </list>
         </property>
     </bean>
