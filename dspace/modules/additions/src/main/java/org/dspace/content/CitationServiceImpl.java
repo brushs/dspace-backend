@@ -193,7 +193,7 @@ public class CitationServiceImpl implements CitationService {
 
     private String getYear(List<MetadataValue> mdvs) {
         List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_DATE_ISSUED);
-        if (fmdvs == null || fmdvs.size() == 0) {
+        if (fmdvs == null || fmdvs.size() == 0 || StringUtils.isEmpty(fmdvs.get(0).getValue())) {
             return "";
         } else {
             return "(" + fmdvs.get(0).getValue().substring(0, 4) + "). ";
