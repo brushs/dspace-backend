@@ -4363,6 +4363,25 @@ INSERT INTO term VALUES (14356, null,'Arsenopyrite','Arsénopyrite', '', '', tru
 INSERT INTO term VALUES (14357, null,'Artesian Wells','Puits artésiens', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (14358, null,'Asbestos','Amiante', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (14359, null,'Ash','Cendre', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14360, null,'Carboniferous','Carbonifère', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14361, null,'Cenozoic','Cénozoïque', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14362, null,'Cretaceous','Crétacé', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14363, null,'Devonian','Dévonien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14364, null,'Jurassic','Jurassique', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14365, null,'Mesozoic','Mésozoïque', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14366, null,'Mississippian','Mississippien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14367, null,'Ordovician','Ordovicien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14368, null,'Paleozoic','Paléozoïque', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14369, null,'Pennsylvanian','Pennsylvanien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14370, null,'Permian','Permien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14371, null,'Phanerozoic','Phanérozoïque', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14372, null,'Precambrian','Précambrien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14373, null,'Proterozoic','Protérozoïque', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14374, null,'Quaternary','Quaternaire', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14375, null,'Silurian','Silurien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14376, null,'Tertiary','Tertiaire', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14377, null,'Triassic','Trias', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (14378, null,'Cambrian','Cambrien', '', '', true, 1, null, 'system', current_timestamp, 'system', current_timestamp);
 
 INSERT INTO term VALUES (20001, null,'Work organization','Organisation du travail', '', '', true, 2, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (20002, null,'Work permits','Permis de travail', '', '', true, 2, null, 'system', current_timestamp, 'system', current_timestamp);
