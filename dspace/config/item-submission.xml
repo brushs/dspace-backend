@@ -55,6 +55,7 @@
             instead we'll just list all collections in all environments here. -->
 
         <!-- Local Dev Collections -->
+		<!-- 
         <name-map collection-handle="123456789/7" submission-name="Publication"/>
         <name-map collection-handle="123456789/3" submission-name="Author"/>
         <name-map collection-handle="123456789/6" submission-name="Person"/>
@@ -70,7 +71,13 @@
         <name-map collection-handle="123456789/5333" submission-name="Publication"/>
         <name-map collection-handle="123456789/17366" submission-name="Journal"/>
         <name-map collection-handle="123456789/21436" submission-name="CorporateAuthor"/>
-        <name-map collection-handle="123456789/21460" submission-name="Publication"/>
+        <name-map collection-handle="123456789/21460" submission-name="Publication"/> -->
+		<name-map collection-handle="123456789/17" submission-name="Publication"/>
+		<name-map collection-handle="123456789/11" submission-name="GeoscanPublication"/>
+		<!--
+		<name-map collection-handle="123456789/9" submission-name="Publication"/>
+		<name-map collection-handle="123456789/10" submission-name="Publication"/>
+		<name-map collection-handle="123456789/11" submission-name="Publication"/> -->
 
         <!-- Sandbox Collections -->
         <name-map collection-handle="123456789s/2" submission-name="Person"/>
@@ -131,6 +138,26 @@
         <!-- The "collection" step is a "special step" which is *REQUIRED* -->
         <!-- In DSpace, all submitted items must be immediately assigned -->
         <!-- to a collection. This step ensures that a collection is always selected. -->
+		<step-definition id="geoscan_bibliographicStep" mandatory="true">
+            <heading>Bibliographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+		<step-definition id="geoscan_geographicStep" mandatory="true">
+            <heading>Thematic_Geographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="geoscan_meetingStep" mandatory="true">
+            <heading>Meeting</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
+        <step-definition id="geoscan_recordmanagementStep" mandatory="true">
+            <heading>Record_Management</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
         <step-definition id="collection">
             <heading></heading>
             <processing-class>org.dspace.app.rest.submit.step.CollectionStep</processing-class>
@@ -363,7 +390,15 @@
     <!-- -->
     <!-- -->
     <submission-definitions>
-
+       <submission-process name="GeoscanPublication">
+            <step id="collection"/>
+            <step id="geoscan_bibliographicStep"/>
+			<step id="geoscan_geographicStep"/>
+            <step id="geoscan_meetingStep"/>
+            <step id="geoscan_recordmanagementStep"/>
+            <step id="upload"/>
+            <step id="license"/>
+        </submission-process>
         <!--This "traditional" process defines the DEFAULT item submission process -->
         <submission-process name="traditional">
             <!--Uncommment to display the SAMPLE step as your first step -->

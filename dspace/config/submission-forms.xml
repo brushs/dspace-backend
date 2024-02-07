@@ -21,6 +21,700 @@
     <!-- serves as a 'this field is required' flag.                           -->
 
     <form-definitions>
+		<form name="geoscan_bibliographicStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>type</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+					<style>col-sm-6</style>
+                    <label>Publication Type</label>
+                    <input-type value-pairs-name="common_types">dropdown</input-type>
+                    <hint>Select type of publication</hint>
+                    <required>You must enter a type for this item.</required>
+                </field>
+                <relation-field>
+                    <relationship-type>isPrimaryContactOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>false</repeatable>
+					<style>col-sm-6</style>
+                    <label>Primary Contact</label>
+                    <hint>Choose the name from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>primarycontact</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required>You must enter a primary contact for this item.</required>
+                </relation-field>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isAuthorOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+					<style>col-sm-6</style>
+                    <label>Author</label>
+                    <hint>Choose the author(s) from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+                        <dc-qualifier>author</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+                </relation-field>
+                <relation-field>
+                    <relationship-type>isCorporateAuthorOfPublication</relationship-type>
+                    <search-configuration>corporateAuthor</search-configuration>
+                    <repeatable>true</repeatable>
+					<style>col-sm-6</style>
+                    <label>Corp./Org. Author (not Affiliation)</label>
+                    <hint>Choose the name from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>contributor</dc-element>
+                        <dc-qualifier>corporateauthor</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Title</label>
+                    <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the title of the publication and choose language</hint>
+                    <required>You must enter a main title for this item.</required>
+                </field>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isLanguageOfPublication</relationship-type>
+                    <search-configuration>language</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Language</label>
+                    <hint>Choose the language of the publication from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>language</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required>You must enter a language for this item.</required>
+                </relation-field>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>date</dc-element>
+                    <dc-qualifier>issued</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Date</label>
+                    <style>col-sm-6</style>
+                    <input-type>date</input-type>
+                    <hint>Enter date of publication (first online, release date or simply year)
+                    </hint>
+                    <required>You must enter at least the year.</required>
+                </field>
+
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isPublisherOfPublication</relationship-type>
+                    <search-configuration>publisher</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Publisher</label>
+                    <hint>Enter the Publisher Name</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>publisher</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+            </row>
+			<row>
+                <relation-field>
+                    <relationship-type>isJournalOfPublication</relationship-type>
+                    <search-configuration>nrcanJournal</search-configuration>
+                    <repeatable>false</repeatable>
+                    <label>Journal Title</label>
+                    <hint>Choose the journal title from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>journal</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>>
+                </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>volume</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Volume</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Volume</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>issue</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Issue</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Issue</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>article</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Article Number</label>
+                    <input-type>onebox</input-type>
+                    <type-bind>Article</type-bind>
+                    <hint>Online Article number</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>pagerange</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Page Range</label>
+                    <input-type>onebox</input-type>
+                    <hint>Page range separated by "-"</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+			    <relation-field>
+                    <relationship-type>isSerialOfPublication</relationship-type>
+                    <search-configuration>serial</search-configuration>
+                    <repeatable>false</repeatable>
+					<style>col-sm-6</style>
+                    <label>Series Title</label>
+                    <hint>Choose the series title from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>serial</dc-element>
+                        <dc-qualifier>title</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>ispartofseries</dc-qualifier>
+                    <repeatable>false</repeatable>
+					<style>col-sm-6</style>
+                    <label>Series Report Number</label>
+                    <input-type>onebox</input-type>
+                    <hint>Report Number</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+			    <relation-field>
+                    <relationship-type>isSerialOfPublication</relationship-type>
+                    <search-configuration>serial</search-configuration>
+                    <repeatable>true</repeatable>
+					<style>col-sm-6</style>
+                    <label>Secondary Series Title</label>
+                    <hint>Choose the secondary series title from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>secondaryserial</dc-element>
+                        <dc-qualifier>title</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier>ispartofseries</dc-qualifier>
+                    <repeatable>true</repeatable>
+					<style>col-sm-6</style>
+                    <label>Secondary Series Report Number</label>
+                    <input-type>onebox</input-type>
+                    <hint>Secondary Report Number</hint>
+                    <required></required>
+                </field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>monographic</dc-element>
+                    <dc-qualifier>title</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Large Work/Book Title</label>
+                    <type-bind>Book chapter</type-bind>
+                    <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the title of the book in which the item appears and choose language</hint>
+                </field>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isMonographicAuthorOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Large Work Author</label>
+                    <hint>Choose the author(s) from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>monographic</dc-element>
+                        <dc-qualifier>author</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <type-bind>Book chapter</type-bind>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+                </relation-field>
+				<relation-field>
+                    <relationship-type>isMonoCorpAuthorOfPublication</relationship-type>
+                    <search-configuration>corporateAuthor</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Large Work Corp./Org. Author (not Affiliation)</label>
+                    <hint>Choose the name(s) from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>monographic</dc-element>
+                        <dc-qualifier>corporateauthor</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <type-bind>Book chapter</type-bind>
+                    <required></required>
+                </relation-field>
+            </row>
+			<row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>edition</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Edition</label>
+                    <input-type>onebox</input-type>
+                    <hint>Edition</hint>
+                    <required></required>
+                </field>
+				<field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>totalpages</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Number of Pages</label>
+                    <input-type>onebox</input-type>
+                    <hint>Total number of pages</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>pagination</dc-element>
+                    <dc-qualifier>totalsheets</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Number of Sheets</label>
+                    <input-type>onebox</input-type>
+                    <hint>Total number of sheets exceeding 11x17</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier>abstract</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Abstract</label>
+                    <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the abstract appearing on the publication and choose language</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>summary</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Summary</label>
+                    <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Eenter the summary appearing on the publication and choose language</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Identifier: enter the type and identifier</label>
+					<input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
+                    <hint>Enter the type and identifier</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>openaccess</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Open Access Type</label>
+                    <input-type value-pairs-name="gc_open_access_types">list</input-type>
+                    <hint></hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>filetype</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>File Type</label>
+                    <input-type value-pairs-name="common_file_types">list</input-type>
+                    <hint>Select file type of publication</hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
+        <form name="geoscan_geographicStep">
+		    <row>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>broad</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>General Subject</label> 
+                    <input-type>onebox</input-type>
+                    <hint>Select general subjects from the lookup</hint>
+                    <required>You must enter a subject for this field</required>
+                    <vocabulary>broad</vocabulary>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>descriptor</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Descriptor</label>
+                    <input-type>onebox</input-type>
+                    <hint>Choose the proper name descriptor(s) from the lookup</hint>
+                    <required></required>
+                    <vocabulary>descriptor</vocabulary>
+                </field>
+            </row>
+		    <row>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>geoscan</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Tresaurus Keyword</label>
+                    <input-type>onebox</input-type>
+                    <hint>Choose keyword(s) from the lookup</hint>
+                    <required></required>
+                    <vocabulary>geoscan</vocabulary>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>gc</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>GoC Keyword</label>
+                    <input-type>onebox</input-type>
+                    <hint>Choose keyword(s) from the lookup</hint>
+                    <required></required>
+                    <vocabulary>gc</vocabulary>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>cfs</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>CFS Keyword</label>
+                    <input-type>onebox</input-type>
+                    <hint>Choose keyword(s) from the lookup</hint>
+                    <required></required>
+                    <vocabulary>cfs</vocabulary>
+                </field>				
+            </row>
+
+            <row>
+                <relation-field>
+                    <relationship-type>isCountryOfPublication</relationship-type>
+                    <search-configuration>country</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Country</label>
+                    <hint>Choose the country covered in this publication</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>country</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+                <relation-field>
+                    <relationship-type>isProvinceOfPublication</relationship-type>
+                    <search-configuration>province</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Province/Territory</label>
+                    <hint>Select Province/Territory covered in this publication</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>province</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+            </row>
+			<row>
+                <relation-field>
+                    <relationship-type>isAreaOfPublication</relationship-type>
+                    <search-configuration>area</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Area</label>
+                    <hint>Choose Area(s) from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>area</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>nts</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>NTS</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the NTS in format nnn, nnnA, nnnA/nn</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>geospatial</dc-schema>
+                    <dc-element>polygon</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Polygon</label>
+                    <input-type>onebox</input-type>
+                    <hint>Ex. POLYGON((49.0000 -114.0000, 49.0000 -122.0000, 48.0000 -123.5000, 48.0000 -124.5000, 53.0000 -134.0000, 54.5000 -134.0000, 55.5000 -130.5000, 59.0000 -138.0000, 60.0000 -139.1667, 60.0000 -120.0000, 54.0000 -120.0000, 50.0000 -114.0000, 49.0000 -114.0000))</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>geospatial</dc-schema>
+                    <dc-element>bbox</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Bounding Box</label>
+                    <input-type>onebox</input-type>
+                    <hint>Ex. ENVELOPE(-139.1667, -114.0000, 60.0000, 48.0000)</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>map</dc-element>
+                    <dc-qualifier>numberofmaps</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Number of Maps</label>
+                    <input-type>onebox</input-type>
+                    <hint>Total number of maps in this publication</hint>
+                    <required></required>
+                </field>
+				<field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>map</dc-element>
+                    <dc-qualifier>maptype</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>General Map Type</label>
+                    <input-type value-pairs-name="geonscan_map_types">dropdown</input-type>
+                    <hint>Select general map type from the list</hint>
+                    <required></required>
+                </field>
+				<field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>map</dc-element>
+                    <dc-qualifier>mapscale</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Map Scale</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter map scale, ex. 1:50 000</hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
+        <form name="geoscan_meetingStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>name</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Name</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the name of the meeting</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>city</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Meeting City</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the city's name</hint>
+                    <required></required>
+                </field>
+                <relation-field>
+                    <relationship-type>isCountryOfPublication</relationship-type>
+                    <search-configuration>country</search-configuration>
+                    <repeatable>false</repeatable>
+                    <label>Meeting Country</label>
+                    <hint>Choose the country from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>country</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>startdate</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Start Date</label>
+                    <style>col-sm-4</style>
+                    <input-type>date</input-type>
+                    <hint>Enter the start date of the meeting</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>enddate</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>End Date</label>
+                    <style>col-sm-4</style>
+                    <input-type>date</input-type>
+                    <hint>Enter the end date of the meeting</hint>
+                    <required></required>
+                </field>
+            </row>
+         </form>
+       <form name="geoscan_recordmanagementStep">
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>workflowid</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Workflow ID</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter workflow ID </hint>
+                    <required></required>
+                </field>
+                 <relation-field>
+                    <relationship-type>isSponsorOfPublication</relationship-type>
+                    <search-configuration>sponsor</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Sponsoring Program/Project</label>
+                    <hint>Choose the sponsor(s) from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>sponsor</dc-element>
+                        <dc-qualifier>project</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+                <relation-field>
+                    <relationship-type>isDivisionOfPublication</relationship-type>
+                    <search-configuration>division</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Organizational Unit</label>
+                    <hint>Choose the unit(s) from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>division</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+            </row>
+			<row>
+			    <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>description</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Plain Language Summary</label>
+                    <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter mandatory English and French plain language summaries and choose language</hint>
+                    <required>You must enter a summary for this file</required>
+                </field>
+			</row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>policy</dc-element>
+                    <dc-qualifier>implication</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Policy Relevance Statement</label>
+                    <input-type>textarea</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter English and French policy relevance statements and choose language</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>notes</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Notes</label>
+                    <input-type>textarea</input-type>
+                    <hint>Enter notes to help with record management</hint>
+                    <required></required>
+                </field>
+            </row>		
+         </form>
         <!-- Form used for entering in Bitstream/File metadata after uploading a file -->
         <form name="bitstream-metadata">
             <row>
@@ -2462,22 +3156,54 @@
     <!-- stores the associated stored-values in the database.                  -->
 
     <form-value-pairs>
+	
+		<value-pairs value-pairs-name="geonscan_map_types" dc-term="maptype">
+			<pair>
+                <displayed-value>Geological</displayed-value>
+                <stored-value>geological</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Geophysical</displayed-value>
+                <stored-value>geophysical</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Hydrogeological</displayed-value>
+                <stored-value>hydrogeological</stored-value>
+            </pair>
+			
+			<pair>
+                <displayed-value>Hydrographic</displayed-value>
+                <stored-value>hydrographic</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Location</displayed-value>
+                <stored-value>location</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Physiographic</displayed-value>
+                <stored-value>physiographic</stored-value>
+            </pair>
+			<pair>
+                <displayed-value>Soils</displayed-value>
+                <stored-value>soils</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Surficial Geology</displayed-value>
+                <stored-value>surficial geology</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Topographic</displayed-value>
+                <stored-value>topographic</stored-value>
+            </pair>
+		</value-pairs>
         <value-pairs value-pairs-name="common_identifiers" dc-term="identifier">
             <pair>
                 <displayed-value>DOI</displayed-value>
                 <stored-value>doi</stored-value>
             </pair>
             <pair>
-                <displayed-value>ISSN</displayed-value>
-                <stored-value>issn</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>Other</displayed-value>
-                <stored-value>other</stored-value>
-            </pair>
-            <pair>
-                <displayed-value>ISMN</displayed-value>
-                <stored-value>ismn</stored-value>
+                <displayed-value>ISBN</displayed-value>
+                <stored-value>isbn</stored-value>
             </pair>
             <pair>
                 <displayed-value>Gov't Doc #</displayed-value>
@@ -2488,47 +3214,48 @@
                 <stored-value>uri</stored-value>
             </pair>
             <pair>
-                <displayed-value>ISBN</displayed-value>
-                <stored-value>isbn</stored-value>
+                <displayed-value>Other</displayed-value>
+                <stored-value>other</stored-value>
             </pair>
+
         </value-pairs>
 
         <value-pairs value-pairs-name="common_types" dc-term="type">
             <pair>
                 <displayed-value>Abstract</displayed-value>
-                <stored-value>Abstract</stored-value>
+                <stored-value>abstract</stored-value>
             </pair>
             <pair>
                 <displayed-value>Article</displayed-value>
-                <stored-value>Article</stored-value>
+                <stored-value>article</stored-value>
             </pair>
             <pair>
                 <displayed-value>Book</displayed-value>
-                <stored-value>Book</stored-value>
+                <stored-value>book</stored-value>
             </pair>
             <pair>
-                <displayed-value>Book Chapter</displayed-value>
-                <stored-value>Book Chapter</stored-value>
+                <displayed-value>Book chapter</displayed-value>
+                <stored-value>book chapter</stored-value>
             </pair>
             <pair>
                 <displayed-value>Conference Material</displayed-value>
-                <stored-value>Conference Material</stored-value>
+                <stored-value>conference material</stored-value>
             </pair>
             <pair>
                 <displayed-value>Map</displayed-value>
-                <stored-value>Map</stored-value>
+                <stored-value>map</stored-value>
             </pair>
             <pair>
                 <displayed-value>Report</displayed-value>
-                <stored-value>Report</stored-value>
+                <stored-value>report</stored-value>
             </pair>
             <pair>
                 <displayed-value>Thesis</displayed-value>
-                <stored-value>Thesis</stored-value>
+                <stored-value>thesis</stored-value>
             </pair>
             <pair>
                 <displayed-value>Web Resource</displayed-value>
-                <stored-value>Web Resource</stored-value>
+                <stored-value>web resource</stored-value>
             </pair>
         </value-pairs>
 
@@ -2587,28 +3314,59 @@
         </value-pairs>
 
         <value-pairs value-pairs-name="common_file_types" dc-term="filetype">
+		    <pair>
+                <displayed-value>CSV</displayed-value>
+                <stored-value>csv</stored-value>
+            </pair>
+		    <pair>
+            <displayed-value>DOC/DOCX</displayed-value>
+                <stored-value>doc/docx</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>HTML</displayed-value>
+                <stored-value>html</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>JPG</displayed-value>
+                <stored-value>jpg</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>KML/KMZ</displayed-value>
+                <stored-value>kml/kmz</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>MDB</displayed-value>
+                <stored-value>mdb</stored-value>
+            </pair>
             <pair>
                 <displayed-value>PDF</displayed-value>
                 <stored-value>pdf</stored-value>
             </pair>
-            <pair>
-                <displayed-value>Word</displayed-value>
-                <stored-value>word</stored-value>
+		    <pair>
+                <displayed-value>RTF</displayed-value>
+                <stored-value>rtf</stored-value>
+            </pair>
+		    <pair>
+            <displayed-value>SHP</displayed-value>
+                <stored-value>shp</stored-value>
             </pair>
             <pair>
-                <displayed-value>Excel</displayed-value>
-                <stored-value>excel</stored-value>
+                <displayed-value>TIF</displayed-value>
+                <stored-value>tif</stored-value>
             </pair>
             <pair>
-                <displayed-value>CSV</displayed-value>
-                <stored-value>csv</stored-value>
+                <displayed-value>TXT</displayed-value>
+                <stored-value>txt</stored-value>
             </pair>
             <pair>
-                <displayed-value>Other</displayed-value>
-                <stored-value>other</stored-value>
+                <displayed-value>XLS</displayed-value>
+                <stored-value>xls</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>XML</displayed-value>
+                <stored-value>xml</stored-value>
             </pair>
         </value-pairs>
-
         <value-pairs value-pairs-name="common_media_types" dc-term="media">
             <pair>
                 <displayed-value>Paper</displayed-value>
@@ -2675,8 +3433,20 @@
                 <stored-value>gold</stored-value>
             </pair>
             <pair>
-                <displayed-value>Red</displayed-value>
-                <stored-value>red</stored-value>
+                <displayed-value>Bronze</displayed-value>
+                <stored-value>bronze</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Diamond</displayed-value>
+                <stored-value>diamond</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Hybrid</displayed-value>
+                <stored-value>hybrid</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>is Open, not sure what type</displayed-value>
+                <stored-value>notsure</stored-value>
             </pair>
         </value-pairs>
 

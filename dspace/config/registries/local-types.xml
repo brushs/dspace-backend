@@ -116,7 +116,19 @@
     <qualifier>numberofmaps</qualifier>
     <scope_note>Number of Maps.</scope_note>
   </dc-type>
-
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>map</element>
+    <qualifier>maptype</qualifier>
+    <scope_note>Map Types</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>map</element>
+    <qualifier>mapscale</qualifier>
+    <scope_note>Map Scale</scope_note>
+  </dc-type>
+  
   <dc-type>
     <schema>nrcan</schema>
     <element>map</element>
