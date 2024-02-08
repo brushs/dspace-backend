@@ -151,7 +151,7 @@
                     <linked-metadata-field>
                         <dc-schema>nrcan</dc-schema>
                         <dc-element>journal</dc-element>
-                        <dc-qualifier>name</dc-qualifier>
+                        <dc-qualifier>title</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
                     <required></required>>
@@ -232,7 +232,7 @@
             </row>
             <row>
 			    <relation-field>
-                    <relationship-type>isSerialOfPublication</relationship-type>
+                    <relationship-type>isSecondarySerialOfPublication</relationship-type>
                     <search-configuration>serial</search-configuration>
                     <repeatable>true</repeatable>
 					<style>col-sm-6</style>
@@ -264,7 +264,7 @@
                     <dc-element>monographic</dc-element>
                     <dc-qualifier>title</dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Large Work/Book Title</label>
+                    <label>Larger Work/Book Title</label>
                     <type-bind>Book chapter</type-bind>
                     <input-type>onebox</input-type>
                     <language value-pairs-name="gc_languages">true</language>
@@ -276,7 +276,7 @@
                     <relationship-type>isMonographicAuthorOfPublication</relationship-type>
                     <search-configuration>person</search-configuration>
                     <repeatable>true</repeatable>
-                    <label>Large Work Author</label>
+                    <label>Larger Work Author</label>
                     <hint>Choose the author(s) from the lookup</hint>
                     <linked-metadata-field>
                         <dc-schema>nrcan</dc-schema>
@@ -292,7 +292,7 @@
                     <relationship-type>isMonoCorpAuthorOfPublication</relationship-type>
                     <search-configuration>corporateAuthor</search-configuration>
                     <repeatable>true</repeatable>
-                    <label>Large Work Corp./Org. Author (not Affiliation)</label>
+                    <label>Larger Work Corp./Org. Author (not Affiliation)</label>
                     <hint>Choose the name(s) from the lookup</hint>
                     <linked-metadata-field>
                         <dc-schema>nrcan</dc-schema>
@@ -428,7 +428,7 @@
                     <dc-element>subject</dc-element>
                     <dc-qualifier>geoscan</dc-qualifier>
                     <repeatable>true</repeatable>
-                    <label>Tresaurus Keyword</label>
+                    <label>Thesaurus Keyword</label>
                     <input-type>onebox</input-type>
                     <hint>Choose keyword(s) from the lookup</hint>
                     <required></required>
@@ -555,7 +555,7 @@
                     <dc-qualifier>maptype</dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>General Map Type</label>
-                    <input-type value-pairs-name="geonscan_map_types">dropdown</input-type>
+                    <input-type value-pairs-name="geoscan_map_types">dropdown</input-type>
                     <hint>Select general map type from the list</hint>
                     <required></required>
                 </field>
@@ -595,20 +595,16 @@
                     <hint>Enter the city's name</hint>
                     <required></required>
                 </field>
-                <relation-field>
-                    <relationship-type>isCountryOfPublication</relationship-type>
-                    <search-configuration>country</search-configuration>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>meeting</dc-element>
+                    <dc-qualifier>country</dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Meeting Country</label>
-                    <hint>Choose the country from the lookup</hint>
-                    <linked-metadata-field>
-                        <dc-schema>nrcan</dc-schema>
-                        <dc-element>country</dc-element>
-                        <dc-qualifier>name</dc-qualifier>
-                        <input-type>onebox</input-type>
-                    </linked-metadata-field>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the country's name/code</hint>
                     <required></required>
-                </relation-field>
+                </field>
             </row>
             <row>
                 <field>
@@ -3157,7 +3153,7 @@
 
     <form-value-pairs>
 	
-		<value-pairs value-pairs-name="geonscan_map_types" dc-term="maptype">
+		<value-pairs value-pairs-name="geoscan_map_types" dc-term="maptype">
 			<pair>
                 <displayed-value>Geological</displayed-value>
                 <stored-value>geological</stored-value>
@@ -3170,7 +3166,6 @@
                 <displayed-value>Hydrogeological</displayed-value>
                 <stored-value>hydrogeological</stored-value>
             </pair>
-			
 			<pair>
                 <displayed-value>Hydrographic</displayed-value>
                 <stored-value>hydrographic</stored-value>

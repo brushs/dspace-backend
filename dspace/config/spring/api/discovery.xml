@@ -1701,6 +1701,7 @@
                 <ref bean="searchFilterIsOrgUnitOfPersonRelation"/>
                 <ref bean="searchFilterIsProjectOfPersonRelation"/>
                 <ref bean="searchFilterIsPublicationOfAuthorRelation"/>
+                <ref bean="searchFilterIsPublicationOfPrimaryContactRelation"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->

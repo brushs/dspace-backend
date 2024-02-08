@@ -34,6 +34,7 @@
                 <entry key="isCorporateAuthorOfPublication" value-ref="isCorporateAuthorOfPublicationMap"/>
                 <entry key="isMonographicAuthorOfPublication" value-ref="isMonoAuthorOfPublicationMap"/>
                 <entry key="isMonoCorpAuthorOfPublication" value-ref="isMonoCorporateAuthorOfPublicationMap"/>
+                <entry key="isPrimaryContactOfPublication" value-ref="isPrimaryContactOfPublicationMap"/>
             </map>
         </property>
     </bean>
@@ -469,6 +470,10 @@
 
     <util:map id="isMonoAuthorOfPublicationMap">
         <entry key="nrcan.contributor.monographicauthor" value-ref="publicationAuthor_author"/>
+    </util:map>
+
+    <util:map id="isPrimaryContactOfPublicationMap">
+        <entry key="nrcan.primarycontact" value-ref="publicationAuthor_author"/>
     </util:map>
 
 </beans>
