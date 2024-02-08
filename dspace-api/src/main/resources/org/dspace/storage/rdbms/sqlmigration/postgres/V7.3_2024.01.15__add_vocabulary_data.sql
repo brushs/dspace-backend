@@ -6716,7 +6716,7 @@ INSERT INTO term VALUES (30022, null,'Sedimentology','Sédimentologie', '', '', 
 INSERT INTO term VALUES (30023, null,'Surficial Geology/Geomorphology','Géologie des dépôts meubles/géomorphologie', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (30024, null,'Soils Science','Pédologie', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (30025, null,'Stratigraphy','Stratigraphie', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);
-INSERT INTO term VALUES (30026, null,'StructuralGeology','Géologie structurale', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (30026, null,'Structural Geology','Géologie structurale', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (30027, null,'Tectonics','Tectonique', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (30028, null,'Arts, Music, Literature','Arts, musique, littérature', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (30029, null,'Agriculture','Agriculture', '', '', true, 3, null, 'system', current_timestamp, 'system', current_timestamp);

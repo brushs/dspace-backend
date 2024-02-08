@@ -125,4 +125,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 #CMD /usr/sbin/sshd && catalina.sh run
 COPY ./start.sh /
+RUN chmod +x /start.sh
+
 CMD ["/start.sh"]
