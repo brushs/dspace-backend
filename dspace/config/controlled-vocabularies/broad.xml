@@ -101,7 +101,7 @@
             <isComposedBy/>
         </node>
         <node id="30025fr" label="Stratigraphie"/>
-        <node id="30026" label="StructuralGeology">
+        <node id="30026" label="Structural Geology">
             <isComposedBy/>
         </node>
         <node id="30026fr" label="Géologie structurale"/>
@@ -185,5 +185,97 @@
             <isComposedBy/>
         </node>
         <node id="30046fr" label="Transport"/>
+        <node id="30047" label="General Information">
+            <isComposedBy/>
+        </node>
+        <node id="30047fr" label="Information générale"/>
+        <node id="30048" label="Climate Change and Atmospheric Influences">
+            <isComposedBy/>
+        </node>
+        <node id="30048fr" label="Changements climatiques et influences atmosphériques"/>
+        <node id="30049" label="Forest Ecology and Site Classification">
+            <isComposedBy/>
+        </node>
+        <node id="30049fr" label="Écologie forestière et classification des sites"/>
+        <node id="30050" label="Forest Diseases">
+            <isComposedBy/>
+        </node>
+        <node id="30050fr" label="Maladies forestières"/>
+        <node id="30051" label="Forest Fires">
+            <isComposedBy/>
+        </node>
+        <node id="30051fr" label="Feux de forêt"/>
+        <node id="30052" label="Forest Insects">
+            <isComposedBy/>
+        </node>
+        <node id="30052fr" label="Insectes forestiers"/>
+        <node id="30053" label="Genetics, Tree Improvement, and Biodiversity">
+            <isComposedBy/>
+        </node>
+        <node id="30053fr" label="Génétique, amélioration des arbres et biodiversité"/>
+        <node id="30054" label="Growth and Yield, Inventory and Monitoring">
+            <isComposedBy/>
+        </node>
+        <node id="30054fr" label="Accroissement, inventaire et biosurveillance"/>
+        <node id="30055" label="Impacts of Forestry Practices">
+            <isComposedBy/>
+        </node>
+        <node id="30055fr" label="Incidences des pratiques forestières"/>
+        <node id="30056" label="International Trade and Policy">
+            <isComposedBy/>
+        </node>
+        <node id="30056fr" label="Commerce international et politiques"/>
+        <node id="30057" label="National Strategy and Coordination">
+            <isComposedBy/>
+        </node>
+        <node id="30057fr" label="Stratégie nationale et coordination"/>
+        <node id="30058" label="Silviculture">
+            <isComposedBy/>
+        </node>
+        <node id="30058fr" label="Sylviculture"/>
+        <node id="30059" label="Socio-economics and Statistics">
+            <isComposedBy/>
+        </node>
+        <node id="30059fr" label="Socio-économie et statistique"/>
+        <node id="30060" label="Sustainable Forest Management">
+            <isComposedBy/>
+        </node>
+        <node id="30060fr" label="Aménagement durable des forêts"/>
+        <node id="30061" label="Miscellaneous">
+            <isComposedBy/>
+        </node>
+        <node id="30061fr" label="Divers"/>
+        <node id="30062" label="Insect Genetics and Biotechnology">
+            <isComposedBy/>
+        </node>
+        <node id="30062fr" label="Génétique et biotechnologie des insectes"/>
+        <node id="30063" label="Land Reclamation">
+            <isComposedBy/>
+        </node>
+        <node id="30063fr" label="Remise en état des terres"/>
+        <node id="30064" label="Cumulative Effects">
+            <isComposedBy/>
+        </node>
+        <node id="30064fr" label="Effets cumulatifs"/>
+        <node id="30065" label="Indigenous Engagement">
+            <isComposedBy/>
+        </node>
+        <node id="30065fr" label="Mobilisation des Autochtones"/>
+        <node id="30066" label="2 Billion Trees research">
+            <isComposedBy/>
+        </node>
+        <node id="30066fr" label="2 millards d'arbes"/>
+        <node id="30067" label="Forest Carbon">
+            <isComposedBy/>
+        </node>
+        <node id="30067fr" label="Carbone forestier"/>
+        <node id="30068" label="Afforestation">
+            <isComposedBy/>
+        </node>
+        <node id="30068fr" label="Afforestation"/>
+        <node id="30069" label="National Research Forest">
+            <isComposedBy/>
+        </node>
+        <node id="30069fr" label="Forêt expérimentale nationale"/>
     </isComposedBy>
 </node>
