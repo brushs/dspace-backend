@@ -290,8 +290,8 @@ public class RelationshipServiceImpl implements RelationshipService {
             );
         }
 
-        //updateItem(context, leftItem);
-        //updateItem(context, rightItem);
+        updateItem(context, leftItem);
+        updateItem(context, rightItem);
 
         context.restoreAuthSystemState();
     }
@@ -751,7 +751,7 @@ public class RelationshipServiceImpl implements RelationshipService {
         // ItemService.update() functions which would fail if the user doesn't have permission on both items.
         // Since we allow this edits to happen under these circumstances, we need to turn off the
         // authorization system here so that this failure doesn't happen when the items need to be update
-/*        context.turnOffAuthorisationSystem();
+        context.turnOffAuthorisationSystem();
         try {
             // Set a limit on the total amount of items to update at once during a relationship change
             int max = configurationService.getIntProperty("relationship.update.relateditems.max", 20);
@@ -779,7 +779,6 @@ public class RelationshipServiceImpl implements RelationshipService {
         } finally {
             context.restoreAuthSystemState();
         }
- */
     }
 
     /**
