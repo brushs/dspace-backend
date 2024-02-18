@@ -3817,7 +3817,6 @@
         <property name="indexFieldName" value="subject_en" />
         <property name="metadataFields">
             <list>
-                <value>dc.subject.cfs_en</value>
                 <value>dc.subject.broad_en</value>
             </list>
         </property>
@@ -3827,7 +3826,6 @@
         <property name="indexFieldName" value="subject_fr"/>
         <property name="metadataFields">
             <list>
-                <value>dc.subject.cfs_fr</value>
                 <value>dc.subject.broad_fr</value>
             </list>
         </property>
