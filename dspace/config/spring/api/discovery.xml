@@ -572,7 +572,7 @@
         <property name="defaultFilterQueries">
             <list>
                 <!--Only find items, communities and collections-->
-                <value>(search.resourcetype:Item AND latestVersion:true) AND dspace.entity.type:Publicationf</value>
+                <value>(search.resourcetype:Item AND latestVersion:true) AND dspace.entity.type:Publication</value>
             </list>
         </property>
         <!--The configuration for the recent submissions-->
