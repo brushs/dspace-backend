@@ -82,11 +82,13 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
     public SearchConfigurationRest getSearchConfiguration(final String dsoScope, final String configuration) {
         Context context = obtainContext();
 
+        Projection projection = utils.obtainProjection();
+
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, null);
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, projection.getLanguage());
 
-        return discoverConfigurationConverter.convert(discoveryConfiguration, utils.obtainProjection());
+        return discoverConfigurationConverter.convert(discoveryConfiguration, projection);
     }
 
     public SearchResultsRest getSearchObjects(final String query, final List<String> dsoTypes, final String dsoScope,
@@ -96,7 +98,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
         Context context = obtainContext();
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, null);
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, projection.getLanguage());
 
         DiscoverResult searchResult = null;
         DiscoverQuery discoverQuery = null;
