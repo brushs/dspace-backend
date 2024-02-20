@@ -42,7 +42,7 @@ dspace.server.url = https://dspacesandboxbackend.azurewebsites.net/server
 # DO NOT end it with '/'.
 # This is used by the backend to provide links in emails, RSS feeds, Sitemaps,
 # etc.
-dspace.ui.url = https://dspacesandboxfrontend.azurewebsites.net
+dspace.ui.url = https://ostr-frontend-sandbox.azure.cloud.nrcan-rncan.gc.ca
 
 # Name of the site
 dspace.name = DSpace at My University
