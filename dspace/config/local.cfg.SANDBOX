@@ -322,6 +322,7 @@ metadata.hide.nrcan.legacy.relationurl = true
 metadata.hide.nrcan.legacy.sponsor = true
 metadata.hide.nrcan.legacy.status = true
 metadata.hide.nrcan.legacy.thesis = true
+metadata.hide.nrcan.legacy.type = true
 metadata.hide.nrcan.legacy.webaccessible = true
 metadata.hide.nrcan.notes = true
 metadata.hide.nrcan.province.code = true
