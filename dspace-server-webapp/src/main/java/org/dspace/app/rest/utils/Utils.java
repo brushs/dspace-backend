@@ -590,10 +590,17 @@ public class Utils {
         String language = String.join(",", languages);
         if (StringUtils.isEmpty(language)) {
             HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+                    // default to en
             language = httpRequest.getHeader("Accept-Language") == null ? "en" :
-                    httpRequest.getHeader("Accept-Language").contains("en") ?
+                    // if from the web
+                    httpRequest.getHeader("Accept-Language").contains(";q") ?
+                            // it should start with fr otherwise en
+                    (httpRequest.getHeader("Accept-Language").startsWith("fr") ? "fr" : "en") :
+                    // if not from the web if it contains en
+                    (httpRequest.getHeader("Accept-Language").contains("en") ?
+                            // and fr, it's both (from API), otherwise solo lang
                     (httpRequest.getHeader("Accept-Language").contains("fr") ? "en,fr" : "en" ) :
-                    (httpRequest.getHeader("Accept-Language").contains("fr") ? "fr" : null);
+                    (httpRequest.getHeader("Accept-Language").contains("fr") ? "fr" : null));
         }
 
         if (projections.isEmpty()) {
