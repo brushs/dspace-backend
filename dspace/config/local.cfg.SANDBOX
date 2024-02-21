@@ -36,7 +36,7 @@ dspace.dir=/dspace
 # DO NOT end it with '/'.
 # This is where REST API and all enabled server modules (OAI-PMH, SWORD,
 # SWORDv2, RDF, etc) will respond.
-dspace.server.url = https://dspacesandboxbackend.azurewebsites.net/server
+dspace.server.url = https://ostr-backend-sandbox.azure.cloud.nrcan-rncan.gc.ca/server
 
 # URL of DSpace frontend (Angular UI). Include port number etc.
 # DO NOT end it with '/'.
