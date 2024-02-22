@@ -87,6 +87,11 @@ public class RelationshipMetadataServiceImpl implements RelationshipMetadataServ
         return fullMetadataValueList;
     }
 
+    @Override
+    public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata, boolean isUISearchRequest, String lang) {
+        return null;
+    }
+
     /**
      * Create the list of relation.*.latestForDiscovery virtual metadata values for the given item.
      * @param context the DSpace context.
