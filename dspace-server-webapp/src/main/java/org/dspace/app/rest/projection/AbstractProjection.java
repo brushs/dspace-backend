@@ -22,6 +22,7 @@ import org.springframework.hateoas.Link;
 public abstract class AbstractProjection implements Projection {
 
     private String language;
+    private boolean isUISearchRequest = false;
 
     @Override
     public <T> T transformModel(T modelObject) {
@@ -65,4 +66,13 @@ public abstract class AbstractProjection implements Projection {
         return language;
     }
 
+    @Override
+    public boolean getUISearchRequest() {
+        return isUISearchRequest;
+    }
+
+    @Override
+    public void setUISearchRequest(boolean uiSearchRequest) {
+        isUISearchRequest = uiSearchRequest;
+    }
 }

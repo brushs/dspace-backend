@@ -71,8 +71,8 @@ public class ItemConverter
      * configuration
      */
     @Override
-    public MetadataValueList getPermissionFilteredMetadata(Context context, Item obj) {
-        List<MetadataValue> fullList = itemService.getMetadata(obj, Item.ANY, Item.ANY, Item.ANY, Item.ANY, true);
+    public MetadataValueList getPermissionFilteredMetadata(Context context, Item obj, boolean isUISearchRequest) {
+        List<MetadataValue> fullList = itemService.getMetadata(obj, Item.ANY, Item.ANY, Item.ANY, Item.ANY, true, isUISearchRequest);
         List<MetadataValue> returnList = new LinkedList<>();
         try {
             if (obj.isWithdrawn() && (Objects.isNull(context) ||
