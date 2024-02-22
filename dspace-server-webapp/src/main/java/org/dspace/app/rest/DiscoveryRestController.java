@@ -9,6 +9,7 @@ package org.dspace.app.rest;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
+import java.net.http.HttpRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,7 @@ import org.dspace.app.rest.model.hateoas.SearchConfigurationResource;
 import org.dspace.app.rest.model.hateoas.SearchResultsResource;
 import org.dspace.app.rest.model.hateoas.SearchSupportResource;
 import org.dspace.app.rest.parameter.SearchFilter;
+import org.dspace.app.rest.projection.Projection;
 import org.dspace.app.rest.repository.DiscoveryRestRepository;
 import org.dspace.app.rest.utils.Utils;
 import org.springframework.beans.factory.InitializingBean;
@@ -137,6 +139,8 @@ public class DiscoveryRestController implements InitializingBean {
                                                   @RequestParam(name = "scope", required = false) String dsoScope,
                                                   @RequestParam(name = "configuration", required = false) String
                                                       configuration,
+                                                  @RequestParam(name = "ostrSearch", required = false) String
+                                                              searchRequest,
                                                   List<SearchFilter> searchFilters,
                                                   Pageable page) throws Exception {
 
@@ -153,8 +157,12 @@ public class DiscoveryRestController implements InitializingBean {
 
         //Get the Search results in JSON format
         try {
+            Projection projection = utils.obtainProjection();
+            //if (searchRequest != null && searchRequest.contentEquals("1")) {
+                projection.setUISearchRequest(true);
+            //}
             SearchResultsRest searchResultsRest = discoveryRestRepository.getSearchObjects(query, dsoTypes, dsoScope,
-                configuration, searchFilters, page, utils.obtainProjection());
+                configuration, searchFilters, page, projection);
 
             //Convert the Search JSON results to paginated HAL resources
             SearchResultsResource searchResultsResource = new SearchResultsResource(searchResultsRest, utils, page);

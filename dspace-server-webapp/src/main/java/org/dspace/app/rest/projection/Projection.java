@@ -151,4 +151,8 @@ public interface Projection {
     String getLanguage();
 
     void setLanguage(String language);
+
+    boolean getUISearchRequest();
+
+    void setUISearchRequest(boolean uiSearchRequest);
 }
