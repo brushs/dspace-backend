@@ -41,7 +41,7 @@ from
         join
     (select text_value, dspace_object_id
      from metadatavalue
-     where metadata_field_id = 184) b
+     where metadata_field_id = 353) b
     on a.dspace_object_id = b.dspace_object_id
         join
     (select text_value, dspace_object_id
@@ -56,7 +56,7 @@ from
         left outer join
     (select text_value, dspace_object_id
      from metadatavalue
-     where metadata_field_id = 185) e
+     where metadata_field_id = 354) e
     on a.dspace_object_id = e.dspace_object_id
         left outer join
     (select text_value, dspace_object_id

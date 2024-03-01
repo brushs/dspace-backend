@@ -1,4 +1,4 @@
-create or replace view divisions_v
+create or replace view divisions_v as
 select
     mdvc.dspace_object_id,
     mdvc.code,
@@ -35,7 +35,7 @@ from
        and text_lang = 'fr') mdvsf
     on mdvsf.dspace_object_id = mdvc.dspace_object_id;
 
-create or replace view sponsors_v
+create or replace view sponsors_v as
 select
     mdvc.dspace_object_id,
     mdvc.code,

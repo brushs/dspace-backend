@@ -219,7 +219,7 @@ handle.prefix = 123456789s
 # When an external authentication system is involved like Shibboleth some browsers (i.e. Safari) include
 # in the request the Origin header with the url of the IdP. In such case you need to allow also the IdP to
 # avoid trouble for such browsers (i.e.  rest.cors.allowed-origins = ${dspace.ui.url}, https://samltest.id )
-#rest.cors.allowed-origins = ${dspace.ui.url}
+rest.cors.allowed-origins = ${dspace.ui.url}, https://dspacesandboxfrontend.azurewebsites.net
 
 #################################################
 # SPRING BOOT SETTINGS (Used by Server Webapp)  #
