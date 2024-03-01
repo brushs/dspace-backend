@@ -7,10 +7,12 @@
  */
 package org.dspace.app.rest.repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.dspace.app.rest.model.BrowseIndexRest;
+import org.dspace.app.rest.projection.Projection;
 import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
 import org.dspace.core.Context;
@@ -47,7 +49,20 @@ public class BrowseIndexRestRepository extends DSpaceRestRepository<BrowseIndexR
     public Page<BrowseIndexRest> findAll(Context context, Pageable pageable) {
         try {
             List<BrowseIndex> indexes = Arrays.asList(BrowseIndex.getBrowseIndices());
-            return converter.toRestPage(indexes, pageable, indexes.size(), utils.obtainProjection());
+            Projection projection = utils.obtainProjection();
+            List<BrowseIndex> filteredIndexes = new ArrayList<>();
+            if (projection.getLanguage().contentEquals("fr")) {
+                filteredIndexes.add(indexes.get(0));
+                filteredIndexes.add(indexes.get(1));
+                filteredIndexes.add(indexes.get(2));
+                filteredIndexes.add(indexes.get(4));
+            } else {
+                filteredIndexes.add(indexes.get(0));
+                filteredIndexes.add(indexes.get(1));
+                filteredIndexes.add(indexes.get(2));
+                filteredIndexes.add(indexes.get(3));
+            }
+            return converter.toRestPage(filteredIndexes, pageable, filteredIndexes.size(), projection);
         } catch (BrowseException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
