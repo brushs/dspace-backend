@@ -1566,6 +1566,11 @@ prevent the generation of resource policy entry values with null dspace_object a
         return values;
     }
 
+    @Override
+    public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang, boolean enableVirtualMetadata, boolean isUISearchRequest) {
+        return null;
+    }
+
     /**
      * Supports moving metadata by adding the metadata value or updating the place of the relationship
      */
