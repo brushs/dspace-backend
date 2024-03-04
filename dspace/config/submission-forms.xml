@@ -104,9 +104,9 @@
                     <label>Language</label>
                     <hint>Choose the language of the publication from the lookup</hint>
                     <linked-metadata-field>
-                        <dc-schema>nrcan</dc-schema>
+                        <dc-schema>dc</dc-schema>
                         <dc-element>language</dc-element>
-                        <dc-qualifier>name</dc-qualifier>
+                        <dc-qualifier></dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
                     <required>You must enter a language for this item.</required>
@@ -280,8 +280,8 @@
                     <hint>Choose the author(s) from the lookup</hint>
                     <linked-metadata-field>
                         <dc-schema>nrcan</dc-schema>
-                        <dc-element>monographic</dc-element>
-                        <dc-qualifier>author</dc-qualifier>
+                        <dc-element>contributor</dc-element>
+                        <dc-qualifier>monographicauthor</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
                     <type-bind>Book chapter</type-bind>
@@ -296,8 +296,8 @@
                     <hint>Choose the name(s) from the lookup</hint>
                     <linked-metadata-field>
                         <dc-schema>nrcan</dc-schema>
-                        <dc-element>monographic</dc-element>
-                        <dc-qualifier>corporateauthor</dc-qualifier>
+                        <dc-element>contributor</dc-element>
+                        <dc-qualifier>monographiccorporateauthor</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
                     <type-bind>Book chapter</type-bind>
