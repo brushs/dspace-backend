@@ -99,7 +99,7 @@ db.schema = public
 ## Connection pool parameters
 
 # Maximum number of DB connections in pool (default = 30)
-#db.maxconnections = 30
+db.maxconnections = 50
 
 # Maximum time to wait before giving up if all connections in pool are busy (milliseconds)
 # (default = 10000ms or 10 seconds)
