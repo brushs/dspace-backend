@@ -1525,11 +1525,9 @@ prevent the generation of resource policy entry values with null dspace_object a
     public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
                                            boolean enableVirtualMetadata) {
         if (!enableVirtualMetadata) {
-            log.debug("Called getMetadata for " + item.getID() + " without enableVirtualMetadata");
             return super.getMetadata(item, schema, element, qualifier, lang);
         }
         if (item.isModifiedMetadataCache()) {
-            log.debug("Called getMetadata for " + item.getID() + " with invalid cache");
             //rebuild cache
             List<MetadataValue> dbMetadataValues = item.getMetadata();
 
@@ -1537,23 +1535,9 @@ prevent the generation of resource policy entry values with null dspace_object a
             fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true, lang));
             fullMetadataValueList.addAll(dbMetadataValues);
 
-            /*
-            MetadataValue val = new MetadataValue();
-            MetadataField field = new MetadataField();
-            MetadataSchema myschema = new MetadataSchema();
-            myschema.setName("dc");
-            field.setMetadataSchema(myschema);
-            field.setElement("identifier");
-            field.setQualifier("citation");
-            val.setMetadataField(field);
-            val.setValue("CITE ME");
-            fullMetadataValueList.add(val);
-             */
-
             item.setCachedMetadata(sortMetadataValueList(fullMetadataValueList));
         }
 
-        log.debug("Called getMetadata for " + item.getID() + " based on cache");
         // Build up list of matching values based on the cache
         List<MetadataValue> values = new ArrayList<>();
         for (MetadataValue dcv : item.getCachedMetadata()) {
