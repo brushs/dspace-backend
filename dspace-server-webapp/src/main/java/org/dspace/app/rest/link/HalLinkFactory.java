@@ -13,7 +13,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
 import org.dspace.app.rest.model.hateoas.HALResource;
+import org.dspace.services.ConfigurationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
@@ -24,6 +27,11 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 @Component
 public abstract class HalLinkFactory<RESOURCE, CONTROLLER> {
+
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(HalLinkFactory.class);
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     public boolean supports(Class clazz) {
         if (getResourceClass().isAssignableFrom(clazz)) {
@@ -58,6 +66,9 @@ public abstract class HalLinkFactory<RESOURCE, CONTROLLER> {
     }
 
     protected Link buildLink(String rel, String href) {
+        if (rel.contentEquals("self")) {
+            href = configurationService.getProperty("dspace.server.url") + href.substring(href.indexOf("/server"));
+        }
         return Link.of(href, rel);
     }
 
