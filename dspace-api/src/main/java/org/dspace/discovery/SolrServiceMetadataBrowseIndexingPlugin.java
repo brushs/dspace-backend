@@ -10,6 +10,7 @@ package org.dspace.discovery;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +26,7 @@ import org.dspace.content.authority.service.MetadataAuthorityService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.dspace.discovery.indexobject.IndexableItem;
+import org.dspace.discovery.utils.IndexingUtil;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.sort.OrderFormat;
 import org.dspace.sort.SortException;
@@ -100,11 +102,17 @@ public class SolrServiceMetadataBrowseIndexingPlugin implements SolrServiceIndex
                 // withdrawn
                 if (item.isArchived() || item.isWithdrawn()) {
                     // get the metadata from the item
+
                     for (int mdIdx = 0; mdIdx < bi.getMetadataCount(); mdIdx++) {
                         String[] md = bi.getMdBits(mdIdx);
-                        List<MetadataValue> values = itemService.getMetadata(item, md[0], md[1],
-                                                                             md[2], Item.ANY);
-
+                        List<MetadataValue> values = null;
+                        if (IndexingUtil.processRelationshipsForItem(itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY, false))) {
+                            values = itemService.getMetadata(item, md[0], md[1],
+                                    md[2], Item.ANY);
+                        } else {
+                            values = itemService.getMetadata(item, md[0], md[1],
+                                    md[2], Item.ANY, false);
+                        }
                         // if we have values to index on, then do so
                         if (values != null && values.size() > 0) {
                             int minConfidence = metadataAuthorityService
@@ -281,7 +289,25 @@ public class SolrServiceMetadataBrowseIndexingPlugin implements SolrServiceIndex
         // Add sorting options as configurated for the browse system
         try {
             for (SortOption so : SortOption.getSortOptions()) {
-                List<MetadataValue> dcvalue = itemService.getMetadataByMetadataString(item, so.getMetadata());
+                // TODO refactor
+                StringTokenizer dcf = new StringTokenizer(so.getMetadata(), ".");
+
+                String[] tokens = {"", "", ""};
+                int i = 0;
+                while (dcf.hasMoreTokens()) {
+                    tokens[i] = dcf.nextToken().trim();
+                    i++;
+                }
+
+                List<MetadataValue> dcvalue = null;
+                if (IndexingUtil.processRelationshipsForItem(itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY, false))) {
+                    dcvalue = itemService.getMetadata(item, tokens[0], tokens[1],
+                            tokens[2], Item.ANY);
+                } else {
+                    dcvalue = itemService.getMetadata(item, tokens[0], tokens[1],
+                            tokens[2], Item.ANY, false);
+                }
+
                 if (dcvalue != null && dcvalue.size() > 0) {
                     String nValue = OrderFormat
                         .makeSortString(dcvalue.get(0).getValue(),

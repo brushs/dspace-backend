@@ -9,12 +9,16 @@ package org.dspace.discovery;
 
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.util.packed.DirectMonotonicReader;
 import org.apache.solr.common.SolrInputDocument;
 import org.dspace.content.Item;
 import org.dspace.content.MetadataValue;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
+import org.dspace.discovery.indexobject.IndexFactoryImpl;
 import org.dspace.discovery.indexobject.IndexableItem;
+import org.dspace.discovery.utils.IndexingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -33,7 +37,12 @@ public class SolrServiceSpellIndexingPlugin implements SolrServiceIndexPlugin {
     public void additionalIndex(Context context, IndexableObject indexableObject, SolrInputDocument document) {
         if (indexableObject instanceof IndexableItem) {
             Item item = ((IndexableItem) indexableObject).getIndexedObject();
-            List<MetadataValue> dcValues = itemService.getMetadata(item, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
+            List<MetadataValue> dcValues = null;
+            if (IndexingUtil.processRelationshipsForItem(itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY, false))) {
+                dcValues = itemService.getMetadata(item, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
+            } else {
+                dcValues = itemService.getMetadata(item, Item.ANY, Item.ANY, Item.ANY, Item.ANY, false);
+            }
             List<String> toIgnoreMetadataFields = SearchUtils.getIgnoredMetadataFields(item.getType());
             for (MetadataValue dcValue : dcValues) {
                 if (!toIgnoreMetadataFields.contains(dcValue.getMetadataField().toString('.'))) {
@@ -42,4 +51,5 @@ public class SolrServiceSpellIndexingPlugin implements SolrServiceIndexPlugin {
             }
         }
     }
+
 }

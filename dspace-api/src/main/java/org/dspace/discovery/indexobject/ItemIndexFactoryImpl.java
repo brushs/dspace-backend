@@ -9,17 +9,7 @@ package org.dspace.discovery.indexobject;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,6 +47,7 @@ import org.dspace.discovery.configuration.HierarchicalSidebarFacetConfiguration;
 import org.dspace.discovery.indexobject.factory.ItemIndexFactory;
 import org.dspace.discovery.indexobject.factory.WorkflowItemIndexFactory;
 import org.dspace.discovery.indexobject.factory.WorkspaceItemIndexFactory;
+import org.dspace.discovery.utils.IndexingUtil;
 import org.dspace.eperson.EPerson;
 import org.dspace.handle.service.HandleService;
 import org.dspace.services.factory.DSpaceServicesFactory;
@@ -137,7 +128,6 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
             throws SQLException, IOException {
         // Add the ID's, types and call the SolrServiceIndexPlugins
         SolrInputDocument doc = super.buildDocument(context, indexableItem);
-
         final Item item = indexableItem.getIndexedObject();
 
         doc.addField("archived", item.isArchived());
@@ -226,6 +216,10 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
             throws SQLException, IOException {
         // use the item service to retrieve the owning collection also for inprogress submission
         Collection collection = (Collection) itemService.getParentObject(context, item);
+
+        // determine if we retrieve relationships for this type
+        boolean enableVirtualMetadata = IndexingUtil.processRelationshipsForItem(itemService.getMetadata(item, "dspace", "entity", "type", Item.ANY, false));
+
         //Keep a list of our sort values which we added, sort values can only be added once
         List<String> sortFieldsAdded = new ArrayList<>();
         Map<String, List<DiscoverySearchFilter>> searchFilters = new HashMap<>();
@@ -281,7 +275,7 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
                             String qualifier = splittedMetadataField.length > 2 ? splittedMetadataField[2] : null;
 
                             metadataValueList.addAll(itemService.getMetadata(item, schema,
-                                    element, qualifier, Item.ANY));
+                                    element, qualifier, Item.ANY, enableVirtualMetadata));
 
                         }
 
@@ -349,7 +343,7 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
             }
 
             List<String> toIgnoreMetadataFields = SearchUtils.getIgnoredMetadataFields(item.getType());
-            List<MetadataValue> mydc = itemService.getMetadata(item, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
+            List<MetadataValue> mydc = itemService.getMetadata(item, Item.ANY, Item.ANY, Item.ANY, Item.ANY, enableVirtualMetadata);
             for (MetadataValue meta : mydc) {
                 MetadataField metadataField = meta.getMetadataField();
                 MetadataSchema metadataSchema = metadataField.getMetadataSchema();
@@ -685,7 +679,8 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
 
         try {
 
-            List<MetadataValue> values = itemService.getMetadataByMetadataString(item, "dc.relation.ispartof");
+            List<MetadataValue> values = values = itemService.getMetadata(item, "dc", "relation",
+                        "ispartof", Item.ANY, enableVirtualMetadata);
 
             if (values != null && values.size() > 0 && values.get(0) != null && values.get(0).getValue() != null) {
                 // group on parent
