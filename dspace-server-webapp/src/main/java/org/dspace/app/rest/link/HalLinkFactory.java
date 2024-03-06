@@ -67,7 +67,9 @@ public abstract class HalLinkFactory<RESOURCE, CONTROLLER> {
 
     protected Link buildLink(String rel, String href) {
         //if (rel.contentEquals("self")) {
-            href = configurationService.getProperty("dspace.server.url") + href.substring(href.indexOf("/server"));
+            href = configurationService.getProperty("dspace.server.url")
+                    .substring(0,configurationService.getProperty("dspace.server.url").indexOf("/server"))
+                            + href.substring(href.indexOf("/server"));
         //}
         return Link.of(href, rel);
     }
