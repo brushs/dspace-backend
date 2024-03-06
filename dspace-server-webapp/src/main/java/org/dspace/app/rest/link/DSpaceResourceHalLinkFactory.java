@@ -20,6 +20,7 @@ import org.dspace.app.rest.model.RestAddressableModel;
 import org.dspace.app.rest.model.RestModel;
 import org.dspace.app.rest.model.hateoas.DSpaceResource;
 import org.dspace.app.rest.utils.Utils;
+import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -37,6 +38,9 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
 
     @Autowired
     private Utils utils;
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     protected void addLinks(DSpaceResource halResource, Pageable page, LinkedList<Link> list) throws Exception {
         RestAddressableModel data = halResource.getContent();
@@ -68,12 +72,12 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
                                 continue; // projection disallows this optional method-level link
                             }
 
-                            halResource.add(linkToSubResource);
+                            halResource.add(swapHost(linkToSubResource));
                         }
 
                     } else if (RestModel.class.isAssignableFrom(readMethod.getReturnType())) {
                         Link linkToSubResource = utils.linkToSubResource(data, name);
-                        halResource.add(linkToSubResource);
+                        halResource.add(swapHost(linkToSubResource));
                     }
                 }
             }
@@ -81,7 +85,7 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
             e.printStackTrace();
         }
 
-        halResource.add(utils.linkToSingleResource(data, IanaLinkRelations.SELF.value()));
+        halResource.add(swapHost(utils.linkToSingleResource(data, IanaLinkRelations.SELF.value())));
     }
 
     protected Class<RestResourceController> getControllerClass() {
@@ -92,4 +96,10 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
         return DSpaceResource.class;
     }
 
+    private Link swapHost(Link rawLink) {
+        return rawLink.withHref(rawLink.getHref().replace(
+                "dspacesandboxbackend.azurewebsites.net",
+                configurationService.getProperty("dspace.server.url")));
+
+    }
 }

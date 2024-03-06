@@ -57,9 +57,6 @@ public abstract class HalLinkFactory<RESOURCE, CONTROLLER> {
      */
     protected <T> Link buildLink(String rel, T data) {
         UriComponentsBuilder uriComponentsBuilder = uriBuilder(data);
-        if (uriComponentsBuilder.toUriString().contains("dspace")) {
-            uriComponentsBuilder.host(configurationService.getProperty("dspace.server.url"));
-        }
         return buildLink(rel, uriComponentsBuilder.build().toUriString());
     }
 
