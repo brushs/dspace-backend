@@ -99,7 +99,8 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
     private Link swapHost(Link rawLink) {
         return rawLink.withHref(rawLink.getHref().replace(
                 "dspacesandboxbackend.azurewebsites.net",
-                configurationService.getProperty("dspace.server.url")));
+                configurationService.getProperty("dspace.server.url")
+                        .substring(0,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
 
     }
 }
