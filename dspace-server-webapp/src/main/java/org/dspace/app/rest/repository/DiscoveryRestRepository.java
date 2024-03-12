@@ -113,9 +113,9 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
             throw new IllegalArgumentException("Error while searching with Discovery: " + e.getMessage());
         }
 
-        if (configuration.toUpperCase().contentEquals("LANGUAGE") ||
+        if (configuration != null && (configuration.toUpperCase().contentEquals("LANGUAGE") ||
                 configuration.toUpperCase().contentEquals("PROVINCE") ||
-                configuration.toUpperCase().contentEquals("COUNTRY")) {
+                configuration.toUpperCase().contentEquals("COUNTRY"))) {
             projection.setEnableVirtualMetadata(false);
         }
 
