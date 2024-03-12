@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -192,6 +191,18 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
             }
         }
         return result;
+    }
+
+    @Override
+    public List<MetadataValue> getMetadata(T dso, String schema, String element, String qualifier, String lang,
+                                           boolean enableVirtualMetadata) {
+        return getMetadata(dso, schema, element, qualifier, lang, null, enableVirtualMetadata);
+    }
+
+    @Override
+    public List<MetadataValue> getMetadata(T dso, String schema, String element, String qualifier, String lang,
+                                           String authority, boolean enableVirtualMetadata) {
+        return getMetadata(dso, schema, element, qualifier, lang, authority);
     }
 
     @Override
@@ -401,6 +412,15 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
     @Override
     public String getMetadataFirstValue(T dso, String schema, String element, String qualifier, String language) {
         List<MetadataValue> metadataValues = getMetadata(dso, schema, element, qualifier, language);
+        if (CollectionUtils.isNotEmpty(metadataValues)) {
+            return metadataValues.iterator().next().getValue();
+        }
+        return null;
+    }
+
+    @Override
+    public String getMetadataFirstValue(T dso, String schema, String element, String qualifier, String language, boolean enableVirtualMetadata) {
+        List<MetadataValue> metadataValues = getMetadata(dso, schema, element, qualifier, language, enableVirtualMetadata);
         if (CollectionUtils.isNotEmpty(metadataValues)) {
             return metadataValues.iterator().next().getValue();
         }

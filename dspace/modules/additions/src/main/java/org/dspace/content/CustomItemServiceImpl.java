@@ -10,16 +10,7 @@ package org.dspace.content;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -1487,6 +1478,37 @@ prevent the generation of resource policy entry values with null dspace_object a
         return false;
     }
 
+    @Override
+    public List<MetadataValue> getMetadataByMetadataString(Item dso, String mdString) {
+        StringTokenizer dcf = new StringTokenizer(mdString, ".");
+
+        String[] tokens = {"", "", ""};
+        int i = 0;
+        while (dcf.hasMoreTokens()) {
+            tokens[i] = dcf.nextToken().trim();
+            i++;
+        }
+        String schema = tokens[0];
+        String element = tokens[1];
+        String qualifier = tokens[2];
+
+        List<MetadataValue> values = getMetadata(dso, schema, element, qualifier, true);
+
+        return values;
+    }
+
+    private List<MetadataValue> getMetadata(Item dso, String schema, String element, String qualifier, boolean enableVirtualMetadata) {
+        List<MetadataValue> values;
+        if (Item.ANY.equals(qualifier)) {
+            values = getMetadata(dso, schema, element, Item.ANY, Item.ANY, enableVirtualMetadata);
+        } else if ("".equals(qualifier)) {
+            values = getMetadata(dso, schema, element, null, Item.ANY, enableVirtualMetadata);
+        } else {
+            values = getMetadata(dso, schema, element, qualifier, Item.ANY, enableVirtualMetadata);
+        }
+        return values;
+    }
+
     /**
      * This method will return a list of MetadataValue objects that contains all the regular
      * metadata of the item passed along in the parameters as well as all the virtual metadata
@@ -1516,6 +1538,12 @@ prevent the generation of resource policy entry values with null dspace_object a
     @Override
     public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
                                            boolean enableVirtualMetadata) {
+        return this.getMetadata(item, schema, element, qualifier, lang, enableVirtualMetadata, false);
+    }
+
+    @Override
+    public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
+                                           String authority, boolean enableVirtualMetadata) {
         return this.getMetadata(item, schema, element, qualifier, lang, enableVirtualMetadata, false);
     }
 

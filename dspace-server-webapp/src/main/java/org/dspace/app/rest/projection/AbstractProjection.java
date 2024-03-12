@@ -23,6 +23,7 @@ public abstract class AbstractProjection implements Projection {
 
     private String language;
     private boolean isUISearchRequest = false;
+    private boolean isEnableVirtualMetadata = true;
 
     @Override
     public <T> T transformModel(T modelObject) {
@@ -64,6 +65,16 @@ public abstract class AbstractProjection implements Projection {
     @Override
     public String getLanguage() {
         return language;
+    }
+
+    @Override
+    public boolean getEnableVirtualMetadata() {
+        return isEnableVirtualMetadata;
+    }
+
+    @Override
+    public void setEnableVirtualMetadata(boolean enableVirtualMetadata) {
+        isEnableVirtualMetadata = enableVirtualMetadata;
     }
 
     @Override

@@ -12,6 +12,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import java.net.http.HttpRequest;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -159,8 +160,9 @@ public class DiscoveryRestController implements InitializingBean {
         try {
             Projection projection = utils.obtainProjection();
             //if (searchRequest != null && searchRequest.contentEquals("1")) {
-                projection.setUISearchRequest(true);
+            //    projection.setUISearchRequest(true);
             //}
+
             SearchResultsRest searchResultsRest = discoveryRestRepository.getSearchObjects(query, dsoTypes, dsoScope,
                 configuration, searchFilters, page, projection);
 

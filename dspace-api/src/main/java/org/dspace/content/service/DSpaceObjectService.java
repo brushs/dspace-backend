@@ -222,6 +222,12 @@ public interface DSpaceObjectService<T extends DSpaceObject> {
     public List<MetadataValue> getMetadata(T dSpaceObject, String schema,
             String element, String qualifier, String lang, String authority);
 
+    List<MetadataValue> getMetadata(T dso, String schema, String element, String qualifier, String lang,
+                                    boolean enableVirtualMetadata);
+
+    List<MetadataValue> getMetadata(T dso, String schema, String element, String qualifier, String lang,
+                                    String authority, boolean enableVirtualMetadata);
+
     /**
      * Add metadata fields. These are appended to existing values.
      * Use <code>clearMetadata</code> to remove values. The ordering of values
@@ -452,6 +458,8 @@ public interface DSpaceObjectService<T extends DSpaceObject> {
      * @return first value of the field, or null if none.
      */
     public String getMetadataFirstValue(T dso, String schema, String element, String qualifier, String language);
+
+    String getMetadataFirstValue(T dso, String schema, String element, String qualifier, String language, boolean enableVirtualMetadata);
 
     /**
      * Get the first value of a metadata field.

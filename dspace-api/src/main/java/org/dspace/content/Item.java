@@ -374,7 +374,7 @@ public class Item extends DSpaceObject implements DSpaceObjectLegacySupport {
 
     @Override
     public String getName(String language) {
-        return getItemService().getMetadataFirstValue(this, MetadataSchemaEnum.DC.getName(), "title", null, language);
+        return getItemService().getMetadataFirstValue(this, MetadataSchemaEnum.DC.getName(), "title", null, language, false);
     }
 
     @Override

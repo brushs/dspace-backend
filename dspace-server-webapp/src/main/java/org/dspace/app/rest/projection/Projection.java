@@ -152,6 +152,10 @@ public interface Projection {
 
     void setLanguage(String language);
 
+    boolean getEnableVirtualMetadata();
+
+    void setEnableVirtualMetadata(boolean enableVirtualMetadata);
+
     boolean getUISearchRequest();
 
     void setUISearchRequest(boolean uiSearchRequest);
