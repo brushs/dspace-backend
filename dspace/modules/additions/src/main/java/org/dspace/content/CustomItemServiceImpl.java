@@ -1563,9 +1563,11 @@ prevent the generation of resource policy entry values with null dspace_object a
             fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true, isUISearchRequest, lang));
             fullMetadataValueList.addAll(dbMetadataValues);
 
-            MetadataValue mdv = citationService.getCitation(fullMetadataValueList);
-            if (mdv != null) {
-                fullMetadataValueList.add(mdv);
+            if (getMetadata(fullMetadataValueList, "dc", "identifier", "citation", null).size() > 0) {
+                MetadataValue mdv = citationService.getCitation(fullMetadataValueList);
+                if (mdv != null) {
+                    fullMetadataValueList.add(mdv);
+                }
             }
 
             item.setCachedMetadata(sortMetadataValueList(fullMetadataValueList));
@@ -1582,6 +1584,15 @@ prevent the generation of resource policy entry values with null dspace_object a
 
         // Create an array of matching values
         return values;
+    }
+
+    public List<MetadataValue> getMetadata(List<MetadataValue> values, String schema, String element, String qualifier, String lang) {
+        return values.stream().filter(
+                mdv -> mdv.getMetadataField().getMetadataSchema().getName().contentEquals(schema) &&
+                        mdv.getMetadataField().getElement().contentEquals(element) &&
+                        (qualifier == null || mdv.getMetadataField().getQualifier().contentEquals(qualifier)) &&
+                        (lang == null || mdv.getLanguage().contentEquals(qualifier))
+        ).collect(Collectors.toList());
     }
 
     /**
