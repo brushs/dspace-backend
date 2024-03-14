@@ -4,6 +4,7 @@ import org.apache.solr.common.StringUtils;
 import org.dspace.content.service.CitationService;
 import org.dspace.content.service.MetadataFieldService;
 import org.dspace.core.Context;
+import org.dspace.metadata.util.MetadataUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
@@ -73,9 +74,9 @@ public class CitationServiceImpl implements CitationService {
 
         mdv.setMetadataField(mdf);
 
-        List<MetadataValue> typeList = getFilteredList(mdvs, FIELD_TYPE_EN);
+        List<MetadataValue> typeList = MetadataUtils.getFilteredList(mdvs, FIELD_TYPE_EN);
         if (typeList == null || typeList.size() == 0) {
-            typeList = getFilteredList(mdvs, FIELD_TYPE);
+            typeList = MetadataUtils.getFilteredList(mdvs, FIELD_TYPE);
             if (typeList == null || typeList.size() == 0) {
                 return null;
             }
@@ -176,7 +177,7 @@ public class CitationServiceImpl implements CitationService {
 
     private String getAuthors(List<MetadataValue> mdvs) {
 
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_AUTHORS);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_AUTHORS);
 
         if (fmdvs.size() == 0) {
             return "";
@@ -192,7 +193,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getYear(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_DATE_ISSUED);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_DATE_ISSUED);
         if (fmdvs == null || fmdvs.size() == 0 || StringUtils.isEmpty(fmdvs.get(0).getValue())) {
             return "";
         } else {
@@ -201,7 +202,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getTitle(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_TITLE);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_TITLE);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
@@ -210,7 +211,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getTitleLanguage(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_TITLE);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_TITLE);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
@@ -219,7 +220,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getJournalName(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_JOURNAL);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_JOURNAL);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
@@ -228,7 +229,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getSerialName(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_SERIAL);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_SERIAL);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
@@ -237,7 +238,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getMonographicName(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_MONOGRAPH);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_MONOGRAPH);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
@@ -246,7 +247,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getEditor(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_EDITOR);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_EDITOR);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
@@ -257,7 +258,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getDOI(List<MetadataValue> mdvs) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, FIELD_DOI);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_DOI);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
@@ -266,38 +267,11 @@ public class CitationServiceImpl implements CitationService {
     }
 
     private String getField(List<MetadataValue> mdvs, String fieldName, String separator) {
-        List<MetadataValue> fmdvs = getFilteredList(mdvs, fieldName);
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, fieldName);
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
             return fmdvs.get(0).getValue() + separator + " ";
         }
-    }
-
-    private List<MetadataValue> getFilteredList(List<MetadataValue> mdvs, String field) {
-
-        String[] splittedKey = field.split("\\.");
-        String schema = splittedKey.length > 0 ? splittedKey[0] : null;
-        String element = splittedKey.length > 1 ? splittedKey[1] : null;
-        String qualifier = splittedKey.length > 2 ? splittedKey[2] : null;
-
-        List<MetadataValue> filteredMdvs = null;
-
-        if (qualifier != null) {
-            filteredMdvs =
-                    mdvs.stream().filter(m -> m.getMetadataField().getMetadataSchema().getName().equals(schema)
-                                    && m.getMetadataField().getElement().equals(element)
-                                    && m.getMetadataField().getQualifier().equals(qualifier))
-                            .collect(Collectors.toList());
-        } else {
-            filteredMdvs =
-                    mdvs.stream().filter(m -> m.getMetadataField().getMetadataSchema().getName().equals(schema)
-                                    && m.getMetadataField().getElement().equals(element)
-                                    && StringUtils.isEmpty(m.getMetadataField().getQualifier()))
-                            .collect(Collectors.toList());
-        }
-
-
-        return filteredMdvs;
     }
 }
