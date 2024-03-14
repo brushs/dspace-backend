@@ -712,6 +712,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>output</qualifier>
+    <scope_note>Legacy CFS Output field</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>sourcesystem</element>
     <qualifier></qualifier>
     <scope_note>The system which provided this entry to the OSTR</scope_note>
