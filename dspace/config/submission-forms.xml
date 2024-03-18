@@ -358,7 +358,7 @@
                     <label>Summary</label>
                     <input-type>textarea</input-type>
                     <language value-pairs-name="gc_languages">true</language>
-                    <hint>Eenter the summary appearing on the publication and choose language</hint>
+                    <hint>Enter the summary appearing on the publication and choose language</hint>
                     <required></required>
                 </field>
             </row>
