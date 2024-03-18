@@ -74,8 +74,8 @@ public class Relationship implements ReloadableEntity<Integer> {
     /**
      * An Integer to describe the right place for this relationship
      */
-    @Column(name = "right_place")
-    private int rightPlace;
+    //@Column(name = "right_place")
+    //private int rightPlace;
 
     /**
      * A String containing an alternative value (name variant) for the left side
@@ -180,18 +180,18 @@ public class Relationship implements ReloadableEntity<Integer> {
      * Standard getter for the rightPlace Integer in this Relationship
      * @return  the rightPlace integer for this relationship
      */
-    public int getRightPlace() {
-        return rightPlace;
-    }
+//    public int getRightPlace() {
+//        return rightPlace;
+//    }
 
     /**
      * Standard setter for the rightPlace Integer in this Relationship
      * @param rightPlace    the rightPlace Integer that will be used in this relationship
      */
-    public void setRightPlace(int rightPlace) {
-        this.rightPlace = rightPlace;
-        rightItem.setMetadataModified();
-    }
+//    public void setRightPlace(int rightPlace) {
+//        this.rightPlace = rightPlace;
+//        rightItem.setMetadataModified();
+//    }
 
     /**
      * Standard getter for the leftwardValue String in this Relationship

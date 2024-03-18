@@ -169,12 +169,15 @@ public class Related implements VirtualMetadataConfiguration {
                     Item otherItem = relationship.getRightItem();
                     return virtualMetadataConfiguration.getValues(context, otherItem);
                 }
-            } else if (relationship.getRelationshipType().getRightType().equals(entityType)) {
+            }
+            /*
+            else if (relationship.getRelationshipType().getRightType().equals(entityType)) {
                 if (place == null || relationship.getRightPlace() == place) {
                     Item otherItem = relationship.getLeftItem();
                     return virtualMetadataConfiguration.getValues(context, otherItem);
                 }
             }
+            */
         }
 
         //Return an empty list if no relationships were found

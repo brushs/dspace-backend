@@ -1599,9 +1599,12 @@ prevent the generation of resource policy entry values with null dspace_object a
                         ((RelationshipMetadataValue) rr).getRelationshipId());
                 if (rs.getLeftItem() == dso) {
                     rs.setLeftPlace(place);
-                } else {
+                }
+                /*
+                else {
                     rs.setRightPlace(place);
                 }
+                */
                 relationshipService.update(context, rs);
             } catch (Exception e) {
                 //should not occur, otherwise metadata can't be updated either

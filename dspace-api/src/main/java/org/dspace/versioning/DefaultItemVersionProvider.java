@@ -149,7 +149,8 @@ public class DefaultItemVersionProvider extends AbstractVersionProvider implemen
                     oldRelationship.getRightItem(),
                     oldRelationship.getRelationshipType(),
                     oldRelationship.getLeftPlace(),
-                    oldRelationship.getRightPlace(),
+                    //oldRelationship.getRightPlace(),
+                    -1,
                     oldRelationship.getLeftwardValue(),
                     oldRelationship.getRightwardValue(),
                     Relationship.LatestVersionStatus.RIGHT_ONLY // only mark the opposite side as "latest" for now
@@ -162,7 +163,8 @@ public class DefaultItemVersionProvider extends AbstractVersionProvider implemen
                     newItem, // new item
                     oldRelationship.getRelationshipType(),
                     oldRelationship.getLeftPlace(),
-                    oldRelationship.getRightPlace(),
+                    //oldRelationship.getRightPlace(),
+                    -1,
                     oldRelationship.getLeftwardValue(),
                     oldRelationship.getRightwardValue(),
                     Relationship.LatestVersionStatus.LEFT_ONLY // only mark the opposite side as "latest" for now

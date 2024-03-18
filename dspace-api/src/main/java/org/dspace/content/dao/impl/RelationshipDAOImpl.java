@@ -243,7 +243,7 @@ public class RelationshipDAOImpl extends AbstractHibernateDAO<Relationship> impl
                 criteriaBuilder.equal(relationshipRoot.get(Relationship_.relationshipType), relationshipType),
                 getRightItemPredicate(criteriaBuilder, relationshipRoot, item, false, excludeNonLatest)
             );
-            criteriaQuery.orderBy(criteriaBuilder.asc(relationshipRoot.get(Relationship_.rightPlace)));
+            criteriaQuery.orderBy(criteriaBuilder.asc(relationshipRoot.get(Relationship_.id)));
         }
 
         return list(context, criteriaQuery, true, Relationship.class, limit, offset);
