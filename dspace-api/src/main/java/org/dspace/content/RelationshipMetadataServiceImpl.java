@@ -203,7 +203,7 @@ public class RelationshipMetadataServiceImpl implements RelationshipMetadataServ
             hashMaps = virtualMetadataPopulator.getMap().get(relationshipType.getRightwardType());
             otherItem = relationship.getLeftItem();
             relationName = relationship.getRelationshipType().getRightwardType();
-            place = relationship.getRightPlace();
+            //place = relationship.getRightPlace();
             isLeftwards = true; //if the current item is stored on the right,
             // the name variant is retrieved from the leftwards label
         } else {

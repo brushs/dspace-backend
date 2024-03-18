@@ -26,7 +26,7 @@ public class RelationshipMatcher {
 
     public static Matcher<? super Object> matchRelationship(Relationship relationship) {
         return matchRelationshipExplicitValues(relationship.getLeftItem(), relationship.getRightItem(),
-                                               relationship.getLeftPlace(), relationship.getRightPlace(),
+                                               relationship.getLeftPlace(), -1,
                                                relationship.getRelationshipType());
     }
 
@@ -55,7 +55,7 @@ public class RelationshipMatcher {
                 hasJsonPath("$._links.leftItem.href", containsString(relationship.getLeftItem().getID().toString())),
                 hasJsonPath("$._links.rightItem.href", containsString(relationship.getRightItem().getID().toString())),
                 hasJsonPath("$.leftPlace", is(relationship.getLeftPlace())),
-                hasJsonPath("$.rightPlace", is(relationship.getRightPlace())));
+                hasJsonPath("$.rightPlace", is(-1)));
     }
 
     /**

@@ -95,7 +95,7 @@ public class RelationshipServiceImpl implements RelationshipService {
         relationship.setRightItem(rightItem);
         relationship.setRelationshipType(relationshipType);
         relationship.setLeftPlace(leftPlace);
-        relationship.setRightPlace(rightPlace);
+        //relationship.setRightPlace(rightPlace);
         relationship.setLeftwardValue(leftwardValue);
         relationship.setRightwardValue(rightwardValue);
         relationship.setLatestVersionStatus(latestVersionStatus);
@@ -198,7 +198,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             if (newRightItem != null) {
                 relationship.getRightItem().setMetadataModified();
                 relationship.setRightItem(newRightItem);
-                relationship.setRightPlace(-1);
+                //relationship.setRightPlace(-1);
                 insertRight = true;
             }
 
@@ -252,7 +252,7 @@ public class RelationshipServiceImpl implements RelationshipService {
         // These relationships are only deleted from the temporary lists in case they're present in them so that we can
         // properly perform our place calculation later down the line in this method.
         boolean deletedFromLeft = !leftRelationships.contains(relationship);
-        boolean deletedFromRight = !rightRelationships.contains(relationship);
+        //boolean deletedFromRight = !rightRelationships.contains(relationship);
         leftRelationships.remove(relationship);
         rightRelationships.remove(relationship);
 
@@ -264,15 +264,17 @@ public class RelationshipServiceImpl implements RelationshipService {
         // For existing relationships, this will contain the place before it was moved.
         // For deleted relationships, this will contain the place before it was deleted.
         int oldLeftPlace = relationship.getLeftPlace();
-        int oldRightPlace = relationship.getRightPlace();
+        //int oldRightPlace = relationship.getRightPlace();
 
 
         boolean movedUpLeft = resolveRelationshipPlace(
             relationship, true, leftRelationships, leftMetadata, oldLeftPlace, newLeftPlace
         );
+        /*
         boolean movedUpRight = resolveRelationshipPlace(
             relationship, false, rightRelationships, rightMetadata, oldRightPlace, newRightPlace
         );
+        */
 
         context.turnOffAuthorisationSystem();
 
@@ -283,12 +285,15 @@ public class RelationshipServiceImpl implements RelationshipService {
                 leftRelationships, leftMetadata
             );
         }
+        /*
         if (relationshipVersioningUtils.otherSideIsLatest(false, relationship.getLatestVersionStatus())) {
             shiftSiblings(
                 relationship, false, oldRightPlace, movedUpRight, insertRight, deletedFromRight,
                 rightRelationships, rightMetadata
             );
         }
+        */
+
 
         updateItem(context, leftItem);
         updateItem(context, rightItem);
@@ -490,7 +495,7 @@ public class RelationshipServiceImpl implements RelationshipService {
                 (deleted && mdvPlace > newPlace)
                 // If the relationship was deleted, all metadata after it should shift left
                 // We must make the distinction between deletes and moves because for inserts oldPlace == newPlace
-                // If the reltionship was copied to metadata on deletion:
+                // If the relationship was copied to metadata on deletion:
                 //   - the plain text can be after the relationship (in which case it's moved forward again)
                 //   - or before the relationship (in which case it remains in place)
                     || (movedUp && mdvPlace <= newPlace && mdvPlace > oldPlace)
@@ -515,16 +520,20 @@ public class RelationshipServiceImpl implements RelationshipService {
         if (isLeft) {
             return relationship.getLeftPlace();
         } else {
-            return relationship.getRightPlace();
+            //return relationship.getRightPlace();
+            return -1;
         }
     }
 
     private void setPlace(Relationship relationship, boolean isLeft, int place) {
         if (isLeft) {
             relationship.setLeftPlace(place);
-        } else {
+        }
+        /*
+        else {
             relationship.setRightPlace(place);
         }
+        */
     }
 
     @Override
@@ -642,7 +651,8 @@ public class RelationshipServiceImpl implements RelationshipService {
                 if (o1.getLeftItem() == item) {
                     return o1.getLeftPlace() - o2.getLeftPlace();
                 } else {
-                    return o1.getRightPlace() - o2.getRightPlace();
+                    //return o1.getRightPlace() - o2.getRightPlace();
+                    return 0;
                 }
             }
         });

@@ -216,7 +216,7 @@ public class ItemMetadataValueAddPatchOperation extends MetadataValueAddPatchOpe
             if (rs.getLeftItem() == dso) {
                 rs.setLeftPlace(place);
             } else {
-                rs.setRightPlace(place);
+                //rs.setRightPlace(place);
             }
             relationshipService.update(context, rs);
         } catch (Exception e) {

@@ -316,7 +316,7 @@ public class RelationshipServiceImplTest {
         relationship.setRightItem(rightItem);
         relationship.setRelationshipType(relationshipType);
         relationship.setLeftPlace(leftPlace);
-        relationship.setRightPlace(rightPlace);
+        //relationship.setRightPlace(rightPlace);
 
         return relationship;
     }

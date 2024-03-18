@@ -1568,7 +1568,7 @@ prevent the generation of resource policy entry values with null dspace_object a
                 if (rs.getLeftItem() == dso) {
                     rs.setLeftPlace(place);
                 } else {
-                    rs.setRightPlace(place);
+                    //rs.setRightPlace(place);
                 }
                 relationshipService.update(context, rs);
             } catch (Exception e) {
