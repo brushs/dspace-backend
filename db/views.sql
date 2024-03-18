@@ -32,6 +32,7 @@ select
     b.text_value as first_name,
     e.text_value as last_name,
     f.text_value as dpsid,
+    g.text_value as migration_id,
     d.text_value as date_added
 from
     (select dspace_object_id
@@ -62,7 +63,12 @@ from
     (select text_value, dspace_object_id
      from metadatavalue
      where metadata_field_id = 281) f
-    on a.dspace_object_id = f.dspace_object_id;
+    on a.dspace_object_id = f.dspace_object_id
+        left outer join
+    (select text_value, dspace_object_id
+     from metadatavalue
+     where metadata_field_id = 217) g
+    on a.dspace_object_id = g.dspace_object_id;
 
 CREATE OR REPLACE VIEW metadata_language_summary_v AS
 select
