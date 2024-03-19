@@ -245,19 +245,20 @@ public class RelationshipServiceImpl implements RelationshipService {
         List<Relationship> leftRelationships = findByItemAndRelationshipType(
             context, leftItem, relationship.getRelationshipType(), true, -1, -1, false
         );
+        /*
         List<Relationship> rightRelationships = findByItemAndRelationshipType(
             context, rightItem, relationship.getRelationshipType(), false, -1, -1, false
         );
-
+        */
         // These relationships are only deleted from the temporary lists in case they're present in them so that we can
         // properly perform our place calculation later down the line in this method.
         boolean deletedFromLeft = !leftRelationships.contains(relationship);
         //boolean deletedFromRight = !rightRelationships.contains(relationship);
         leftRelationships.remove(relationship);
-        rightRelationships.remove(relationship);
+        //rightRelationships.remove(relationship);
 
         List<MetadataValue> leftMetadata = getSiblingMetadata(leftItem, relationship, true);
-        List<MetadataValue> rightMetadata = getSiblingMetadata(rightItem, relationship, false);
+        //List<MetadataValue> rightMetadata = getSiblingMetadata(rightItem, relationship, false);
 
         // For new relationships added to the end, this will be -1.
         // For new relationships added at a specific position, this will contain that position.
@@ -976,6 +977,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             return false;
         }
 
+        /*
         if (!checkMinCardinality(context, relationship.getRightItem(),
                                  relationship, relationship.getRelationshipType().getRightMinCardinality(), false)) {
             log.warn("The relationship has been deemed invalid since the rightMinCardinality" +
@@ -983,6 +985,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             logRelationshipTypeDetailsForError(relationship.getRelationshipType());
             return false;
         }
+        */
         return true;
     }
 
