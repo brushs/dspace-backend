@@ -309,12 +309,11 @@ public class CrossRefXmlBuilder {
             authors.add(buildAuthor(context, author));
         }
 
-        List<Contributors.Organization> corporateAuthors = (List<Contributors.Organization>) contributors.getOrganization();
-
         List<MetadataValue> mdvCorporateAuthors = itemService.getMetadataByMetadataString(item, MDF_CORPORATE_AUTHORS);
 
         for (MetadataValue corpAuthor : mdvCorporateAuthors) {
-            corporateAuthors.add(buildCorporateAuthor(context, corpAuthor));
+            contributors.setOrganization(buildCorporateAuthor(context, corpAuthor));
+            break;
         }
 
         return contributors;
@@ -354,12 +353,7 @@ public class CrossRefXmlBuilder {
 
         Item authorEntity = itemService.find(context, UUID.fromString(mdv.getValue()));
 
-        if (mdv.getPlace() == 0) {
-            corpAuthor.setSequence("first");
-        } else {
-            corpAuthor.setSequence("additional");
-        }
-
+        corpAuthor.setSequence("first");
         corpAuthor.setContributorRole("author");
 
         String name = getFirstMetadataValueByMetadataString(authorEntity, MDF_TITLE, "en");
