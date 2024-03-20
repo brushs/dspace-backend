@@ -1,6 +1,7 @@
 package org.dspace.identifier.doi;
 
 import gov.nih.nlm.ncbi.jats1.Abstract;
+import org.apache.commons.lang3.StringUtils;
 import org.crossref.accessindicators.Program;
 import org.crossref.accessindicators.Program.FreeToRead;
 import org.crossref.accessindicators.Program.LicenseRef;
@@ -70,6 +71,7 @@ public class CrossRefXmlBuilder {
     static final String MDF_DOI = "dc.identifier.doi";
     static final String MDF_RESOURCE = "dc.identifier.uri";
     static final String MDF_AUTHORS = "relation.isAuthorOfPublication";
+    static final String MDF_CORPORATE_AUTHORS = "relation.isCorporateAuthorOfPublication";
     static final String MDF_SERIES_NAME = "nrcan.serial.title";
     static final String MDF_SERIES_NUMBER = "nrcan.volume";
     static final String MDF_EMPLOYEE_ID = "nrcan.identifier.employeeid";
@@ -307,6 +309,14 @@ public class CrossRefXmlBuilder {
             authors.add(buildAuthor(context, author));
         }
 
+        List<Contributors.Organization> corporateAuthors = (List<Contributors.Organization>) contributors.getOrganization();
+
+        List<MetadataValue> mdvCorporateAuthors = itemService.getMetadataByMetadataString(item, MDF_CORPORATE_AUTHORS);
+
+        for (MetadataValue corpAuthor : mdvCorporateAuthors) {
+            corporateAuthors.add(buildCorporateAuthor(context, corpAuthor));
+        }
+
         return contributors;
     }
 
@@ -336,8 +346,30 @@ public class CrossRefXmlBuilder {
             author.setORCID(orcid);
         }
 
-
         return author;
+    }
+
+    private Contributors.Organization buildCorporateAuthor(Context context, MetadataValue mdv) throws SQLException {
+        Contributors.Organization corpAuthor = new Contributors.Organization();
+
+        Item authorEntity = itemService.find(context, UUID.fromString(mdv.getValue()));
+
+        if (mdv.getPlace() == 0) {
+            corpAuthor.setSequence("first");
+        } else {
+            corpAuthor.setSequence("additional");
+        }
+
+        corpAuthor.setContributorRole("author");
+
+        String name = getFirstMetadataValueByMetadataString(authorEntity, MDF_TITLE, "en");
+        if (StringUtils.isEmpty(name)) {
+            name = getFirstMetadataValueByMetadataString(authorEntity, MDF_TITLE, "fr");
+        }
+
+        corpAuthor.setValue(name);
+
+        return corpAuthor;
     }
 
     private Affiliations  buildAffiliations() {

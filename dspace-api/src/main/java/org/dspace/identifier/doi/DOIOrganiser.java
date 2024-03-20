@@ -254,14 +254,18 @@ public class DOIOrganiser {
                             + "that could be registered.");
                 }
                 for (DOI doi : dois) {
-                    organiser.register(doi);
-                    context.uncacheEntity(doi);
+                    try {
+                        organiser.register(doi);
+                        context.uncacheEntity(doi);
+                        Thread.sleep(2000);
+                    } catch (Exception ex) {
+                        System.err.println("Error registering DOI:" + ex.getMessage());
+                        ex.printStackTrace(System.err);
+                    }
                 }
             } catch (SQLException ex) {
                 System.err.println("Error in database connection:" + ex.getMessage());
                 ex.printStackTrace(System.err);
-            } catch (DOIIdentifierException ex) {
-                System.err.println("Error registering DOI identifier:" + ex.getMessage());
             }
         }
 
