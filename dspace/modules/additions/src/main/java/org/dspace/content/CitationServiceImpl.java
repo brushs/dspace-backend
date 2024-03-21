@@ -34,6 +34,7 @@ public class CitationServiceImpl implements CitationService {
     private static String FIELD_TYPE_EN = "dc.type_en";
     private static String FIELD_TYPE = "dc.type";
     private static String FIELD_AUTHORS = "dc.contributor.author";
+    private static String FIELD_CORPORATE_AUTHORS = "nrcan.contributor.corporateauthor";
     private static String FIELD_DATE_ISSUED = "dc.date.issued";
     private static String FIELD_TITLE = "dc.title";
     private static String FIELD_JOURNAL = "nrcan.journal.title";
@@ -126,6 +127,7 @@ public class CitationServiceImpl implements CitationService {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getAuthors(mdvs));
+        sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
         sb.append(getJournalName(mdvs));
@@ -146,6 +148,7 @@ public class CitationServiceImpl implements CitationService {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getAuthors(mdvs));
+        sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
         sb.append(getTitleLanguage(mdvs).equals("en") ? "In " : "Dans ");
@@ -164,6 +167,7 @@ public class CitationServiceImpl implements CitationService {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getAuthors(mdvs));
+        sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
         sb.append(getField(mdvs, FIELD_EDITION, ","));
@@ -178,6 +182,23 @@ public class CitationServiceImpl implements CitationService {
     private String getAuthors(List<MetadataValue> mdvs) {
 
         List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_AUTHORS);
+
+        if (fmdvs.size() == 0) {
+            return "";
+        } else if (fmdvs.size() == 1) {
+            return fmdvs.get(0).getValue() + " ";
+        } else {
+            String authorsPrefix = fmdvs.subList(0, fmdvs.size() - 1).stream()
+                    .map(MetadataValue::getValue)
+                    .collect(Collectors.joining(", "));
+
+            return authorsPrefix + " & " + fmdvs.get(fmdvs.size() -1).getValue() + " ";
+        }
+    }
+
+    private String getCorporateAuthors(List<MetadataValue> mdvs) {
+
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_CORPORATE_AUTHORS);
 
         if (fmdvs.size() == 0) {
             return "";
