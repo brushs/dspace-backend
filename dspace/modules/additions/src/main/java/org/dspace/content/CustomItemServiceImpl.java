@@ -1538,19 +1538,13 @@ prevent the generation of resource policy entry values with null dspace_object a
 
     @Override
     public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
-                                           boolean enableVirtualMetadata) {
-        return this.getMetadata(item, schema, element, qualifier, lang, enableVirtualMetadata, false);
-    }
-
-    @Override
-    public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
                                            String authority, boolean enableVirtualMetadata) {
-        return this.getMetadata(item, schema, element, qualifier, lang, enableVirtualMetadata, false);
+        return this.getMetadata(item, schema, element, qualifier, lang, enableVirtualMetadata);
     }
 
     @Override
     public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
-                                           boolean enableVirtualMetadata, boolean isUISearchRequest) {
+                                           boolean enableVirtualMetadata) {
         if (!enableVirtualMetadata) {
             log.debug("Called getMetadata for " + item.getID() + " without enableVirtualMetadata");
             return super.getMetadata(item, schema, element, qualifier, lang);
@@ -1561,7 +1555,7 @@ prevent the generation of resource policy entry values with null dspace_object a
             List<MetadataValue> dbMetadataValues = item.getMetadata();
 
             List<MetadataValue> fullMetadataValueList = new LinkedList<>();
-            fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true, isUISearchRequest, lang));
+            fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true, lang));
             fullMetadataValueList.addAll(dbMetadataValues);
 
             if (MetadataUtils.getFilteredList(fullMetadataValueList, "dc.identifier.citation").size() == 0) {

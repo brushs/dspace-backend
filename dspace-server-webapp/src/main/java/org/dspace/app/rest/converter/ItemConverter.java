@@ -72,7 +72,7 @@ public class ItemConverter
      */
     @Override
     public MetadataValueList getPermissionFilteredMetadata(Context context, Item obj, Projection projection) {
-        List<MetadataValue> fullList = itemService.getMetadata(obj, Item.ANY, Item.ANY, Item.ANY, Item.ANY, projection.getEnableVirtualMetadata(), projection.getUISearchRequest());
+        List<MetadataValue> fullList = itemService.getMetadata(obj, Item.ANY, Item.ANY, Item.ANY, Item.ANY, projection.getEnableVirtualMetadata());
         List<MetadataValue> returnList = new LinkedList<>();
         try {
             if (obj.isWithdrawn() && (Objects.isNull(context) ||

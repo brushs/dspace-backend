@@ -30,9 +30,6 @@ public interface RelationshipMetadataService {
      */
     public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata, String lang);
 
-    public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata, boolean isUISearchRequest, String lang);
-
-
     /**
      * Retrieves the list of RelationshipMetadataValue objects specific to only one Relationship of the item.
      *

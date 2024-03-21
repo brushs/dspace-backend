@@ -829,9 +829,6 @@ public interface ItemService
     public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier,
                                            String lang, boolean enableVirtualMetadata);
 
-    public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier,
-                                           String lang, boolean enableVirtualMetadata, boolean isUISearchRequest);
-
     /**
      * Retrieve the label of the entity type of the given item.
      * @param item the item.

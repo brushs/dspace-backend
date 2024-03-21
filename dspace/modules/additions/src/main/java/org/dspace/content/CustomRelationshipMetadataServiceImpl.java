@@ -51,13 +51,8 @@ public class CustomRelationshipMetadataServiceImpl implements RelationshipMetada
     protected MetadataFieldService metadataFieldService;
 
     @Override
-    public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata, String lang) {
-        return getRelationshipMetadata(item, enableVirtualMetadata, false, lang);
-    }
-
-    @Override
     public List<RelationshipMetadataValue> getRelationshipMetadata(Item item, boolean enableVirtualMetadata,
-                                                                   boolean isUISearchRequest, String lang) {
+                                                                   String lang) {
         Context context = new Context();
         List<RelationshipMetadataValue> fullMetadataValueList = new LinkedList<>();
         try {
@@ -78,17 +73,9 @@ public class CustomRelationshipMetadataServiceImpl implements RelationshipMetada
                 //       the other item should have "latest status" in order to appear in relation.* fields.
                 List<Relationship> relationships = relationshipService.findByItem(context, item, -1, -1, true);
                 for (Relationship relationship : relationships) {
-                    if (!isUISearchRequest) {
-                        fullMetadataValueList
+                    fullMetadataValueList
                                 .addAll(findRelationshipMetadataValueForItemRelationship(context, item, entityType.getLabel(),
                                         relationship, enableVirtualMetadata, lang));
-                        // If this is an Author or Publisher
-                    } else if (relationship.getRelationshipType().getID() == 1 ||
-                            relationship.getRelationshipType().getID() == 11) {
-                        fullMetadataValueList
-                                .addAll(findRelationshipMetadataValueForItemRelationship(context, item, entityType.getLabel(),
-                                        relationship, enableVirtualMetadata, lang));
-                    }
                 }
             }
         } catch (SQLException e) {
