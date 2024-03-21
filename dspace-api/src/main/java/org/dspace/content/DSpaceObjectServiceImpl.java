@@ -308,6 +308,12 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
                     }
                 }
                 metadataValue.setValue(String.valueOf(dcvalue));
+                if (metadataField.getElement().equals("subject")) {
+                    if (metadataValue.getValue().contains("::")) {
+                        metadataValue.setValue(metadataValue.getValue().substring(
+                                metadataValue.getValue().indexOf("::") + 2));
+                    }
+                }
                 //An update here isn't needed, this is persited upon the merge of the owning object
 //            metadataValueService.update(context, metadataValue);
                 dso.addDetails(metadataField.toString());

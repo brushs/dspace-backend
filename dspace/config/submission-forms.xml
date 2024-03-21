@@ -408,7 +408,7 @@
                     <input-type>onebox</input-type>
                     <hint>Select general subjects from the lookup</hint>
                     <required>You must enter a subject for this field</required>
-                    <vocabulary>broad</vocabulary>
+                    <vocabulary>broad-en</vocabulary>
                 </field>
 				<field>
                     <dc-schema>dc</dc-schema>
@@ -419,7 +419,7 @@
                     <input-type>onebox</input-type>
                     <hint>Choose the proper name descriptor(s) from the lookup</hint>
                     <required></required>
-                    <vocabulary>descriptor</vocabulary>
+                    <vocabulary>descriptor-en</vocabulary>
                 </field>
             </row>
 		    <row>
@@ -432,7 +432,7 @@
                     <input-type>onebox</input-type>
                     <hint>Choose keyword(s) from the lookup</hint>
                     <required></required>
-                    <vocabulary>geoscan</vocabulary>
+                    <vocabulary>geoscan-en</vocabulary>
                 </field>
 				<field>
                     <dc-schema>dc</dc-schema>
@@ -443,7 +443,7 @@
                     <input-type>onebox</input-type>
                     <hint>Choose keyword(s) from the lookup</hint>
                     <required></required>
-                    <vocabulary>gc</vocabulary>
+                    <vocabulary>gc-en</vocabulary>
                 </field>
 				<field>
                     <dc-schema>dc</dc-schema>
@@ -454,7 +454,7 @@
                     <input-type>onebox</input-type>
                     <hint>Choose keyword(s) from the lookup</hint>
                     <required></required>
-                    <vocabulary>cfs</vocabulary>
+                    <vocabulary>cfs-en</vocabulary>
                 </field>				
             </row>
 
