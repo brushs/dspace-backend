@@ -19,11 +19,13 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 # HOURLY TASKS (Recommended to be run multiple times per day, if possible)
 # At a minimum these tasks should be run daily.
 #--------------
-  
-# Send information about new and changed DOIs to the DOI registration agency
-# NOTE: ONLY NECESSARY IF YOU REGISTER DOIS USING DATACITE AS REGISTRATION AGENCY (Disabled by default)
-# 0 4,12,20 * * *  $DSPACE/bin/dspace doi-organiser -u -q ; $DSPACE/bin/dspace doi-organiser -s -q ; $DSPACE/bin/dspace doi-organiser -r -q ; $DSPACE/bin/dspace doi-organiser -d -q
- 
+
+# Send DOIs to CrossRef
+0 * * * * root $DSPACE/bin/dspace doi-organiser -r -q > $DSPACE/log/doi-register.log
+
+# Process Callbacks and create DOI value on item
+30 * * * * root $DSPACE/bin/dspace doi-organiser -c > $DSPACE/log/doi-callback.log
+
 #----------------
 # DAILY TASKS
 # (Recommended to be run once per day. Feel free to tweak the scheduled times below.)
@@ -55,7 +57,7 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 # (This task ensures that thumbnails are generated for newly add images,
 # and ensures full text search is available for newly added PDF/Word/PPT/HTML documents)
 # REQUIRED for Thumbnails to be generated & full-text indexing to work.
-0 3 * * * root $DSPACE/bin/dspace filter-media
+0 3 * * * root $DSPACE/bin/dspace filter-media -m 3000
  
 #----------------
 # WEEKLY TASKS
