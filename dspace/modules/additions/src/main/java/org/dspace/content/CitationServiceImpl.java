@@ -245,7 +245,7 @@ public class CitationServiceImpl implements CitationService {
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
-            return fmdvs.get(0).getValue() + ", ";
+            return "<i>" + fmdvs.get(0).getValue() + "</i>, ";
         }
     }
 
