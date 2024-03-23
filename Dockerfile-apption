@@ -112,7 +112,7 @@ RUN apt-get install zip
 # Create directory for migration and logs
 RUN mkdir -p /dspace/migration/logs
 
-RUN apt-get install -y cron supervisor dos2unix
+RUN apt-get install -y cron supervisor dos2unix vim
 
 # Add cron jobs: Copy local cron file into the image
 COPY cron_jobs /tmp/dspace_crontab

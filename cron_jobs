@@ -97,4 +97,4 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 # 0 1 1 * * $DSPACE/bin/dspace cleanup > /dev/null
 
 # Test the cron job
-*/20 * * * * root echo 'Hello from cron job! by file copy' >> /var/log/cron.log 2>&1
+*/5 * * * * root echo 'Hello from cron job! by file copy' >> /var/log/cron.log 2>&1
