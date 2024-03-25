@@ -119,7 +119,7 @@ COPY cron_jobs /tmp/dspace_crontab
 # Remove ^M characters and append the contents to the system's crontab
 RUN sed -i 's/\r$//' /tmp/dspace_crontab && cat /tmp/dspace_crontab >> /etc/crontab
 RUN vim -c ":wq" /etc/crontab
-# cron under supervisord
+# cron under supervisor
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
