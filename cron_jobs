@@ -9,7 +9,7 @@ DSPACE = /dspace
 SHELL=/bin/sh
  
 # Add all major 'bin' directories to path
-#PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
  
 # Set JAVA_OPTS with defaults for DSpace Cron Jobs.
 # Only provides 512MB of memory by default (which should be enough for most sites).
