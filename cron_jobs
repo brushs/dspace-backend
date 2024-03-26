@@ -3,7 +3,7 @@
 #-----------------
 # Full path of your local DSpace Installation (e.g. /home/dspace or /dspace or similar)
 # MAKE SURE TO CHANGE THIS VALUE!!!
-DSPACE = /dspace/
+DSPACE = /dspace
  
 # Shell to use
 SHELL=/bin/sh
