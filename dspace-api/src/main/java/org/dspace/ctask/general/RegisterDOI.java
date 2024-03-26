@@ -137,7 +137,7 @@ public class RegisterDOI extends AbstractCurationTask {
             String message = "Item " + item.getHandle() + " was skipped from DOI registration because it matched " +
                 "the item filter configured in identifier-services.xml.";
             report(message);
-            status = Curator.CURATE_SUCCESS;
+            status = Curator.CURATE_ERROR;
         } catch (IdentifierException e) {
             // Any other identifier exception is probably a true error
             log.error("Error registering identifier: " + e.getMessage());
