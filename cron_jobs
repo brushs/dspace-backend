@@ -21,7 +21,7 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 #--------------
 
 # Send DOIs to CrossRef
-*/5 * * * * root /dspace/bin/dspace doi-organiser -r -q
+*/5 * * * * root /dspace/bin/dspace doi-organiser -r -q >> /dspace/log/cron.log 2>&1
 
 # Process Callbacks and create DOI value on item
 30 * * * * root $DSPACE/bin/dspace doi-organiser -c > $DSPACE/log/doi-callback.log
