@@ -135,6 +135,13 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getField(mdvs, FIELD_ISSUE, ","));
         sb.append(getField(mdvs, FIELD_ARTICLE_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
+
+        if (sb.toString().endsWith(", ")) {
+            // Remove the last two characters (", ") and append ". "
+            sb.setLength(sb.length() - 2);
+            sb.append(". ");
+        }
+
         sb.append(getDOI(mdvs));
 
         return sb.toString();
@@ -158,6 +165,13 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
+
+        if (sb.toString().endsWith(", ")) {
+            // Remove the last two characters (", ") and append ". "
+            sb.setLength(sb.length() - 2);
+            sb.append(". ");
+        }
+
         sb.append(getDOI(mdvs));
 
         return sb.toString();
@@ -174,6 +188,13 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
+
+        if (sb.toString().endsWith(", ")) {
+            // Remove the last two characters (", ") and append ". "
+            sb.setLength(sb.length() - 2);
+            sb.append(". ");
+        }
+
         sb.append(getDOI(mdvs));
 
         return sb.toString();
