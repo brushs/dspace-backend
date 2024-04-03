@@ -46,6 +46,7 @@ import org.dspace.discovery.configuration.DiscoveryConfiguration;
 import org.dspace.discovery.configuration.DiscoveryConfigurationService;
 import org.dspace.discovery.configuration.DiscoverySearchFilter;
 import org.dspace.discovery.indexobject.IndexableItem;
+import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,6 +73,9 @@ public class OpenSearchController {
     private CollectionService collectionService;
     private AuthorizeService authorizeService;
     private OpenSearchService openSearchService;
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     @Autowired
     private SearchService searchService;
@@ -262,7 +266,7 @@ public class OpenSearchController {
         Map<String, String> labelMap = new HashMap<String, String>();
         labelMap.put(SyndicationFeed.MSG_UNTITLED, "notitle");
         labelMap.put(SyndicationFeed.MSG_LOGO_TITLE, "logo.title");
-        labelMap.put(SyndicationFeed.MSG_FEED_DESCRIPTION, "general-feed.description");
+        labelMap.put(SyndicationFeed.MSG_FEED_DESCRIPTION, configurationService.getProperty(SyndicationFeed.MSG_FEED_DESCRIPTION));
         labelMap.put(SyndicationFeed.MSG_UITYPE, SyndicationFeed.UITYPE_JSPUI);
         for (String selector : SyndicationFeed.getDescriptionSelectors()) {
             labelMap.put("metadata." + selector, selector);

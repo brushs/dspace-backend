@@ -1555,6 +1555,11 @@ prevent the generation of resource policy entry values with null dspace_object a
         return null;
     }
 
+    @Override
+    public List<MetadataValue> getMetadataByMetadataString(Item dso, String mdString, String lang) {
+        return null;
+    }
+
     /**
      * Supports moving metadata by adding the metadata value or updating the place of the relationship
      */

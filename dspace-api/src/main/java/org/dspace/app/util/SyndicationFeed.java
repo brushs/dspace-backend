@@ -18,21 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import com.rometools.modules.itunes.EntryInformation;
 import com.rometools.modules.itunes.EntryInformationImpl;
 import com.rometools.modules.itunes.types.Duration;
+import com.rometools.rome.feed.CopyFrom;
 import com.rometools.rome.feed.module.DCModule;
 import com.rometools.rome.feed.module.DCModuleImpl;
 import com.rometools.rome.feed.module.Module;
-import com.rometools.rome.feed.synd.SyndContent;
-import com.rometools.rome.feed.synd.SyndContentImpl;
-import com.rometools.rome.feed.synd.SyndEnclosure;
-import com.rometools.rome.feed.synd.SyndEnclosureImpl;
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndEntryImpl;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.feed.synd.SyndFeedImpl;
-import com.rometools.rome.feed.synd.SyndImage;
-import com.rometools.rome.feed.synd.SyndImageImpl;
-import com.rometools.rome.feed.synd.SyndPerson;
-import com.rometools.rome.feed.synd.SyndPersonImpl;
+import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
 import org.apache.commons.lang3.ArrayUtils;
@@ -81,15 +71,20 @@ public class SyndicationFeed {
     public static final String MSG_UNTITLED = "notitle";
     public static final String MSG_LOGO_TITLE = "logo.title";
     public static final String MSG_FEED_TITLE = "feed.title";
-    public static final String MSG_FEED_DESCRIPTION = "general-feed.description";
+    public static final String MSG_FEED_DESCRIPTION = "rss.general-feed.description";
     public static final String MSG_METADATA = "metadata.";
     public static final String MSG_UITYPE = "ui.type";
+    public static final String MSG_FEED_COPYRIGHT = "rss.general-feed.copyright";
+    public static final String MSG_FEED_LANGUAGE = "rss.general-feed.language";
 
     // UI keywords
     public static final String UITYPE_XMLUI = "xmlui";
     public static final String UITYPE_JSPUI = "jspui";
 
     // default DC fields for entry
+    protected String defaultDescriptionField = "dc.identifier.citation";
+    protected String defaultCategoryField = "dc.type";
+    protected String defaultUriField = "dc.identifier.doi";
     protected String defaultTitleField = "dc.title";
     protected String defaultAuthorField = "dc.contributor.author";
     protected String defaultDateField = "dc.date.issued";
@@ -120,6 +115,15 @@ public class SyndicationFeed {
 
     protected String authorField =
         configurationService.getProperty("webui.feed.item.author", defaultAuthorField);
+
+    protected String uriField =
+            configurationService.getProperty("webui.feed.item.uri", defaultUriField);
+
+    protected String descriptionField =
+            configurationService.getProperty("webui.feed.item.description", defaultDescriptionField);
+
+    protected String categoryField =
+            configurationService.getProperty("webui.feed.item.category", defaultCategoryField);
 
     // metadata field for Podcast external media source url
     protected String externalSourceField =
@@ -233,6 +237,8 @@ public class SyndicationFeed {
         feed.setLink(objectURL);
         feed.setPublishedDate(new Date());
         feed.setUri(objectURL);
+        feed.setLanguage(configurationService.getProperty(MSG_FEED_LANGUAGE));
+        feed.setCopyright(configurationService.getProperty(MSG_FEED_COPYRIGHT));
 
         // add logo if we found one:
         if (logoURL != null) {
@@ -263,10 +269,20 @@ public class SyndicationFeed {
 
                 String entryURL = resolveURL(request, item);
                 entry.setLink(entryURL);
-                entry.setUri(entryURL);
+                entry.setUri(getOneDC(item, uriField));
 
                 String title = getOneDC(item, titleField);
                 entry.setTitle(title == null ? localize(labels, MSG_UNTITLED) : title);
+
+                SyndCategory category = new SyndCategoryImpl();
+                category.setName(getOneDC(item, categoryField));
+                entry.getCategories().add(category);
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(getOneDC(item, "dc.description", "en"));
+                sb.append("\n");
+                sb.append(getOneDC(item, "dc.description", "fr"));
+                entry.setComments(sb.toString());
 
                 // "published" date -- should be dc.date.issued
                 String pubDate = getOneDC(item, dateField);
@@ -556,6 +572,11 @@ public class SyndicationFeed {
     // spoonful of syntactic sugar when we only need first value
     protected String getOneDC(Item item, String field) {
         List<MetadataValue> dcv = itemService.getMetadataByMetadataString(item, field);
+        return (dcv.size() > 0) ? dcv.get(0).getValue() : null;
+    }
+
+    protected String getOneDC(Item item, String field, String lang) {
+        List<MetadataValue> dcv = itemService.getMetadataByMetadataString(item, field, lang);
         return (dcv.size() > 0) ? dcv.get(0).getValue() : null;
     }
 }

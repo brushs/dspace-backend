@@ -342,3 +342,10 @@ metadata.hide.nrcan.sourcesystem = true
 
 # for IP range validation end point, as group name that allowed to login
 ipgroup = Administrator
+
+# Settings for RSS feeds
+rss.general-feed.description=The NRCan Open Science and Technology Repository provides free and open access to publications, science and research published by Natural Resources Canada.
+rss.general-feed.copyright=https://open.canada.ca/en/open-government-licence-canada
+rss.general-feed.language=en-us
+webui.feed.item.dc.creator = dc.contributor.author
+webui.feed.item.dc.description = dc.identifier.citation

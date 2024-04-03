@@ -1498,6 +1498,25 @@ prevent the generation of resource policy entry values with null dspace_object a
         return values;
     }
 
+    @Override
+    public List<MetadataValue> getMetadataByMetadataString(Item dso, String mdString, String lang) {
+        StringTokenizer dcf = new StringTokenizer(mdString, ".");
+
+        String[] tokens = {"", "", ""};
+        int i = 0;
+        while (dcf.hasMoreTokens()) {
+            tokens[i] = dcf.nextToken().trim();
+            i++;
+        }
+        String schema = tokens[0];
+        String element = tokens[1];
+        String qualifier = tokens[2];
+
+        List<MetadataValue> values = getMetadata(dso, schema, element, qualifier, lang, true);
+
+        return values;
+    }
+
     private List<MetadataValue> getMetadata(Item dso, String schema, String element, String qualifier, boolean enableVirtualMetadata) {
         List<MetadataValue> values;
         if (Item.ANY.equals(qualifier)) {

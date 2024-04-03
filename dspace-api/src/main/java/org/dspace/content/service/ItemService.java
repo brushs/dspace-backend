@@ -778,6 +778,8 @@ public interface ItemService
      */
     boolean isInProgressSubmission(Context context, Item item) throws SQLException;
 
+    List<MetadataValue> getMetadataByMetadataString(Item dso, String mdString, String lang);
+
     /**
      * Get metadata for the DSpace Object in a chosen schema.
      * See <code>MetadataSchema</code> for more information about schemas.
