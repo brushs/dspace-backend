@@ -368,7 +368,10 @@ public class SyndicationFeed {
                                 if (descs.length() > 0) {
                                     descs.append("\n\n");
                                 }
-                                descs.append(d.getValue());
+                                String val = d.getValue();
+                                val = val.replace("<i>", "");
+                                val = val.replace("</i>", "");
+                                descs.append(val);
                             }
                             dc.setDescription(descs.toString());
                         }
