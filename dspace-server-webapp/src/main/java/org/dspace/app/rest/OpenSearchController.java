@@ -166,6 +166,8 @@ public class OpenSearchController {
                                         .size()]));
             }
 
+            queryArgs.getFilterQueries().add("dspace.entity.type:Publication");
+
             // Perform the search
             DiscoverResult qResults = null;
             try {
