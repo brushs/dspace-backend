@@ -18,6 +18,7 @@
         </rightCardinality>
         <copyToLeft>true</copyToLeft>
     </type>
+    <!--
     <type>
         <leftType>Publication</leftType>
         <rightType>Project</rightType>
@@ -130,7 +131,7 @@
         </rightCardinality>
         <copyToRight>true</copyToRight>
     </type>
-
+    -->
     <type>
         <leftType>Publication</leftType>
         <rightType>Publisher</rightType>

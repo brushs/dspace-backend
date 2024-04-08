@@ -85,10 +85,10 @@
                 <!-- Used to display related items on single-item pages, because a relationship does not always point to the latest version of the related item -->
                 <entry key="publisher-relationships" value-ref="publisherRelationships"/>
 
-                <entry key="corporateAuthor" value-ref="corporateAuthor"/>
-                <!-- Same as the "corporateAuthor" configuration, but does NOT filter out older versions of items -->
+                <entry key="corporateauthor" value-ref="corporateauthor"/>
+                <!-- Same as the "corporateauthor" configuration, but does NOT filter out older versions of items -->
                 <!-- Used to display related items on single-item pages, because a relationship does not always point to the latest version of the related item -->
-                <entry key="corporateAuthor-relationships" value-ref="corporateAuthorRelationships"/>
+                <entry key="corporateauthor-relationships" value-ref="corporateauthorRelationships"/>
 
 
                 <entry key="province" value-ref="province"/>
@@ -1837,8 +1837,8 @@
         <property name="spellCheckEnabled" value="true"/>
     </bean>
 
-    <bean id="corporateAuthor" class="org.dspace.discovery.configuration.DiscoveryConfiguration" scope="prototype">
-        <property name="id" value="corporateAuthor"/>
+    <bean id="corporateauthor" class="org.dspace.discovery.configuration.DiscoveryConfiguration" scope="prototype">
+        <property name="id" value="corporateauthor"/>
         <property name="indexAlways" value="true"/>
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
@@ -1884,8 +1884,8 @@
         <property name="spellCheckEnabled" value="true"/>
     </bean>
 
-    <bean id="corporateAuthorRelationships" class="org.dspace.discovery.configuration.DiscoveryConfiguration" scope="prototype">
-        <property name="id" value="corporateAuthor"/>
+    <bean id="corporateauthorRelationships" class="org.dspace.discovery.configuration.DiscoveryConfiguration" scope="prototype">
+        <property name="id" value="corporateauthor"/>
         <property name="indexAlways" value="true"/>
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">

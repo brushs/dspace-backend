@@ -69,7 +69,7 @@
                 </relation-field>
                 <relation-field>
                     <relationship-type>isCorporateAuthorOfPublication</relationship-type>
-                    <search-configuration>corporateAuthor</search-configuration>
+                    <search-configuration>corporateauthor</search-configuration>
                     <repeatable>true</repeatable>
 					<style>col-sm-6</style>
                     <label>Corp./Org. Author (not Affiliation)</label>
@@ -290,7 +290,7 @@
                 </relation-field>
 				<relation-field>
                     <relationship-type>isMonoCorpAuthorOfPublication</relationship-type>
-                    <search-configuration>corporateAuthor</search-configuration>
+                    <search-configuration>corporateauthor</search-configuration>
                     <repeatable>true</repeatable>
                     <label>Larger Work Corp./Org. Author (not Affiliation)</label>
                     <hint>Choose the name(s) from the lookup</hint>
@@ -1045,7 +1045,7 @@
             <row>
                 <relation-field>
                     <relationship-type>isCorporateAuthorOfPublication</relationship-type>
-                    <search-configuration>corporateAuthor</search-configuration>
+                    <search-configuration>corporateauthor</search-configuration>
                     <repeatable>true</repeatable>
                     <label>Corporate Author</label>
                     <hint>Enter the corporate author's name.</hint>
@@ -1181,7 +1181,7 @@
             <row>
                 <relation-field>
                     <relationship-type>isMonoCorpAuthorOfPublication</relationship-type>
-                    <search-configuration>corporateAuthor</search-configuration>
+                    <search-configuration>corporateauthor</search-configuration>
                     <repeatable>true</repeatable>
                     <label>Monographic Corporate Author</label>
                     <hint>Enter the corporate author's name.</hint>
