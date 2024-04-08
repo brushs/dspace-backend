@@ -67,6 +67,7 @@ public class OpenSearchController {
 
     private static final Logger log = org.apache.logging.log4j.LogManager.getLogger();
     private static final String errorpath = "/error";
+    private int pageSizeLimit;
     private List<String> searchIndices = null;
 
     private CommunityService communityService;
@@ -115,6 +116,9 @@ public class OpenSearchController {
         }
         if (openSearchService.isEnabled()) {
             init();
+            if (count > pageSizeLimit) {
+                count = pageSizeLimit;
+            }
             // get enough request parameters to decide on action to take
             if (format == null || "".equals(format)) {
                 // default to atom
@@ -179,7 +183,6 @@ public class OpenSearchController {
                             + ",error=" + e.getMessage()), e);
                 throw new RuntimeException(e.getMessage(), e);
             }
-
             // Log
             log.info("opensearch done, query=\"" + query + "\",results="
                         + qResults.getTotalSearchResults());
@@ -253,6 +256,8 @@ public class OpenSearchController {
         communityService = ContentServiceFactory.getInstance().getCommunityService();
         collectionService = ContentServiceFactory.getInstance().getCollectionService();
         authorizeService = AuthorizeServiceFactory.getInstance().getAuthorizeService();
+
+        pageSizeLimit = configurationService.getIntProperty("rss.general-feed.maxItems", 100);
     }
 
     public void setOpenSearchService(OpenSearchService oSS) {

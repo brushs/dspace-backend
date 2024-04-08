@@ -347,6 +347,7 @@ ipgroup = Administrator
 rss.general-feed.description=The NRCan Open Science and Technology Repository provides free and open access to publications, science and research published by Natural Resources Canada.
 rss.general-feed.copyright=https://open.canada.ca/en/open-government-licence-canada
 rss.general-feed.language=en-us
+rss.general-feed.maxItems=100
 webui.feed.item.dc.creator = dc.contributor.author
 webui.feed.item.dc.description = dc.identifier.citation
 webui.feed.item.description =
