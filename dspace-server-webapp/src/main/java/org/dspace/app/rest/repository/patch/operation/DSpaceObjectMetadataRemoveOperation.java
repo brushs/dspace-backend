@@ -73,16 +73,25 @@ public class DSpaceObjectMetadataRemoveOperation<R extends DSpaceObject> extends
                         metadataField.getElement(), metadataField.getQualifier(), Item.ANY);
             } else {
                 // remove metadata at index
+                // BUG FIX -- index is essentially place
                 List<MetadataValue> metadataValues = dsoService.getMetadata(dso,
                         metadataField.getMetadataSchema().getName(), metadataField.getElement(),
                         metadataField.getQualifier(), Item.ANY);
                 int indexInt = Integer.parseInt(index);
-                if (indexInt >= 0 && metadataValues.size() > indexInt
-                        && metadataValues.get(indexInt) != null) {
-                    // remove that metadata
-                    dsoService.removeMetadataValues(context, dso,
-                            Arrays.asList(metadataValues.get(indexInt)));
-                } else {
+                boolean removed = false;
+                int i = 0;
+                for(MetadataValue mdv : metadataValues) {
+                    // There may be gaps in place, so don't rely on place = index
+                    if (mdv.getPlace() == indexInt) {
+                        // remove that metadata
+                        dsoService.removeMetadataValues(context, dso,
+                                Arrays.asList(metadataValues.get(i)));
+                        removed = true;
+                        break;
+                    }
+                    i++;
+                }
+                if (!removed) {
                     throw new UnprocessableEntityException("UnprocessableEntityException - There is no metadata of " +
                             "this type at that index");
                 }
