@@ -132,6 +132,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     @Override
     public void indexContent(Context context, IndexableObject dso)
         throws SQLException {
+        log.info("HERE1");
         indexContent(context, dso, false);
     }
 
@@ -152,8 +153,9 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             final IndexFactory indexableObjectFactory = indexObjectServiceFactory.
                     getIndexableObjectFactory(indexableObject);
             if (force || requiresIndexing(indexableObject.getUniqueIndexID(), indexableObject.getLastModified())) {
+                log.info("indexing object");
                 update(context, indexableObjectFactory, indexableObject);
-                log.info(LogHelper.getHeader(context, "indexed_object", indexableObject.getUniqueIndexID()));
+                log.info(LogHelper.getHeader(context, "indexed_object1", indexableObject.getUniqueIndexID()));
             }
         } catch (IOException | SQLException | SolrServerException | SearchServiceException e) {
             log.error(e.getMessage(), e);
@@ -306,6 +308,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
      */
     @Override
     public void updateIndex(Context context) {
+        log.info("BEFORE1");
         updateIndex(context, false);
     }
 
@@ -329,12 +332,17 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
     @Override
     public void updateIndex(Context context, boolean force, String type) {
+        log.info("HERE2");
         try {
             final List<IndexFactory> indexableObjectServices = indexObjectServiceFactory.
                 getIndexFactories();
+            log.info("Got Factories");
             for (IndexFactory indexableObjectService : indexableObjectServices) {
+                log.info("Factory:" + indexableObjectService.getType());
                 if (type == null || StringUtils.equals(indexableObjectService.getType(), type)) {
+                    log.info("Finding all...");
                     final Iterator<IndexableObject> indexableObjects = indexableObjectService.findAll(context);
+                    log.info("Found all...");
                     while (indexableObjects.hasNext()) {
                         final IndexableObject indexableObject = indexableObjects.next();
                         indexContent(context, indexableObject, force);
@@ -345,7 +353,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             if (solrSearchCore.getSolr() != null) {
                 solrSearchCore.getSolr().commit();
             }
-
+            log.info("DONE2");
         } catch (IOException | SQLException | SolrServerException e) {
             log.error(e.getMessage(), e);
         }
@@ -554,6 +562,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             if (solrSearchCore.getSolr() == null) {
                 return false;
             }
+            log.info("Check SOLR last indexed: " + uniqueId);
             rsp = solrSearchCore.getSolr().query(query, solrSearchCore.REQUEST_METHOD);
         } catch (SolrServerException e) {
             throw new SearchServiceException(e.getMessage(), e);
@@ -1488,6 +1497,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     @Override
     public void indexContent(Context context, IndexableObject dso, boolean force,
                              boolean commit) throws SearchServiceException, SQLException {
+        log.info("HERE3");
         indexContent(context, dso, force);
         if (commit) {
             commit();
@@ -1503,12 +1513,13 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                         getIndexableObjectFactory(indexableObject);
                 if (force || requiresIndexing(indexableObject.getUniqueIndexID(), indexableObject.getLastModified())) {
                     update(context, indexableObjectFactory, indexableObject, true);
-                    log.info(LogHelper.getHeader(context, "indexed_object", indexableObject.getUniqueIndexID()));
+                    log.info(LogHelper.getHeader(context, "indexed_object2", indexableObject.getUniqueIndexID()));
                 }
             } catch (IOException | SQLException | SolrServerException | SearchServiceException e) {
                 log.error(e.getMessage(), e);
             }
         } else {
+            log.info("HERE4");
             indexContent(context, indexableObject, force);
         }
         if (commit) {
