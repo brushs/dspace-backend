@@ -17,6 +17,7 @@ import org.dspace.content.InProgressSubmission;
 import org.dspace.content.MetadataValue;
 import org.dspace.content.authority.service.MetadataAuthorityService;
 import org.dspace.content.service.ItemService;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import java.util.List;
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-public class CustomValidationTwo extends AbstractValidation {
+public class CustomValidation extends AbstractValidation {
 
     private static final String ERROR_VALIDATION_REQUIRED = "error.validation.required";
 
@@ -38,13 +39,11 @@ public class CustomValidationTwo extends AbstractValidation {
 
     private static final String ERROR_VALIDATION_REGEX = "error.validation.regex";
 
-    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(CustomValidationTwo.class);
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(CustomValidation.class);
 
     private DCInputsReader inputReader;
 
     private ItemService itemService;
-
-    private MetadataAuthorityService metadataAuthorityService;
 
     private List<ErrorRest> errors = new ArrayList<ErrorRest>();
 
@@ -78,10 +77,6 @@ public class CustomValidationTwo extends AbstractValidation {
 
     public void setItemService(ItemService itemService) {
         this.itemService = itemService;
-    }
-
-    public void setMetadataAuthorityService(MetadataAuthorityService metadataAuthorityService) {
-        this.metadataAuthorityService = metadataAuthorityService;
     }
 
     public DCInputsReader getInputReader() {
