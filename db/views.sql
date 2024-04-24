@@ -96,7 +96,7 @@ from
      group by right_id) k
     on a.dspace_object_id = k.right_id;
 
-CREATE MATERIALIZED VIEW metadata_language_summary_v AS
+CREATE MATERIALIZED VIEW metadata_language_summary_mv AS
 select
     i.uuid as item_id,
     i.last_modified,

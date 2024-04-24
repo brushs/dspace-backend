@@ -70,8 +70,7 @@ from
      group by right_id) k
     on a.dspace_object_id = k.right_id;
 
-DROP VIEW metadata_language_summary_v;
-CREATE MATERIALIZED VIEW metadata_language_summary_v AS
+CREATE MATERIALIZED VIEW metadata_language_summary_mv AS
 select
     i.uuid as item_id,
     i.last_modified,
@@ -162,4 +161,4 @@ from
      group by dspace_object_id) subject_fr
     on typ.dspace_object_id = subject_fr.dspace_object_id;
 
-GRANT ALL ON metadata_language_summary_v to dspace;
+GRANT ALL ON metadata_language_summary_mv to dspace;

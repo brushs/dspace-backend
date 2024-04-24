@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "metadata_language_summary_v")
+@Table(name = "metadata_language_summary_mv")
 @Immutable
 public class MetadataLanguageSummary implements Serializable {
 
