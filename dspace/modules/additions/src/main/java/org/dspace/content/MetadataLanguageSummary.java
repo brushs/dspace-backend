@@ -30,11 +30,11 @@ public class MetadataLanguageSummary implements Serializable {
     @Column(name = "type_en_count", nullable = false)
     private long typeEnCount;
 
-    @Column(name = "subject_count", nullable = false)
-    private long subjectCount;
+    @Column(name = "subject_raw_count", nullable = false)
+    private long subjectRawCount;
 
-    @Column(name = "subject_en_count", nullable = false)
-    private long subjectEnCount;
+    @Column(name = "subject_curated_count", nullable = false)
+    private long subjectCuratedCount;
 
     public UUID getId() {
         return id;
@@ -68,19 +68,20 @@ public class MetadataLanguageSummary implements Serializable {
         this.typeEnCount = typeEnCount;
     }
 
-    public long getSubjectCount() {
-        return subjectCount;
+    public long getSubjectRawCount() {
+        return subjectRawCount;
     }
 
-    public void setSubjectCount(long subjectCount) {
-        this.subjectCount = subjectCount;
+    public void setSubjectRawCount(long subjectRawCount) {
+        this.subjectRawCount = subjectRawCount;
     }
 
-    public long getSubjectEnCount() {
-        return subjectEnCount;
+    public long getSubjectCuratedCount() {
+        return subjectCuratedCount;
     }
 
-    public void setSubjectEnCount(long subjectEnCount) {
-        this.subjectEnCount = subjectEnCount;
+    public void setSubjectCuratedCount(long subjectCuratedCount) {
+        this.subjectCuratedCount = subjectCuratedCount;
     }
+
 }

@@ -1,5 +1,7 @@
 package org.dspace.content.service;
 
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Item;
 import org.dspace.content.MetadataLanguageSummary;
 import org.dspace.content.Term;
 import org.dspace.content.Vocabulary;
@@ -29,4 +31,5 @@ public interface VocabularyService {
     List<MetadataLanguageSummary> getItemsForMetadataProcessing(Context context, int limit)
             throws IOException, SQLException;
 
+    void performMetadataCopy(Context context, Item item) throws SQLException, IOException, AuthorizeException;
 }

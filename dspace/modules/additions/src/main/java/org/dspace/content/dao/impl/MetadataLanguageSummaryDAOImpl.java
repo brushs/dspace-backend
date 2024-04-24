@@ -35,7 +35,7 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
         Root<Term> root = cq.from(MetadataLanguageSummary.class);
 
         Predicate typeCountMismatch = cb.notEqual(root.get("typeCount"), root.get("typeEnCount"));
-        Predicate subjectCountMismatch = cb.notEqual(root.get("subjectCount"), root.get("subjectEnCount"));
+        Predicate subjectCountMismatch = cb.notEqual(root.get("subjectRawCount"), root.get("subjectCuratedCount"));
 
         return list(context, cq.select(root).where(cb.or(typeCountMismatch, subjectCountMismatch)).orderBy(cb.asc(root.get("lastModified"))), true, MetadataLanguageSummary.class, limit, 0);
     }

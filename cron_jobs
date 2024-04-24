@@ -59,6 +59,13 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 # REQUIRED for Thumbnails to be generated & full-text indexing to work.
 0 3 * * * root $DSPACE/bin/dspace filter-media -m 3000
 
+# Run the metadata copy task (for keywords mostly) at 05:00 every day.
+# (This task ensures that thumbnails are generated for newly add images,
+# and ensures full text search is available for newly added PDF/Word/PPT/HTML documents)
+# REQUIRED for Thumbnails to be generated & full-text indexing to work.
+0 5 * * * root $DSPACE/bin/dspace copy-metadata -l 5000
+
+
 #----------------
 # WEEKLY TASKS
 # (Recommended to be run once per week, but can be run more or less frequently, based on your local needs/policies)

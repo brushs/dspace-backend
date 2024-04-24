@@ -87,7 +87,7 @@ public class CopyMetadata {
         Options options = new Options();
 
         options.addOption("h", "help", false, "Help");
-        options.addOption("l", "limit", false,
+        options.addOption("l", "limit", true,
                 "Limit of items to process in a run ");
 
         // initialize parser
@@ -110,8 +110,13 @@ public class CopyMetadata {
 
         int limit = DEFAULT_LIMIT;
         if (line.hasOption('l')) {
-            //TODO
-            // get limit from CLI
+            try {
+                String limitStr = line.getOptionValue("limit");
+                log.info("Found limit parameter:" + limitStr);
+                limit = Integer.parseInt(limitStr);
+            } catch (Exception e) {
+                log.warn("Error getting limit, using default:" + DEFAULT_LIMIT);
+            }
         }
 
         metadataCopier.process(context, limit);
@@ -125,86 +130,12 @@ public class CopyMetadata {
 
         for (MetadataLanguageSummary mls : itemsToProcess) {
             log.info("Processing ID: " + mls.getId() + " Type Count: " + mls.getTypeCount()
-                + " Type En Count: " + mls.getTypeEnCount() + " Subject Count: " + mls.getSubjectCount()
-                + " Subject En Count: " + mls.getSubjectEnCount() + " Modified: " +
+                + " Type En Count: " + mls.getTypeEnCount() + " Subject Raw Count: " + mls.getSubjectRawCount()
+                + " Subject Curated Count: " + mls.getSubjectCuratedCount() + " Modified: " +
                     fullIso2.format(mls.getLastModified()));
-            performMetadataCopy(itemService.find(context, mls.getId()));
+            vocabularyService.performMetadataCopy(context, itemService.find(context, mls.getId()));
         }
     }
 
-    /**
-     * Shared 'perform' code between perform() and performItem() - a curation wrapper for the register() method
-     * @param item the item
-     */
-    private void performMetadataCopy(Item item) throws SQLException, IOException, AuthorizeException {
-        // If not recently updated, return
-        // TODO provide CLI option to skip this check (not sure possible), parameterize minusDays in config
-        LocalDate lastModified = item.getLastModified().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate compareDate = LocalDate.now().minusDays(2);
 
-        if (lastModified.compareTo(compareDate) < 0) {
-            return;
-        }
-
-        // TODO pull from config
-        Map<String, Integer> fieldsToProcess = new HashMap<String, Integer>();
-        fieldsToProcess.put("dc.subject.cfs", 5);
-        fieldsToProcess.put("dc.subject.gc", 2);
-        fieldsToProcess.put("dc.subject.broad", 3);
-        fieldsToProcess.put("dc.subject.geoscan", 1);
-        fieldsToProcess.put("dc.subject.descriptor", 4);
-        fieldsToProcess.put("dc.type", 6);
-
-        for (String metadataField : fieldsToProcess.keySet()) {
-            // Get Item metadata
-            List<MetadataValue> mdvs = itemService.getMetadataByMetadataString(item, metadataField);
-
-            Integer vocabularyId = fieldsToProcess.get(metadataField);
-
-            for (MetadataValue mdv : mdvs) {
-                log.info("Processing Value: " + mdv.getValue());
-                // TODO Limit check to specific vocabulary based on config?
-                // Check to see if any terms are matched
-                List<Term> terms = vocabularyService.findByName(Curator.curationContext(), mdv.getValue(), vocabularyId);
-
-                if (terms != null && terms.size() > 0) {
-                    Map<String, String> mappedMetadataFields = new HashMap<>();
-                    mappedMetadataFields.put(metadataField + "_en", terms.get(0).getNameEn());
-                    mappedMetadataFields.put(metadataField + "_fr", terms.get(0).getNameFr());
-
-                    log.info("Found Term");
-                    for (Map.Entry<String, String> mappedMetadataField : mappedMetadataFields.entrySet()) {
-                        // Check to see if mapped terms already exist
-                        List<MetadataValue> mappedMdvs = itemService.getMetadataByMetadataString(item, mappedMetadataField.getKey());
-
-                        boolean mappedValueExists = true;
-                        if (mappedMdvs == null || mappedMdvs.size() == 0) {
-                            mappedValueExists = false;
-                        } else {
-                            List<String> mdvValues = mappedMdvs.stream()
-                                    .map(MetadataValue::getValue)
-                                    .filter(x -> x != null)
-                                    .collect(Collectors.toList());
-
-                            mappedValueExists = mdvValues.stream().anyMatch(value -> value.equals(mappedMetadataField.getValue()));
-
-                        }
-
-                        if (!mappedValueExists) {
-                            log.info("Adding new value");
-                            // Copy to new metadata field
-                            String[] tokens = mappedMetadataField.getKey().split("\\.");
-                            itemService.addMetadata(Curator.curationContext(), item, tokens[0], tokens[1], tokens.length == 3 ? tokens[2] : null,
-                                    mappedMetadataField.getKey().endsWith("_en") ? "en" : "fr", mappedMetadataField.getValue());
-                            itemService.updateLastModified(Curator.curationContext(), item);
-                        }
-                    }
-                }
-                else {
-                    // No matching text was found in Vocabulary
-                    log.warn("Subject not found in Vocabulary - ID: " + item.getID() + " Val - " + mdv.getValue());
-                }
-            }
-        }
-    }
 }
