@@ -55,6 +55,13 @@
         </step>
     </command>
     <command>
+        <name>refresh-mv</name>
+        <description>Refreshes the Metadata Summary MV for the Copy Metadata job</description>
+        <step>
+            <class>org.dspace.metadata.RefreshMV</class>
+        </step>
+    </command>
+    <command>
         <name>create-administrator</name>
         <description>Create a DSpace administrator account</description>
         <step>

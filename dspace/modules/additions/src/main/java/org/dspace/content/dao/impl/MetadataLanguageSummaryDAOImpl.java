@@ -7,12 +7,14 @@
  */
 package org.dspace.content.dao.impl;
 
+import org.apache.logging.log4j.Logger;
 import org.dspace.content.MetadataLanguageSummary;
 import org.dspace.content.Term;
 import org.dspace.content.dao.MetadataLanguageSummaryDAO;
-import org.dspace.content.dao.TermDAO;
 import org.dspace.core.AbstractHibernateDAO;
 import org.dspace.core.Context;
+import org.hibernate.Session;
+import org.hibernate.jdbc.Work;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,6 +25,8 @@ import java.util.List;
 
 public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<MetadataLanguageSummary>
         implements MetadataLanguageSummaryDAO {
+
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(MetadataLanguageSummaryDAOImpl.class);
 
     protected MetadataLanguageSummaryDAOImpl() {
         super();
@@ -38,5 +42,25 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
         Predicate subjectCountMismatch = cb.notEqual(root.get("subjectRawCount"), root.get("subjectCuratedCount"));
 
         return list(context, cq.select(root).where(cb.or(typeCountMismatch, subjectCountMismatch)).orderBy(cb.asc(root.get("lastModified"))), true, MetadataLanguageSummary.class, limit, 0);
+    }
+
+    @Override
+    public void refreshMaterializedView(Context context) {
+        try (Session session = getHibernateSession(context)) {
+            session.doWork(new Work() {
+                @Override
+                public void execute(java.sql.Connection connection) throws java.sql.SQLException {
+                    // Execute a native SQL query to refresh the materialized view
+                    try (java.sql.Statement statement = connection.createStatement()) {
+                        String sql = "REFRESH MATERIALIZED VIEW " + "metadata_language_summary_mv";
+                        statement.execute(sql);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            log.error("Error", e);
+        }
+
+
     }
 }

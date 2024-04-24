@@ -12,4 +12,5 @@ public interface MetadataLanguageSummaryDAO extends GenericDAO<MetadataLanguageS
 
     public List<MetadataLanguageSummary> getItemsToProcess(Context context, Integer limit) throws SQLException;
 
+    void refreshMaterializedView(Context context);
 }

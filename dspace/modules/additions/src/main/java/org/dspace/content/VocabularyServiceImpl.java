@@ -8,7 +8,6 @@ import org.dspace.content.dao.VocabularyDAO;
 import org.dspace.content.service.ItemService;
 import org.dspace.content.service.VocabularyService;
 import org.dspace.core.Context;
-import org.dspace.curate.Curator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -139,5 +138,10 @@ public class VocabularyServiceImpl implements VocabularyService {
                 }
             }
         }
+    }
+
+    @Override
+    public void refreshMetadataSummaryMatView(Context context) {
+        metadataLanguageSummaryDAO.refreshMaterializedView(context);
     }
 }

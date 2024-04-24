@@ -32,4 +32,6 @@ public interface VocabularyService {
             throws IOException, SQLException;
 
     void performMetadataCopy(Context context, Item item) throws SQLException, IOException, AuthorizeException;
+
+    void refreshMetadataSummaryMatView(Context context);
 }
