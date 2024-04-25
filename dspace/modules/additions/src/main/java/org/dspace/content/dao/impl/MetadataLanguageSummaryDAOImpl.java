@@ -14,6 +14,7 @@ import org.dspace.content.dao.MetadataLanguageSummaryDAO;
 import org.dspace.core.AbstractHibernateDAO;
 import org.dspace.core.Context;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.jdbc.Work;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -46,7 +47,9 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
 
     @Override
     public void refreshMaterializedView(Context context) {
+        Transaction transaction = null;
         try (Session session = getHibernateSession(context)) {
+            transaction = session.beginTransaction();
             session.doWork(new Work() {
                 @Override
                 public void execute(java.sql.Connection connection) throws java.sql.SQLException {
@@ -59,6 +62,8 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
                     }
                 }
             });
+            transaction.commit();
+            log.info("Committed");
         } catch (Exception e) {
             log.error("Error", e);
         }
