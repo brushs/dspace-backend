@@ -40,7 +40,8 @@ public class RefreshMV {
      * @param args  - the command line arguments to parse as parameters
      */
     public static void main(String[] args) throws SQLException, AuthorizeException, IOException {
-        log.info("Starting Refresh MV Process ");
+        log.info("Starting Refresh MV Process - info");
+        log.error("Starting Refresh MV Process ");
         System.out.println("Refreshing MVs");
         // setup Context
         Context context = new Context();
@@ -53,9 +54,12 @@ public class RefreshMV {
         runCLI(context, refreshMV, args);
 
         try {
+            context.commit();
+            log.error("Commited MV Refresh");
             context.complete();
-        } catch (SQLException sqle) {
-            System.err.println("Cannot save changes to database: " + sqle.getMessage());
+        } catch (Exception e) {
+            log.error("Error", e);
+            System.err.println("Cannot save changes to database: " + e.getMessage());
             System.exit(-1);
         }
 
