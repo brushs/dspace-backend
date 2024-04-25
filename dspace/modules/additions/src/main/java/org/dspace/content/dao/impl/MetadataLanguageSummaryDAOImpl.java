@@ -53,7 +53,9 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
                     // Execute a native SQL query to refresh the materialized view
                     try (java.sql.Statement statement = connection.createStatement()) {
                         String sql = "REFRESH MATERIALIZED VIEW " + "metadata_language_summary_mv";
+                        log.info("Refreshing MV");
                         statement.execute(sql);
+                        log.info("Refreshed MV");
                     }
                 }
             });

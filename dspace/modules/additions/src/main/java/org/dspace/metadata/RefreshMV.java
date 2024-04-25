@@ -40,8 +40,8 @@ public class RefreshMV {
      * @param args  - the command line arguments to parse as parameters
      */
     public static void main(String[] args) throws SQLException, AuthorizeException, IOException {
-        log.debug("Starting Copy Metadata Process ");
-
+        log.info("Starting Refresh MV Process ");
+        System.out.println("Refreshing MVs");
         // setup Context
         Context context = new Context();
 
