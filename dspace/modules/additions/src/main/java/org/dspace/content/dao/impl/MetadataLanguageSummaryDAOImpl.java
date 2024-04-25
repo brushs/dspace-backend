@@ -51,14 +51,17 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
     public void refreshMaterializedView(Context context) {
         try (Session session = getHibernateSession(context)) {
 
+            session.createNativeQuery("CALL refresh_materialized_view()")
+                    .executeUpdate();
+
             // Create a ProcedureCall for the stored procedure
-            ProcedureCall procedureCall = session.createStoredProcedureCall("refresh_materialized_view");
+            //ProcedureCall procedureCall = session.createStoredProcedureCall("refresh_materialized_view");
 
             // Bind the parameter value
             //procedureCall.registerParameter("mv_name", String.class, ParameterMode.IN).bindValue("metadata_language_summary_mv");
 
             // Execute the stored procedure
-            procedureCall.execute();
+            //procedureCall.execute();
 
             /*
             session.doWork(new Work() {
