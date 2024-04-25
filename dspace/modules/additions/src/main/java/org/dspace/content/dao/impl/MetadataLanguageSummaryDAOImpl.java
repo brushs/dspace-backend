@@ -47,9 +47,8 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
 
     @Override
     public void refreshMaterializedView(Context context) {
-        Transaction transaction = null;
         try (Session session = getHibernateSession(context)) {
-            transaction = session.beginTransaction();
+
             session.doWork(new Work() {
                 @Override
                 public void execute(java.sql.Connection connection) throws java.sql.SQLException {
@@ -62,7 +61,7 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
                     }
                 }
             });
-            transaction.commit();
+
             log.info("Committed");
         } catch (Exception e) {
             log.error("Error", e);
