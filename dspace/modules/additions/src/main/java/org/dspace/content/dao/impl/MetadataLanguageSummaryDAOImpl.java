@@ -79,7 +79,7 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
             */
 
             log.info("Committed");
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("Error", e);
         }
 
