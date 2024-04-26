@@ -159,6 +159,8 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             }
         } catch (IOException | SQLException | SolrServerException | SearchServiceException e) {
             log.error(e.getMessage(), e);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
     }
 
