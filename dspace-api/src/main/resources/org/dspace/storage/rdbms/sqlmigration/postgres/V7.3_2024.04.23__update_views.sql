@@ -102,7 +102,7 @@ from
     (select dspace_object_id, count(distinct t.id) as subject_broad_count
      from metadatavalue mdv
               join metadatafieldregistry mfr on mdv.metadata_field_id = mfr.metadata_field_id
-              join term t on mdv.text_value = t.name_en or mdv.text_value = t.name_fr
+              join term t on UPPER(mdv.text_value) = UPPER(t.name_en) or UPPER(mdv.text_value) = UPPER(t.name_fr)
      where mfr.metadata_schema_id = 1
        and mfr.element = 'subject'
        and mfr.qualifier in ('broad')
@@ -113,7 +113,7 @@ from
     (select dspace_object_id, count(distinct t.id) as subject_descriptor_count
      from metadatavalue mdv
               join metadatafieldregistry mfr on mdv.metadata_field_id = mfr.metadata_field_id
-              join term t on mdv.text_value = t.name_en or mdv.text_value = t.name_fr
+              join term t on UPPER(mdv.text_value) = UPPER(t.name_en) or UPPER(mdv.text_value) = UPPER(t.name_fr)
      where mfr.metadata_schema_id = 1
        and mfr.element = 'subject'
        and mfr.qualifier in ('descriptor')
@@ -124,7 +124,7 @@ from
     (select dspace_object_id, count(distinct t.id) as subject_gc_count
      from metadatavalue mdv
               join metadatafieldregistry mfr on mdv.metadata_field_id = mfr.metadata_field_id
-              join term t on mdv.text_value = t.name_en or mdv.text_value = t.name_fr
+              join term t on UPPER(mdv.text_value) = UPPER(t.name_en) or UPPER(mdv.text_value) = UPPER(t.name_fr)
      where mfr.metadata_schema_id = 1
        and mfr.element = 'subject'
        and mfr.qualifier in ('gc')
@@ -135,7 +135,7 @@ from
     (select dspace_object_id, count(distinct t.id) as subject_geoscan_count
      from metadatavalue mdv
               join metadatafieldregistry mfr on mdv.metadata_field_id = mfr.metadata_field_id
-              join term t on mdv.text_value = t.name_en or mdv.text_value = t.name_fr
+              join term t on UPPER(mdv.text_value) = UPPER(t.name_en) or UPPER(mdv.text_value) = UPPER(t.name_fr)
      where mfr.metadata_schema_id = 1
        and mfr.element = 'subject'
        and mfr.qualifier in ('geoscan')
@@ -162,3 +162,5 @@ from
     on typ.dspace_object_id = subject_fr.dspace_object_id;
 
 GRANT ALL ON metadata_language_summary_mv to dspace;
+
+CREATE UNIQUE INDEX idx_mdls_item_id ON metadata_language_summary_mv (item_id);

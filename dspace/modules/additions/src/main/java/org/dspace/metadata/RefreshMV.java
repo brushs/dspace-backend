@@ -41,7 +41,6 @@ public class RefreshMV {
      */
     public static void main(String[] args) throws SQLException, AuthorizeException, IOException {
         log.info("Starting Refresh MV Process - info");
-        log.error("Starting Refresh MV Process ");
         System.out.println("Refreshing MVs");
         // setup Context
         Context context = new Context();
@@ -55,7 +54,6 @@ public class RefreshMV {
 
         try {
             context.commit();
-            log.error("Commited MV Refresh");
             context.complete();
         } catch (Exception e) {
             log.error("Error", e);

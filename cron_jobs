@@ -67,7 +67,7 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 
 # Job to refresh the metadata summary materialized view
 # This should run before the metadata copy job and takes at least 15 min
-*/30 * * * * root $DSPACE/bin/dspace refresh-mv > $DSPACE/log/refresh-mv.log 2>&1
+0 8 * * * root $DSPACE/bin/dspace refresh-mv > $DSPACE/log/refresh-mv.log 2>&1
 
 
 #----------------

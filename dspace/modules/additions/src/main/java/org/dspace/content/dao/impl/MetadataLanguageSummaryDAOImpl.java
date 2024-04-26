@@ -16,13 +16,12 @@ import org.dspace.core.Context;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.jdbc.Work;
-import org.hibernate.procedure.ProcedureCall;
 
-import javax.persistence.ParameterMode;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -51,38 +50,32 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
     public void refreshMaterializedView(Context context) {
         try (Session session = getHibernateSession(context)) {
 
-            session.createNativeQuery("CALL refresh_materialized_view()")
+            Transaction transaction = session.getTransaction();
+
+            SessionAutoCommitDisabler autoCommitDisabler = new SessionAutoCommitDisabler();
+            autoCommitDisabler.disableAutoCommitForSession(session);
+
+            session.createNativeQuery("REFRESH MATERIALIZED VIEW CONCURRENTLY metadata_language_summary_mv")
                     .executeUpdate();
 
-            // Create a ProcedureCall for the stored procedure
-            //ProcedureCall procedureCall = session.createStoredProcedureCall("refresh_materialized_view");
+            transaction.commit();
 
-            // Bind the parameter value
-            //procedureCall.registerParameter("mv_name", String.class, ParameterMode.IN).bindValue("metadata_language_summary_mv");
+            log.info("Committed MV Refresh");
+        } catch (Throwable t) {
+            log.error("Error", t);
+        }
+    }
 
-            // Execute the stored procedure
-            //procedureCall.execute();
+    public class SessionAutoCommitDisabler {
 
-            /*
+        public void disableAutoCommitForSession(Session session) {
+            // Disable auto-commit for the underlying JDBC connection
             session.doWork(new Work() {
                 @Override
-                public void execute(java.sql.Connection connection) throws java.sql.SQLException {
-                    // Execute a native SQL query to refresh the materialized view
-                    try (java.sql.Statement statement = connection.createStatement()) {
-                        String sql = "REFRESH MATERIALIZED VIEW " + "metadata_language_summary_mv";
-                        log.info("Refreshing MV");
-                        statement.execute(sql);
-                        log.info("Refreshed MV");
-                    }
+                public void execute(Connection connection) throws SQLException {
+                    connection.setAutoCommit(false);
                 }
             });
-            */
-
-            log.info("Committed");
-        } catch (Throwable e) {
-            log.error("Error", e);
         }
-
-
     }
 }
