@@ -63,7 +63,7 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 # (This task ensures that thumbnails are generated for newly add images,
 # and ensures full text search is available for newly added PDF/Word/PPT/HTML documents)
 # REQUIRED for Thumbnails to be generated & full-text indexing to work.
-0 9 * * * root $DSPACE/bin/dspace copy-metadata -l 5 > $DSPACE/log/copy-metadata.log 2>&1
+0 9 * * * root $DSPACE/bin/dspace copy-metadata -l 3000 > $DSPACE/log/copy-metadata.log 2>&1
 
 # Job to refresh the metadata summary materialized view
 # This should run before the metadata copy job and takes at least 15 min
