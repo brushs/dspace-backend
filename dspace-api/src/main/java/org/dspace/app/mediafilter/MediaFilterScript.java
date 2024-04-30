@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.Logger;
 import org.dspace.app.mediafilter.factory.MediaFilterServiceFactory;
 import org.dspace.app.mediafilter.service.MediaFilterService;
 import org.dspace.content.Collection;
@@ -41,6 +42,8 @@ import org.dspace.utils.DSpace;
  * maximum number of items.
  */
 public class MediaFilterScript extends DSpaceRunnable<MediaFilterScriptConfiguration> {
+
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(MediaFilterScript.class);
 
     //key (in dspace.cfg) which lists all enabled filters by name
     private static final String MEDIA_FILTER_PLUGINS_KEY = "filter.plugins";
@@ -116,6 +119,8 @@ public class MediaFilterScript extends DSpaceRunnable<MediaFilterScriptConfigura
     }
 
     public void internalRun() throws Exception {
+        log.info("Starting Filter Media Process");
+
         if (help) {
             printHelp();
             return;
@@ -251,6 +256,7 @@ public class MediaFilterScript extends DSpaceRunnable<MediaFilterScriptConfigura
 
             c.complete();
             c = null;
+            log.info("Finished Filter Media Process");
         } catch (Exception e) {
             handler.handleException(e);
         } finally {

@@ -60,7 +60,7 @@ public class CopyMetadata {
      * @param args  - the command line arguments to parse as parameters
      */
     public static void main(String[] args) throws SQLException, AuthorizeException, IOException {
-        log.debug("Starting Copy Metadata Process ");
+        log.info("Starting Copy Metadata Process ");
 
         // setup Context
         Context context = new Context();
@@ -74,6 +74,7 @@ public class CopyMetadata {
 
         try {
             context.complete();
+            log.info("Finished Copy Metadata Process ");
         } catch (SQLException sqle) {
             System.err.println("Cannot save changes to database: " + sqle.getMessage());
             System.exit(-1);
