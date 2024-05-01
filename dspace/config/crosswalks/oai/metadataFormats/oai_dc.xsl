@@ -135,6 +135,50 @@
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='source']/doc:element/doc:element/doc:field[@name='value']">
 				<dc:source><xsl:value-of select="." /></dc:source>
 			</xsl:for-each>
+			<!-- nrcan.filetype -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='filetype']/doc:element/doc:field[@name='value']">
+				<dc:format><xsl:value-of select="." /></dc:format>
+			</xsl:for-each>
+			<!-- nrcan.openaccess -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='openaccess']/doc:element/doc:field[@name='value']">
+				<dc:rights><xsl:value-of select="." /></dc:rights>
+			</xsl:for-each>
+			<!-- geospatial.polygon -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='geospatial']/doc:element[@name='polygon']/doc:element/doc:field[@name='value']">
+				<dc:coverage><xsl:value-of select="." /></dc:coverage>
+			</xsl:for-each>
+			<!-- geospatial.bbox -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='geospatial']/doc:element[@name='bbox']/doc:element/doc:field[@name='value']">
+				<dc:coverage><xsl:value-of select="." /></dc:coverage>
+			</xsl:for-each>
+			<!-- nrcan.nts -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='nts']/doc:element/doc:field[@name='value']">
+				<dc:coverage><xsl:value-of select="." /></dc:coverage>
+			</xsl:for-each>
+			<!-- nrcan.area -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='area']/doc:element/doc:field[@name='value']">
+				<dc:coverage><xsl:value-of select="." /></dc:coverage>
+			</xsl:for-each>
+			<!-- nrcan.province.name -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='province']/doc:element[@name='name']/doc:element/doc:field[@name='value']">
+				<dc:coverage><xsl:value-of select="." /></dc:coverage>
+			</xsl:for-each>
+			<!-- nrcan.country.name -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='country']/doc:element[@name='name']/doc:element/doc:field[@name='value']">
+				<dc:coverage><xsl:value-of select="." /></dc:coverage>
+			</xsl:for-each>
+			<!-- nrcan.sponsor.program -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='sponsor']/doc:element[@name='program']/doc:element/doc:field[@name='value']">
+				<dc:contributor><xsl:value-of select="." /></dc:contributor>
+			</xsl:for-each>
+			<!-- nrcan.sponsor.project -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='sponsor']/doc:element[@name='project']/doc:element/doc:field[@name='value']">
+				<dc:contributor><xsl:value-of select="." /></dc:contributor>
+			</xsl:for-each>
+			<!-- nrcan.sponsor.code -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='sponsor']/doc:element[@name='code']/doc:element/doc:field[@name='value']">
+				<dc:contributor><xsl:value-of select="." /></dc:contributor>
+			</xsl:for-each>
 		</oai_dc:dc>
 	</xsl:template>
 </xsl:stylesheet>

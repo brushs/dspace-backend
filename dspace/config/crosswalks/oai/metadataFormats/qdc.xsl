@@ -40,19 +40,9 @@
 				</dcterms:abstract>
 			</xsl:for-each>
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='date']/doc:element[@name='available']/doc:element/doc:field[@name='value']">
-				<dcterms:dateAccepted>
-					<xsl:value-of select="." />
-				</dcterms:dateAccepted>
-			</xsl:for-each>
-			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='date']/doc:element[@name='available']/doc:element/doc:field[@name='value']">
 				<dcterms:available>
 					<xsl:value-of select="." />
 				</dcterms:available>
-			</xsl:for-each>
-			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='date']/doc:element[@name='available']/doc:element/doc:field[@name='value']">
-				<dcterms:created>
-					<xsl:value-of select="." />
-				</dcterms:created>
 			</xsl:for-each>
 			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='date']/doc:element[@name='issued']/doc:element/doc:field[@name='value']">
 				<dcterms:issued>
@@ -128,6 +118,64 @@
 				<dc:source>
 					<xsl:value-of select="." />
 				</dc:source>
+			</xsl:for-each>
+			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='identifier']/doc:element[@name='citation']/doc:element/doc:field[@name='value']">
+				<dcterms:bibliographicCitation>
+					<xsl:value-of select="." />
+				</dcterms:bibliographicCitation>
+			</xsl:for-each>
+			<xsl:for-each select="doc:metadata/doc:element[@name='dc']/doc:element[@name='rights']/doc:element[@name='license']/doc:element/doc:field[@name='value']">
+				<dcterms:license>
+					<xsl:value-of select="." />
+				</dcterms:license>
+			</xsl:for-each>
+			<!-- nrcan.filetype -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='filetype']/doc:element/doc:field[@name='value']">
+				<dc:format><xsl:value-of select="." /></dc:format>
+			</xsl:for-each>
+			<!-- nrcan.openaccess -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='openaccess']/doc:element/doc:field[@name='value']">
+				<dcterms:license><xsl:value-of select="." /></dcterms:license>
+			</xsl:for-each>
+			<!-- geospatial.polygon -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='geospatial']/doc:element[@name='polygon']/doc:element/doc:field[@name='value']">
+				<dcterms:spatial><xsl:value-of select="." /></dcterms:spatial>
+			</xsl:for-each>
+			<!-- geospatial.bbox -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='geospatial']/doc:element[@name='bbox']/doc:element/doc:field[@name='value']">
+				<dcterms:spatial><xsl:value-of select="." /></dcterms:spatial>
+			</xsl:for-each>
+			<!-- nrcan.nts -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='nts']/doc:element/doc:field[@name='value']">
+				<dcterms:spatial><xsl:value-of select="." /></dcterms:spatial>
+			</xsl:for-each>
+			<!-- nrcan.area -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='area']/doc:element/doc:field[@name='value']">
+				<dcterms:coverage><xsl:value-of select="." /></dcterms:coverage>
+			</xsl:for-each>
+			<!-- nrcan.province.name -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='province']/doc:element[@name='name']/doc:element/doc:field[@name='value']">
+				<dcterms:coverage><xsl:value-of select="." /></dcterms:coverage>
+			</xsl:for-each>
+			<!-- nrcan.country.name -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='country']/doc:element[@name='name']/doc:element/doc:field[@name='value']">
+				<dcterms:coverage><xsl:value-of select="." /></dcterms:coverage>
+			</xsl:for-each>
+			<!-- nrcan.sponsor.program -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='sponsor']/doc:element[@name='program']/doc:element/doc:field[@name='value']">
+				<dcterms:contributor><xsl:value-of select="." /></dcterms:contributor>
+			</xsl:for-each>
+			<!-- nrcan.sponsor.project -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='sponsor']/doc:element[@name='project']/doc:element/doc:field[@name='value']">
+				<dcterms:contributor><xsl:value-of select="." /></dcterms:contributor>
+			</xsl:for-each>
+			<!-- nrcan.sponsor.code -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='sponsor']/doc:element[@name='code']/doc:element/doc:field[@name='value']">
+				<dcterms:contributor><xsl:value-of select="." /></dcterms:contributor>
+			</xsl:for-each>
+			<!-- nrcan.media -->
+			<xsl:for-each select="doc:metadata/doc:element[@name='nrcan']/doc:element[@name='media']/doc:element/doc:field[@name='value']">
+				<dcterms:medium><xsl:value-of select="." /></dcterms:medium>
 			</xsl:for-each>
 		</qdc:qualifieddc>
 	</xsl:template>
