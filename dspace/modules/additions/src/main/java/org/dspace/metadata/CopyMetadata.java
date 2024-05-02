@@ -135,6 +135,7 @@ public class CopyMetadata {
                 + " Subject Curated Count: " + mls.getSubjectCuratedCount() + " Modified: " +
                     fullIso2.format(mls.getLastModified()));
             vocabularyService.performMetadataCopy(context, itemService.find(context, mls.getId()));
+            context.commit();
         }
     }
 
