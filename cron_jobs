@@ -33,7 +33,7 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 
 # Update the OAI-PMH index with the newest content at midnight every day
 # REQUIRED to update content available in OAI-PMH (However, it can be removed if you do not enable OAI-PMH)
-0 4 * * * root $DSPACE/bin/dspace oai import > /dev/null
+0 4 * * * root $DSPACE/bin/dspace oai import > $DSPACE/log/oai-import.log 2>&1
 
 # Clean and Update the Discovery indexes at midnight every day
 # (This ensures that any deleted documents are cleaned from the Discovery search/browse index)
@@ -57,13 +57,13 @@ JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
 # (This task ensures that thumbnails are generated for newly add images,
 # and ensures full text search is available for newly added PDF/Word/PPT/HTML documents)
 # REQUIRED for Thumbnails to be generated & full-text indexing to work.
-0 7 * * * root $DSPACE/bin/dspace filter-media -m 500 > $DSPACE/log/filter-media.log 2>&1
+0 7 * * * root $DSPACE/bin/dspace filter-media -m 1000 > $DSPACE/log/filter-media.log 2>&1
 
 # Run the metadata copy task (for keywords mostly) at 05:00 every day.
 # (This task ensures that thumbnails are generated for newly add images,
 # and ensures full text search is available for newly added PDF/Word/PPT/HTML documents)
 # REQUIRED for Thumbnails to be generated & full-text indexing to work.
-0 6 * * * root $DSPACE/bin/dspace copy-metadata -l 500 > $DSPACE/log/copy-metadata.log 2>&1
+0 6 * * * root $DSPACE/bin/dspace copy-metadata -l 1000 > $DSPACE/log/copy-metadata.log 2>&1
 
 # Job to refresh the metadata summary materialized view
 # This should run before the metadata copy job and takes at least 15 min
