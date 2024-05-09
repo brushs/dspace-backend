@@ -396,6 +396,18 @@
                     <required></required>
                 </field>
             </row>
+             <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Relationship: e.g. https://ostrnrcan-dostrncan.canada.ca/handle/1845/271898</label>
+					<input-type value-pairs-name="common_relations">qualdrop_value</input-type>
+                    <hint>e.g. https://ostrnrcan-dostrncan.canada.ca/handle/1845/271898</hint>
+                    <required></required>
+                </field>
+            </row>
         </form>
         <form name="geoscan_geographicStep">
 		    <row>
@@ -3212,8 +3224,46 @@
                 <displayed-value>Other</displayed-value>
                 <stored-value>other</stored-value>
             </pair>
-
         </value-pairs>
+        <value-pairs value-pairs-name="common_relations" dc-term="relation">
+            <pair>
+                <displayed-value>References translated item</displayed-value>
+                <stored-value>istranslationof</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References physically or logically containing item</displayed-value>
+                <stored-value>ispartof</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References physically or logically contained item</displayed-value>
+                <stored-value>haspart</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References earlier version</displayed-value>
+                <stored-value>isversionof</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References later version</displayed-value>
+                <stored-value>hasversion</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References related item</displayed-value>
+                <stored-value>isrelatedto</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References preceeding item</displayed-value>
+                <stored-value>replaces</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References succeeding item</displayed-value>
+                <stored-value>isreplacedby</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>References Uniform Resource Identifier for related item</displayed-value>
+                <stored-value>uri</stored-value>
+            </pair>
+        </value-pairs>
+        
 
         <value-pairs value-pairs-name="common_types" dc-term="type">
             <pair>
