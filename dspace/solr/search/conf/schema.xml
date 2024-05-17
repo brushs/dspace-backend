@@ -264,7 +264,10 @@
    
     <field name="has_content_in_original_bundle" type="string" indexed="true" stored="true" omitNorms="true" multiValued="true" docValues="true" />
 
-    <!-- used to track which group(s) have submit permissions -->
+    <field name="collectionName_en" type="string" indexed="true" stored="true" omitNorms="true" multiValued="true" docValues="true" />
+    <field name="collectionName_fr" type="string" indexed="true" stored="true" omitNorms="true" multiValued="true" docValues="true" />
+
+     <!-- used to track which group(s) have submit permissions -->
     <field name="submit" type="string" indexed="true" stored="true" omitNorms="true" multiValued="true" docValues="true" />
    
     <!-- Community and collection hierarchy of the Item of interest (candidate for hierarchical facetting ) -->

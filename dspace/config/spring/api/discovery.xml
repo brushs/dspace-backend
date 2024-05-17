@@ -223,6 +223,8 @@
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
                 <ref bean="searchFilterEntityType"/>
+                <ref bean="searchFilterCollection_en" />
+                <ref bean="searchFilterCollection_fr" />
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -242,6 +244,8 @@
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
                 <ref bean="searchFilterEntityType"/>
+                <ref bean="searchFilterCollection_en" />
+                <ref bean="searchFilterCollection_fr" />
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -370,6 +374,7 @@
             <list>
                 <ref bean="searchFilterType_en"/>
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterCollection_en" />
                 <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
@@ -389,6 +394,8 @@
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
                 <ref bean="searchFilterEntityType"/>
+                <ref bean="searchFilterCollection_en" />
+                <ref bean="searchFilterCollection_fr" />
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -517,6 +524,7 @@
             <list>
                 <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterCollection_fr" />
                 <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
@@ -536,6 +544,8 @@
                 <ref bean="searchFilterFileNameInOriginalBundle" />
                 <ref bean="searchFilterFileDescriptionInOriginalBundle" />
                 <ref bean="searchFilterEntityType"/>
+                <ref bean="searchFilterCollection_en" />
+                <ref bean="searchFilterCollection_fr" />
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -3854,6 +3864,34 @@
             <list/>
         </property>
         <property name="facetLimit" value="2"/>
+        <property name="type" value="standard"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="false"/>
+        <property name="pageSize" value="10"/>
+
+    </bean>
+
+    <bean id="searchFilterCollection_en" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="collectionName_en"/>
+        <property name="metadataFields">
+            <list/>
+        </property>
+        <property name="facetLimit" value="4"/>
+        <property name="type" value="standard"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="false"/>
+        <property name="pageSize" value="10"/>
+
+    </bean>
+
+    <bean id="searchFilterCollection_fr" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="collectionName_fr"/>
+        <property name="metadataFields">
+            <list/>
+        </property>
+        <property name="facetLimit" value="4"/>
         <property name="type" value="standard"/>
         <property name="sortOrderSidebar" value="COUNT"/>
         <property name="sortOrderFilterPage" value="COUNT"/>

@@ -27,6 +27,7 @@ import org.dspace.content.WorkspaceItem;
 import org.dspace.content.authority.Choices;
 import org.dspace.content.authority.service.ChoiceAuthorityService;
 import org.dspace.content.authority.service.MetadataAuthorityService;
+import org.dspace.content.service.CollectionService;
 import org.dspace.content.service.ItemService;
 import org.dspace.content.service.WorkspaceItemService;
 import org.dspace.core.Context;
@@ -78,6 +79,8 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
     protected HandleService handleService;
     @Autowired
     protected ItemService itemService;
+    @Autowired
+    protected CollectionService collectionService;
     @Autowired(required = true)
     protected ChoiceAuthorityService choiceAuthorityService;
     @Autowired
@@ -135,6 +138,23 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
         doc.addField("discoverable", item.isDiscoverable());
         doc.addField("lastModified", SolrUtils.getDateFormatter().format(item.getLastModified()));
         doc.addField("latestVersion", isLatestVersion(context, item));
+
+        if (item.getOwningCollection() != null) {
+            try {
+                Collection collection = collectionService.find(context, item.getOwningCollection().getID());
+                List<MetadataValue> mdvs = collectionService.getMetadata(collection, "dc","title", null, Item.ANY
+                        , Item.ANY);
+                if (mdvs != null && !mdvs.isEmpty()) {
+                    doc.addField("collectionName_en", mdvs.get(0).getValue());
+                }
+                mdvs = collectionService.getMetadata(collection, "dc","title", "fosrctranslation", Item.ANY, Item.ANY);
+                if (mdvs != null && !mdvs.isEmpty()) {
+                    doc.addField("collectionName_fr", mdvs.get(0).getValue());
+                }
+            } catch (Exception e) {
+                log.error("Error with collection indexing", e);
+            }
+        }
 
         EPerson submitter = item.getSubmitter();
         if (submitter != null) {
