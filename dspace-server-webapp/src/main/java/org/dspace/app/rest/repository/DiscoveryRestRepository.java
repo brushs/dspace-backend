@@ -98,7 +98,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
         Context context = obtainContext();
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
-            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, projection.getLanguage());
+            .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, projection.getLanguage(), dsoTypes);
 
         DiscoverResult searchResult = null;
         DiscoverQuery discoverQuery = null;

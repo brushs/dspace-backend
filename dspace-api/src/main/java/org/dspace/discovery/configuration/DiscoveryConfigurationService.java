@@ -41,13 +41,18 @@ public class DiscoveryConfigurationService {
         this.toIgnoreMetadataFields = toIgnoreMetadataFields;
     }
 
-    public DiscoveryConfiguration getDiscoveryConfiguration(IndexableObject dso, String language) {
+    public DiscoveryConfiguration getDiscoveryConfiguration(IndexableObject dso, String language, List<String> dsoTypes) {
         String name;
         if (dso == null) {
-            if (language != null && language.contains("fr")) {
-                name = "default-fr";
+            if (dsoTypes != null &&
+                    (dsoTypes.contains("COMMUNITY") || dsoTypes.contains("COLLECTION"))) {
+                name = "default";
             } else {
-                name = "default-en";
+                if (language != null && language.contains("fr")) {
+                    name = "default-fr";
+                } else {
+                    name = "default-en";
+                }
             }
         } else if (dso instanceof IndexableDSpaceObject) {
             name = ((IndexableDSpaceObject) dso).getIndexedObject().getHandle();
@@ -56,6 +61,10 @@ public class DiscoveryConfigurationService {
         }
 
         return getDiscoveryConfiguration(name);
+    }
+
+    public DiscoveryConfiguration getDiscoveryConfiguration(IndexableObject dso, String language) {
+        return getDiscoveryConfiguration(dso, language, null);
     }
 
     public DiscoveryConfiguration getDiscoveryConfiguration(final String name) {
@@ -74,10 +83,17 @@ public class DiscoveryConfigurationService {
     public DiscoveryConfiguration getDiscoveryConfigurationByNameOrDso(final String configurationName,
                                                                        final IndexableObject dso,
                                                                        final String language) {
+        return getDiscoveryConfigurationByNameOrDso(configurationName, dso, language, null);
+    }
+
+    public DiscoveryConfiguration getDiscoveryConfigurationByNameOrDso(final String configurationName,
+                                                                       final IndexableObject dso,
+                                                                       final String language,
+                                                                       final List<String> dsoTypes) {
         if (StringUtils.isNotBlank(configurationName) && getMap().containsKey(configurationName)) {
             return getMap().get(configurationName);
         } else {
-            return getDiscoveryConfiguration(dso, language);
+            return getDiscoveryConfiguration(dso, language, dsoTypes);
         }
     }
 
