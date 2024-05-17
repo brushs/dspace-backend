@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang3.StringUtils;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
@@ -80,6 +81,7 @@ public class IndexClient extends DSpaceRunnable<IndexDiscoveryScriptConfiguratio
             checkRebuildSpellCheck(commandLine, indexer);
         } else if (indexClientOptions == IndexClientOptions.INDEX) {
             final String param = commandLine.getOptionValue('i');
+            final String skip = commandLine.getOptionValue('k');
             UUID uuid = null;
             try {
                 uuid = UUID.fromString(param);
@@ -124,7 +126,7 @@ public class IndexClient extends DSpaceRunnable<IndexDiscoveryScriptConfiguratio
             handler.logInfo("Indexing " + param + " force " + commandLine.hasOption("f"));
             final long startTimeMillis = System.currentTimeMillis();
             final long count = indexAll(indexer, ContentServiceFactory.getInstance().
-                    getItemService(), context, indexableObject.get());
+                    getItemService(), context, indexableObject.get(), StringUtils.isEmpty(skip));
             final long seconds = (System.currentTimeMillis() - startTimeMillis) / 1000;
             handler.logInfo("Indexed " + count + " object" + (count > 1 ? "s" : "") + " in " + seconds + " seconds");
         } else if (indexClientOptions == IndexClientOptions.UPDATE ||
@@ -175,17 +177,21 @@ public class IndexClient extends DSpaceRunnable<IndexDiscoveryScriptConfiguratio
     private static long indexAll(final IndexingService indexingService,
                                  final ItemService itemService,
                                  final Context context,
-                                 final IndexableObject dso)
+                                 final IndexableObject dso,
+                                 final boolean indexAll)
         throws IOException, SearchServiceException, SQLException {
         long count = 0;
 
         indexingService.indexContent(context, dso, true, true);
         count++;
+        if (indexAll == false) {
+            return count;
+        }
         if (dso.getIndexedObject() instanceof Community) {
             final Community community = (Community) dso;
             final String communityHandle = community.getHandle();
             for (final Community subcommunity : community.getSubcommunities()) {
-                count += indexAll(indexingService, itemService, context, new IndexableCommunity(subcommunity));
+                count += indexAll(indexingService, itemService, context, new IndexableCommunity(subcommunity), indexAll);
                 //To prevent memory issues, discard an object from the cache after processing
                 context.uncacheEntity(subcommunity);
             }

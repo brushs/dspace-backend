@@ -85,6 +85,7 @@ public enum IndexClientOptions {
         options.addOption("f", "force", false,
                           "if updating existing index, force each handle to be reindexed even if uptodate");
         options.addOption("h", "help", false, "print this help message");
+        options.addOption("k", "skip", true, "y to skip indexing child items");
         return options;
     }
 }
