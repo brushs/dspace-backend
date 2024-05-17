@@ -88,23 +88,25 @@ public class CitationServiceImpl implements CitationService {
             return null;
         }
 
-        if (type.contentEquals(TYPE_ARTICLE)) {
+        type = type.toUpperCase();
+
+        if (type.contentEquals(TYPE_ARTICLE.toUpperCase())) {
             mdv.setValue(getArticleCitation(mdvs));
-        } else if (type.contentEquals(TYPE_REPORT)) {
+        } else if (type.contentEquals(TYPE_REPORT.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
-        } else if (type.contentEquals(TYPE_BOOK)) {
+        } else if (type.contentEquals(TYPE_BOOK.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
-        } else if (type.contentEquals(TYPE_MAP)) {
+        } else if (type.contentEquals(TYPE_MAP.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
-        } else if (type.contentEquals(TYPE_BOOK_CHAPTER)) {
+        } else if (type.contentEquals(TYPE_BOOK_CHAPTER.toUpperCase())) {
             mdv.setValue(getChapterCitation(mdvs));
-        } else if (type.contentEquals(TYPE_THESIS)) {
+        } else if (type.contentEquals(TYPE_THESIS.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
-        } else if (type.contentEquals(TYPE_ABSTRACT)) {
+        } else if (type.contentEquals(TYPE_ABSTRACT.toUpperCase())) {
             mdv.setValue(getChapterCitation(mdvs));
-        } else if (type.contentEquals(TYPE_CONFERENCE_MATERIAL)) {
+        } else if (type.contentEquals(TYPE_CONFERENCE_MATERIAL.toUpperCase())) {
             mdv.setValue(getChapterCitation(mdvs));
-        } else if (type.contentEquals(TYPE_WEB_RESOURCE)) {
+        } else if (type.contentEquals(TYPE_WEB_RESOURCE.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
         } else {
             return null;
