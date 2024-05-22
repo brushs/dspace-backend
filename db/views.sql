@@ -92,7 +92,7 @@ from
         left outer join
     (select count(*) as mono_author_count, right_id
      from relationship
-     where type_id = 2
+     where type_id = 20
      group by right_id) k
     on a.dspace_object_id = k.right_id;
 
