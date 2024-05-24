@@ -81,6 +81,8 @@ public class DCInputsReader {
      */
     private Map<String, List<String>> valuePairs = null;    // Holds display/storage pairs
 
+    private Map<String, Map<String, DCMetadataVocabulary>> metadataVocabulary = null;
+
     /**
      * Mini-cache of last DCInputSet requested. If submissions are not typically
      * form-interleaved, there will be a modest win.
@@ -98,23 +100,23 @@ public class DCInputsReader {
      */
 
     public DCInputsReader()
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         // Load from default file
         String defsFile = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.dir")
-            + File.separator + "config" + File.separator + FORM_DEF_FILE;
+                + File.separator + "config" + File.separator + FORM_DEF_FILE;
 
         buildInputs(defsFile);
     }
 
 
     public DCInputsReader(String fileName)
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         buildInputs(fileName);
     }
 
 
     private void buildInputs(String fileName)
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         formDefns = new HashMap<String, List<List<Map<String, String>>>>();
         valuePairs = new HashMap<String, List<String>>();
 
@@ -137,6 +139,25 @@ public class DCInputsReader {
         }
     }
 
+    public Map<String, List<DCMetadataVocabulary>> GetMetadataVocabulary(){
+        // for each metadataVocabulary, get the entryset as a list and return it
+        Map<String, List<DCMetadataVocabulary>> result = new HashMap<>();
+        for (Map.Entry<String, Map<String, DCMetadataVocabulary>> entry : metadataVocabulary.entrySet()) {
+            List<DCMetadataVocabulary> list = new ArrayList<>(entry.getValue().values());
+            result.put(entry.getKey(), list);
+        }
+        return result;
+    }
+    public Map<String, DCMetadataVocabulary> GetMetadataVocabularyById(String metadataId){
+        // for each metadataVocabulary, if the entryset contains the key metadataId, return it
+        Map<String, DCMetadataVocabulary> result = new HashMap<>();
+        for (Map.Entry<String, Map<String, DCMetadataVocabulary>> entry : metadataVocabulary.entrySet()) {
+            if (entry.getValue().containsKey(metadataId)) {
+                result.put(entry.getKey(), entry.getValue().get(metadataId));
+            }
+        }
+        return result;
+    }
     public Iterator<String> getPairsNameIterator() {
         return valuePairs.keySet().iterator();
     }
@@ -155,7 +176,7 @@ public class DCInputsReader {
      * @throws ServletException
      */
     public List<DCInputSet> getInputsByCollectionHandle(String collectionHandle)
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         SubmissionConfig config;
         try {
             config = new SubmissionConfigReader().getSubmissionConfigByCollection(collectionHandle);
@@ -177,7 +198,7 @@ public class DCInputsReader {
     }
 
     public List<DCInputSet> getInputsBySubmissionName(String name)
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         SubmissionConfig config;
         try {
             config = new SubmissionConfigReader().getSubmissionConfigByName(name);
@@ -206,7 +227,7 @@ public class DCInputsReader {
      * @throws DCInputsReaderException if not found
      */
     public DCInputSet getInputsByFormName(String formName)
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         // check mini-cache, and return if match
         if (lastInputSet != null && lastInputSet.getFormName().equals(formName)) {
             return lastInputSet;
@@ -217,7 +238,7 @@ public class DCInputsReader {
             throw new DCInputsReaderException("Missing the " + formName + " form");
         }
         lastInputSet = new DCInputSet(formName,
-                                      pages, valuePairs);
+                pages, valuePairs);
         return lastInputSet;
     }
 
@@ -263,7 +284,7 @@ public class DCInputsReader {
      * @param n top-level DOM node
      */
     private void doNodes(Node n)
-        throws SAXException, DCInputsReaderException {
+            throws SAXException, DCInputsReaderException {
         if (n == null) {
             return;
         }
@@ -298,7 +319,7 @@ public class DCInputsReader {
      * required text, and repeatable flag.
      */
     private void processDefinition(Node e)
-        throws SAXException, DCInputsReaderException {
+            throws SAXException, DCInputsReaderException {
         int numForms = 0;
         NodeList nl = e.getChildNodes();
         int len = nl.getLength();
@@ -335,13 +356,61 @@ public class DCInputsReader {
         if (numForms == 0) {
             throw new DCInputsReaderException("No form definition found");
         }
+        else {
+            buildMetadataVocabulary();
+        }
     }
+    private void buildMetadataVocabulary() {
+        metadataVocabulary = new HashMap<>();
+
+        for (Map.Entry<String, List<List<Map<String, String>>>> entry : formDefns.entrySet()) {
+            Map<String, DCMetadataVocabulary> dropdownMap = buildDropdownMap(entry.getKey(), entry.getValue());
+
+            if (!dropdownMap.isEmpty()) {
+                metadataVocabulary.put(entry.getKey(), dropdownMap);
+            }
+        }
+    }
+
+    private Map<String, DCMetadataVocabulary> buildDropdownMap(String formName, List<List<Map<String, String>>> listOfListOfMaps) {
+        Map<String, DCMetadataVocabulary> dropdownMap = new HashMap<>();
+
+        for (List<Map<String, String>> listOfMaps : listOfListOfMaps) {
+            for (Map<String, String> map : listOfMaps) {
+                if (isValidDropdownEntry(map)) {
+                    String metadataId = map.get("dc-schema") + "." + map.get("dc-element");
+                    String qualifier = map.get("dc-qualifier");
+
+                    // Check if dc-qualifier exists and is not null or empty, then append it
+                    if (qualifier != null && !qualifier.isEmpty()) {
+                        metadataId += "." + qualifier;
+                    }
+
+                    DCMetadataVocabulary dcMetadataVocabulary = new DCMetadataVocabulary(metadataId, map.get("value-pairs-name"), formName);
+                    dropdownMap.put(metadataId, dcMetadataVocabulary);
+                }
+            }
+        }
+        // Special case for subject
+        if (formName.equals("DescriptiveMetadata")){
+            dropdownMap.put("dc.subject", new DCMetadataVocabulary("dc.subject", "subject_list", formName));
+        }
+        return dropdownMap;
+    }
+
+    private boolean isValidDropdownEntry(Map<String, String> map) {
+        return "dropdown".equals(map.get("input-type")) &&
+                map.containsKey("value-pairs-name") &&
+                map.containsKey("dc-element") &&
+                map.containsKey("dc-schema");
+    }
+
 
     /**
      * Process parts of a row
      */
     private void processRow(String formName, int rowIdx, Node n, List<Map<String, String>> fields)
-        throws SAXException, DCInputsReaderException {
+            throws SAXException, DCInputsReaderException {
 
         NodeList pl = n.getChildNodes();
         int lenpg = pl.getLength();
@@ -355,13 +424,13 @@ public class DCInputsReader {
                 fields.add(field);
                 String key = field.get(PAIR_TYPE_NAME);
                 if (StringUtils
-                    .isNotBlank(key)) {
+                        .isNotBlank(key)) {
                     String schema = field.get("dc-schema");
                     String element = field.get("dc-element");
                     String qualifier = field
-                        .get("dc-qualifier");
+                            .get("dc-qualifier");
                     String metadataField = schema + "."
-                        + element;
+                            + element;
                     if (StringUtils.isNotBlank(qualifier)) {
                         metadataField += "." + qualifier;
                     }
@@ -390,7 +459,7 @@ public class DCInputsReader {
      * or input-type are missing.
      */
     private void processField(String formName, Node n, Map<String, String> field)
-        throws SAXException {
+            throws SAXException {
         NodeList nl = n.getChildNodes();
         int len = nl.getLength();
         for (int i = 0; i < len; i++) {
@@ -409,9 +478,9 @@ public class DCInputsReader {
                         String pairTypeName = getAttribute(nd, PAIR_TYPE_NAME);
                         if (pairTypeName == null) {
                             throw new SAXException("Form " + formName + ", field " +
-                                                       field.get("dc-element") +
-                                                       "." + field.get("dc-qualifier") +
-                                                       " has no language attribute");
+                                    field.get("dc-element") +
+                                    "." + field.get("dc-qualifier") +
+                                    " has no language attribute");
                         } else {
                             field.put(PAIR_TYPE_NAME, pairTypeName);
                         }
@@ -450,8 +519,8 @@ public class DCInputsReader {
         if (StringUtils.isNotBlank(type) && (type.equals("twobox") || type.equals("qualdrop_value"))) {
             String rpt = field.get("repeatable");
             if ((rpt == null) ||
-                ((!rpt.equalsIgnoreCase("yes")) &&
-                    (!rpt.equalsIgnoreCase("true")))) {
+                    ((!rpt.equalsIgnoreCase("yes")) &&
+                            (!rpt.equalsIgnoreCase("true")))) {
                 String msg = "The field \'" + field.get("label") + "\' must be repeatable";
                 throw new SAXException(msg);
             }
@@ -459,16 +528,16 @@ public class DCInputsReader {
     }
 
     private void handleInputTypeTagName(String formName, Map<String, String> field, Node nd, String value)
-        throws SAXException {
+            throws SAXException {
         if (value.equals("dropdown")
-            || value.equals("qualdrop_value")
-            || value.equals("list")) {
+                || value.equals("qualdrop_value")
+                || value.equals("list")) {
             String pairTypeName = getAttribute(nd, PAIR_TYPE_NAME);
             if (pairTypeName == null) {
                 throw new SAXException("Form " + formName + ", field " +
-                                           field.get("dc-element") +
-                                           "." + field.get("dc-qualifier") +
-                                           " has no name attribute");
+                        field.get("dc-element") +
+                        "." + field.get("dc-qualifier") +
+                        " has no name attribute");
             } else {
                 field.put(PAIR_TYPE_NAME, pairTypeName);
             }
@@ -495,7 +564,7 @@ public class DCInputsReader {
             for (int j = 0; j < pg.size(); j++) {
                 Map<String, String> fld = pg.get(j);
                 if ((fld.get("dc-schema") == null) ||
-                    ((fld.get("dc-schema")).equals(""))) {
+                        ((fld.get("dc-schema")).equals(""))) {
                     schemaTest = MetadataSchemaEnum.DC.getName();
                 } else {
                     schemaTest = fld.get("dc-schema");
@@ -503,7 +572,7 @@ public class DCInputsReader {
 
                 // Are the schema and element the same? If so, check the qualifier
                 if (((fld.get("dc-element")).equals(elem)) &&
-                    (schemaTest.equals(schema))) {
+                        (schemaTest.equals(schema))) {
                     String ql = fld.get("dc-qualifier");
                     if (qual != null) {
                         if ((ql != null) && ql.equals(qual)) {
@@ -537,7 +606,7 @@ public class DCInputsReader {
      * in the passed in hashmap.
      */
     private void processValuePairs(Node e)
-        throws SAXException {
+            throws SAXException {
         NodeList nl = e.getChildNodes();
         int len = nl.getLength();
         for (int i = 0; i < len; i++) {
@@ -550,7 +619,7 @@ public class DCInputsReader {
                 String dcTerm = getAttribute(nd, "dc-term");
                 if (pairsName == null) {
                     String errString =
-                        "Missing name attribute for value-pairs for DC term " + dcTerm;
+                            "Missing name attribute for value-pairs for DC term " + dcTerm;
                     throw new SAXException(errString);
                 }
                 List<String> pairs = new ArrayList<String>();
@@ -594,7 +663,7 @@ public class DCInputsReader {
      */
 
     private void checkValues()
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         // Step through every field of every page of every form
         Iterator<String> ki = formDefns.keySet().iterator();
         while (ki.hasNext()) {
@@ -607,8 +676,8 @@ public class DCInputsReader {
                     // verify reference in certain input types
                     String type = fld.get("input-type");
                     if (StringUtils.isNotBlank(type) && (type.equals("dropdown")
-                        || type.equals("qualdrop_value")
-                        || type.equals("list"))) {
+                            || type.equals("qualdrop_value")
+                            || type.equals("list"))) {
                         String pairsName = fld.get(PAIR_TYPE_NAME);
                         List<String> v = valuePairs.get(pairsName);
                         if (v == null) {
@@ -687,7 +756,7 @@ public class DCInputsReader {
     }
 
     public String getInputFormNameByCollectionAndField(Collection collection, String field)
-        throws DCInputsReaderException {
+            throws DCInputsReaderException {
         List<DCInputSet> inputSets = getInputsByCollectionHandle(collection.getHandle());
         for (DCInputSet inputSet : inputSets) {
             String[] tokenized = Utils.tokenize(field);

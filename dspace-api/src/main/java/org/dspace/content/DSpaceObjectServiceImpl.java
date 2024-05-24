@@ -584,7 +584,8 @@ public abstract class DSpaceObjectServiceImpl<T extends DSpaceObject> implements
      * @param fieldName field name
      * @return array
      */
-    protected String[] getElementsFilled(String fieldName) {
+    @Override
+    public String[] getElementsFilled(String fieldName) {
         String[] elements = getElements(fieldName);
         for (int i = 0; i < elements.length; i++) {
             if (StringUtils.isBlank(elements[i])) {

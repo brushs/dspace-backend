@@ -25,6 +25,8 @@ public class VocabularyRest extends BaseObjectRest<String> {
     public static final String CATEGORY = RestAddressableModel.SUBMISSION;
     public static final String ENTRIES = "entries";
 
+    public static final String ItemMetadata = "itemMetadata";
+
     private String name;
 
     private boolean scrollable;

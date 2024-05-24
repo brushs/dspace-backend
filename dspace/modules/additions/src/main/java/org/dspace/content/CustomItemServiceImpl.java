@@ -1570,6 +1570,12 @@ prevent the generation of resource policy entry values with null dspace_object a
     @Override
     public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
                                            boolean enableVirtualMetadata, String projectionLang) {
+        return getMetadata(item, schema, element, qualifier, lang, enableVirtualMetadata, projectionLang, true);
+    }
+
+    @Override
+    public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang,
+                                           boolean enableVirtualMetadata, String projectionLang, boolean citationRequired) {
         if (!enableVirtualMetadata) {
             log.debug("Called getMetadata for " + item.getID() + " without enableVirtualMetadata");
             return super.getMetadata(item, schema, element, qualifier, lang);
@@ -1583,8 +1589,8 @@ prevent the generation of resource policy entry values with null dspace_object a
             fullMetadataValueList.addAll(relationshipMetadataService.getRelationshipMetadata(item, true, projectionLang));
             fullMetadataValueList.addAll(dbMetadataValues);
 
-            if (MetadataUtils.getFilteredList(fullMetadataValueList, "dc.identifier.citation").size() == 0) {
-                MetadataValue mdv = citationService.getCitation(fullMetadataValueList);
+            if (citationRequired && MetadataUtils.getFilteredList(fullMetadataValueList, "dc.identifier.citation").size() == 0) {
+                MetadataValue mdv = citationService.getCitation(item, fullMetadataValueList);
                 if (mdv != null) {
                     fullMetadataValueList.add(mdv);
                 }
