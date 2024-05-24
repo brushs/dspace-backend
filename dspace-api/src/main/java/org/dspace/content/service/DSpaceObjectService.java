@@ -512,6 +512,8 @@ public interface DSpaceObjectService<T extends DSpaceObject> {
 
     public void updateLastModified(Context context, T dso) throws SQLException, AuthorizeException;
 
+    String[] getElementsFilled(String fieldName);
+
     public void update(Context context, T dso) throws SQLException, AuthorizeException;
 
     public void delete(Context context, T dso) throws SQLException, AuthorizeException, IOException;

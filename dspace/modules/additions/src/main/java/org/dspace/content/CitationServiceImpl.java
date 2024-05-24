@@ -2,12 +2,11 @@ package org.dspace.content;
 
 import org.apache.solr.common.StringUtils;
 import org.dspace.content.service.CitationService;
+import org.dspace.content.service.ItemService;
 import org.dspace.content.service.MetadataFieldService;
-import org.dspace.core.Context;
 import org.dspace.metadata.util.MetadataUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +14,9 @@ public class CitationServiceImpl implements CitationService {
 
     @Autowired
     private MetadataFieldService metadataFieldService;
+
+    @Autowired
+    private ItemService itemService;
 
     private static MetadataSchema mds = null;
     private static MetadataField mdf = null;
@@ -66,7 +68,7 @@ public class CitationServiceImpl implements CitationService {
     }
 
     @Override
-    public MetadataValue getCitation(List<MetadataValue> mdvs) {
+    public MetadataValue getCitation(Item item, List<MetadataValue> mdvs) {
         if (!isValid(mdvs)) {
             return null;
         }
@@ -91,7 +93,7 @@ public class CitationServiceImpl implements CitationService {
         type = type.toUpperCase();
 
         if (type.contentEquals(TYPE_ARTICLE.toUpperCase())) {
-            mdv.setValue(getArticleCitation(mdvs));
+            mdv.setValue(getArticleCitation(item, mdvs));
         } else if (type.contentEquals(TYPE_REPORT.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
         } else if (type.contentEquals(TYPE_BOOK.toUpperCase())) {
@@ -125,14 +127,14 @@ public class CitationServiceImpl implements CitationService {
         return false;
     }
 
-    private String getArticleCitation(List<MetadataValue> mdvs) {
+    private String getArticleCitation(Item item, List<MetadataValue> mdvs) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getAuthors(mdvs));
         sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
-        sb.append(getJournalName(mdvs));
+        sb.append(getJournalName(item , mdvs));
         sb.append(getField(mdvs, FIELD_VOLUME, ","));
         sb.append(getField(mdvs, FIELD_ISSUE, ","));
         sb.append(getField(mdvs, FIELD_ARTICLE_NUMBER, ","));
@@ -160,9 +162,11 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
-        sb.append(getTitleLanguage(mdvs).equals("en") ? "In " : "Dans ");
-        sb.append(getEditor(mdvs));
-        sb.append(getMonographicName(mdvs));
+        if (!StringUtils.isEmpty(getMonographicName(mdvs))) {
+            sb.append(getTitleLanguage(mdvs).equals("en") ? "In " : "Dans ");
+            sb.append(getEditor(mdvs));
+            sb.append(getMonographicName(mdvs));
+        }
         sb.append(getField(mdvs, FIELD_EDITION, ","));
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
@@ -263,9 +267,15 @@ public class CitationServiceImpl implements CitationService {
         }
     }
 
-    private String getJournalName(List<MetadataValue> mdvs) {
+    private String getJournalName(Item item, List<MetadataValue> mdvs) {
         List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_JOURNAL);
         if (fmdvs == null || fmdvs.size() == 0) {
+            // try to see if a journal title is available in any language
+            String[] elements = itemService.getElementsFilled(FIELD_JOURNAL);
+            List<MetadataValue> values = itemService.getMetadata(item, elements[0], elements[1], elements[2], Item.ANY, true, "en,fr", false);
+            if (values != null && !values.isEmpty()) {
+                return "<i>" + values.get(0).getValue() + "</i>, ";
+            }
             return "";
         } else {
             return "<i>" + fmdvs.get(0).getValue() + "</i>, ";
@@ -286,7 +296,7 @@ public class CitationServiceImpl implements CitationService {
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
-            return fmdvs.get(0).getValue();
+            return fmdvs.get(0).getValue() + " ";
         }
     }
 

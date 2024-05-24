@@ -1556,6 +1556,11 @@ prevent the generation of resource policy entry values with null dspace_object a
     }
 
     @Override
+    public List<MetadataValue> getMetadata(Item item, String schema, String element, String qualifier, String lang, boolean enableVirtualMetadata, String projectionLang, boolean citationRequired) {
+        return List.of();
+    }
+
+    @Override
     public List<MetadataValue> getMetadataByMetadataString(Item dso, String mdString, String lang) {
         return null;
     }
