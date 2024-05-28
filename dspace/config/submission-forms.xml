@@ -219,9 +219,8 @@
                     <required></required>
                 </relation-field>
                 <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>relation</dc-element>
-                    <dc-qualifier>ispartofseries</dc-qualifier>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>reportnumber</dc-element>
                     <repeatable>false</repeatable>
 					<style>col-sm-6</style>
                     <label>Series Report Number</label>
@@ -247,9 +246,9 @@
                     <required></required>
                 </relation-field>
                 <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>relation</dc-element>
-                    <dc-qualifier>ispartofseries</dc-qualifier>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>secserial</dc-element>
+                    <dc-qualifier>0number</dc-qualifier>
                     <repeatable>true</repeatable>
 					<style>col-sm-6</style>
                     <label>Secondary Series Report Number</label>
