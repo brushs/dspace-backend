@@ -439,7 +439,7 @@
                     <dc-element>subject</dc-element>
                     <dc-qualifier>geoscan</dc-qualifier>
                     <repeatable>true</repeatable>
-                    <label>Thesaurus Keyword</label>
+                    <label>GEOSCAN Keyword</label>
                     <input-type>onebox</input-type>
                     <hint>Choose keyword(s) from the lookup</hint>
                     <required></required>
