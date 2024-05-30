@@ -246,6 +246,7 @@
                 <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterCollection_en" />
                 <ref bean="searchFilterCollection_fr" />
+                <ref bean="searchFilterLastModifiedWithId" />
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -273,6 +274,7 @@
                         <ref bean="sortDateIssued" />
                         <ref bean="sortDateAccessioned"/>
                         <ref bean="sortLastModified"/>
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -396,6 +398,7 @@
                 <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterCollection_en" />
                 <ref bean="searchFilterCollection_fr" />
+                <ref bean="searchFilterLastModifiedWithId" />
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -423,6 +426,7 @@
                         <ref bean="sortDateIssued" />
                         <ref bean="sortDateAccessioned"/>
                         <ref bean="sortLastModified"/>
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -546,6 +550,7 @@
                 <ref bean="searchFilterEntityType"/>
                 <ref bean="searchFilterCollection_en" />
                 <ref bean="searchFilterCollection_fr" />
+                <ref bean="searchFilterLastModifiedWithId" />
                 <ref bean="searchFilterIsAuthorOfPublicationRelation"/>
                 <ref bean="searchFilterIsProjectOfPublicationRelation"/>
                 <ref bean="searchFilterIsOrgUnitOfPublicationRelation"/>
@@ -573,6 +578,7 @@
                         <ref bean="sortDateIssued" />
                         <ref bean="sortDateAccessioned"/>
                         <ref bean="sortLastModified"/>
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -3914,6 +3920,14 @@
         </property>
     </bean>
 
+    <bean id="searchFilterLastModifiedWithId" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="lastModifiedWithId" />
+        <property name="metadataFields">
+            <list>
+            </list>
+        </property>
+    </bean>
+
     <bean id="searchFilterType" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
         <property name="indexFieldName" value="itemtype" />
         <property name="metadataFields">
@@ -4413,6 +4427,10 @@
         <property name="metadataField" value="lastModified"/>
         <property name="type" value="date"/>
         <property name="defaultSortOrder" value="desc"/>
+    </bean>
+    <bean id="sortLastModifiedWithId" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
+        <property name="metadataField" value="lastModifiedWithId"/>
+        <property name="defaultSortOrder" value="asc"/>
     </bean>
     <bean id="sortName" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
         <property name="metadataField" value="dc.title"/>
