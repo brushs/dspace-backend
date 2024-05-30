@@ -395,7 +395,7 @@
                     <required></required>
                 </field>
             </row>
-             <row>
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>relation</dc-element>
@@ -404,6 +404,18 @@
                     <label>Relationship: e.g. https://ostrnrcan-dostrncan.canada.ca/handle/1845/271898</label>
 					<input-type value-pairs-name="common_relations">qualdrop_value</input-type>
                     <hint>e.g. https://ostrnrcan-dostrncan.canada.ca/handle/1845/271898</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>publication</dc-element>
+                    <dc-qualifier>externalurl</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Additional Links</label>
+                    <input-type>onebox</input-type>
+                    <hint>URL link</hint>
                     <required></required>
                 </field>
             </row>
