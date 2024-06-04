@@ -138,6 +138,7 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
         doc.addField("discoverable", item.isDiscoverable());
         doc.addField("lastModified", SolrUtils.getDateFormatter().format(item.getLastModified()));
         doc.addField("latestVersion", isLatestVersion(context, item));
+        doc.addField("lastUpdateWithId", item.getLastModified().toInstant().toEpochMilli() + "_" + item.getID());
 
         if (item.getOwningCollection() != null) {
             try {
