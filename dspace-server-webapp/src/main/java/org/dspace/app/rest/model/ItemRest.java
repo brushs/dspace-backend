@@ -69,6 +69,8 @@ public class ItemRest extends DSpaceObjectRest {
     private boolean withdrawn = false;
     private Date lastModified = new Date();
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String lastModifiedWithId = null;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String entityType = null;
 
     @Override
@@ -112,6 +114,14 @@ public class ItemRest extends DSpaceObjectRest {
 
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public String getLastModifiedWithId() {
+        return lastModifiedWithId;
+    }
+
+    public void setLastModifiedWithId(String lastModifiedWithId) {
+        this.lastModifiedWithId = lastModifiedWithId;
     }
 
     public String getEntityType() {

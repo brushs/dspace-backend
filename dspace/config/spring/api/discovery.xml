@@ -1652,6 +1652,7 @@
                 <ref bean="searchFilterJobtitle"/>
                 <ref bean="searchFilterKnowsLanguage"/>
                 <ref bean="searchFilterBirthdate"/>
+                <ref bean="searchFilterLastModifiedWithId"/>
                 <ref bean="searchFilterIsOrgUnitOfPersonRelation"/>
                 <ref bean="searchFilterIsProjectOfPersonRelation"/>
                 <ref bean="searchFilterIsPublicationOfAuthorRelation"/>
@@ -1668,6 +1669,7 @@
                         <ref bean="sortBirthDate"/>
                         <ref bean="sortDateAccessioned"/>
                         <ref bean="sortLastModified"/>
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -1769,6 +1771,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -1778,6 +1781,7 @@
                     <list>
                         <ref bean="sortName" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -1864,6 +1868,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -1873,6 +1878,7 @@
                     <list>
                         <ref bean="sortName" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -1959,6 +1965,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -1969,6 +1976,7 @@
                         <ref bean="sortName" />
                         <ref bean="sortIsoCode" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2056,6 +2064,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2066,6 +2075,7 @@
                         <ref bean="sortName" />
                         <ref bean="sortIsoCode" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2153,6 +2163,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2162,6 +2173,7 @@
                     <list>
                         <ref bean="sortName" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2248,6 +2260,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2257,6 +2270,7 @@
                     <list>
                         <ref bean="sortName" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2343,6 +2357,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2352,6 +2367,7 @@
                     <list>
                         <ref bean="sortName" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2390,6 +2406,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2399,6 +2416,7 @@
                     <list>
                         <ref bean="sortName" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2438,6 +2456,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2448,6 +2467,7 @@
                         <ref bean="sortName" />
                         <ref bean="sortIsoCode" />
                         <ref bean="sortLastModified" />
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2535,6 +2555,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2544,6 +2565,7 @@
                     <list>
                         <ref bean="sortName"/>
                         <ref bean="sortLastModified"/>
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
@@ -2630,6 +2652,7 @@
         <!--The search filters which can be used on the discovery search page-->
         <property name="searchFilters">
             <list>
+                <ref bean="searchFilterLastModifiedWithId"/>
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -2639,6 +2662,7 @@
                     <list>
                         <ref bean="sortName"/>
                         <ref bean="sortLastModified"/>
+                        <ref bean="sortLastModifiedWithId"/>
                     </list>
                 </property>
             </bean>
