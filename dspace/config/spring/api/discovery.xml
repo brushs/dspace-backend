@@ -3945,7 +3945,7 @@
     </bean>
 
     <bean id="searchFilterLastModifiedWithId" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
-        <property name="indexFieldName" value="lastUpdateWithId" />
+        <property name="indexFieldName" value="lastModifiedWithId" />
         <property name="metadataFields">
             <list>
             </list>
