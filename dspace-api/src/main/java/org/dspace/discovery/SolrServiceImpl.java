@@ -1354,7 +1354,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     public String toSortFieldIndex(String metadataField, String type) {
         if (StringUtils.equalsIgnoreCase(DiscoverySortConfiguration.SCORE, metadataField)) {
             return DiscoverySortConfiguration.SCORE;
-        } else if (StringUtils.equals(metadataField, "lastModified")) {
+        } else if (StringUtils.equals(metadataField, "lastModified") || StringUtils.equals(metadataField, "lastModifiedWithId")) {
             return metadataField;
         } else if (StringUtils.equals(type, DiscoveryConfigurationParameters.TYPE_DATE)) {
             return metadataField + "_dt";
