@@ -310,10 +310,10 @@ public class XOAI {
                 }
                 i++;
                 if (i % 1000 == 0 && batchSize != 1000) {
-                    System.out.println(i + " items imported so far...");
+                    System.out.println(i + " items imported so far..." + new Date());
                 }
                 if (i % batchSize == 0) {
-                    System.out.println(i + " items imported so far...");
+                    System.out.println(i + " items imported so far..." + new Date());
                     server.add(list);
                     server.commit();
                     list.clear();
