@@ -349,3 +349,6 @@ rss.general-feed.maxItems=100
 webui.feed.item.dc.creator = dc.contributor.author
 webui.feed.item.dc.description = dc.identifier.citation
 webui.feed.item.description =
+
+# Size of batches to commit to solr at a time
+oai.import.batch.size = 500
