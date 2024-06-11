@@ -51,6 +51,7 @@ public class CitationServiceImpl implements CitationService {
     private static String FIELD_REPORT_NUMBER = "nrcan.reportnumber";
     private static String FIELD_MONOGRAPH = "nrcan.monographic.title";
     private static String FIELD_EDITOR = "nrcan.contributor.monographicauthor";
+    private static String FIELD_PUBLISHER = "dc.publisher";
 
     protected CitationServiceImpl() {
         if (mds == null) {
@@ -97,17 +98,17 @@ public class CitationServiceImpl implements CitationService {
         } else if (type.contentEquals(TYPE_REPORT.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
         } else if (type.contentEquals(TYPE_BOOK.toUpperCase())) {
-            mdv.setValue(getReportCitation(mdvs));
+            mdv.setValue(getBookCitation(item, mdvs));
         } else if (type.contentEquals(TYPE_MAP.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
         } else if (type.contentEquals(TYPE_BOOK_CHAPTER.toUpperCase())) {
-            mdv.setValue(getChapterCitation(mdvs));
+            mdv.setValue(getChapterCitation(item, mdvs));
         } else if (type.contentEquals(TYPE_THESIS.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
         } else if (type.contentEquals(TYPE_ABSTRACT.toUpperCase())) {
-            mdv.setValue(getChapterCitation(mdvs));
+            mdv.setValue(getChapterCitation(item, mdvs));
         } else if (type.contentEquals(TYPE_CONFERENCE_MATERIAL.toUpperCase())) {
-            mdv.setValue(getChapterCitation(mdvs));
+            mdv.setValue(getChapterCitation(item, mdvs));
         } else if (type.contentEquals(TYPE_WEB_RESOURCE.toUpperCase())) {
             mdv.setValue(getReportCitation(mdvs));
         } else {
@@ -151,11 +152,30 @@ public class CitationServiceImpl implements CitationService {
         return sb.toString();
     }
 
-    private String getBookCitation(List<MetadataValue> mdvs) {
-        return "test2";
+    private String getBookCitation(Item item, List<MetadataValue> mdvs) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getAuthors(mdvs));
+        sb.append(getCorporateAuthors(mdvs));
+        sb.append(getYear(mdvs));
+        sb.append(getTitle(mdvs));
+        sb.append(getField(mdvs, FIELD_EDITION, ","));
+        sb.append(getSerialName(mdvs));
+        sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
+        sb.append(getField(mdvs, FIELD_PAGINATION, "."));
+        sb.append(getPublisherName(item, mdvs));
+
+        if (sb.toString().endsWith(", ")) {
+            // Remove the last two characters (", ") and append ". "
+            sb.setLength(sb.length() - 2);
+            sb.append(". ");
+        }
+
+        sb.append(getDOI(mdvs));
+
+        return sb.toString();
     }
 
-    private String getChapterCitation(List<MetadataValue> mdvs) {
+    private String getChapterCitation(Item item, List<MetadataValue> mdvs) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(getAuthors(mdvs));
@@ -171,6 +191,7 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
+        sb.append(getPublisherName(item, mdvs));
 
         if (sb.toString().endsWith(", ")) {
             // Remove the last two characters (", ") and append ". "
@@ -279,6 +300,21 @@ public class CitationServiceImpl implements CitationService {
             return "";
         } else {
             return "<i>" + fmdvs.get(0).getValue() + "</i>, ";
+        }
+    }
+
+    private String getPublisherName(Item item, List<MetadataValue> mdvs) {
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_PUBLISHER);
+        if (fmdvs == null || fmdvs.size() == 0) {
+            // try to see if a publisher name is available in any language
+            String[] elements = itemService.getElementsFilled(FIELD_PUBLISHER);
+            List<MetadataValue> values = itemService.getMetadata(item, elements[0], elements[1], elements[2], Item.ANY, true, "en,fr", false);
+            if (values != null && !values.isEmpty()) {
+                return values.get(0).getValue() + ". ";
+            }
+            return "";
+        } else {
+            return fmdvs.get(0).getValue() + ". ";
         }
     }
 

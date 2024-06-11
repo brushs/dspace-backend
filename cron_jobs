@@ -13,7 +13,7 @@ PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/
  
 # Set JAVA_OPTS with defaults for DSpace Cron Jobs.
 # Only provides 512MB of memory by default (which should be enough for most sites).
-JAVA_OPTS="-Xmx2G -Xms2G -Dfile.encoding=UTF-8"
+JAVA_OPTS="-Xmx4G -Xms2G -Dfile.encoding=UTF-8"
 
 #--------------
 # HOURLY TASKS (Recommended to be run multiple times per day, if possible)
