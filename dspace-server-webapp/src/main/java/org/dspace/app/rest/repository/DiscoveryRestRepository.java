@@ -94,7 +94,8 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
     public SearchResultsRest getSearchObjects(final String query, final List<String> dsoTypes, final String dsoScope,
                                               final String configuration,
                                               final List<SearchFilter> searchFilters, final Pageable page,
-                                              final Projection projection) {
+                                              final Projection projection,
+                                              final String geospatialQuery) {
         Context context = obtainContext();
         IndexableObject scopeObject = scopeResolver.resolveScope(context, dsoScope);
         DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
@@ -105,7 +106,10 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
 
         try {
             discoverQuery = queryBuilder
-                .buildQuery(context, scopeObject, discoveryConfiguration, query, searchFilters, dsoTypes, page);
+                .buildQuery(context, scopeObject, discoveryConfiguration, query, searchFilters, dsoTypes,page);
+            if (geospatialQuery != null && geospatialQuery.length()!= 0)
+                //discoverQuery.addFilterQueries("{!field f=geospatial.bbox}IsWithin(ENVELOPE(-82.04590, -67.71973, 47.49308, 42.39709))");
+                discoverQuery.addFilterQueries(geospatialQuery);
             searchResult = searchService.search(context, scopeObject, discoverQuery);
 
         } catch (SearchServiceException e) {

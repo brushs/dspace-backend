@@ -88,6 +88,17 @@ public class DiscoverQueryBuilder implements InitializingBean {
                           sortProperty, sortDirection);
     }
 
+    public DiscoverQuery buildQuery(Context context, IndexableObject scope,
+                                    DiscoveryConfiguration discoveryConfiguration,
+                                    String query, List<QueryBuilderSearchFilter> searchFilters,
+                                    List<String> dsoTypes, Integer pageSize, Long offset, String sortProperty,
+                                    String sortDirection)
+        //String sortDirection, String geoQuery)
+            throws IllegalArgumentException, SearchServiceException {
+
+                        return buildQuery(context, scope, discoveryConfiguration, query, searchFilters, dsoTypes, pageSize, offset,
+                                          sortProperty, sortDirection,null);
+    }
 
     /**
      * Build a discovery query
@@ -107,11 +118,14 @@ public class DiscoverQueryBuilder implements InitializingBean {
                                     DiscoveryConfiguration discoveryConfiguration,
                                     String query, List<QueryBuilderSearchFilter> searchFilters,
                                     List<String> dsoTypes, Integer pageSize, Long offset, String sortProperty,
-                                    String sortDirection)
+                                    //String sortDirection,
+                                    String sortDirection, String geoQuery)
             throws IllegalArgumentException, SearchServiceException {
 
         DiscoverQuery queryArgs = buildCommonDiscoverQuery(context, discoveryConfiguration, query, searchFilters,
                                                            dsoTypes);
+        if (geoQuery != null)
+            queryArgs.addFilterQueries(geoQuery.toString());
 
         //When all search criteria are set, configure facet results
         addFaceting(context, scope, queryArgs, discoveryConfiguration);

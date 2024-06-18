@@ -142,6 +142,8 @@ public class DiscoveryRestController implements InitializingBean {
                                                       configuration,
                                                   @RequestParam(name = "ostrSearch", required = false) String
                                                               searchRequest,
+                                                  @RequestParam(name="geoQuery",required = false) String
+                                                          geoQuery,
                                                   List<SearchFilter> searchFilters,
                                                   Pageable page) throws Exception {
 
@@ -164,7 +166,7 @@ public class DiscoveryRestController implements InitializingBean {
             //}
 
             SearchResultsRest searchResultsRest = discoveryRestRepository.getSearchObjects(query, dsoTypes, dsoScope,
-                configuration, searchFilters, page, projection);
+                configuration, searchFilters, page, projection,geoQuery);
 
             //Convert the Search JSON results to paginated HAL resources
             SearchResultsResource searchResultsResource = new SearchResultsResource(searchResultsRest, utils, page);

@@ -677,9 +677,10 @@ public class XmlWorkflowServiceImpl implements XmlWorkflowService {
                 email.addArgument(coll.getName());
                 email.addArgument(handleService.getCanonicalForm(handle));
 
-                email.send();
+                //email.send();
             }
-        } catch (MessagingException e) {
+        //} catch (MessagingException e) {
+        } catch ( Exception e) {
             log.warn(LogHelper.getHeader(context, "notifyOfArchive",
                     "cannot email user" + " item_id=" + item.getID()), e);
         }

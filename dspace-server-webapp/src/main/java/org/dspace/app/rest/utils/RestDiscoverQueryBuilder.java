@@ -95,10 +95,10 @@ public class RestDiscoverQueryBuilder {
                 }
                 return discoverQueryBuilder.buildQuery(context, scope, discoveryConfiguration, query,
                                                        transformedFilters, dsoTypes, page.getPageSize(),
-                                                       page.getOffset(), sortBy, sortOrder);
+                                                       page.getOffset(), sortBy, sortOrder,null);
             } else {
                 return discoverQueryBuilder.buildQuery(context, scope, discoveryConfiguration, query,
-                                                       transformedFilters, dsoTypes, null, null, null, null);
+                                                       transformedFilters, dsoTypes, null, null, null, null,null);
             }
         } catch (IllegalArgumentException e) {
             throw new DSpaceBadRequestException(e.getMessage());
