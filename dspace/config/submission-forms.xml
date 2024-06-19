@@ -21,7 +21,7 @@
     <!-- serves as a 'this field is required' flag.                           -->
 
     <form-definitions>
-		<form name="geoscan_bibliographicStep">
+		<form name="bibliographicStep">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -420,7 +420,7 @@
                 </field>
             </row>
         </form>
-        <form name="geoscan_geographicStep">
+        <form name="geographicStep">
 		    <row>
 				<field>
                     <dc-schema>dc</dc-schema>
@@ -594,7 +594,7 @@
                 </field>
             </row>
         </form>
-        <form name="geoscan_meetingStep">
+        <form name="meetingStep">
             <row>
                 <field>
                     <dc-schema>nrcan</dc-schema>
@@ -654,7 +654,7 @@
                 </field>
             </row>
          </form>
-       <form name="geoscan_recordmanagementStep">
+       <form name="recordmanagementStep">
             <row>
                 <field>
                     <dc-schema>nrcan</dc-schema>
@@ -969,7 +969,7 @@
 
         <!-- Form which defines the second page/section of the "traditional" DSpace submission process,
      often used when depositing normal Items. -->
-        <form name="describeStep">
+        <form name="describeStep_old">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -1029,7 +1029,7 @@
              Since Publication Entities are very similar to normal Items, this is nearly identical to the
              'traditionalpageone' form. The only difference is the Author field can be used to link the
              Publication Entity to a Person Entity. -->
-        <form name="bibliographicStep">
+        <form name="bibliographicStep_old">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -1248,7 +1248,7 @@
              Since Publication Entities are very similar to normal Items, this is nearly identical to the
              'traditionalpageone' form. The only difference is the Author field can be used to link the
              Publication Entity to a Person Entity. -->
-        <form name="referenceStep">
+        <form name="referenceStep_old">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -1414,7 +1414,7 @@
              Since Publication Entities are very similar to normal Items, this is nearly identical to the
              'traditionalpageone' form. The only difference is the Author field can be used to link the
              Publication Entity to a Person Entity. -->
-        <form name="geographicStep">
+        <form name="geographicStep_old">
             <row>
                 <relation-field>
                     <relationship-type>isAreaOfPublication</relationship-type>
@@ -1549,7 +1549,7 @@
              Since Publication Entities are very similar to normal Items, this is nearly identical to the
              'traditionalpageone' form. The only difference is the Author field can be used to link the
              Publication Entity to a Person Entity. -->
-        <form name="nrcanStep">
+        <form name="nrcanStep_old">
             <row>
                 <relation-field>
                     <relationship-type>isSponsorOfPublication</relationship-type>
@@ -1665,7 +1665,7 @@
              Since Publication Entities are very similar to normal Items, this is nearly identical to the
              'traditionalpageone' form. The only difference is the Author field can be used to link the
              Publication Entity to a Person Entity. -->
-        <form name="contentStep">
+        <form name="contentStep_old">
             <row>
                 <field>
                     <dc-schema>nrcan</dc-schema>
@@ -2188,6 +2188,47 @@
                     <input-type>onebox</input-type>
                     <hint>Enter the Publisher of the serial</hint>
                 </field>
+            </row>
+        </form>
+
+        <form name="pictureStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <label>Title</label>
+                    <repeatable>true</repeatable>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the title of the photo</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>uri</dc-qualifier>
+                    <label>URL</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the URL of the serial</hint>
+                </field>
+            </row>
+            <row>
+                <relation-field>
+                    <relationship-type>isPublisherOfPublication</relationship-type>
+                    <search-configuration>publisher</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Publisher</label>
+                    <hint>Enter the Publisher Name</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>publisher</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
             </row>
         </form>
 
