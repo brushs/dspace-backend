@@ -165,7 +165,6 @@
                     <repeatable>false</repeatable>
                     <label>Volume</label>
                     <input-type>onebox</input-type>
-                    <type-bind>Article</type-bind>
                     <hint>Volume</hint>
                     <required></required>
                 </field>
@@ -176,16 +175,14 @@
                     <repeatable>false</repeatable>
                     <label>Issue</label>
                     <input-type>onebox</input-type>
-                    <type-bind>Article</type-bind>
                     <hint>Issue</hint>
                     <required></required>
                 </field>
                 <field>
                     <dc-schema>nrcan</dc-schema>
-                    <dc-element>article</dc-element>
+                    <dc-element>articlenumber</dc-element>
                     <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
-                    <label>Article Number</label>
                     <input-type>onebox</input-type>
                     <type-bind>Article</type-bind>
                     <hint>Online Article number</hint>
