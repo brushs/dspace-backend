@@ -419,6 +419,18 @@
                     <required></required>
                 </field>
             </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>publication</dc-element>
+                    <dc-qualifier>externaldownloadurl</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>External Download Link</label>
+                    <input-type>onebox</input-type>
+                    <hint>URL link</hint>
+                    <required></required>
+                </field>
+            </row>
         </form>
         <form name="geographicStep">
 		    <row>
