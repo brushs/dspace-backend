@@ -106,7 +106,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
 
         try {
             discoverQuery = queryBuilder
-                .buildQuery(context, scopeObject, discoveryConfiguration, query, searchFilters, dsoTypes,page);
+                .buildQuery(context, scopeObject, discoveryConfiguration, query, searchFilters, dsoTypes,page,geospatialQuery);
             if (geospatialQuery != null && geospatialQuery.length()!= 0)
                 //discoverQuery.addFilterQueries("{!field f=geospatial.bbox}IsWithin(ENVELOPE(-82.04590, -67.71973, 47.49308, 42.39709))");
                 discoverQuery.addFilterQueries(geospatialQuery);

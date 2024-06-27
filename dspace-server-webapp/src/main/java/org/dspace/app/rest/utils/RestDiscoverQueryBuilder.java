@@ -62,7 +62,13 @@ public class RestDiscoverQueryBuilder {
 
         return buildQuery(context, scope, discoveryConfiguration, query, searchFilters, dsoTypes, page);
     }
-
+    public DiscoverQuery buildQuery(Context context, IndexableObject scope,
+                                    DiscoveryConfiguration discoveryConfiguration,
+                                    String query, List<SearchFilter> searchFilters,
+                                    List<String> dsoTypes, Pageable page)
+            throws DSpaceBadRequestException {
+        return buildQuery(context, scope, discoveryConfiguration, query, searchFilters, dsoTypes,page, null);
+    }
     /**
      * Build a discovery query
      *
@@ -77,7 +83,7 @@ public class RestDiscoverQueryBuilder {
     public DiscoverQuery buildQuery(Context context, IndexableObject scope,
                                     DiscoveryConfiguration discoveryConfiguration,
                                     String query, List<SearchFilter> searchFilters,
-                                    List<String> dsoTypes, Pageable page)
+                                    List<String> dsoTypes, Pageable page, String geoQuery)
             throws DSpaceBadRequestException {
 
         try {
@@ -95,10 +101,10 @@ public class RestDiscoverQueryBuilder {
                 }
                 return discoverQueryBuilder.buildQuery(context, scope, discoveryConfiguration, query,
                                                        transformedFilters, dsoTypes, page.getPageSize(),
-                                                       page.getOffset(), sortBy, sortOrder,null);
+                                                       page.getOffset(), sortBy, sortOrder,geoQuery);
             } else {
                 return discoverQueryBuilder.buildQuery(context, scope, discoveryConfiguration, query,
-                                                       transformedFilters, dsoTypes, null, null, null, null,null);
+                                                       transformedFilters, dsoTypes, null, null, null, null,geoQuery);
             }
         } catch (IllegalArgumentException e) {
             throw new DSpaceBadRequestException(e.getMessage());

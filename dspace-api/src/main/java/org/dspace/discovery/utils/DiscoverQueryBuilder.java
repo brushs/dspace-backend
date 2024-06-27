@@ -264,14 +264,24 @@ public class DiscoverQueryBuilder implements InitializingBean {
                                                            StringUtils.trimToNull(prefix)));
         }
     }
-
     private DiscoverQuery buildCommonDiscoverQuery(Context context, DiscoveryConfiguration discoveryConfiguration,
                                                    String query,
                                                    List<QueryBuilderSearchFilter> searchFilters, List<String> dsoTypes)
             throws IllegalArgumentException {
+        return buildCommonDiscoverQuery(context, discoveryConfiguration, query, searchFilters,
+                dsoTypes, null);
+    }
+    private DiscoverQuery buildCommonDiscoverQuery(Context context, DiscoveryConfiguration discoveryConfiguration,
+                                                   String query,
+                                                   List<QueryBuilderSearchFilter> searchFilters, List<String> dsoTypes,
+                                                   String geoQuery)
+            throws IllegalArgumentException {
         DiscoverQuery queryArgs = buildBaseQueryForConfiguration(discoveryConfiguration);
 
         queryArgs.addFilterQueries(convertFiltersToString(context, discoveryConfiguration, searchFilters));
+        String[] normalFilter = convertFiltersToString(context, discoveryConfiguration, searchFilters);
+        if (geoQuery != null)
+            queryArgs.addFilterQueries(geoQuery);
 
         //Set search query
         if (StringUtils.isNotBlank(query)) {
