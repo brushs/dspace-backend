@@ -188,11 +188,11 @@ public class RestDiscoverQueryBuilderTest {
         restQueryBuilder.buildFacetQuery(context, scope, discoveryConfiguration,
                                          "prefix", query,
                                          singletonList(searchFilter), "item", page,
-                                         "subject");
+                                         "subject", null);
 
         verify(discoverQueryBuilder, times(1)).buildFacetQuery(context, scope, discoveryConfiguration, "prefix",
                                                                query, singletonList(tranformedFilter),
                                                                singletonList("item"), page.getPageSize(),
-                                                               page.getOffset(), "subject");
+                                                               page.getOffset(), "subject",null);
     }
 }

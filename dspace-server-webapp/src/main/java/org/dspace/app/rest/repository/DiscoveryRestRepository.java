@@ -145,7 +145,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
     }
 
     public FacetResultsRest getFacetObjects(String facetName, String prefix, String query, List<String> dsoTypes,
-            String dsoScope, final String configuration, List<SearchFilter> searchFilters, Pageable page)
+            String dsoScope, final String configuration, List<SearchFilter> searchFilters, Pageable page, String geoQuery)
                     throws SearchServiceException {
 
         Context context = obtainContext();
@@ -155,7 +155,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
             .getDiscoveryConfigurationByNameOrDso(configuration, scopeObject, utils.obtainProjection().getLanguage());
 
         DiscoverQuery discoverQuery = queryBuilder.buildFacetQuery(context, scopeObject, discoveryConfiguration, prefix,
-                query, searchFilters, dsoTypes, page, facetName);
+                query, searchFilters, dsoTypes, page, facetName, geoQuery);
         DiscoverResult searchResult = searchService.search(context, scopeObject, discoverQuery);
 
         FacetResultsRest facetResultsRest = discoverFacetResultsConverter.convert(context, facetName, prefix, query,

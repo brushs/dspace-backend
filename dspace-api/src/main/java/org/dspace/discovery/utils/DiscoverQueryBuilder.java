@@ -175,7 +175,7 @@ public class DiscoverQueryBuilder implements InitializingBean {
 
         return buildFacetQuery(
                 context, scope, discoveryConfiguration, prefix, query, searchFilters, dsoTypes, pageSize, offset,
-                facetName);
+                facetName, null);
     }
 
     /**
@@ -195,11 +195,11 @@ public class DiscoverQueryBuilder implements InitializingBean {
     public DiscoverQuery buildFacetQuery(Context context, IndexableObject scope,
                                          DiscoveryConfiguration discoveryConfiguration,
                                          String prefix, String query, List<QueryBuilderSearchFilter> searchFilters,
-                                         List<String> dsoTypes, Integer pageSize, Long offset, String facetName)
+                                         List<String> dsoTypes, Integer pageSize, Long offset, String facetName,String geoQuery)
             throws IllegalArgumentException {
 
         DiscoverQuery queryArgs = buildCommonDiscoverQuery(context, discoveryConfiguration, query, searchFilters,
-                                                           dsoTypes);
+                                                           dsoTypes, geoQuery);
 
         //When all search criteria are set, configure facet results
         addFacetingForFacets(context, scope, prefix, queryArgs, discoveryConfiguration, facetName, pageSize);

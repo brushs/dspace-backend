@@ -129,13 +129,13 @@ public class RestDiscoverQueryBuilder {
     public DiscoverQuery buildFacetQuery(Context context, IndexableObject scope,
                                          DiscoveryConfiguration discoveryConfiguration,
                                          String prefix, String query, List<SearchFilter> searchFilters,
-                                         String dsoType, Pageable page, String facetName)
+                                         String dsoType, Pageable page, String facetName, String geoQuery)
             throws DSpaceBadRequestException {
 
         List<String> dsoTypes = dsoType != null ? singletonList(dsoType) : emptyList();
 
         return buildFacetQuery(
-                context, scope, discoveryConfiguration, prefix, query, searchFilters, dsoTypes, page, facetName);
+                context, scope, discoveryConfiguration, prefix, query, searchFilters, dsoTypes, page, facetName,geoQuery);
     }
 
     /**
@@ -154,7 +154,7 @@ public class RestDiscoverQueryBuilder {
     public DiscoverQuery buildFacetQuery(Context context, IndexableObject scope,
                                          DiscoveryConfiguration discoveryConfiguration,
                                          String prefix, String query, List<SearchFilter> searchFilters,
-                                         List<String> dsoTypes, Pageable page, String facetName)
+                                         List<String> dsoTypes, Pageable page, String facetName, String geoQuery)
             throws DSpaceBadRequestException {
 
         try {
@@ -164,12 +164,12 @@ public class RestDiscoverQueryBuilder {
             if (page != null) {
                 return discoverQueryBuilder
                         .buildFacetQuery(context, scope, discoveryConfiguration, prefix, query, transformedFilters,
-                                         dsoTypes, page.getPageSize(), page.getOffset(), facetName);
+                                         dsoTypes, page.getPageSize(), page.getOffset(), facetName,geoQuery);
 
             } else {
                 return discoverQueryBuilder
                         .buildFacetQuery(context, scope, discoveryConfiguration, prefix, query, transformedFilters,
-                                         dsoTypes, null, null, facetName);
+                                         dsoTypes, null, null, facetName,geoQuery);
             }
         } catch (IllegalArgumentException e) {
             throw new DSpaceBadRequestException(e.getMessage());

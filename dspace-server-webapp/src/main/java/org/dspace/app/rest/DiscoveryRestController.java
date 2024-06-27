@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import com.github.jsonldjava.utils.Obj;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -209,7 +210,9 @@ public class DiscoveryRestController implements InitializingBean {
                                               @RequestParam(name = "configuration", required = false) String
                                                       configuration,
                                               List<SearchFilter> searchFilters,
-                                              Pageable page) throws Exception {
+                                              Pageable page,
+                                              @RequestParam(name="geoQuery", required = false) String geoQeury
+                                              ) throws Exception {
 
         dsoTypes = emptyIfNull(dsoTypes);
 
@@ -219,12 +222,13 @@ public class DiscoveryRestController implements InitializingBean {
                           + ", prefix: " + StringUtils.trimToEmpty(prefix)
                           + ", query: " + StringUtils.trimToEmpty(query)
                           + ", filters: " + Objects.toString(searchFilters)
-                          + ", page: " + Objects.toString(page));
+                          + ", page: " + Objects.toString(page)
+                          + ", geoQuery: " + geoQeury);
         }
 
         try {
             FacetResultsRest facetResultsRest = discoveryRestRepository
-                .getFacetObjects(facetName, prefix, query, dsoTypes, dsoScope, configuration, searchFilters, page);
+                .getFacetObjects(facetName, prefix, query, dsoTypes, dsoScope, configuration, searchFilters, page, geoQeury);
 
             FacetResultsResource facetResultsResource = converter.toResource(facetResultsRest);
 
