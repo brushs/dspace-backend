@@ -733,6 +733,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>publication</element>
+    <qualifier>externaldownloadurl</qualifier>
+    <scope_note>The URL of the publication if over our hosting size limit</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>abstract</element>
     <qualifier>language</qualifier>
     <scope_note>The official language of the abstract that appears in the actual publication</scope_note>
