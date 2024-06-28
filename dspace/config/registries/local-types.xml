@@ -1465,7 +1465,7 @@
   </dc-type>
   <dc-type>
     <schema>nrcan</schema>
-    <element>notdownloadable</element>
+    <element>printavailable</element>
     <qualifier></qualifier>
     <scope_note>Text to display for publication which are only available by contacting NRCan directly.</scope_note>
   </dc-type>
