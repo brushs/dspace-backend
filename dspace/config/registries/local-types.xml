@@ -1469,7 +1469,72 @@
     <qualifier></qualifier>
     <scope_note>Text to display for publication which are only available by contacting NRCan directly.</scope_note>
   </dc-type>
-
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>runtime</element>
+    <qualifier></qualifier>
+    <scope_note>Run time for videos.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>medium</qualifier>
+    <scope_note>Medium type.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>dimension</qualifier>
+    <scope_note>Photo dimensions.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>colour</qualifier>
+    <scope_note>Photo colour.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>size</qualifier>
+    <scope_note>Photo size.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>width</qualifier>
+    <scope_note>Photo width.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>height</qualifier>
+    <scope_note>Photo height.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>resolution</qualifier>
+    <scope_note>Photo resolution.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>photo</element>
+    <qualifier>format</qualifier>
+    <scope_note>Photo format.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>date</element>
+    <qualifier>digital</qualifier>
+    <scope_note>Digitized Date.</scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>geospatial</schema>
+    <element>point</element>
+    <qualifier></qualifier>
+    <scope_note>Point data with just a Lat and Long.</scope_note>
+  </dc-type>
 
   <!-- FOSRC Fields -->
   <dc-type>
@@ -1548,6 +1613,18 @@
     <schema>dc</schema>
     <element>identifier</element>
     <qualifier>uri-home-page-fosrctranslation</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+    <dc-type>
+    <schema>dc</schema>
+    <element>contributor</element>
+    <qualifier>photographer</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>photonumber</qualifier>
     <scope_note></scope_note>
   </dc-type>
 

@@ -55,7 +55,6 @@
             instead we'll just list all collections in all environments here. -->
 
         <!-- Local Dev Collections -->
-
         <name-map collection-handle="123456789/7" submission-name="Publication"/>
         <name-map collection-handle="123456789/3" submission-name="Author"/>
         <name-map collection-handle="123456789/6" submission-name="Person"/>
@@ -73,6 +72,7 @@
         <name-map collection-handle="123456789/21436" submission-name="CorporateAuthor"/>
         <name-map collection-handle="123456789/21460" submission-name="Publication"/>
         <name-map collection-handle="123456789/274863" submission-name="Pics"/>
+        <name-map collection-handle="123456789/274490" submission-name="NRCanPhotoDatabase"/>
 		<!-- <name-map collection-handle="123456789/17" submission-name="Publication"/>
 		<name-map collection-handle="123456789/11" submission-name="Publication"/> -->
 		<!--
@@ -95,6 +95,7 @@
         <name-map collection-handle="123456789s/5494" submission-name="Author"/>
         <name-map collection-handle="123456789s/21846" submission-name="Journal"/>
         <name-map collection-handle="123456789s/25505" submission-name="CorporateAuthor"/>
+        <name-map collection-handle="123456789s/270135" submission-name="NRCanPhotoDatabase"/>
 
         <!-- Prod Collections -->
         <name-map collection-handle="1845/6" submission-name="Country"/>
@@ -139,6 +140,16 @@
         <!-- The "collection" step is a "special step" which is *REQUIRED* -->
         <!-- In DSpace, all submitted items must be immediately assigned -->
         <!-- to a collection. This step ensures that a collection is always selected. -->
+		<step-definition id="nrcanphoto_bibliographicStep" mandatory="true">
+            <heading>submit.progressbar.bibliographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>      
+ 		<step-definition id="nrcanphoto_geographicStep" mandatory="true">
+            <heading>submit.progressbar.geographic</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        </step-definition>
 		<step-definition id="bibliographicStep" mandatory="true">
             <heading>submit.progressbar.bibliographic</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
@@ -396,6 +407,13 @@
     <!-- -->
     <!-- -->
     <submission-definitions>
+        <submission-process name="NRCanPhotoDatabase">
+            <step id="collection"/>
+            <step id="nrcanphoto_bibliographicStep"/>
+			<step id="nrcanphoto_geographicStep"/>
+            <step id="upload"/>
+            <step id="license"/>
+        </submission-process>
        <submission-process name="Publication">
             <step id="collection"/>
             <step id="bibliographicStep"/>

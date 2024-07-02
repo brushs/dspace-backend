@@ -21,6 +21,362 @@
     <!-- serves as a 'this field is required' flag.                           -->
 
     <form-definitions>
+    		<form name="nrcanphoto_bibliographicStep">
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>type</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+					<style>col-sm-6</style>
+                    <label>Type</label>
+                    <input-type value-pairs-name="common_photo_types">dropdown</input-type>
+                    <hint>Select type of publication</hint>
+                    <required>You must enter a type for this item.</required>
+                </field>
+                <relation-field>
+                    <relationship-type>isPrimaryContactOfPublication</relationship-type>
+                    <search-configuration>person</search-configuration>
+                    <repeatable>true</repeatable>
+					<style>col-sm-6</style>
+                    <label>Photographer</label>
+                    <hint>Choose the name from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>primarycontact</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required>You must enter a primary contact for this item.</required>
+                </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Title</label>
+                    <input-type>onebox</input-type>
+                    <language value-pairs-name="gc_languages">true</language>
+                    <hint>Enter the title of the publication and choose language</hint>
+                    <required>You must enter a main title for this item.</required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>date</dc-element>
+                    <dc-qualifier>issued</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Date</label>
+                    <style>col-sm-6</style>
+                    <input-type>date</input-type>
+                    <hint>Enter the date photo taken</hint>
+                    <required>You must enter the date photo taken.</required>
+                </field>
+                <relation-field>
+                    <relationship-type>isPublisherOfPublication</relationship-type>
+                    <search-configuration>publisher</search-configuration>
+                    <repeatable>false</repeatable>
+                    <label>Publisher</label>
+                    <hint>Enter the Publisher Name</hint>
+                    <linked-metadata-field>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>publisher</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>photonumber</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Photo Number</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the number of the photo</hint>
+                    <required>You must enter a photo number.</required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>runtime</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Run time for videos</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the run time for videos</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>medium</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Medium</label>
+                    <input-type value-pairs-name="common_photo_medium_types">dropdown</input-type>
+                    <hint>Select the medium of the resource</hint>
+                    <required/>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>dimension</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Dimensions</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the dimentions of the resource</hint>
+                    <required/>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>colour</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Color</label>
+                    <input-type value-pairs-name="common_photo_color_types">dropdown</input-type>
+                    <hint>Select the colour of the resource</hint>
+                    <required/>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>size</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Size</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the size for the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>width</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Width</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the width for the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>height</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Height</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the height for the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>resolution</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Resolution</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter resolution for the resource</hint>
+                    <required></required>
+                </field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>photo</dc-element>
+                    <dc-qualifier>format</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>File Format</label>
+                    <input-type value-pairs-name="common_photo_format_types">dropdown</input-type>
+                    <hint>Select file format of the resource</hint>
+                    <required/>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>relation</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Relationship: e.g. https://ostrnrcan-dostrncan.canada.ca/handle/1845/271898</label>
+					<input-type value-pairs-name="common_relations">qualdrop_value</input-type>
+                    <hint>e.g. https://ostrnrcan-dostrncan.canada.ca/handle/1845/271898</hint>
+                    <required></required>
+                </field>
+            </row>  
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>date</dc-element>
+                    <dc-qualifier>digital</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Digitized Date</label>
+                    <style>col-sm-6</style>
+                    <input-type>date</input-type>
+                    <hint>Enter the date photo digitalized</hint>
+                    <required/>
+                </field>   
+                <relation-field>
+                    <relationship-type>isDivisionOfPublication</relationship-type>
+                    <search-configuration>division</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Organizational Unit</label>
+                    <hint>Choose the unit(s) from the lookup</hint>
+                    <linked-metadata-field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>division</dc-element>
+                    <dc-qualifier>name</dc-qualifier>
+                    <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required/>
+                </relation-field> 
+            </row> 
+            <row>
+                <field>
+                <dc-schema>nrcan</dc-schema>
+                <dc-element>notes</dc-element>
+                <dc-qualifier/>
+                <repeatable>true</repeatable>
+                <label>Notes</label>
+                <input-type>textarea</input-type>
+                <hint>Enter notes to help with record management</hint>
+                <required/>
+                </field>
+            </row>    
+        </form>
+        <form name="nrcanphoto_geographicStep">
+		    <row>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>broad</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>General Subject</label> 
+                    <input-type>onebox</input-type>
+                    <hint>Select general subjects from the lookup</hint>
+                    <required>You must enter a subject for this field</required>
+                    <vocabulary>broad-en</vocabulary>
+                </field>
+            </row>
+		    <row>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>geoscan</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>GEOSCAN Keyword</label>
+                    <input-type>onebox</input-type>
+                    <hint>Choose keyword(s) from the lookup</hint>
+                    <required></required>
+                    <vocabulary>geoscan-en</vocabulary>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>gc</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>GoC Keyword</label>
+                    <input-type>onebox</input-type>
+                    <hint>Choose keyword(s) from the lookup</hint>
+                    <required></required>
+                    <vocabulary>gc-en</vocabulary>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>cfs</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>CFS Keyword</label>
+                    <input-type>onebox</input-type>
+                    <hint>Choose keyword(s) from the lookup</hint>
+                    <required></required>
+                    <vocabulary>cfs-en</vocabulary>
+                </field>				
+            </row>
+
+            <row>
+                <relation-field>
+                    <relationship-type>isCountryOfPublication</relationship-type>
+                    <search-configuration>country</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Country</label>
+                    <hint>Choose the country covered in this publication</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>country</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+                <relation-field>
+                    <relationship-type>isProvinceOfPublication</relationship-type>
+                    <search-configuration>province</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Province/Territory</label>
+                    <hint>Select Province/Territory covered in this publication</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>province</dc-element>
+                        <dc-qualifier>name</dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+            </row>
+			<row>
+                <relation-field>
+                    <relationship-type>isAreaOfPublication</relationship-type>
+                    <search-configuration>area</search-configuration>
+                    <repeatable>true</repeatable>
+                    <label>Area</label>
+                    <hint>Choose Area(s) from the lookup</hint>
+                    <linked-metadata-field>
+                        <dc-schema>nrcan</dc-schema>
+                        <dc-element>area</dc-element>
+                        <dc-qualifier></dc-qualifier>
+                        <input-type>onebox</input-type>
+                    </linked-metadata-field>
+                    <required></required>
+                </relation-field>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>nts</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>NTS</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the NTS in format nnn, nnnA, nnnA/nn</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>geospatial</dc-schema>
+                    <dc-element>point</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Point</label>
+                    <input-type>onebox</input-type>
+                    <hint>Point data with just a Lat and Long. Ex. POINT(49.0000 -114.0000)</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>geospatial</dc-schema>
+                    <dc-element>bbox</dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Bounding Box</label>
+                    <input-type>onebox</input-type>
+                    <hint>Ex. ENVELOPE(-139.1667, -114.0000, 60.0000, 48.0000)</hint>
+                    <required></required>
+                </field>
+            </row>
+        </form>
 		<form name="bibliographicStep">
             <row>
                 <field>
@@ -4005,7 +4361,75 @@
                 <stored-value>FundingOrganization</stored-value>
             </pair>
         </value-pairs>
+        <value-pairs value-pairs-name="common_photo_color_types" dc-term="colour">
+            <pair>
+                <displayed-value>Colour</displayed-value>
+                <stored-value>colour</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Black and White</displayed-value>
+                <stored-value>black and white</stored-value>
+            </pair>
+        </value-pairs>
 
+        <value-pairs value-pairs-name="common_photo_format_types" dc-term="format">
+            <pair>
+                <displayed-value>TIFF</displayed-value>
+                <stored-value>tiff</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>JPEG</displayed-value>
+                <stored-value>jpeg</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Png</displayed-value>
+                <stored-value>png</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Pcd</displayed-value>
+                <stored-value>pcd</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Bmp</displayed-value>
+                <stored-value>bmp</stored-value>
+            </pair>
+        </value-pairs>
+        <value-pairs value-pairs-name="common_photo_types" dc-term="type">
+            <pair>
+                <displayed-value>Image</displayed-value>
+                <stored-value>image</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Video</displayed-value>
+                <stored-value>video</stored-value>
+            </pair>
+        </value-pairs>
+        <value-pairs value-pairs-name="common_photo_medium_types" dc-term="medium">
+            <pair>
+                <displayed-value>Digital</displayed-value>
+                <stored-value>digital</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Print</displayed-value>
+                <stored-value>print</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Negative</displayed-value>
+                <stored-value>negative</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Slide</displayed-value>
+                <stored-value>slide</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Transparency</displayed-value>
+                <stored-value>transparency</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Glass Plate</displayed-value>
+                <stored-value>glass plate</stored-value>
+            </pair>
+        </value-pairs>
     </form-value-pairs>
 
 </input-forms>
