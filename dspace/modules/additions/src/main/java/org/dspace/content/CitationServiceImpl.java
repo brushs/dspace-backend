@@ -44,6 +44,7 @@ public class CitationServiceImpl implements CitationService {
     private static String FIELD_ISSUE = "nrcan.issue";
     private static String FIELD_ARTICLE_NUMBER = "nrcan.articlenumber";
     private static String FIELD_PAGINATION = "nrcan.pagination.pagerange";
+    private static String FIELD_PAGINATION_TOTAL = "nrcan.pagination.totalpages";
     private static String FIELD_DOI = "dc.identifier.doi";
     private static String FIELD_ENTITY_TYPE = "dspace.entity.type";
     private static String FIELD_EDITION = "nrcan.edition";
@@ -214,7 +215,7 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getField(mdvs, FIELD_EDITION, ","));
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
-        sb.append(getField(mdvs, FIELD_PAGINATION, "."));
+        sb.append(getField(mdvs, FIELD_PAGINATION_TOTAL, "."));
 
         if (sb.toString().endsWith(", ")) {
             // Remove the last two characters (", ") and append ". "
