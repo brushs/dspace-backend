@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
 import org.dspace.app.mediafilter.service.MediaFilterService;
 import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.Bitstream;
@@ -49,6 +50,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * maximum number of items.
  */
 public class MediaFilterServiceImpl implements MediaFilterService, InitializingBean {
+
     @Autowired(required = true)
     protected AuthorizeService authorizeService;
     @Autowired(required = true)
@@ -73,6 +75,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
     protected int max2Process = Integer.MAX_VALUE;  // maximum number items to process
 
     protected int processed = 0;   // number items processed
+
+    protected int checked = 0;   // number items checked
 
     protected Item currentItem = null;   // current item being processed
 
@@ -144,9 +148,11 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         throws Exception {
         //only apply filters if collection not in skip-list
         if (!inSkipList(collection.getHandle())) {
+            logInfo("Getting all Items for Collection");
             Iterator<Item> itemIterator = itemService.findAllByCollection(context, collection);
             while (itemIterator.hasNext() && processed < max2Process) {
                 applyFiltersItem(context, itemIterator.next());
+                logInfo("Checked: " + checked + " - Processed: " + processed);
             }
         }
     }
@@ -163,6 +169,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 // increment processed count
                 ++processed;
             }
+            checked++;
+
             // clear item objects from context cache and internal cache
             c.uncacheEntity(currentItem);
             currentItem = null;
@@ -216,6 +224,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 try {
                     // only update item if bitstream not skipped
                     if (processBitstream(context, myItem, myBitstream, filterClass)) {
+                        logInfo("Updating Item...");
                         itemService.update(context, myItem); // Make sure new bitstream has a sequence
                         // number
                         filtered = true;
@@ -285,6 +294,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                     try {
                         // only update item if bitstream not skipped
                         if (processBitstream(context, myItem, myBitstream, filterClass)) {
+                            logInfo("Updating Item 2....")
                             itemService.update(context, myItem); // Make sure new bitstream has a sequence
                             // number
                             filtered = true;
@@ -368,12 +378,14 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
             Bundle targetBundle; // bundle we're modifying
             if (bundles.size() < 1) {
                 // create new bundle if needed
+                logInfo("Creating bundle...");
                 targetBundle = bundleService.create(context, item, formatFilter.getBundleName());
             } else {
                 // take the first match as we already looked out for the correct bundle name
                 targetBundle = bundles.get(0);
             }
 
+            logInfo("Creating bitstream...");
             // create bitstream to store the filter result
             Bitstream b = bitstreamService.create(context, targetBundle, destStream);
             // set the name, source and description of the bitstream
@@ -411,6 +423,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         // fixme - set date?
         // we are overwriting, so remove old bitstream
         if (existingBitstream != null) {
+            logInfo("Remove old bitstream...");
             bundleService.removeBitstream(context, existingBundle, existingBitstream);
         }
 
