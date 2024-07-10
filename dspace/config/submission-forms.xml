@@ -369,7 +369,7 @@
                     <dc-schema>geospatial</dc-schema>
                     <dc-element>bbox</dc-element>
                     <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
+                    <repeatable>false</repeatable>
                     <label>Bounding Box</label>
                     <input-type>onebox</input-type>
                     <hint>Ex. ENVELOPE(-139.1667, -114.0000, 60.0000, 48.0000)</hint>
@@ -920,7 +920,7 @@
                     <dc-schema>geospatial</dc-schema>
                     <dc-element>bbox</dc-element>
                     <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
+                    <repeatable>false</repeatable>
                     <label>Bounding Box</label>
                     <input-type>onebox</input-type>
                     <hint>Ex. ENVELOPE(-139.1667, -114.0000, 60.0000, 48.0000)</hint>
