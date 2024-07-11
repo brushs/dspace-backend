@@ -294,7 +294,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                     try {
                         // only update item if bitstream not skipped
                         if (processBitstream(context, myItem, myBitstream, filterClass)) {
-                            logInfo("Updating Item 2....")
+                            logInfo("Updating Item 2....");
                             itemService.update(context, myItem); // Make sure new bitstream has a sequence
                             // number
                             filtered = true;
