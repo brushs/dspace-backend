@@ -15,12 +15,13 @@ import org.dspace.app.rest.submit.SubmissionService;
 import org.dspace.app.util.*;
 import org.dspace.content.InProgressSubmission;
 import org.dspace.content.MetadataValue;
-import org.dspace.content.authority.service.MetadataAuthorityService;
 import org.dspace.content.service.ItemService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Execute three validation check on fields validation:
@@ -30,21 +31,20 @@ import java.util.List;
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-public class CustomValidationTwo extends AbstractValidation {
+public class GeoSpatialValidation extends AbstractValidation {
 
-    private static final String ERROR_VALIDATION_REQUIRED = "error.validation.required";
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(GeoSpatialValidation.class);
 
-    private static final String ERROR_VALIDATION_AUTHORITY_REQUIRED = "error.validation.authority.required";
+    private static final String ERROR_VALIDATION_SINGLE_VALUE = "error.validation.singlevalue";
+    private static final String ERROR_VALIDATION_INVALID_BBOX = "error.validation.invalidbbox";
 
-    private static final String ERROR_VALIDATION_REGEX = "error.validation.regex";
+    // Regular expression to match four floating point numbers separated by comma and space
+    private static final String BOUNDING_BOX_REGEX = "^ENVELOPE\\(\\s*-?\\d+(\\.\\d+)?,\\s*-?\\d+(\\.\\d+)?,\\s*-?\\d+(\\.\\d+)?,\\s*-?\\d+(\\.\\d+)?\\)$";
 
-    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(CustomValidationTwo.class);
-
-    private DCInputsReader inputReader;
+    // Pattern object to compile the regex
+    private static final Pattern pattern = Pattern.compile(BOUNDING_BOX_REGEX);
 
     private ItemService itemService;
-
-    private MetadataAuthorityService metadataAuthorityService;
 
     private List<ErrorRest> errors = new ArrayList<ErrorRest>();
 
@@ -52,23 +52,24 @@ public class CustomValidationTwo extends AbstractValidation {
     public List<ErrorRest> validate(SubmissionService submissionService, InProgressSubmission obj,
                                     SubmissionStepConfig config) throws DCInputsReaderException, SQLException {
 
-        log.error("IN VALIDATION STEP TWO");
-        if ("traditionalpageone".equals(config.getId())) {
+        log.info("Custom Validation - ensure only a single Bounding Box exists");
+        if (!"geographicStep".equals(config.getId())) {
             return getErrors();
         }
-        String fieldName = "dc.contributor.author";
-        List<MetadataValue> mdv = itemService.getMetadataByMetadataString(obj.getItem(), fieldName);
-        boolean found = false;
-        boolean exists = false;
-        for (MetadataValue md : mdv) {
-            exists = true;
-            if ("Wayne".equals(md.getValue())) {
-                found = true;
-            }
+        String fieldName = "geospatial.bbox";
+        List<MetadataValue> mdvs = itemService.getMetadataByMetadataString(obj.getItem(), fieldName);
+        if (mdvs == null || mdvs.isEmpty()) {
+            return getErrors();
         }
 
-        if (exists && !found) {
-            addError(ERROR_VALIDATION_AUTHORITY_REQUIRED,
+        if (mdvs.size() > 1) {
+            addError(ERROR_VALIDATION_SINGLE_VALUE,
+                    "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + config.getId() +
+                            "/" + fieldName);
+        }
+
+        if (!isValidBoundingBox(mdvs.get(0).getValue())) {
+            addError(ERROR_VALIDATION_INVALID_BBOX,
                     "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + config.getId() +
                             "/" + fieldName);
         }
@@ -79,27 +80,6 @@ public class CustomValidationTwo extends AbstractValidation {
     public void setItemService(ItemService itemService) {
         this.itemService = itemService;
     }
-
-    public void setMetadataAuthorityService(MetadataAuthorityService metadataAuthorityService) {
-        this.metadataAuthorityService = metadataAuthorityService;
-    }
-
-    public DCInputsReader getInputReader() {
-        if (inputReader == null) {
-            try {
-                inputReader = new DCInputsReader();
-            } catch (DCInputsReaderException e) {
-                log.error(e.getMessage(), e);
-            }
-        }
-        return inputReader;
-    }
-
-    public void setInputReader(DCInputsReader inputReader) {
-        this.inputReader = inputReader;
-    }
-
-
 
     //Following are copy from the old class of AbstractValidation before 7.3. To keep the merged code working temprary
     /**
@@ -137,5 +117,48 @@ public class CustomValidationTwo extends AbstractValidation {
      */
     public List<ErrorRest> getErrors() {
         return errors;
+    }
+
+    // Method to check if the string is a valid geospatial bounding box
+    public boolean isValidBoundingBox(String boundingBox) {
+        if (boundingBox == null || boundingBox.isEmpty()) {
+            return false;
+        }
+
+        Matcher matcher = pattern.matcher(boundingBox);
+        if (!matcher.matches()) {
+            return false;
+        }
+
+        // Split the string into individual numbers
+        boundingBox = boundingBox.substring(9, boundingBox.length() - 1);
+        String[] parts = boundingBox.split(",");
+        if (parts.length != 4) {
+            return false;
+        }
+
+        try {
+            double minLon = Double.parseDouble(parts[0]);
+            double maxLon = Double.parseDouble(parts[1]);
+            double maxLat = Double.parseDouble(parts[2]);
+            double minLat = Double.parseDouble(parts[3]);
+
+            // Additional checks to ensure valid geospatial coordinates
+            if (minLon < -180 || minLon > 180 || maxLon < -180 || maxLon > 180) {
+                return false;
+            }
+
+            if (minLat < -90 || minLat > 90 || maxLat < -90 || maxLat > 90) {
+                return false;
+            }
+
+            if (minLon > maxLon || minLat > maxLat) {
+                return false;
+            }
+
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
