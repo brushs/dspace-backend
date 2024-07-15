@@ -618,7 +618,6 @@
                     <dc-qualifier>title</dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Larger Work/Book Title</label>
-                    <type-bind>Book chapter</type-bind>
                     <input-type>onebox</input-type>
                     <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter the title of the book in which the item appears and choose language</hint>
