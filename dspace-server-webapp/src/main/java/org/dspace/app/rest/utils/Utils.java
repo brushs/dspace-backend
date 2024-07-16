@@ -182,8 +182,8 @@ public class Utils {
      */
     public Link linkToSingleResource(RestAddressableModel data, String rel) {
         // Create link using Spring HATEOAS link builder
-        return linkTo(data.getController(), data.getCategory(), data.getTypePlural()).slash(getIdentifierForLink(data))
-                                                                                     .withRel(rel);
+        return swapHost(linkTo(data.getController(), data.getCategory(), data.getTypePlural()).slash(getIdentifierForLink(data))
+                                                                                     .withRel(rel));
     }
 
     /**
@@ -206,9 +206,9 @@ public class Utils {
      */
     public Link linkToSubResource(RestAddressableModel data, String rel, String path) {
         // Create link using Spring HATEOAS link builder
-        return linkTo(data.getController(), data.getCategory(), data.getTypePlural()).slash(getIdentifierForLink(data))
+        return swapHost(linkTo(data.getController(), data.getCategory(), data.getTypePlural()).slash(getIdentifierForLink(data))
                                                                                      .slash(path)
-                                                                                     .withRel(rel);
+                                                                                     .withRel(rel));
     }
 
     /**
@@ -663,9 +663,9 @@ public class Utils {
             Link link = linkToSubResource(halResource.getContent(), linkRest.name());
             if (projection.allowEmbedding(halResource, linkRest, oldLinks)) {
                 embedRelFromRepository(halResource, linkRest.name(), link, linkRest, oldLinks);
-                halResource.add(link); // unconditionally link if embedding was allowed
+                halResource.add(swapHost(link)); // unconditionally link if embedding was allowed
             } else if (projection.allowLinking(halResource, linkRest)) {
-                halResource.add(link);
+                halResource.add(swapHost(link));
             }
         });
     }
@@ -1065,5 +1065,13 @@ public class Utils {
         } finally {
             context.restoreAuthSystemState();
         }
+    }
+
+    public Link swapHost(Link rawLink) {
+        return rawLink.withHref(rawLink.getHref().replace(
+                "dspacesandboxbackend.azurewebsites.net",
+                configurationService.getProperty("dspace.server.url")
+                        .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+
     }
 }
