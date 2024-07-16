@@ -37,12 +37,20 @@ public class GeoSpatialValidation extends AbstractValidation {
 
     private static final String ERROR_VALIDATION_SINGLE_VALUE = "error.validation.singlevalue";
     private static final String ERROR_VALIDATION_INVALID_BBOX = "error.validation.invalidbbox";
+    private static final String ERROR_VALIDATION_INVALID_POLYGON = "error.validation.invalidpolygon";
 
     // Regular expression to match four floating point numbers separated by comma and space
     private static final String BOUNDING_BOX_REGEX = "^ENVELOPE\\(\\s*-?\\d+(\\.\\d+)?,\\s*-?\\d+(\\.\\d+)?,\\s*-?\\d+(\\.\\d+)?,\\s*-?\\d+(\\.\\d+)?\\)$";
 
     // Pattern object to compile the regex
-    private static final Pattern pattern = Pattern.compile(BOUNDING_BOX_REGEX);
+    private static final Pattern patternBB = Pattern.compile(BOUNDING_BOX_REGEX);
+
+    // Regular expression to match a valid POLYGON in WKT format
+    private static final String POLYGON_REGEX =
+            "^POLYGON\\s*\\(\\(((-?\\d+(\\.\\d+)? -?\\d+(\\.\\d+)?)(,\\s*-?\\d+(\\.\\d+)? -?\\d+(\\.\\d+)?)+)\\)\\)$";
+
+    // Pattern object to compile the regex
+    private static final Pattern patternPolygon = Pattern.compile(POLYGON_REGEX);
 
     private ItemService itemService;
 
@@ -56,22 +64,39 @@ public class GeoSpatialValidation extends AbstractValidation {
         if (!"geographicStep".equals(config.getId())) {
             return getErrors();
         }
+
         String fieldName = "geospatial.bbox";
         List<MetadataValue> mdvs = itemService.getMetadataByMetadataString(obj.getItem(), fieldName);
-        if (mdvs == null || mdvs.isEmpty()) {
-            return getErrors();
+        if (mdvs != null && !mdvs.isEmpty()) {
+
+            if (mdvs.size() > 1) {
+                addError(ERROR_VALIDATION_SINGLE_VALUE,
+                        "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + config.getId() +
+                                "/" + fieldName);
+            }
+
+            if (StringUtils.isNotEmpty(mdvs.get(0).getValue())) {
+                if (!isValidBoundingBox(mdvs.get(0).getValue())) {
+                    addError(ERROR_VALIDATION_INVALID_BBOX,
+                            "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + config.getId() +
+                                    "/" + fieldName);
+                }
+            }
         }
 
-        if (mdvs.size() > 1) {
-            addError(ERROR_VALIDATION_SINGLE_VALUE,
-                    "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + config.getId() +
-                            "/" + fieldName);
-        }
+        fieldName = "geospatial.polygon";
+        mdvs = itemService.getMetadataByMetadataString(obj.getItem(), fieldName);
+        if (mdvs != null && !mdvs.isEmpty()) {
+            for (MetadataValue mdv : mdvs) {
+                if (StringUtils.isNotEmpty(mdv.getValue())) {
+                    if (!isValidPolygon(mdv.getValue())) {
+                        addError(ERROR_VALIDATION_INVALID_POLYGON,
+                                "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + config.getId() +
+                                        "/" + fieldName);
+                    }
+                }
+            }
 
-        if (!isValidBoundingBox(mdvs.get(0).getValue())) {
-            addError(ERROR_VALIDATION_INVALID_BBOX,
-                    "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + config.getId() +
-                            "/" + fieldName);
         }
 
         return getErrors();
@@ -125,7 +150,7 @@ public class GeoSpatialValidation extends AbstractValidation {
             return false;
         }
 
-        Matcher matcher = pattern.matcher(boundingBox);
+        Matcher matcher = patternBB.matcher(boundingBox);
         if (!matcher.matches()) {
             return false;
         }
@@ -160,5 +185,32 @@ public class GeoSpatialValidation extends AbstractValidation {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public boolean isValidPolygon(String polygon) {
+        if (polygon == null || polygon.isEmpty()) {
+            return false;
+        }
+
+        Matcher matcher = patternPolygon.matcher(polygon);
+        if (!matcher.matches()) {
+            return false;
+        }
+
+        // Extract the coordinate part of the polygon
+        String coordinatePart = polygon.substring(9, polygon.length() - 2);
+
+        // Split the coordinate part into individual coordinate pairs
+        String[] coordinates = coordinatePart.split(", ");
+        if (coordinates.length < 4) {
+            return false; // A valid polygon must have at least 4 points (including the closing point)
+        }
+
+        // Check if the first and last coordinates are the same (closing the polygon)
+        if (!coordinates[0].equals(coordinates[coordinates.length - 1])) {
+            return false;
+        }
+
+        return true;
     }
 }
