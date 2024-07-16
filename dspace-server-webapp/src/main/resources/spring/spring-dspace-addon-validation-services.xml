@@ -30,4 +30,9 @@
     <bean name="licenseValidation" class="org.dspace.app.rest.submit.step.validation.LicenseValidation">
         <property name="name" value="license"/>
     </bean>
+
+    <bean name="geospatialValidation" class="org.dspace.app.rest.submit.step.validation.GeoSpatialValidation" scope="prototype">
+        <property name="name" value="submission-form"/>
+        <property name="itemService" ref="org.dspace.content.CustomItemServiceImpl"/>
+    </bean>
 </beans>

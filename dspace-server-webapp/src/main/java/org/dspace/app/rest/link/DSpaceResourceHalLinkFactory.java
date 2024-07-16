@@ -72,12 +72,12 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
                                 continue; // projection disallows this optional method-level link
                             }
 
-                            halResource.add(swapHost(linkToSubResource));
+                            halResource.add(utils.swapHost(linkToSubResource));
                         }
 
                     } else if (RestModel.class.isAssignableFrom(readMethod.getReturnType())) {
                         Link linkToSubResource = utils.linkToSubResource(data, name);
-                        halResource.add(swapHost(linkToSubResource));
+                        halResource.add(utils.swapHost(linkToSubResource));
                     }
                 }
             }
@@ -85,7 +85,7 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
             e.printStackTrace();
         }
 
-        halResource.add(swapHost(utils.linkToSingleResource(data, IanaLinkRelations.SELF.value())));
+        halResource.add(utils.swapHost(utils.linkToSingleResource(data, IanaLinkRelations.SELF.value())));
     }
 
     protected Class<RestResourceController> getControllerClass() {
@@ -96,11 +96,4 @@ public class DSpaceResourceHalLinkFactory extends HalLinkFactory<DSpaceResource,
         return DSpaceResource.class;
     }
 
-    private Link swapHost(Link rawLink) {
-        return rawLink.withHref(rawLink.getHref().replace(
-                "dspacesandboxbackend.azurewebsites.net",
-                configurationService.getProperty("dspace.server.url")
-                        .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
-
-    }
 }
