@@ -921,7 +921,7 @@ public class RestResourceController implements InitializingBean {
 
         String encodedParameterString = getEncodedParameterStringFromRequestParams(parameters);
         DSpaceRestRepository<T, ?> repository = utils.getResourceRepository(apiCategory, model);
-        Link link = linkTo(this.getClass(), apiCategory, model).slash(encodedParameterString).withSelfRel();
+        Link link = utils.swapHost(linkTo(this.getClass(), apiCategory, model).slash(encodedParameterString).withSelfRel());
 
         Page<DSpaceResource<T>> resources;
         try {
@@ -931,7 +931,7 @@ public class RestResourceController implements InitializingBean {
         }
         PagedModel<DSpaceResource<T>> result = assembler.toModel(resources, link);
         if (repositoryUtils.haveSearchMethods(repository)) {
-            result.add(linkTo(this.getClass(), apiCategory, model).slash("search").withRel("search"));
+            result.add(utils.swapHost(linkTo(this.getClass(), apiCategory, model).slash("search").withRel("search")));
         }
         return result;
     }
