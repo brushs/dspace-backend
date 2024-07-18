@@ -747,7 +747,7 @@ public class RestResourceController implements InitializingBean {
             Method linkMethod = utils.requireMethod(linkRepository.getClass(), "getResource");
             try {
                 Object object = linkMethod.invoke(linkRepository, request, id, relid, page, utils.obtainProjection());
-                Link link = linkTo(this.getClass(), apiCategory, model).slash(id).slash(rel).slash(relid).withSelfRel();
+                Link link = utils.swapHost(linkTo(this.getClass(), apiCategory, model).slash(id).slash(rel).slash(relid).withSelfRel());
 
                 List result = new ArrayList();
                 result.add(object);
@@ -815,10 +815,10 @@ public class RestResourceController implements InitializingBean {
                     Link link = null;
                     String querystring = request.getQueryString();
                     if (querystring != null && querystring.length() > 0) {
-                        link = linkTo(this.getClass(), apiCategory, model).slash(uuid)
-                            .slash(subpath + '?' + querystring).withSelfRel();
+                        link = utils.swapHost(linkTo(this.getClass(), apiCategory, model).slash(uuid)
+                            .slash(subpath + '?' + querystring).withSelfRel());
                     } else {
-                        link = linkTo(this.getClass(), apiCategory, model).slash(uuid).slash(subpath).withSelfRel();
+                        link = utils.swapHost(linkTo(this.getClass(), apiCategory, model).slash(uuid).slash(subpath).withSelfRel());
                     }
 
                     return EntityModel.of(new EmbeddedPage(link.getHref(),
@@ -960,7 +960,7 @@ public class RestResourceController implements InitializingBean {
         }
 
         for (String name : searchMethods) {
-            Link link = linkTo(this.getClass(), apiCategory, model).slash("search").slash(name).withRel(name);
+            Link link = utils.swapHost(linkTo(this.getClass(), apiCategory, model).slash("search").slash(name).withRel(name));
             root.add(link);
         }
         return root;

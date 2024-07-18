@@ -27,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.sql.SQLException;
@@ -1072,6 +1073,14 @@ public class Utils {
                 "dspacesandboxbackend.azurewebsites.net",
                 configurationService.getProperty("dspace.server.url")
                         .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+
+    }
+
+    public String swapHost(String url) {
+        return url.replace(
+                "dspacesandboxbackend.azurewebsites.net",
+                configurationService.getProperty("dspace.server.url")
+                        .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server")));
 
     }
 }

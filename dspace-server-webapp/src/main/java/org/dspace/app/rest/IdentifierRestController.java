@@ -92,7 +92,7 @@ public class IdentifierRestController implements InitializingBean {
                         English.plural(dsor.getType()))
                         .slash(dsor.getId()).toUri();
                 response.setStatus(HttpServletResponse.SC_FOUND);
-                response.sendRedirect(link.toString());
+                response.sendRedirect(utils.swapHost(link.toString()));
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
