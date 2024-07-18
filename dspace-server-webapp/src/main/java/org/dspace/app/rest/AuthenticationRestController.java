@@ -190,9 +190,9 @@ public class AuthenticationRestController implements InitializingBean {
         List<GroupRest> groupList = context.getSpecialGroups().stream()
                 .map(g -> (GroupRest) converter.toRest(g, projection)).collect(Collectors.toList());
         Page<GroupRest> groupPage = (Page<GroupRest>) utils.getPage(groupList, page);
-        Link link = linkTo(
+        Link link = utils.swapHost(linkTo(
                 methodOn(AuthenticationRestController.class).retrieveSpecialGroups(page, assembler, request, response))
-                        .withSelfRel();
+                        .withSelfRel());
 
         return EntityModel.of(new EmbeddedPage(link.getHref(),
                 groupPage.map(converter::toResource), null, "specialGroups"));

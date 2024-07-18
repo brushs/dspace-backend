@@ -979,8 +979,8 @@ public class RestResourceController implements InitializingBean {
         throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         String encodedParameterString = getEncodedParameterStringFromRequestParams(parameters);
 
-        Link link = linkTo(this.getClass(), apiCategory, model).slash("search").slash(searchMethodName)
-                                                               .slash(encodedParameterString).withSelfRel();
+        Link link = utils.swapHost(linkTo(this.getClass(), apiCategory, model).slash("search").slash(searchMethodName)
+                                                               .slash(encodedParameterString).withSelfRel());
         DSpaceRestRepository repository = utils.getResourceRepository(apiCategory, model);
         boolean returnPage = false;
         Object searchResult = null;
