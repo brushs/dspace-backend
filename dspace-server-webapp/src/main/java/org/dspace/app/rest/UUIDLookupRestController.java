@@ -96,7 +96,7 @@ public class UUIDLookupRestController implements InitializingBean {
                 URI link = linkTo(dsor.getController(), dsor.getCategory(), dsor.getTypePlural()).slash(dsor.getId())
                         .toUri();
                 response.setStatus(HttpServletResponse.SC_FOUND);
-                response.sendRedirect(link.toString());
+                response.sendRedirect(utils.swapHost(link.toString()));
                 return;
             }
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
