@@ -333,7 +333,7 @@ public class CitationServiceImpl implements CitationService {
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
-            return fmdvs.get(0).getValue() + " ";
+            return fmdvs.get(0).getValue() + ", ";
         }
     }
 
@@ -342,9 +342,11 @@ public class CitationServiceImpl implements CitationService {
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
-            int indexOfComma = fmdvs.get(0).getValue().indexOf(",");
-            return fmdvs.get(0).getValue().substring(indexOfComma + 2) + " " +
-                    fmdvs.get(0).getValue().substring(0, indexOfComma - 1) + ", ";
+            String authorsPrefix = fmdvs.subList(0, fmdvs.size() - 1).stream()
+                    .map(MetadataValue::getValue)
+                    .collect(Collectors.joining(", "));
+
+            return (authorsPrefix.isEmpty() ? "" : authorsPrefix + " & ") + fmdvs.get(fmdvs.size() -1).getValue() + ", ";
         }
     }
 
