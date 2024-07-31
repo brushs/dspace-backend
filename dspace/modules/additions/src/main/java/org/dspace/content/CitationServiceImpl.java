@@ -236,12 +236,19 @@ public class CitationServiceImpl implements CitationService {
             return "";
         } else if (fmdvs.size() == 1) {
             return fmdvs.get(0).getValue() + " ";
-        } else {
+        } else if (fmdvs.size() < 21){
             String authorsPrefix = fmdvs.subList(0, fmdvs.size() - 1).stream()
                     .map(MetadataValue::getValue)
                     .collect(Collectors.joining(", "));
 
-            return authorsPrefix + " & " + fmdvs.get(fmdvs.size() -1).getValue() + " ";
+            return authorsPrefix + " & " + fmdvs.get(fmdvs.size() - 1).getValue() + " ";
+        } else {
+            String authorsPrefix = fmdvs.subList(0, fmdvs.size() - 1).stream()
+                    .map(MetadataValue::getValue)
+                    .limit(20)
+                    .collect(Collectors.joining(", "));
+
+            return authorsPrefix + " ... & " + fmdvs.get(fmdvs.size() - 1).getValue() + " ";
         }
     }
 
