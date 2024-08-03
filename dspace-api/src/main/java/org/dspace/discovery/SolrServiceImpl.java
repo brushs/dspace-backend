@@ -132,7 +132,6 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     @Override
     public void indexContent(Context context, IndexableObject dso)
         throws SQLException {
-        log.info("HERE1");
         indexContent(context, dso, false);
     }
 
@@ -334,7 +333,6 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
     @Override
     public void updateIndex(Context context, boolean force, String type) {
-        log.info("HERE2");
         try {
             final List<IndexFactory> indexableObjectServices = indexObjectServiceFactory.
                 getIndexFactories();
@@ -1499,7 +1497,6 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     @Override
     public void indexContent(Context context, IndexableObject dso, boolean force,
                              boolean commit) throws SearchServiceException, SQLException {
-        log.info("HERE3");
         indexContent(context, dso, force);
         if (commit) {
             commit();
@@ -1521,7 +1518,6 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                 log.error(e.getMessage(), e);
             }
         } else {
-            log.info("HERE4");
             indexContent(context, indexableObject, force);
         }
         if (commit) {
