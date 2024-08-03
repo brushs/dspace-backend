@@ -237,6 +237,7 @@
                 <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAuthorFull" />
                 <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
@@ -375,7 +376,7 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterType_en"/>
-                <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAuthorFull" />
                 <ref bean="searchFilterCollection_en" />
                 <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterIssued" />
@@ -390,6 +391,7 @@
                 <ref bean="searchFilterType_en"/>
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAuthorFull" />
                 <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
@@ -527,7 +529,7 @@
         <property name="sidebarFacets">
             <list>
                 <ref bean="searchFilterType_fr"/>
-                <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAuthorFull" />
                 <ref bean="searchFilterCollection_fr" />
                 <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
@@ -541,7 +543,7 @@
             <list>
                 <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterTitle" />
-                <ref bean="searchFilterAuthor" />
+                <ref bean="searchFilterAuthorFull" />
                 <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
@@ -3814,6 +3816,22 @@
         <property name="metadataFields">
             <list>
                 <value>dc.contributor.author</value>
+                <value>dc.creator</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="5"/>
+        <property name="sortOrderSidebar" value="COUNT"/>
+        <property name="sortOrderFilterPage" value="COUNT"/>
+        <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+        <property name="exposeMinAndMaxValue" value="true"/>
+    </bean>
+
+    <bean id="searchFilterAuthorFull" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="authorfull"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.contributor.authorfull</value>
                 <value>dc.creator</value>
             </list>
         </property>

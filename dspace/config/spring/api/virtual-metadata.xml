@@ -54,6 +54,7 @@
           This value-ref should be a bean of type VirtualMetadataConfiguration -->
     <util:map id="isAuthorOfPublicationMap">
         <entry key="dc.contributor.author" value-ref="publicationAuthor_author"/>
+        <entry key="dc.contributor.authorfull" value-ref="publicationAuthor_authorfull"/>
     </util:map>
     <!--
          If the related item has:
@@ -66,6 +67,28 @@
             <util:list>
                 <value>person.familyName</value>
                 <value>person.givenName</value>
+                <value>organization.legalName</value>
+            </util:list>
+        </property>
+        <property name="separator">
+            <value>, </value>
+        </property>
+        <property name="useForPlace" value="true"/>
+        <property name="populateWithNameVariant" value="true"/>
+    </bean>
+
+    <!--
+     If the related item has:
+        person.familyName = Smith
+        person.givenName = John
+     Then the original item will have, in this case:
+        dc.contributor.author = Smith, John -->
+    <bean class="org.dspace.content.virtual.AuthorFull" id="publicationAuthor_authorfull">
+        <property name="fields">
+            <util:list>
+                <value>person.familyName</value>
+                <value>person.givenName</value>
+                <value>person.givenName.full</value>
                 <value>organization.legalName</value>
             </util:list>
         </property>

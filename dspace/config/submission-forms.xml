@@ -2101,9 +2101,19 @@
                 <field>
                     <dc-schema>person</dc-schema>
                     <dc-element>givenName</dc-element>
-                    <label>First name</label>
+                    <label>First Initial(s)</label>
                     <input-type>onebox</input-type>
-                    <hint>Enter the first name of the person</hint>
+                    <hint>Enter the initials of the first name of the person</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>givenName</dc-element>
+                    <dc-qualifier>full</dc-qualifier>
+                    <label>Full first name (to avoid conflicts)</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the full first name of the person</hint>
                 </field>
             </row>
             <row>
@@ -2172,6 +2182,16 @@
                     <label>First name</label>
                     <input-type>onebox</input-type>
                     <hint>Enter the first name of the person</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
+                    <dc-element>givenName</dc-element>
+                    <dc-qualifier>full</dc-qualifier>
+                    <label>Full first name (to avoid conflicts)</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the full first name of the person</hint>
                 </field>
             </row>
             <row>
