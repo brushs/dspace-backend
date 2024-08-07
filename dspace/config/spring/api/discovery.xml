@@ -3655,6 +3655,8 @@
         <property name="pageSize" value="10"/>
     </bean>
 
+    <bean id="searchFilterAllTitles" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
+        <property name="indexFieldName" value="alltitles"/>
         <property name="metadataFields">
             <list>
                 <value>dc.title</value>
@@ -3662,6 +3664,8 @@
             </list>
         </property>
         <property name="isOpenByDefault" value="true"/>
+        <property name="pageSize" value="10"/>
+    </bean>
 
     <bean id="searchFilterIsAuthorOfPublicationRelation" class="org.dspace.discovery.configuration.DiscoverySearchFilter">
         <property name="indexFieldName" value="isAuthorOfPublication"/>
@@ -3878,7 +3882,7 @@
         <property name="indexFieldName" value="sourcetitle"/>
         <property name="metadataFields">
             <list>
-                <value>nrcan.series.title</value>
+                <value>nrcan.serial.title</value>
                 <value>nrcan.journal.title</value>
             </list>
         </property>

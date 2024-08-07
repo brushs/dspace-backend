@@ -143,8 +143,10 @@ public class DiscoveryRestController implements InitializingBean {
                                                       configuration,
                                                   @RequestParam(name = "ostrSearch", required = false) String
                                                               searchRequest,
-                                                  @RequestParam(name="geoQuery",required = false) String
+                                                  @RequestParam(name="geoQuery", required = false) String
                                                           geoQuery,
+                                                  @RequestParam(name="expand", required = false) Boolean
+                                                              expand,
                                                   List<SearchFilter> searchFilters,
                                                   Pageable page) throws Exception {
 
@@ -162,12 +164,9 @@ public class DiscoveryRestController implements InitializingBean {
         //Get the Search results in JSON format
         try {
             Projection projection = utils.obtainProjection();
-            //if (searchRequest != null && searchRequest.contentEquals("1")) {
-            //    projection.setUISearchRequest(true);
-            //}
 
             SearchResultsRest searchResultsRest = discoveryRestRepository.getSearchObjects(query, dsoTypes, dsoScope,
-                configuration, searchFilters, page, projection,geoQuery);
+                configuration, searchFilters, page, projection, geoQuery, expand == null ? false : expand);
 
             //Convert the Search JSON results to paginated HAL resources
             SearchResultsResource searchResultsResource = new SearchResultsResource(searchResultsRest, utils, page);

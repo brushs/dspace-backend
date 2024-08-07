@@ -97,7 +97,7 @@ public class DiscoverQueryBuilder implements InitializingBean {
             throws IllegalArgumentException, SearchServiceException {
 
                         return buildQuery(context, scope, discoveryConfiguration, query, searchFilters, dsoTypes, pageSize, offset,
-                                          sortProperty, sortDirection,null);
+                                          sortProperty, sortDirection, null, false);
     }
 
     /**
@@ -119,11 +119,11 @@ public class DiscoverQueryBuilder implements InitializingBean {
                                     String query, List<QueryBuilderSearchFilter> searchFilters,
                                     List<String> dsoTypes, Integer pageSize, Long offset, String sortProperty,
                                     //String sortDirection,
-                                    String sortDirection, String geoQuery)
+                                    String sortDirection, String geoQuery, boolean expand)
             throws IllegalArgumentException, SearchServiceException {
 
         DiscoverQuery queryArgs = buildCommonDiscoverQuery(context, discoveryConfiguration, query, searchFilters,
-                                                           dsoTypes);
+                                                           dsoTypes, null, expand);
         if (geoQuery != null)
             queryArgs.addFilterQueries(geoQuery.toString());
 
@@ -271,10 +271,20 @@ public class DiscoverQueryBuilder implements InitializingBean {
         return buildCommonDiscoverQuery(context, discoveryConfiguration, query, searchFilters,
                 dsoTypes, null);
     }
+
     private DiscoverQuery buildCommonDiscoverQuery(Context context, DiscoveryConfiguration discoveryConfiguration,
                                                    String query,
                                                    List<QueryBuilderSearchFilter> searchFilters, List<String> dsoTypes,
                                                    String geoQuery)
+            throws IllegalArgumentException {
+        return buildCommonDiscoverQuery(context, discoveryConfiguration, query, searchFilters,
+                dsoTypes, null, false);
+    }
+
+    private DiscoverQuery buildCommonDiscoverQuery(Context context, DiscoveryConfiguration discoveryConfiguration,
+                                                   String query,
+                                                   List<QueryBuilderSearchFilter> searchFilters, List<String> dsoTypes,
+                                                   String geoQuery, boolean expandQuery)
             throws IllegalArgumentException {
         DiscoverQuery queryArgs = buildBaseQueryForConfiguration(discoveryConfiguration);
 
@@ -285,7 +295,12 @@ public class DiscoverQueryBuilder implements InitializingBean {
 
         //Set search query
         if (StringUtils.isNotBlank(query)) {
-            queryArgs.setQuery(query);
+            if (expandQuery && query.contains("dc.description:")) {
+                query = expandDescriptionField(query);
+                queryArgs.setQuery(query);
+            } else {
+                queryArgs.setQuery(query);
+            }
         }
 
         //Limit results to DSO types
@@ -296,6 +311,39 @@ public class DiscoverQueryBuilder implements InitializingBean {
         }
 
         return queryArgs;
+    }
+
+    private String expandDescriptionField(String query) {
+        int fieldNameStart = query.indexOf("dc.description");
+        int lengthToValue = 16;
+        int nextDoubleQuote = query.indexOf('"', fieldNameStart + lengthToValue);
+        String descriptionQuery = query.substring(fieldNameStart, nextDoubleQuote);
+        String queryValue = query.substring(fieldNameStart + lengthToValue, nextDoubleQuote);
+
+        StringBuilder s = new StringBuilder();
+        s.append("(");
+        s.append("dc.description:");
+        s.append("\"" + queryValue + "\"");
+        s.append(" OR ");
+        s.append("dc.description.abstract:");
+        s.append("\"" + queryValue + "\"");
+        s.append(" OR ");
+        s.append("dc.subject.geoscan:");
+        s.append("\"" + queryValue + "\"");
+        s.append(" OR ");
+        s.append("dc.subject.cfs:");
+        s.append("\"" + queryValue + "\"");
+        s.append(" OR ");
+        s.append("dc.subject.gc:");
+        s.append("\"" + queryValue + "\"");
+        s.append(" OR ");
+        s.append("dc.subject.descriptor:");
+        s.append("\"" + queryValue + "\"");
+        s.append(")");
+
+        //String expandedQuery = "alltitles:\"Maple\"";
+        query = query.replace(descriptionQuery, s.toString());
+        return query.substring(0, query.length() - 1);
     }
 
     private DiscoverQuery buildBaseQueryForConfiguration(DiscoveryConfiguration discoveryConfiguration) {
