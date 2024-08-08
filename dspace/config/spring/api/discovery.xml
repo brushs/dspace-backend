@@ -236,6 +236,7 @@
                 <ref bean="searchFilterType_en"/>
                 <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterTitle" />
+                <ref bean="searchFilterAllTitles" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterAuthorFull" />
                 <ref bean="searchFilterAllAuthors" />
