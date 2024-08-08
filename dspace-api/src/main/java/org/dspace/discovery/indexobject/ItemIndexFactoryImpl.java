@@ -364,7 +364,7 @@ public class ItemIndexFactoryImpl extends DSpaceObjectIndexFactoryImpl<Indexable
             }
 
             List<String> toIgnoreMetadataFields = SearchUtils.getIgnoredMetadataFields(item.getType());
-            List<MetadataValue> mydc = itemService.getMetadata(item, Item.ANY, Item.ANY, Item.ANY, Item.ANY, enableVirtualMetadata);
+            List<MetadataValue> mydc = itemService.getMetadata(item, Item.ANY, Item.ANY, Item.ANY, Item.ANY, enableVirtualMetadata, "en,fr");
             for (MetadataValue meta : mydc) {
                 MetadataField metadataField = meta.getMetadataField();
                 MetadataSchema metadataSchema = metadataField.getMetadataSchema();
