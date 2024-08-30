@@ -60,6 +60,7 @@ public class Curation extends DSpaceRunnable<CurationScriptConfiguration> {
 
     @Override
     public void internalRun() throws Exception {
+        super.handler.logInfo("Running Curation task");
         if (curationClientOptions == CurationClientOptions.HELP) {
             printHelp();
             return;

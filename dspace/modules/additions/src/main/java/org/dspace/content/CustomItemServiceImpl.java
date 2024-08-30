@@ -1580,7 +1580,7 @@ prevent the generation of resource policy entry values with null dspace_object a
             log.debug("Called getMetadata for " + item.getID() + " without enableVirtualMetadata");
             return super.getMetadata(item, schema, element, qualifier, lang);
         }
-        if (item.isModifiedMetadataCache() || projectionLang.contains(",")) {
+        if (item.isModifiedMetadataCache() || (projectionLang != null && projectionLang.contains(","))) {
             log.debug("Called getMetadata for " + item.getID() + " with invalid cache");
             //rebuild cache
             List<MetadataValue> dbMetadataValues = item.getMetadata();
