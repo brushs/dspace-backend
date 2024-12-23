@@ -74,7 +74,7 @@ swordv2-server.path = swordv2
 # URL for connecting to database
 #    * Postgres template: jdbc:postgresql://localhost:5432/dspace
 #    * Oracle template: jdbc:oracle:thin:@//localhost:1521/xe
-db.url = jdbc:postgresql://dspacesandbox.postgres.database.azure.com:5432/dspace
+db.url = jdbc:postgresql://dspacesandbox.postgres.database.azure.com:5432/dspace?sslmode=prefer
 
 # JDBC Driver
 #    * For Postgres: org.postgresql.Driver
