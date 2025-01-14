@@ -288,7 +288,6 @@ metadata.hide.nrcan.abstract.language = true
 metadata.hide.nrcan.area.migrationid = true
 metadata.hide.nrcan.area.source = true
 metadata.hide.nrcan.author.cfsmigrationid = true
-metadata.hide.nrcan.author.isexternal = true
 metadata.hide.nrcan.author.migrationid = true
 metadata.hide.nrcan.corpauthor.migrationid = true
 metadata.hide.nrcan.division.code = true
