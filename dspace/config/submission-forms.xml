@@ -540,7 +540,6 @@
                     <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
                     <input-type>onebox</input-type>
-                    <type-bind>Article</type-bind>
                     <label>Article Number</label>
                     <hint>Online Article number</hint>
                     <required></required>
