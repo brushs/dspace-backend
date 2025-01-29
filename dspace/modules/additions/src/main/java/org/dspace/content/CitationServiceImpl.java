@@ -212,10 +212,18 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
+        if (!StringUtils.isEmpty(getMonographicName(mdvs))) {
+            sb.append(getTitleLanguage(mdvs).equals("en") ? "In " : "Dans ");
+            sb.append(getEditor(mdvs));
+            sb.append(getMonographicName(mdvs));
+        }
         sb.append(getField(mdvs, FIELD_EDITION, ","));
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
+
+        // only one of these two fields should exist on a pub -- so the double period makes sense
         sb.append(getField(mdvs, FIELD_PAGINATION_TOTAL, "."));
+        sb.append(getField(mdvs, FIELD_PAGINATION, "."));
 
         if (sb.toString().endsWith(", ")) {
             // Remove the last two characters (", ") and append ". "
@@ -340,7 +348,7 @@ public class CitationServiceImpl implements CitationService {
         if (fmdvs == null || fmdvs.size() == 0) {
             return "";
         } else {
-            return fmdvs.get(0).getValue() + ", ";
+            return "<i>" + fmdvs.get(0).getValue() + "</i>, ";
         }
     }
 
@@ -353,7 +361,7 @@ public class CitationServiceImpl implements CitationService {
                     .map(MetadataValue::getValue)
                     .collect(Collectors.joining(", "));
 
-            return (authorsPrefix.isEmpty() ? "" : authorsPrefix + " & ") + fmdvs.get(fmdvs.size() -1).getValue() + ", ";
+            return (authorsPrefix.isEmpty() ? "" : authorsPrefix + " & ") + fmdvs.get(fmdvs.size() -1).getValue() + " (eds.), ";
         }
     }
 
