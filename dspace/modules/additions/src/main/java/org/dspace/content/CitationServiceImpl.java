@@ -159,7 +159,7 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
-        sb.append(getField(mdvs, FIELD_EDITION, ","));
+        sb.append(getEdition(mdvs));
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
@@ -188,7 +188,7 @@ public class CitationServiceImpl implements CitationService {
             sb.append(getEditor(mdvs));
             sb.append(getMonographicName(mdvs));
         }
-        sb.append(getField(mdvs, FIELD_EDITION, ","));
+        sb.append(getEdition(mdvs));
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
@@ -217,7 +217,7 @@ public class CitationServiceImpl implements CitationService {
             sb.append(getEditor(mdvs));
             sb.append(getMonographicName(mdvs));
         }
-        sb.append(getField(mdvs, FIELD_EDITION, ","));
+        sb.append(getEdition(mdvs));
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
 
@@ -340,6 +340,15 @@ public class CitationServiceImpl implements CitationService {
             return "";
         } else {
             return "<i>" + fmdvs.get(0).getValue() + "</i>, ";
+        }
+    }
+
+    private String getEdition(List<MetadataValue> mdvs) {
+        List<MetadataValue> fmdvs = MetadataUtils.getFilteredList(mdvs, FIELD_EDITION);
+        if (fmdvs == null || fmdvs.size() == 0) {
+            return "";
+        } else {
+            return "(" + fmdvs.get(0).getValue() + "). ";
         }
     }
 
