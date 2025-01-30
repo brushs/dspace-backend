@@ -159,7 +159,11 @@ public class CitationServiceImpl implements CitationService {
         sb.append(getCorporateAuthors(mdvs));
         sb.append(getYear(mdvs));
         sb.append(getTitle(mdvs));
-        sb.append(getEdition(mdvs));
+        if (!StringUtils.isEmpty(getEdition(mdvs))) {
+            sb.delete(sb.length() - 2, sb.length());
+            sb.append(" ");
+            sb.append(getEdition(mdvs));
+        }
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
@@ -188,7 +192,11 @@ public class CitationServiceImpl implements CitationService {
             sb.append(getEditor(mdvs));
             sb.append(getMonographicName(mdvs));
         }
-        sb.append(getEdition(mdvs));
+        if (!StringUtils.isEmpty(getEdition(mdvs))) {
+            sb.delete(sb.length() - 2, sb.length());
+            sb.append(" ");
+            sb.append(getEdition(mdvs));
+        }
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
@@ -217,7 +225,11 @@ public class CitationServiceImpl implements CitationService {
             sb.append(getEditor(mdvs));
             sb.append(getMonographicName(mdvs));
         }
-        sb.append(getEdition(mdvs));
+        if (!StringUtils.isEmpty(getEdition(mdvs))) {
+            sb.delete(sb.length() - 2, sb.length());
+            sb.append(" ");
+            sb.append(getEdition(mdvs));
+        }
         sb.append(getSerialName(mdvs));
         sb.append(getField(mdvs, FIELD_REPORT_NUMBER, ","));
 
