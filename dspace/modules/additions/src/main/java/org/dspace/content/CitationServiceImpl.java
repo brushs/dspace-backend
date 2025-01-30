@@ -224,6 +224,7 @@ public class CitationServiceImpl implements CitationService {
         // only one of these two fields should exist on a pub -- so the double period makes sense
         sb.append(getField(mdvs, FIELD_PAGINATION_TOTAL, "."));
         sb.append(getField(mdvs, FIELD_PAGINATION, "."));
+        sb.append(getField(mdvs, FIELD_PUBLISHER, "."));
 
         if (sb.toString().endsWith(", ")) {
             // Remove the last two characters (", ") and append ". "
