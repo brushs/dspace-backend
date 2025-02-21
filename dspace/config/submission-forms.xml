@@ -635,7 +635,7 @@
                         <dc-qualifier>monographicauthor</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
-                    <type-bind>Book chapter</type-bind>
+                    <type-bind>Book Chapter</type-bind>
                     <externalsources>orcid</externalsources>
                     <required></required>
                 </relation-field>
@@ -651,7 +651,7 @@
                         <dc-qualifier>monographiccorporateauthor</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
-                    <type-bind>Book chapter</type-bind>
+                    <type-bind>Book Chapter</type-bind>
                     <required></required>
                 </relation-field>
             </row>
@@ -1543,7 +1543,7 @@
                         <dc-qualifier>author</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
-                    <type-bind>Book chapter</type-bind>
+                    <type-bind>Book Chapter</type-bind>
                     <externalsources>orcid</externalsources>
                     <required></required>
                     <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
@@ -1559,7 +1559,7 @@
                     <dc-qualifier>title</dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>Monographic Title</label>
-                    <type-bind>Book chapter</type-bind>
+                    <type-bind>Book Chapter</type-bind>
                     <input-type>onebox</input-type>
                     <language value-pairs-name="gc_languages">true</language>
                     <hint>Enter the monographic title related to the item.</hint>
@@ -1578,7 +1578,7 @@
                         <dc-qualifier>corporateauthor</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
-                    <type-bind>Book chapter</type-bind>
+                    <type-bind>Book Chapter</type-bind>
                     <required></required>
                     <!-- You may choose to validate author names via a Regular Expression if it's appropriate for
                          your institution. The below regex requires a comma to be present in the author field.
@@ -3696,39 +3696,43 @@
         <value-pairs value-pairs-name="common_types" dc-term="type">
             <pair>
                 <displayed-value>Abstract</displayed-value>
-                <stored-value>abstract</stored-value>
+                <stored-value>Abstract</stored-value>
             </pair>
             <pair>
                 <displayed-value>Article</displayed-value>
-                <stored-value>article</stored-value>
+                <stored-value>Article</stored-value>
             </pair>
             <pair>
                 <displayed-value>Book</displayed-value>
-                <stored-value>book</stored-value>
+                <stored-value>Book</stored-value>
             </pair>
             <pair>
-                <displayed-value>Book chapter</displayed-value>
-                <stored-value>book chapter</stored-value>
+                <displayed-value>Book Chapter</displayed-value>
+                <stored-value>Book Chapter</stored-value>
             </pair>
             <pair>
                 <displayed-value>Conference Material</displayed-value>
-                <stored-value>conference material</stored-value>
+                <stored-value>Conference Material</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>Image</displayed-value>
+                <stored-value>Image</stored-value>
             </pair>
             <pair>
                 <displayed-value>Map</displayed-value>
-                <stored-value>map</stored-value>
+                <stored-value>Map</stored-value>
             </pair>
             <pair>
                 <displayed-value>Report</displayed-value>
-                <stored-value>report</stored-value>
+                <stored-value>Report</stored-value>
             </pair>
             <pair>
                 <displayed-value>Thesis</displayed-value>
-                <stored-value>thesis</stored-value>
+                <stored-value>Thesis</stored-value>
             </pair>
             <pair>
                 <displayed-value>Web Resource</displayed-value>
-                <stored-value>web resource</stored-value>
+                <stored-value>Web Rresource</stored-value>
             </pair>
         </value-pairs>
 
