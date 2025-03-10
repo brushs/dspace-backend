@@ -719,6 +719,13 @@
 
   <dc-type>
     <schema>nrcan</schema>
+    <element>legacy</element>
+    <qualifier>photosubject</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>nrcan</schema>
     <element>sourcesystem</element>
     <qualifier></qualifier>
     <scope_note>The system which provided this entry to the OSTR</scope_note>
@@ -1129,6 +1136,48 @@
 
   <dc-type>
     <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>photoid</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>photonumber</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>altphotonumber</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>source</element>
+    <qualifier>media</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>source</element>
+    <qualifier>colour</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>source</element>
+    <qualifier>dimensions</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
     <element>subject</element>
     <qualifier>broad</qualifier>
     <scope_note></scope_note>
@@ -1230,6 +1279,27 @@
     <element>subject</element>
     <qualifier>geoscan_fr</qualifier>
     <scope_note>GEOSCAN Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>photo</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>photo_en</qualifier>
+    <scope_note>Photo Subjects.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>photo_fr</qualifier>
+    <scope_note>Photo Subjects.</scope_note>
   </dc-type>
 
   <dc-type>
@@ -1474,54 +1544,6 @@
     <element>runtime</element>
     <qualifier></qualifier>
     <scope_note>Run time for videos.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>medium</qualifier>
-    <scope_note>Medium type.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>dimension</qualifier>
-    <scope_note>Photo dimensions.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>colour</qualifier>
-    <scope_note>Photo colour.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>size</qualifier>
-    <scope_note>Photo size.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>width</qualifier>
-    <scope_note>Photo width.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>height</qualifier>
-    <scope_note>Photo height.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>resolution</qualifier>
-    <scope_note>Photo resolution.</scope_note>
-  </dc-type>
-  <dc-type>
-    <schema>nrcan</schema>
-    <element>photo</element>
-    <qualifier>format</qualifier>
-    <scope_note>Photo format.</scope_note>
   </dc-type>
   <dc-type>
     <schema>dc</schema>
