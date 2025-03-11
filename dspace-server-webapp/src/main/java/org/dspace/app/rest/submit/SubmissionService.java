@@ -259,6 +259,12 @@ public class SubmissionService {
         }
         WorkspaceItemRest wsiRest = converter.toRest(wsi, utils.obtainProjection());
         if (!wsiRest.getErrors().isEmpty()) {
+            StringBuilder errMsg = new StringBuilder();
+            for (ErrorRest error : wsiRest.getErrors()) {
+                log.error("Error in validation: " + error.getMessage() + " - " + error.getPaths());
+            }
+            
+            log.error("Errors from validation", wsiRest.getErrors());
             throw new UnprocessableEntityException(
                     "Start workflow failed due to validation error on workspaceitem");
         }
