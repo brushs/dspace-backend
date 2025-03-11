@@ -122,6 +122,7 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
                                                       Exception ex) throws IOException {
         //422 is not defined in HttpServletResponse.  Its meaning is "Unprocessable Entity".
         //Using the value from HttpStatus.
+        log.error("Error", ex);
         sendErrorResponse(request, response, null,
                 "Unprocessable or invalid entity",
                 HttpStatus.UNPROCESSABLE_ENTITY.value());
