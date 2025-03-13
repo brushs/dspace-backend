@@ -169,6 +169,10 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             log.info("Running in CLI Mode");
         }
 
+        if (System.getProperty("dspace.cli") != null) {
+            System.out.println("Running in Command Line Mode");
+        }
+
         //final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
         //indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
     }
