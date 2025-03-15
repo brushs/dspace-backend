@@ -214,6 +214,15 @@ public class CrossRefDOIIdentifierProvider extends FilteredIdentifierProvider im
     public String register(Context context, DSpaceObject dso, boolean skipFilter)
         throws IdentifierException {
 
+        // Migration perf
+        if (context.getCurrentUser() != null) {
+            if (context.getCurrentUser().getEmail().equals("steve.brush@nrcan-rncan.gc.ca") ||
+                    context.getCurrentUser().getEmail().equals("steve.brush@apption.com")) {
+                return null;
+            }
+        }
+
+
         log.info("register");
 
         if (!(dso instanceof Item)) {

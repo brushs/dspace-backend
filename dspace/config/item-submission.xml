@@ -260,7 +260,7 @@
             <type>submission-form</type>
         </step-definition>
 
-        <step-definition id="upload">
+        <step-definition id="upload" mandatory="false">
             <heading>submit.progressbar.upload</heading>
             <processing-class>org.dspace.app.rest.submit.step.UploadStep</processing-class>
             <type>upload</type>

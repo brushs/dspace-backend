@@ -63,7 +63,9 @@ EXPOSE 8080 8009
 ENV JAVA_OPTS=-Xmx2000m
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends nano
+    && apt-get install -y --no-install-recommends nano \
+    && apt-get install -y --no-install-recommends imagemagick
+
 
 # Setup Java for running commands
 RUN echo "export PATH=$PATH" >> ~/.bashrc

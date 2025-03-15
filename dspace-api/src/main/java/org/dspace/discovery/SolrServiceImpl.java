@@ -165,8 +165,18 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
     protected void update(Context context, IndexFactory indexableObjectService,
                           IndexableObject indexableObject) throws IOException, SQLException, SolrServerException {
-        final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
-        indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
+        boolean index = true;
+        if (context.getCurrentUser() != null) {
+            if (context.getCurrentUser().getEmail().equals("steve.brush@nrcan-rncan.gc.ca") ||
+                    context.getCurrentUser().getEmail().equals("steve.brush@apption.com")) {
+                index = false;
+            }
+        }
+
+        if (index) {
+            final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
+            indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
+        }
     }
 
     /**
@@ -178,12 +188,23 @@ public class SolrServiceImpl implements SearchService, IndexingService {
      */
     protected void update(Context context, IndexFactory indexableObjectService, IndexableObject indexableObject,
                           boolean preDB) throws IOException, SQLException, SolrServerException {
-        if (preDB) {
-            final SolrInputDocument solrInputDocument =
-                    indexableObjectService.buildNewDocument(context, indexableObject);
-            indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
-        } else {
-            update(context, indexableObjectService, indexableObject);
+
+        boolean index = true;
+        if (context.getCurrentUser() != null) {
+            if (context.getCurrentUser().getEmail().equals("steve.brush@nrcan-rncan.gc.ca") ||
+                    context.getCurrentUser().getEmail().equals("steve.brush@apption.com")) {
+                index = false;
+            }
+        }
+
+        if (index) {
+            if (preDB) {
+                final SolrInputDocument solrInputDocument =
+                        indexableObjectService.buildNewDocument(context, indexableObject);
+                indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
+            } else {
+                update(context, indexableObjectService, indexableObject);
+            }
         }
     }
 
