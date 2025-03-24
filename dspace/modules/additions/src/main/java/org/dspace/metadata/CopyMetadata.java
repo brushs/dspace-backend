@@ -125,15 +125,71 @@ public class CopyMetadata {
     }
 
     private void process(Context context, int limit) throws SQLException, IOException, AuthorizeException {
-        List<MetadataLanguageSummary> itemsToProcess = vocabularyService.getItemsForMetadataProcessing(context, limit);
 
         SimpleDateFormat fullIso2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+        // This whole process is supposed to permit users to only enter in subjects in a single language but
+        // Then make them available/visible bilingually (as opposed to just searchable)
+
+        // To determine whether we need to process an item by count of the subject records is unfortunately complicated
+
+        // Normally, there would be 2 : 1 ratio between the curated fields (bilingual, visible fields to public taken from
+        // our vocabularies/terms after processing the raw fields from user input). This ratio is broken by at least 3 gotchas
+
+        // 1 - Several vocabularies have the same French term as the translation for different English terms. This means that
+        //      if a user adds the French term the job should add the corresponding English term. But we don't know which
+        //      of the two English terms to add, so we would have to add both. So now we have more curated fields than we should (2x + 1 : x)
+        // 2 - For the same reason, it's possible the user adds both of the English terms with the duplicate French term. Our job
+        //      would add the French term, but only once as we check to see if it already exists. Now we have fewer curated fields
+        //      than we should. (2x - 1 : x)
+        // 3 - Users may choose to enter in the English and French values in the raw subject data. In this case we would only 1 record
+        //      record in each language in the curated subject field (x : x)
+
+        // The above problems noted, we will not let perfect be the enemy of pretty good. This logic should work 99+% of the time
+
+        // If issues arise, no bad data is added, the offending items just take up space in our batch
+        // If too much space is taken up (maybe check periodically) you could perform some manual cleanup (if it's issue #3)
+        // Or perhaps add an new hidden field "copymetadataexclude" and add that to the view and retrieval logic
+
+        log.info("Processing Items with Missing Types");
+        List<MetadataLanguageSummary> itemsToProcess = vocabularyService.getItemsForMetadataProcessingByType(context, limit);
+
+        log.info("Found " + itemsToProcess.size() + " items");
+        limit = limit - itemsToProcess.size();
+
         for (MetadataLanguageSummary mls : itemsToProcess) {
-            log.info("Processing ID: " + mls.getId() + " Type Count: " + mls.getTypeCount()
-                + " Type En Count: " + mls.getTypeEnCount() + " Subject Raw Count: " + mls.getSubjectRawCount()
-                + " Subject Curated Count: " + mls.getSubjectCuratedCount() + " Modified: " +
-                    fullIso2.format(mls.getLastModified()));
+            log.info("Processing ID: " + mls.getId() + " Last Modified: " + fullIso2.format(mls.getLastModified()));
+            vocabularyService.performMetadataCopy(context, itemService.find(context, mls.getId()));
+            context.commit();
+        }
+
+        if (limit <= 0) {
+            log.info("Reached Limit, exiting process");
+            return;
+        }
+
+        log.info("Processing Items with No MetadataProcessDate");
+        itemsToProcess = vocabularyService.getItemsForMetadataProcessingNoMPD(context, limit);
+        log.info("Found " + itemsToProcess.size() + " items");
+        limit = limit - itemsToProcess.size();
+
+        for (MetadataLanguageSummary mls : itemsToProcess) {
+            log.info("Processing ID: " + mls.getId() + " Last Modified: " + fullIso2.format(mls.getLastModified()));
+            vocabularyService.performMetadataCopy(context, itemService.find(context, mls.getId()));
+            context.commit();
+        }
+
+        if (limit <= 0) {
+            log.info("Reached Limit, exiting process");
+            return;
+        }
+
+        log.info("Processing Items by MetadataProcessDate");
+        itemsToProcess = vocabularyService.getItemsForMetadataProcessingByMPD(context, limit);
+        log.info("Found " + itemsToProcess.size() + " items");
+
+        for (MetadataLanguageSummary mls : itemsToProcess) {
+            log.info("Processing ID: " + mls.getId() + " Last Modified: " + fullIso2.format(mls.getLastModified()));
             vocabularyService.performMetadataCopy(context, itemService.find(context, mls.getId()));
             context.commit();
         }

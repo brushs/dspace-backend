@@ -35,15 +35,34 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
     }
 
     @Override
-    public List<MetadataLanguageSummary> getItemsToProcess(Context context, Integer limit) throws SQLException {
+    public List<MetadataLanguageSummary> getItemsToProcessByType(Context context, Integer limit) throws SQLException {
         CriteriaBuilder cb = getCriteriaBuilder(context);
         CriteriaQuery cq = getCriteriaQuery(cb, MetadataLanguageSummary.class);
         Root<Term> root = cq.from(MetadataLanguageSummary.class);
 
         Predicate typeCountMismatch = cb.notEqual(root.get("typeCount"), root.get("typeEnCount"));
-        Predicate subjectCountMismatch = cb.notEqual(root.get("subjectRawCount"), root.get("subjectCuratedCount"));
 
-        return list(context, cq.select(root).where(cb.or(typeCountMismatch, subjectCountMismatch)).orderBy(cb.asc(root.get("lastModified"))), true, MetadataLanguageSummary.class, limit, 0);
+        return list(context, cq.select(root).where(typeCountMismatch).orderBy(cb.asc(root.get("lastModified"))), true, MetadataLanguageSummary.class, limit, 0);
+    }
+
+    @Override
+    public List<MetadataLanguageSummary> getItemsToProcessNoMPD(Context context, Integer limit) throws SQLException {
+        CriteriaBuilder cb = getCriteriaBuilder(context);
+        CriteriaQuery cq = getCriteriaQuery(cb, MetadataLanguageSummary.class);
+        Root<Term> root = cq.from(MetadataLanguageSummary.class);
+
+        Predicate metadataProcessDateNull = cb.isNull(root.get("metadataProcessDate"));
+
+        return list(context, cq.select(root).where(metadataProcessDateNull).orderBy(cb.asc(root.get("lastModified"))), true, MetadataLanguageSummary.class, limit, 0);
+    }
+
+    @Override
+    public List<MetadataLanguageSummary> getItemsToProcessByMPD(Context context, Integer limit) throws SQLException {
+        CriteriaBuilder cb = getCriteriaBuilder(context);
+        CriteriaQuery cq = getCriteriaQuery(cb, MetadataLanguageSummary.class);
+        Root<Term> root = cq.from(MetadataLanguageSummary.class);
+
+        return list(context, cq.select(root).orderBy(cb.asc(root.get("metadataProcessDate"))), true, MetadataLanguageSummary.class, limit, 0);
     }
 
     @Override
