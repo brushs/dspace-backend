@@ -102,6 +102,16 @@
                     <required>You must enter a photo number.</required>
                 </field>
                 <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>identifier</dc-element>
+                    <dc-qualifier>altphotonumber</dc-qualifier>
+                    <repeatable>false</repeatable>
+                    <label>Alternate Photo Number</label>
+                    <input-type>onebox</input-type>
+                    <hint>Example: Figure 3</hint>
+                    <required></required>
+                </field>
+                <field>
                     <dc-schema>nrcan</dc-schema>
                     <dc-element>runtime</dc-element>
                     <dc-qualifier></dc-qualifier>
@@ -118,19 +128,10 @@
                     <repeatable>false</repeatable>
                     <label>Medium</label>
                     <input-type value-pairs-name="common_photo_medium_types">dropdown</input-type>
-                    <hint>Select the medium of the resource</hint>
+                    <hint>Select the medium of the original resource</hint>
                     <required/>
                 </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>photo</dc-element>
-                    <dc-qualifier>dimension</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Dimensions</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the dimentions of the resource</hint>
-                    <required/>
-                </field>
+
             </row>
             <row>
                 <field>
@@ -146,52 +147,12 @@
                 <field>
                     <dc-schema>nrcan</dc-schema>
                     <dc-element>photo</dc-element>
-                    <dc-qualifier>size</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Size</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the size for the resource</hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>photo</dc-element>
-                    <dc-qualifier>width</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Width</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the width for the resource</hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>photo</dc-element>
-                    <dc-qualifier>height</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Height</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the height for the resource</hint>
-                    <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>photo</dc-element>
                     <dc-qualifier>resolution</dc-qualifier>
                     <repeatable>false</repeatable>
                     <label>Resolution</label>
                     <input-type>onebox</input-type>
                     <hint>Enter resolution for the resource</hint>
                     <required></required>
-                </field>
-                <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>photo</dc-element>
-                    <dc-qualifier>format</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>File Format</label>
-                    <input-type value-pairs-name="common_photo_format_types">dropdown</input-type>
-                    <hint>Select file format of the resource</hint>
-                    <required/>
                 </field>
             </row>
             <row>
@@ -206,18 +167,7 @@
                     <required></required>
                 </field>
             </row>  
-            <row>
-                <field>
-                    <dc-schema>dc</dc-schema>
-                    <dc-element>date</dc-element>
-                    <dc-qualifier>digital</dc-qualifier>
-                    <repeatable>false</repeatable>
-                    <label>Digitized Date</label>
-                    <style>col-sm-6</style>
-                    <input-type>date</input-type>
-                    <hint>Enter the date photo digitalized</hint>
-                    <required/>
-                </field>   
+            <row> 
                 <relation-field>
                     <relationship-type>isDivisionOfPublication</relationship-type>
                     <search-configuration>division</search-configuration>
@@ -241,7 +191,7 @@
                 <repeatable>true</repeatable>
                 <label>Notes</label>
                 <input-type>textarea</input-type>
-                <hint>Enter notes to help with record management</hint>
+                <hint>Enter notes to help with record management, these notes will not be accessible to the public</hint>
                 <required/>
                 </field>
             </row>    
@@ -256,6 +206,17 @@
                     <label>General Subject</label> 
                     <input-type>onebox</input-type>
                     <hint>Select general subjects from the lookup</hint>
+                    <required>You must enter a subject for this field</required>
+                    <vocabulary>broad-en</vocabulary>
+                </field>
+				<field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>subject</dc-element>
+                    <dc-qualifier>photo_en</dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Photo Subject Keyword </label> 
+                    <input-type>onebox</input-type>
+                    <hint>Select photo subjects from the lookup</hint>
                     <required>You must enter a subject for this field</required>
                     <vocabulary>broad-en</vocabulary>
                 </field>
@@ -327,20 +288,16 @@
                 </relation-field>
             </row>
 			<row>
-                <relation-field>
-                    <relationship-type>isAreaOfPublication</relationship-type>
-                    <search-configuration>area</search-configuration>
+                <field>
+                    <dc-schema>nrcan</dc-schema>
+                    <dc-element>area</dc-element>
+                    <dc-qualifier></dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>Area</label>
-                    <hint>Choose Area(s) from the lookup</hint>
-                    <linked-metadata-field>
-                        <dc-schema>nrcan</dc-schema>
-                        <dc-element>area</dc-element>
-                        <dc-qualifier></dc-qualifier>
-                        <input-type>onebox</input-type>
-                    </linked-metadata-field>
+                    <input-type>onebox</input-type>
+                    <hint>Enter an area that is not already represented in Country and Province or Title</hint>
                     <required></required>
-                </relation-field>
+                </field>
                 <field>
                     <dc-schema>nrcan</dc-schema>
                     <dc-element>nts</dc-element>
@@ -348,7 +305,7 @@
                     <repeatable>true</repeatable>
                     <label>NTS</label>
                     <input-type>onebox</input-type>
-                    <hint>Enter the NTS in format nnn, nnnA, nnnA/nn</hint>
+                    <hint>Enter the NTS in format nnn, nnnA, nnnA/nn ex: 102A/02</hint>
                     <required></required>
                 </field>
             </row>
@@ -373,6 +330,18 @@
                     <label>Bounding Box</label>
                     <input-type>onebox</input-type>
                     <hint>Ex. ENVELOPE(-139.1667, -114.0000, 60.0000, 48.0000)</hint>
+                    <required></required>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
+                    <dc-element>externalurl </dc-element>
+                    <dc-qualifier></dc-qualifier>
+                    <repeatable>true</repeatable>
+                    <label>Additional Links</label>
+                    <input-type>onebox</input-type>
+                    <hint>URL link</hint>
                     <required></required>
                 </field>
             </row>
@@ -540,7 +509,6 @@
                     <dc-qualifier></dc-qualifier>
                     <repeatable>false</repeatable>
                     <input-type>onebox</input-type>
-                    <type-bind>Article</type-bind>
                     <label>Article Number</label>
                     <hint>Online Article number</hint>
                     <required></required>
@@ -765,7 +733,7 @@
                     <dc-schema>nrcan</dc-schema>
                     <dc-element>publication</dc-element>
                     <dc-qualifier>externalurl</dc-qualifier>
-                    <repeatable>false</repeatable>
+                    <repeatable>true</repeatable>
                     <label>Additional Links</label>
                     <input-type>onebox</input-type>
                     <hint>URL link</hint>
@@ -2101,19 +2069,9 @@
                 <field>
                     <dc-schema>person</dc-schema>
                     <dc-element>givenName</dc-element>
-                    <label>First Initial(s)</label>
+                    <label>First name</label>
                     <input-type>onebox</input-type>
-                    <hint>Enter the initials of the first name of the person</hint>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>person</dc-schema>
-                    <dc-element>givenName</dc-element>
-                    <dc-qualifier>full</dc-qualifier>
-                    <label>Full first name (to avoid conflicts)</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the full first name of the person</hint>
+                    <hint>Enter the first name of the person</hint>
                 </field>
             </row>
             <row>
@@ -2182,16 +2140,6 @@
                     <label>First name</label>
                     <input-type>onebox</input-type>
                     <hint>Enter the first name of the person</hint>
-                </field>
-            </row>
-            <row>
-                <field>
-                    <dc-schema>person</dc-schema>
-                    <dc-element>givenName</dc-element>
-                    <dc-qualifier>full</dc-qualifier>
-                    <label>Full first name (to avoid conflicts)</label>
-                    <input-type>onebox</input-type>
-                    <hint>Enter the full first name of the person</hint>
                 </field>
             </row>
             <row>

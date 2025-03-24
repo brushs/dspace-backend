@@ -95,7 +95,7 @@
         <name-map collection-handle="123456789s/5494" submission-name="Author"/>
         <name-map collection-handle="123456789s/21846" submission-name="Journal"/>
         <name-map collection-handle="123456789s/25505" submission-name="CorporateAuthor"/>
-        <name-map collection-handle="123456789s/270135" submission-name="NRCanPhotoDatabase"/>
+        <name-map collection-handle="123456789s/282674" submission-name="NRCanPhotoDatabase"/>
 
         <!-- Prod Collections -->
         <name-map collection-handle="1845/6" submission-name="Country"/>
@@ -260,7 +260,7 @@
             <type>submission-form</type>
         </step-definition>
 
-        <step-definition id="upload">
+        <step-definition id="upload" mandatory="false">
             <heading>submit.progressbar.upload</heading>
             <processing-class>org.dspace.app.rest.submit.step.UploadStep</processing-class>
             <type>upload</type>

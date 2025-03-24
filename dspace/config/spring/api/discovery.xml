@@ -378,9 +378,9 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
+                <ref bean="searchFilterCollection_en" />
                 <ref bean="searchFilterType_en"/>
                 <ref bean="searchFilterAuthorFull" />
-                <ref bean="searchFilterCollection_en" />
                 <ref bean="searchFilterSubject_en" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
@@ -534,9 +534,9 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
+                <ref bean="searchFilterCollection_fr" />
                 <ref bean="searchFilterType_fr"/>
                 <ref bean="searchFilterAuthorFull" />
-                <ref bean="searchFilterCollection_fr" />
                 <ref bean="searchFilterSubject_fr" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterContentInOriginalBundle"/>
