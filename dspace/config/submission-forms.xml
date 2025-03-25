@@ -2145,6 +2145,16 @@
             <row>
                 <field>
                     <dc-schema>person</dc-schema>
+                    <dc-element>givenName</dc-element>
+                    <dc-qualifier>full</dc-qualifier>
+                    <label>First full name</label>
+                    <input-type>onebox</input-type>
+                    <hint>Enter the first full name of the person</hint>
+                </field>
+            </row>
+            <row>
+                <field>
+                    <dc-schema>person</dc-schema>
                     <dc-element>email</dc-element>
                     <label>Email</label>
                     <input-type>onebox</input-type>
