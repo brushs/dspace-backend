@@ -12,6 +12,8 @@ public interface TermDAO extends GenericDAO<Term> {
 
     public List<Term> findByName(Context context, String name, Integer vocabularyId) throws SQLException;
 
+    public List<Term> findByNameAndLang(Context context, String name, Integer vocabularyId, String lang) throws SQLException;
+
     List<Term> getRootTerms(Context context, int vocabularyId) throws SQLException;
 
     List<Term> getChildTerms(Context context, int termId) throws SQLException;

@@ -43,6 +43,25 @@ public class TermDAOImpl extends AbstractHibernateDAO<Term> implements TermDAO {
     }
 
     @Override
+    public List<Term> findByNameAndLang(Context context, String name, Integer vocabularyId, String lang) throws SQLException {
+        CriteriaBuilder cb = getCriteriaBuilder(context);
+        CriteriaQuery cq = getCriteriaQuery(cb, Term.class);
+        Root<Term> root = cq.from(Term.class);
+
+        Predicate nameField = cb.equal(cb.upper(root.get("nameEn")), name.toUpperCase());
+        if (lang.equals("fr")) {
+            nameField = cb.equal(cb.upper(root.get("nameFr")), name.toUpperCase());
+        }
+
+        if (vocabularyId != null) {
+            Predicate vocabulary = cb.equal(root.get("vocabularyId"), vocabularyId);
+            return list(context, cq.select(root).where(cb.and(nameField, vocabulary)), true, Term.class, -1, 0);
+        }
+
+        return list(context, cq.select(root).where(nameField), true, Term.class, -1, 0);
+    }
+
+    @Override
     public List<Term> getRootTerms(Context context, int vocabularyId) throws SQLException {
         CriteriaBuilder cb = getCriteriaBuilder(context);
         CriteriaQuery cq = getCriteriaQuery(cb, Term.class);

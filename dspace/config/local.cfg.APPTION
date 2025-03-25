@@ -291,6 +291,7 @@ metadata.hide.nrcan.division.code = true
 metadata.hide.nrcan.division.migrationid = true
 metadata.hide.nrcan.doi.eligible = true
 metadata.hide.nrcan.doi.suffix = true
+metadata.hide.nrcan.internal.metadataprocessdate = true
 metadata.hide.nrcan.journal.code = true
 metadata.hide.nrcan.journal.migrationid = true
 metadata.hide.nrcan.journal.notes = true

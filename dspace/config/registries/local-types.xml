@@ -1569,6 +1569,12 @@
     <qualifier>authorfull</qualifier>
     <scope_note></scope_note>
   </dc-type>
+  <dc-type>
+    <schema>nrcan</schema>
+    <element>internal</element>
+    <qualifier>metadataprocessdate</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
 
   <!-- FOSRC Fields -->
   <dc-type>

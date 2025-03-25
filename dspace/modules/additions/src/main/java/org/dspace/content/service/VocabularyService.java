@@ -28,7 +28,13 @@ public interface VocabularyService {
     List<Term> getChildTerms(Context context, int termId)
             throws IOException, SQLException;
 
-    List<MetadataLanguageSummary> getItemsForMetadataProcessing(Context context, int limit)
+    List<MetadataLanguageSummary> getItemsForMetadataProcessingByType(Context context, int limit)
+            throws IOException, SQLException;
+
+    List<MetadataLanguageSummary> getItemsForMetadataProcessingNoMPD(Context context, int limit)
+            throws IOException, SQLException;
+
+    List<MetadataLanguageSummary> getItemsForMetadataProcessingByMPD(Context context, int limit)
             throws IOException, SQLException;
 
     void performMetadataCopy(Context context, Item item) throws SQLException, IOException, AuthorizeException;

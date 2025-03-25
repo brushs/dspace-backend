@@ -30,11 +30,9 @@ public class MetadataLanguageSummary implements Serializable {
     @Column(name = "type_en_count", nullable = false)
     private long typeEnCount;
 
-    @Column(name = "subject_raw_count", nullable = false)
-    private long subjectRawCount;
-
-    @Column(name = "subject_curated_count", nullable = false)
-    private long subjectCuratedCount;
+    @Column(name = "metadata_process_date", columnDefinition = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date metadataProcessDate;
 
     public UUID getId() {
         return id;
@@ -68,20 +66,12 @@ public class MetadataLanguageSummary implements Serializable {
         this.typeEnCount = typeEnCount;
     }
 
-    public long getSubjectRawCount() {
-        return subjectRawCount;
+    public Date getMetadataProcessDate() {
+        return metadataProcessDate;
     }
 
-    public void setSubjectRawCount(long subjectRawCount) {
-        this.subjectRawCount = subjectRawCount;
-    }
-
-    public long getSubjectCuratedCount() {
-        return subjectCuratedCount;
-    }
-
-    public void setSubjectCuratedCount(long subjectCuratedCount) {
-        this.subjectCuratedCount = subjectCuratedCount;
+    public void setSmetadataProcessDate(Date metadataProcessDate) {
+        this.metadataProcessDate = metadataProcessDate;
     }
 
 }

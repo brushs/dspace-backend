@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +57,12 @@ public class VocabularyServiceImpl implements VocabularyService {
         return termDAO.findByName(context, termName, vocabularyId);
     }
 
+    public List<Term> findByNameAndLang(Context context, String termName, Integer vocabularyId, String lang)
+            throws IOException, SQLException {
+
+        return termDAO.findByNameAndLang(context, termName, vocabularyId, lang);
+    }
+
     @Override
     public List<Term> getRootTerms(Context context, int vocabularyId) throws IOException, SQLException {
 
@@ -68,8 +76,18 @@ public class VocabularyServiceImpl implements VocabularyService {
     }
 
     @Override
-    public List<MetadataLanguageSummary> getItemsForMetadataProcessing(Context context, int limit) throws IOException, SQLException {
-        return metadataLanguageSummaryDAO.getItemsToProcess(context, limit);
+    public List<MetadataLanguageSummary> getItemsForMetadataProcessingByType(Context context, int limit) throws IOException, SQLException {
+        return metadataLanguageSummaryDAO.getItemsToProcessByType(context, limit);
+    }
+
+    @Override
+    public List<MetadataLanguageSummary> getItemsForMetadataProcessingNoMPD(Context context, int limit) throws IOException, SQLException {
+        return metadataLanguageSummaryDAO.getItemsToProcessNoMPD(context, limit);
+    }
+
+    @Override
+    public List<MetadataLanguageSummary> getItemsForMetadataProcessingByMPD(Context context, int limit) throws IOException, SQLException {
+        return metadataLanguageSummaryDAO.getItemsToProcessByMPD(context, limit);
     }
 
     /**
@@ -93,51 +111,77 @@ public class VocabularyServiceImpl implements VocabularyService {
 
             Integer vocabularyId = fieldsToProcess.get(metadataField);
 
+            List<String> langs = List.of("en", "fr");
+            boolean found = false;
             for (MetadataValue mdv : mdvs) {
                 log.info("Processing Value: " + mdv.getValue());
                 // TODO Limit check to specific vocabulary based on config?
                 // Check to see if any terms are matched
-                List<Term> terms = findByName(context, mdv.getValue(), vocabularyId);
+                for (String lang : langs) {
+                    List<Term> terms = findByNameAndLang(context, mdv.getValue(), vocabularyId, lang);
 
-                if (terms != null && terms.size() > 0) {
-                    Map<String, String> mappedMetadataFields = new HashMap<>();
-                    mappedMetadataFields.put(metadataField + "_en", terms.get(0).getNameEn());
-                    mappedMetadataFields.put(metadataField + "_fr", terms.get(0).getNameFr());
+                    if (!terms.isEmpty()) {
+                        found = true;
+                        Map<String, String> mappedMetadataFields = new HashMap<>();
+                        mappedMetadataFields.put(metadataField + "_en", terms.get(0).getNameEn());
+                        mappedMetadataFields.put(metadataField + "_fr", terms.get(0).getNameFr());
 
-                    log.info("Found Term");
-                    for (Map.Entry<String, String> mappedMetadataField : mappedMetadataFields.entrySet()) {
-                        // Check to see if mapped terms already exist
-                        List<MetadataValue> mappedMdvs = itemService.getMetadataByMetadataString(item, mappedMetadataField.getKey());
+                        log.info("Found " + terms.size() + " Term(s) in " + lang);
+                        for (Map.Entry<String, String> mappedMetadataField : mappedMetadataFields.entrySet()) {
+                            // Check to see if mapped terms already exist
+                            List<MetadataValue> mappedMdvs = itemService.getMetadataByMetadataString(item, mappedMetadataField.getKey());
 
-                        boolean mappedValueExists = true;
-                        if (mappedMdvs == null || mappedMdvs.size() == 0) {
-                            mappedValueExists = false;
-                        } else {
-                            List<String> mdvValues = mappedMdvs.stream()
-                                    .map(MetadataValue::getValue)
-                                    .filter(x -> x != null)
-                                    .collect(Collectors.toList());
+                            boolean mappedValueExists = true;
+                            if (mappedMdvs == null || mappedMdvs.size() == 0) {
+                                mappedValueExists = false;
+                            } else {
+                                List<String> mdvValues = mappedMdvs.stream()
+                                        .map(MetadataValue::getValue)
+                                        .filter(x -> x != null)
+                                        .collect(Collectors.toList());
 
-                            mappedValueExists = mdvValues.stream().anyMatch(value -> value.equals(mappedMetadataField.getValue()));
+                                mappedValueExists = mdvValues.stream().anyMatch(value -> value.equals(mappedMetadataField.getValue()));
 
-                        }
+                            }
 
-                        if (!mappedValueExists) {
-                            log.info("Adding new value");
-                            // Copy to new metadata field
-                            String[] tokens = mappedMetadataField.getKey().split("\\.");
-                            itemService.addMetadata(context, item, tokens[0], tokens[1], tokens.length == 3 ? tokens[2] : null,
-                                    mappedMetadataField.getKey().endsWith("_en") ? "en" : "fr", mappedMetadataField.getValue());
-                            itemService.updateLastModified(context, item);
+                            if (!mappedValueExists) {
+                                log.info("Adding new value");
+                                // Copy to new metadata field
+                                String[] tokens = mappedMetadataField.getKey().split("\\.");
+                                itemService.addMetadata(context, item, tokens[0], tokens[1], tokens.length == 3 ? tokens[2] : null,
+                                        mappedMetadataField.getKey().endsWith("_en") ? "en" : "fr", mappedMetadataField.getValue());
+                                itemService.updateLastModified(context, item);
+                            }
                         }
                     }
                 }
-                else {
+
+                if (!found) {
                     // No matching text was found in Vocabulary
                     log.warn("Subject not found in Vocabulary - ID: " + item.getID() + " Val - " + mdv.getValue());
                 }
             }
         }
+
+        addOrUpdateMetadataCopiedDate(context, item);
+    }
+
+    private void addOrUpdateMetadataCopiedDate(Context context, Item item) throws SQLException, AuthorizeException {
+
+        List<MetadataValue> values = itemService.getMetadataByMetadataString(item, "nrcan.internal.metadataprocessdate");
+
+        SimpleDateFormat fullIso2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        if (values.isEmpty()) {
+            // add
+            itemService.addMetadata(context, item, "nrcan", "internal", "metadataprocessdate", null, fullIso2.format(new Date()));
+            log.info("Adding Metadata Copied Date for " + item.getID());
+        } else {
+            // update
+            values.get(0).setValue(fullIso2.format(new Date()));
+            log.info("Updating Metadata Copied Date for " + item.getID());
+        }
+
+        itemService.update(context, item);
     }
 
     @Override

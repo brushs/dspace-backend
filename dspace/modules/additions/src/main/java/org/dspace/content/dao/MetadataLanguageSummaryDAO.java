@@ -10,7 +10,11 @@ import java.util.List;
 
 public interface MetadataLanguageSummaryDAO extends GenericDAO<MetadataLanguageSummary> {
 
-    public List<MetadataLanguageSummary> getItemsToProcess(Context context, Integer limit) throws SQLException;
+    public List<MetadataLanguageSummary> getItemsToProcessByType(Context context, Integer limit) throws SQLException;
+
+    public List<MetadataLanguageSummary> getItemsToProcessNoMPD(Context context, Integer limit) throws SQLException;
+
+    public List<MetadataLanguageSummary> getItemsToProcessByMPD(Context context, Integer limit) throws SQLException;
 
     void refreshMaterializedView(Context context);
 }
