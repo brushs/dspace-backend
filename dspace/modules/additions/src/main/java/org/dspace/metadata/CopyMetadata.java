@@ -153,7 +153,7 @@ public class CopyMetadata {
 
         log.info("Processing Items with Missing Types");
         List<MetadataLanguageSummary> itemsToProcess = vocabularyService.getItemsForMetadataProcessingByType(context, limit);
-
+        /*
         log.info("Found " + itemsToProcess.size() + " items");
         limit = limit - itemsToProcess.size();
 
@@ -183,7 +183,7 @@ public class CopyMetadata {
             log.info("Reached Limit, exiting process");
             return;
         }
-
+        */
         log.info("Processing Items by MetadataProcessDate");
         itemsToProcess = vocabularyService.getItemsForMetadataProcessingByMPD(context, limit);
         log.info("Found " + itemsToProcess.size() + " items");
