@@ -212,13 +212,13 @@
 				<field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>subject</dc-element>
-                    <dc-qualifier>photo_en</dc-qualifier>
+                    <dc-qualifier>photo</dc-qualifier>
                     <repeatable>true</repeatable>
                     <label>Photo Subject Keyword </label> 
                     <input-type>onebox</input-type>
                     <hint>Select photo subjects from the lookup</hint>
                     <required>You must enter a subject for this field</required>
-                    <vocabulary>broad-en</vocabulary>
+                    <vocabulary>photo-en</vocabulary>
                 </field>
             </row>
 		    <row>
