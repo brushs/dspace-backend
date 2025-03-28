@@ -61,6 +61,12 @@ azure.storage.account = @storage-account@
 # Since DSpace 7, SOLR must be installed as a stand-alone service
 #solr.server = http://localhost:8983/solr
 
+# Enable statistics logging
+solr.statistics.server = http://localhost:8983/solr/statistics
+
+# Enable REST statistics reports
+rest.statistics.usage = true
+
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
 

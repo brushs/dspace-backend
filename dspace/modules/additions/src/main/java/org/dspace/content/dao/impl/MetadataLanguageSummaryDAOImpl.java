@@ -17,12 +17,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.jdbc.Work;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<MetadataLanguageSummary>
@@ -62,7 +60,17 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
         CriteriaQuery cq = getCriteriaQuery(cb, MetadataLanguageSummary.class);
         Root<Term> root = cq.from(MetadataLanguageSummary.class);
 
-        return list(context, cq.select(root).orderBy(cb.asc(root.get("metadataProcessDate"))), true, MetadataLanguageSummary.class, limit, 0);
+        Expression<Date> lastModifiedMinusOneMinute = cb.function(
+                "AGE",
+                Date.class,
+                root.get("lastModified"),
+                cb.literal("1 minute")
+        );
+
+        //Predicate metadataProcessDateBeforeUpdateDate = cb.lessThan(root.get("metadataProcessDate"), root.get("lastModified"));
+        Predicate metadataProcessDateBeforeUpdateDate = cb.lessThan(root.get("metadataProcessDate"), lastModifiedMinusOneMinute);
+
+        return list(context, cq.select(root).where(metadataProcessDateBeforeUpdateDate).orderBy(cb.asc(root.get("lastModified"))), true, MetadataLanguageSummary.class, limit, 0);
     }
 
     @Override
