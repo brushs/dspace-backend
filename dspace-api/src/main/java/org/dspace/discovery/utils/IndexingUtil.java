@@ -12,7 +12,8 @@ public class IndexingUtil {
         }
 
         if (values.get(0).getValue().contentEquals("Language") ||
-                values.get(0).getValue().contentEquals("Province")) {
+                values.get(0).getValue().contentEquals("Province") || 
+                values.get(0).getValue().contentEquals("CorporateAuthor") ) {
             return false;
         }
 

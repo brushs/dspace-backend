@@ -203,6 +203,8 @@
                         <value>relation.isPublicationOfProvince.latestForDiscovery</value>
                         <value>relation.isPublicationOfLanguage</value>
                         <value>relation.isPublicationOfLanguage.latestForDiscovery</value>
+                        <value>relation.isPublicationOfCorporateAuthor</value>
+                        <value>relation.isPublicationOfCorporateAuthor.latestForDiscovery</value>
                     </list>
                 </entry>
             </map>
