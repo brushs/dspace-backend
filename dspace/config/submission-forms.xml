@@ -671,19 +671,6 @@
             </row>
             <row>
                 <field>
-                    <dc-schema>nrcan</dc-schema>
-                    <dc-element>summary</dc-element>
-                    <dc-qualifier></dc-qualifier>
-                    <repeatable>true</repeatable>
-                    <label>Summary</label>
-                    <input-type>textarea</input-type>
-                    <language value-pairs-name="gc_languages">true</language>
-                    <hint>Enter the summary appearing on the publication and choose language</hint>
-                    <required></required>
-                </field>
-            </row>
-            <row>
-                <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
                     <dc-qualifier></dc-qualifier>
