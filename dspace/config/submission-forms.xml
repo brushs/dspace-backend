@@ -21,7 +21,7 @@
     <!-- serves as a 'this field is required' flag.                           -->
 
     <form-definitions>
-    		<form name="nrcanphoto_bibliographicStep">
+    	<form name="nrcanphoto_bibliographicStep">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -59,7 +59,7 @@
                     <label>Title</label>
                     <input-type>onebox</input-type>
                     <language value-pairs-name="gc_languages">true</language>
-                    <hint>Enter the title of the publication and choose language</hint>
+                    <hint>Enter the main title of the item or caption for the photo.</hint>
                     <required>You must enter a main title for this item.</required>
                 </field>
             </row>
