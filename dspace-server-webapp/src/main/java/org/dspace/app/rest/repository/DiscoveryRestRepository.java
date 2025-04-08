@@ -120,6 +120,7 @@ public class DiscoveryRestRepository extends AbstractDSpaceRestRepository {
 
         if (configuration != null && (configuration.toUpperCase().contentEquals("LANGUAGE") ||
                 configuration.toUpperCase().contentEquals("PUBLISHER") ||
+                configuration.toUpperCase().contentEquals("CORPORATEAUTHOR") ||
                 configuration.toUpperCase().contentEquals("PROVINCE") ||
                 configuration.toUpperCase().contentEquals("COUNTRY"))) {
             projection.setEnableVirtualMetadata(false);
