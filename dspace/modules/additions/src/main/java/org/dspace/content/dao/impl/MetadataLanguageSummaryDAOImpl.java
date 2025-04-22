@@ -60,15 +60,9 @@ public class MetadataLanguageSummaryDAOImpl extends AbstractHibernateDAO<Metadat
         CriteriaQuery cq = getCriteriaQuery(cb, MetadataLanguageSummary.class);
         Root<Term> root = cq.from(MetadataLanguageSummary.class);
 
-        Expression<Date> lastModifiedMinusOneMinute = cb.function(
-                "AGE",
-                Date.class,
-                root.get("lastModified"),
-                cb.literal("1 minute")
-        );
-
-        //Predicate metadataProcessDateBeforeUpdateDate = cb.lessThan(root.get("metadataProcessDate"), root.get("lastModified"));
-        Predicate metadataProcessDateBeforeUpdateDate = cb.lessThan(root.get("metadataProcessDate"), lastModifiedMinusOneMinute);
+        // The view adds a minute to the metadata process date, so this should only be less than the last modified date
+        // if there are new updates
+        Predicate metadataProcessDateBeforeUpdateDate = cb.lessThan(root.get("metadataProcessDate"), root.get("lastModified"));
 
         return list(context, cq.select(root).where(metadataProcessDateBeforeUpdateDate).orderBy(cb.asc(root.get("lastModified"))), true, MetadataLanguageSummary.class, limit, 0);
     }
