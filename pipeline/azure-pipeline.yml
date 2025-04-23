@@ -67,6 +67,16 @@ stages:
               Contents: crossref_email.txt
               targetFolder: '$(Build.SourcesDirectory)'
 
+          - script: |
+              echo "Listing files in the current directory:"
+              ls -al
+            displayName: 'Verify file creation'
+
+          - script: |
+              echo "Contents of secret file:"
+              cat storage_account.txt
+            displayName: 'Display value'
+
           - task: Docker@2
             displayName: Build
             inputs:
