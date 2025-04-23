@@ -35,7 +35,13 @@ stages:
               echo -n "$MY_SECRET" | sha256sum
             env:
               mySecret: $(storage-account)
-            displayName: 'Display Secret Value'
+            displayName: 'Display Secret Value 1'
+
+          - script: |
+              echo -n "$MY_SECRET" | sha256sum
+            env:
+              mySecret: $(db-password)
+            displayName: 'Display Secret Value 2'
 
           - task: CmdLine@2
             inputs:
