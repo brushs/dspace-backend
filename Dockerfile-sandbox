@@ -52,6 +52,8 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove \
     && rm -rf /var/lib/apt/lists/*
 
+RUN cat /dspace/config/local.cfg
+
 # Download and install 'ant'
 RUN mkdir $ANT_HOME && \
     wget -qO- "https://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz" | tar -zx --strip-components=1 -C $ANT_HOME
@@ -111,6 +113,8 @@ RUN chmod +x /tmp/ssh_setup.sh \
 # Install "unzip" for migration files
 RUN apt-get install unzip
 RUN apt-get install zip
+
+RUN cat /dspace/config/local.cfg
 
 # Create directory for migration and logs
 RUN mkdir -p /dspace/migration/logs
