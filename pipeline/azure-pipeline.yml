@@ -31,6 +31,12 @@ stages:
               SecretsFilter: '*'
               RunAsPreJob: false
 
+          - script: |
+              echo "Secret value: $(storage-account)"
+            env:
+              mySecret: $(storage-account)
+            displayName: 'Display Secret Value'
+
           - task: CmdLine@2
             inputs:
               script: 'echo $(db-password) > db_password.txt'
