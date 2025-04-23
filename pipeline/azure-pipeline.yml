@@ -32,7 +32,7 @@ stages:
               RunAsPreJob: false
 
           - script: |
-              echo "Secret value: $(mySecret)"
+              echo "Secret value: $mySecret"
             env:
               mySecret: $(storage-account)
             displayName: 'Display Secret Value'
