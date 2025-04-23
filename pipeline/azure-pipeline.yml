@@ -87,7 +87,12 @@ stages:
           - script: |
               echo "Contents of secret file:"
               cat storage_account.txt
-            displayName: 'Display value'
+            displayName: 'Display value1'
+
+          - script: |
+              echo "Contents of secret file:"
+              cat db_password.txt
+            displayName: 'Display value2'
 
           - task: Docker@2
             displayName: Build
