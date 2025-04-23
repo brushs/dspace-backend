@@ -32,13 +32,13 @@ stages:
               RunAsPreJob: false
 
           - script: |
-              echo -n "$MY_SECRET" | sha256sum
+              echo -n "$mySecret" | sha256sum
             env:
               mySecret: $(storage-account)
             displayName: 'Display Secret Value 1'
 
           - script: |
-              echo -n "$MY_SECRET" | sha256sum
+              echo -n "$mySecret" | sha256sum
             env:
               mySecret: $(db-password)
             displayName: 'Display Secret Value 2'
