@@ -122,7 +122,7 @@ stages:
                 az webapp config container set \
                   --resource-group rg-cmss-ostr-nonprod-ca-cn \
                   --name $(appName) \
-                  --docker-custom-image-name ostrnonprodcr.azurecr.io/dspacebackend:latest \
+                  --docker-custom-image-name ostrnonprodcr.azurecr.io/dspacebackend:$(tag) \
                   --docker-registry-server-url https://ostrnonprodcr.azurecr.io \
                   --docker-registry-server-user ostrnonprodcr \
                   --docker-registry-server-password $(acrPassword)
