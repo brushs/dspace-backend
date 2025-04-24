@@ -115,7 +115,7 @@ stages:
           - task: AzureCLI@2
             displayName: 'Deploy container to Azure Web App'
             inputs:
-              azureSubscription: 'my-arm-connection'
+              azureSubscription: $(azureSubscription)
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
