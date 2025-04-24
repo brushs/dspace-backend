@@ -126,4 +126,4 @@ stages:
                   --docker-registry-server-url https://ostrnonprodcr.azurecr.io \
                   --docker-registry-server-user ostrnonprodcr \
                   --docker-registry-server-password $(acrPassword)
-              failOnStandardError: true
+              failOnStandardError: false
