@@ -15,6 +15,7 @@ variables:
   agentPool: '$(AGENT_POOL)'
   keyVaultName: '$(KEY_VAULT_NAME)'
   acrPassword: '$(ACR_PASSWORD)'
+  resourceGroup: '$(RESOURCE_GROUP)'
 
 stages:
   - stage: Build
@@ -31,18 +32,6 @@ stages:
               KeyVaultName: $(keyVaultName)
               SecretsFilter: '*'
               RunAsPreJob: false
-
-          - script: |
-              echo -n "$mySecret" | sha256sum
-            env:
-              mySecret: $(storage-account)
-            displayName: 'Display Secret Value 1'
-
-          - script: |
-              echo -n "$mySecret" | sha256sum
-            env:
-              mySecret: $(db-password)
-            displayName: 'Display Secret Value 2'
 
           - task: CmdLine@2
             inputs:
@@ -80,21 +69,6 @@ stages:
               Contents: crossref_email.txt
               targetFolder: '$(Build.SourcesDirectory)'
 
-          - script: |
-              echo "Listing files in the current directory:"
-              ls -al
-            displayName: 'Verify file creation'
-
-          - script: |
-              echo "Contents of secret file:"
-              cat storage_account.txt
-            displayName: 'Display value1'
-
-          - script: |
-              echo "Contents of secret file:"
-              cat db_password.txt
-            displayName: 'Display value2'
-
           - task: Docker@2
             displayName: Build
             inputs:
@@ -120,10 +94,10 @@ stages:
               scriptLocation: 'inlineScript'
               inlineScript: |
                 az webapp config container set \
-                  --resource-group rg-cmss-ostr-nonprod-ca-cn \
+                  --resource-group $(resourceGroup) \
                   --name $(appName) \
-                  --docker-custom-image-name ostrnonprodcr.azurecr.io/dspacebackend:$(tag) \
-                  --docker-registry-server-url https://ostrnonprodcr.azurecr.io \
-                  --docker-registry-server-user ostrnonprodcr \
-                  --docker-registry-server-password $(acrPassword)
+                  --container-image-name $(containerRegistry).azurecr.io/$(imageRepository):$(tag) \
+                  --container-registry-url https://$(containerRegistry).azurecr.io \
+                  --container-registry-user $(containerRegistry) \
+                  --container-registry-password $(acrPassword)
               failOnStandardError: false
