@@ -112,18 +112,18 @@ stages:
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: $(tag)
 
-  - task: AzureCLI@2
-    displayName: 'Deploy container to Azure Web App'
-    inputs:
-      azureSubscription: 'my-arm-connection'
-      scriptType: 'bash'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        az webapp config container set \
-          --resource-group rg-cmss-ostr-nonprod-ca-cn \
-          --name $(appName) \
-          --docker-custom-image-name ostrnonprodcr.azurecr.io/dspacebackend:latest \
-          --docker-registry-server-url https://ostrnonprodcr.azurecr.io \
-          --docker-registry-server-user ostrnonprodcr \
-          --docker-registry-server-password $(acrPassword)
-      failOnStandardError: true
+          - task: AzureCLI@2
+            displayName: 'Deploy container to Azure Web App'
+            inputs:
+              azureSubscription: 'my-arm-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az webapp config container set \
+                  --resource-group rg-cmss-ostr-nonprod-ca-cn \
+                  --name $(appName) \
+                  --docker-custom-image-name ostrnonprodcr.azurecr.io/dspacebackend:latest \
+                  --docker-registry-server-url https://ostrnonprodcr.azurecr.io \
+                  --docker-registry-server-user ostrnonprodcr \
+                  --docker-registry-server-password $(acrPassword)
+              failOnStandardError: true
