@@ -35,19 +35,21 @@
                     <required>You must enter a type for this item.</required>
                 </field>
                 <relation-field>
-                    <relationship-type>isPrimaryContactOfPublication</relationship-type>
+                    <relationship-type>isAuthorOfPublication</relationship-type>
                     <search-configuration>person</search-configuration>
                     <repeatable>true</repeatable>
 					<style>col-sm-6</style>
                     <label>Photographer</label>
                     <hint>Choose the name from the lookup</hint>
                     <linked-metadata-field>
-                        <dc-schema>nrcan</dc-schema>
-                        <dc-element>primarycontact</dc-element>
-                        <dc-qualifier></dc-qualifier>
+                        <dc-schema>dc</dc-schema>
+                        <dc-element>contributor</dc-element>
+                        <dc-qualifier>author</dc-qualifier>
                         <input-type>onebox</input-type>
                     </linked-metadata-field>
-                    <required>You must enter a primary contact for this item.</required>
+                    <externalsources>orcid</externalsources>
+                    <required></required>
+                    <required>You must enter a photographer for this item.</required>
                 </relation-field>
             </row>
             <row>
