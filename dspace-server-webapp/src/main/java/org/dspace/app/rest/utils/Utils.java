@@ -1069,7 +1069,7 @@ public class Utils {
     }
 
     public Link swapHost(Link rawLink) {
-    	if (rawLink.contains("dspacesandboxbackend.azurewebsites.net")) {
+    	if (rawLink.getHref().contains("dspacesandboxbackend.azurewebsites.net")) {
     		return rawLink.withHref(rawLink.getHref().replace(
                     "dspacesandboxbackend.azurewebsites.net",
                     configurationService.getProperty("dspace.server.url")
