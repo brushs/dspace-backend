@@ -4150,5 +4150,17 @@
         <node id="50925" label="Période d’implantation">
             <isComposedBy/>
         </node>
+        <node id="51384" label="Écologie">
+            <isComposedBy/>
+        </node>
+        <node id="51385" label="Remise en état">
+            <isComposedBy/>
+        </node>
+        <node id="51386" label="Perturbation linéaire">
+            <isComposedBy/>
+        </node>
+        <node id="51387" label="Restauration">
+            <isComposedBy/>
+        </node>
     </isComposedBy>
 </node>
