@@ -1069,18 +1069,32 @@ public class Utils {
     }
 
     public Link swapHost(Link rawLink) {
-        return rawLink.withHref(rawLink.getHref().replace(
-                "dspacesandboxbackend.azurewebsites.net",
-                configurationService.getProperty("dspace.server.url")
-                        .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+    	if (rawLink.getHref().contains("dspacesandboxbackend.azurewebsites.net")) {
+    		return rawLink.withHref(rawLink.getHref().replace(
+                    "dspacesandboxbackend.azurewebsites.net",
+                    configurationService.getProperty("dspace.server.url")
+                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+    	} else {
+    		return rawLink.withHref(rawLink.getHref().replace(
+    				"ostr-nonprod-appservice-backend.azurewebsites.net",
+                    configurationService.getProperty("dspace.server.url")
+                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+    	}
+        
 
     }
 
     public String swapHost(String url) {
-        return url.replace(
-                "dspacesandboxbackend.azurewebsites.net",
-                configurationService.getProperty("dspace.server.url")
-                        .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server")));
-
+    	if (url.contains("dspacesandboxbackend.azurewebsites.net")) {
+    		return url.replace(
+                    "dspacesandboxbackend.azurewebsites.net",
+                    configurationService.getProperty("dspace.server.url")
+                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server")));
+    	} else {
+    		return url.replace(
+                    "ostr-nonprod-appservice-backend.azurewebsites.net",
+                    configurationService.getProperty("dspace.server.url")
+                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server")));
+    	}
     }
 }

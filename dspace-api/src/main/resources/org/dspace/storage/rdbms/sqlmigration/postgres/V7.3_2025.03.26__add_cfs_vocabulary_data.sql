@@ -1382,3 +1382,7 @@ INSERT INTO term VALUES (51380, null,'Fire risk','Danger d’incendie', '', '', 
 INSERT INTO term VALUES (51381, null,'Fire impacts','Conséquences des feux', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (51382, null,'Suppression','Suppression ', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
 INSERT INTO term VALUES (51383, null,'Mitigation','Atténuation', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51384, null,'Ecology','Écologie', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51385, null,'Reclamation','Remise en état', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51386, null,'Linear disturbance','Perturbation linéaire', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51387, null,'Restoration','Restauration', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);

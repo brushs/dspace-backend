@@ -4150,5 +4150,17 @@
         <node id="50925" label="Establishment period">
             <isComposedBy/>
         </node>
+        <node id="51384" label="Ecology">
+            <isComposedBy/>
+        </node>
+        <node id="51385" label="Reclamation">
+            <isComposedBy/>
+        </node>
+        <node id="51386" label="Linear disturbance">
+            <isComposedBy/>
+        </node>
+        <node id="51387" label="Restoration">
+            <isComposedBy/>
+        </node>
     </isComposedBy>
 </node>
