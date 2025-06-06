@@ -36,13 +36,13 @@ dspace.dir=/dspace
 # DO NOT end it with '/'.
 # This is where REST API and all enabled server modules (OAI-PMH, SWORD,
 # SWORDv2, RDF, etc) will respond.
-dspace.server.url = https://ostr-backend-prod.azurewebsites.net/server
+dspace.server.url = https://ostr-backend-prod.azure.cloud.nrcan-rncan.gc.ca/server
 
 # URL of DSpace frontend (Angular UI). Include port number etc.
 # DO NOT end it with '/'.
 # This is used by the backend to provide links in emails, RSS feeds, Sitemaps,
 # etc.
-dspace.ui.url = https://ostrnrcan-dostrncan.canada.ca
+dspace.ui.url = https://ostr-frontend-prod.azure.cloud.nrcan-rncan.gc.ca
 
 # Name of the site
 dspace.name = Open Science and Technology Repository
@@ -61,7 +61,7 @@ azure.storage.account = @storage-account@
 # Since DSpace 7, SOLR must be installed as a stand-alone service
 # This is set by the App Service, but because the DSpace command line
 # doesn't use those settings it is also set here
-solr.server = https://ostr-solr.azure.cloud.nrcan-rncan.gc.ca/solr
+solr.server = http://10.188.0.68:8080/solr
 
 swordv2-server.enabled = true
 swordv2-server.path = swordv2
@@ -74,7 +74,7 @@ swordv2-server.path = swordv2
 # URL for connecting to database
 #    * Postgres template: jdbc:postgresql://localhost:5432/dspace
 #    * Oracle template: jdbc:oracle:thin:@//localhost:1521/xe
-db.url = jdbc:postgresql://ostr-prod.postgres.database.azure.com:5432/dspace?sslmode=prefer
+db.url = jdbc:postgresql://ostr-prod-pgsqlflex.postgres.database.azure.com:5432/dspace?sslmode=prefer
 
 # JDBC Driver
 #    * For Postgres: org.postgresql.Driver
