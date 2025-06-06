@@ -24,7 +24,10 @@ stages:
       - job: Build
         displayName: Build
         pool: $(agentPool)
+        vmImage: 'ubuntu-latest'
         steps:
+          - script: docker --version
+            displayName: 'Check Docker Version'
 
           - task: AzureKeyVault@2
             inputs:
