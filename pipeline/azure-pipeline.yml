@@ -17,14 +17,17 @@ variables:
   acrPassword: '$(ACR_PASSWORD)'
   resourceGroup: '$(RESOURCE_GROUP)'
 
+pool:
+  name: $(agentPool)
+  vmImage: 'ubuntu-latest'
+
 stages:
   - stage: Build
     displayName: Build and push stage
     jobs:
       - job: Build
         displayName: Build
-        pool: $(agentPool)
-        vmImage: 'ubuntu-latest'
+
         steps:
           - script: docker --version
             displayName: 'Check Docker Version'
