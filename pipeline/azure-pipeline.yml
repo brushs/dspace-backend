@@ -25,7 +25,7 @@ stages:
         displayName: Build
         pool:
           name: $(agentPool)
-          vmImage: 'ubuntu-latest'
+          vmImage: 'ubuntu-24.04'
         steps:
           - script: docker --version
             displayName: 'Check Docker Version'
