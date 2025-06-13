@@ -42,7 +42,7 @@ dspace.server.url = https://ostr-backend-prod.azure.cloud.nrcan-rncan.gc.ca/serv
 # DO NOT end it with '/'.
 # This is used by the backend to provide links in emails, RSS feeds, Sitemaps,
 # etc.
-dspace.ui.url = https://ostr-frontend-prod.azure.cloud.nrcan-rncan.gc.ca
+dspace.ui.url = https://ostr-frontend-prod.azurewebsites.net
 
 # Name of the site
 dspace.name = Open Science and Technology Repository
