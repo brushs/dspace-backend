@@ -1094,7 +1094,7 @@ public class Utils {
     		return url.replace(
                     "ostr-prod-appservice-backend.azurewebsites.net",
                     configurationService.getProperty("dspace.server.url")
-                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server")));
     	} else if (url.contains("dspacesandboxbackend.azurewebsites.net")) {
     		return url.replace(
                     "dspacesandboxbackend.azurewebsites.net",
