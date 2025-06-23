@@ -1069,7 +1069,12 @@ public class Utils {
     }
 
     public Link swapHost(Link rawLink) {
-    	if (rawLink.getHref().contains("dspacesandboxbackend.azurewebsites.net")) {
+    	if (rawLink.getHref().contains("ostr-prod-appservice")) {
+    		return rawLink.withHref(rawLink.getHref().replace(
+                    "ostr-prod-appservice-backend.azurewebsites.net",
+                    configurationService.getProperty("dspace.server.url")
+                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+    	} else if (rawLink.getHref().contains("dspacesandboxbackend.azurewebsites.net")) {
     		return rawLink.withHref(rawLink.getHref().replace(
                     "dspacesandboxbackend.azurewebsites.net",
                     configurationService.getProperty("dspace.server.url")
@@ -1085,7 +1090,12 @@ public class Utils {
     }
 
     public String swapHost(String url) {
-    	if (url.contains("dspacesandboxbackend.azurewebsites.net")) {
+    	if (url.contains("ostr-prod-appservice")) {
+    		return url.replace(
+                    "ostr-prod-appservice-backend.azurewebsites.net",
+                    configurationService.getProperty("dspace.server.url")
+                            .substring(8,configurationService.getProperty("dspace.server.url").indexOf("/server"))));
+    	} else if (url.contains("dspacesandboxbackend.azurewebsites.net")) {
     		return url.replace(
                     "dspacesandboxbackend.azurewebsites.net",
                     configurationService.getProperty("dspace.server.url")
