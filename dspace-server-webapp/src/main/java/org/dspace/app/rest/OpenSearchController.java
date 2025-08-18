@@ -45,8 +45,9 @@ import org.dspace.discovery.SearchUtils;
 import org.dspace.discovery.configuration.DiscoveryConfiguration;
 import org.dspace.discovery.configuration.DiscoveryConfigurationService;
 import org.dspace.discovery.configuration.DiscoverySearchFilter;
+import org.dspace.discovery.configuration.DiscoverySortConfiguration;
+import org.dspace.discovery.configuration.DiscoverySortFieldConfiguration;
 import org.dspace.discovery.indexobject.IndexableItem;
-import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,16 +68,12 @@ public class OpenSearchController {
 
     private static final Logger log = org.apache.logging.log4j.LogManager.getLogger();
     private static final String errorpath = "/error";
-    private int pageSizeLimit;
     private List<String> searchIndices = null;
 
     private CommunityService communityService;
     private CollectionService collectionService;
     private AuthorizeService authorizeService;
     private OpenSearchService openSearchService;
-
-    @Autowired
-    private ConfigurationService configurationService;
 
     @Autowired
     private SearchService searchService;
@@ -95,15 +92,15 @@ public class OpenSearchController {
      */
     @GetMapping("/search")
     public void search(HttpServletRequest request,
-                         HttpServletResponse response,
-                         @RequestParam(name = "query", required = false) String query,
-                         @RequestParam(name = "start", required = false) Integer start,
-                         @RequestParam(name = "rpp", required = false) Integer count,
-                         @RequestParam(name = "format", required = false) String format,
-                         @RequestParam(name = "sort", required = false) String sort,
-                         @RequestParam(name = "sort_direction", required = false) String sortDirection,
-                         @RequestParam(name = "scope", required = false) String dsoObject,
-                         Model model) throws IOException, ServletException {
+                       HttpServletResponse response,
+                       @RequestParam(name = "query", required = false) String query,
+                       @RequestParam(name = "start", required = false) Integer start,
+                       @RequestParam(name = "rpp", required = false) Integer count,
+                       @RequestParam(name = "format", required = false) String format,
+                       @RequestParam(name = "sort", required = false) String sort,
+                       @RequestParam(name = "sort_direction", required = false) String sortDirection,
+                       @RequestParam(name = "scope", required = false) String dsoObject,
+                       Model model) throws IOException, ServletException {
         context = ContextUtil.obtainContext(request);
         if (start == null) {
             start = 0;
@@ -116,9 +113,6 @@ public class OpenSearchController {
         }
         if (openSearchService.isEnabled()) {
             init();
-            if (count > pageSizeLimit) {
-                count = pageSizeLimit;
-            }
             // get enough request parameters to decide on action to take
             if (format == null || "".equals(format)) {
                 // default to atom
@@ -149,16 +143,36 @@ public class OpenSearchController {
             queryArgs.setStart(start);
             queryArgs.setMaxResults(count);
             queryArgs.setDSpaceObjectFilter(IndexableItem.TYPE);
+
             if (sort != null) {
-                //this is the default sort so we want to switch this to date accessioned
-                if (sortDirection != null && sortDirection.equals("DESC")) {
-                    queryArgs.setSortField(sort + "_sort", SORT_ORDER.desc);
-                } else {
-                    queryArgs.setSortField(sort + "_sort", SORT_ORDER.asc);
+                DiscoveryConfiguration discoveryConfiguration =
+                        searchConfigurationService.getDiscoveryConfiguration("");
+                if (discoveryConfiguration != null) {
+                    DiscoverySortConfiguration searchSortConfiguration = discoveryConfiguration
+                            .getSearchSortConfiguration();
+                    if (searchSortConfiguration != null) {
+                        DiscoverySortFieldConfiguration sortFieldConfiguration = searchSortConfiguration
+                                .getSortFieldConfiguration(sort);
+                        if (sortFieldConfiguration != null) {
+                            String sortField = searchService
+                                    .toSortFieldIndex(sortFieldConfiguration.getMetadataField(),
+                                            sortFieldConfiguration.getType());
+
+                            if (sortDirection != null && sortDirection.equals("DESC")) {
+                                queryArgs.setSortField(sortField, SORT_ORDER.desc);
+                            } else {
+                                queryArgs.setSortField(sortField, SORT_ORDER.asc);
+                            }
+                        } else {
+                            throw new IllegalArgumentException(sort + " is not a valid sort field");
+                        }
+                    }
                 }
             } else {
+                // this is the default sort so we want to switch this to date accessioned
                 queryArgs.setSortField("dc.date.accessioned_dt", SORT_ORDER.desc);
             }
+
             if (dsoObject != null) {
                 container = scopeResolver.resolveScope(context, dsoObject);
                 DiscoveryConfiguration discoveryConfiguration = searchConfigurationService
@@ -170,34 +184,33 @@ public class OpenSearchController {
                                         .size()]));
             }
 
-            queryArgs.getFilterQueries().add("dspace.entity.type:Publication");
-
             // Perform the search
             DiscoverResult qResults = null;
             try {
                 qResults = SearchUtils.getSearchService().search(context,
-                    container, queryArgs);
+                        container, queryArgs);
             } catch (SearchServiceException e) {
                 log.error(LogHelper.getHeader(context, "opensearch", "query="
-                            + queryArgs.getQuery()
-                            + ",error=" + e.getMessage()), e);
+                        + queryArgs.getQuery()
+                        + ",error=" + e.getMessage()), e);
                 throw new RuntimeException(e.getMessage(), e);
             }
+
             // Log
             log.info("opensearch done, query=\"" + query + "\",results="
-                        + qResults.getTotalSearchResults());
+                    + qResults.getTotalSearchResults());
 
             // format and return results
             Map<String, String> labelMap = getLabels(request);
             List<IndexableObject> dsoResults = qResults.getIndexableObjects();
             Document resultsDoc = openSearchService.getResultsDoc(context, format, query,
-                (int) qResults.getTotalSearchResults(), qResults.getStart(),
-                qResults.getMaxResults(), container, dsoResults, labelMap);
+                    (int) qResults.getTotalSearchResults(), qResults.getStart(),
+                    qResults.getMaxResults(), container, dsoResults, labelMap);
             try {
                 Transformer xf = TransformerFactory.newInstance().newTransformer();
                 response.setContentType(openSearchService.getContentType(format));
                 xf.transform(new DOMSource(resultsDoc),
-                    new StreamResult(response.getWriter()));
+                        new StreamResult(response.getWriter()));
             } catch (TransformerException e) {
                 log.error(e);
                 throw new ServletException(e.toString());
@@ -218,7 +231,7 @@ public class OpenSearchController {
      */
     @GetMapping("/service")
     public void service(HttpServletRequest request,
-                         HttpServletResponse response) throws IOException {
+                        HttpServletResponse response) throws IOException {
         log.debug("Show OpenSearch Service document");
         if (openSearchService == null) {
             openSearchService = UtilServiceFactory.getInstance().getOpenSearchService();
@@ -227,7 +240,7 @@ public class OpenSearchController {
             String svcDescrip = openSearchService.getDescription(null);
             log.debug("opensearchdescription is " + svcDescrip);
             response.setContentType(openSearchService
-                .getContentType("opensearchdescription"));
+                    .getContentType("opensearchdescription"));
             response.setContentLength(svcDescrip.length());
             response.getWriter().write(svcDescrip);
         } else {
@@ -256,8 +269,6 @@ public class OpenSearchController {
         communityService = ContentServiceFactory.getInstance().getCommunityService();
         collectionService = ContentServiceFactory.getInstance().getCollectionService();
         authorizeService = AuthorizeServiceFactory.getInstance().getAuthorizeService();
-
-        pageSizeLimit = configurationService.getIntProperty("rss.general-feed.maxItems", 100);
     }
 
     public void setOpenSearchService(OpenSearchService oSS) {
@@ -273,7 +284,7 @@ public class OpenSearchController {
         Map<String, String> labelMap = new HashMap<String, String>();
         labelMap.put(SyndicationFeed.MSG_UNTITLED, "notitle");
         labelMap.put(SyndicationFeed.MSG_LOGO_TITLE, "logo.title");
-        labelMap.put(SyndicationFeed.MSG_FEED_DESCRIPTION, configurationService.getProperty(SyndicationFeed.MSG_FEED_DESCRIPTION));
+        labelMap.put(SyndicationFeed.MSG_FEED_DESCRIPTION, "general-feed.description");
         labelMap.put(SyndicationFeed.MSG_UITYPE, SyndicationFeed.UITYPE_JSPUI);
         for (String selector : SyndicationFeed.getDescriptionSelectors()) {
             labelMap.put("metadata." + selector, selector);
