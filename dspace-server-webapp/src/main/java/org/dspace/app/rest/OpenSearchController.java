@@ -32,16 +32,12 @@ import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.CollectionService;
 import org.dspace.content.service.CommunityService;
+import org.dspace.content.virtual.EntityTypeToFilterQueryService;
 import org.dspace.core.Context;
 import org.dspace.core.LogHelper;
 import org.dspace.core.Utils;
-import org.dspace.discovery.DiscoverQuery;
+import org.dspace.discovery.*;
 import org.dspace.discovery.DiscoverQuery.SORT_ORDER;
-import org.dspace.discovery.DiscoverResult;
-import org.dspace.discovery.IndexableObject;
-import org.dspace.discovery.SearchService;
-import org.dspace.discovery.SearchServiceException;
-import org.dspace.discovery.SearchUtils;
 import org.dspace.discovery.configuration.DiscoveryConfiguration;
 import org.dspace.discovery.configuration.DiscoveryConfigurationService;
 import org.dspace.discovery.configuration.DiscoverySearchFilter;
@@ -86,6 +82,8 @@ public class OpenSearchController {
     @Autowired
     private ScopeResolver scopeResolver;
 
+    private static final int MAX_COUNT = 100;
+
     /**
      * This method provides the OpenSearch query on the path /search
      * It will pass the result as a OpenSearchDocument directly to the client
@@ -107,6 +105,8 @@ public class OpenSearchController {
         }
         if (count == null) {
             count = -1;
+        } else if (count > MAX_COUNT) {
+            count = MAX_COUNT;
         }
         if (openSearchService == null) {
             openSearchService = UtilServiceFactory.getInstance().getOpenSearchService();
@@ -143,6 +143,9 @@ public class OpenSearchController {
             queryArgs.setStart(start);
             queryArgs.setMaxResults(count);
             queryArgs.setDSpaceObjectFilter(IndexableItem.TYPE);
+
+            queryArgs.addFilterQueries("entityType:Publication");
+
 
             if (sort != null) {
                 DiscoveryConfiguration discoveryConfiguration =
