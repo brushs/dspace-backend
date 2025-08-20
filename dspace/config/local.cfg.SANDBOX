@@ -357,3 +357,5 @@ webui.feed.item.description =
 
 # Size of batches to commit to solr at a time
 oai.import.batch.size = 500
+
+usage-statistics.dbfile = /dspace/config/GeoLite2-City.mmdb

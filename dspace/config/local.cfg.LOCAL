@@ -361,3 +361,5 @@ rss.general-feed.maxItems=100
 webui.feed.item.dc.creator = dc.contributor.author
 webui.feed.item.dc.description = dc.identifier.citation
 webui.feed.item.description =
+
+usage-statistics.dbfile = C:\dspace\dspace7\config\GeoLite2-City.mmdb
