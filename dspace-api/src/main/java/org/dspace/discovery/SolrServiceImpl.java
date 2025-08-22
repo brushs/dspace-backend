@@ -1137,6 +1137,15 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                             if (StringUtils.isNotBlank(authorityValue)) {
                                 filterValue = authorityValue;
                             }
+
+                            // Fix for Subject browsing to revert back to generic field name
+                            if (query.getFacetFields() != null && !query.getFacetFields().isEmpty()) {
+                                if (query.getFacetFields().get(0).getField().equals("bi_4_dis")) {
+                                    field = "bi_4_dis";
+                                }
+                            }
+
+
                             result.addFacetResult(
                                 field,
                                 new DiscoverResult.FacetResult(filterValue,

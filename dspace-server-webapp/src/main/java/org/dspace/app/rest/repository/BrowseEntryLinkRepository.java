@@ -10,6 +10,7 @@ package org.dspace.app.rest.repository;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -66,6 +67,12 @@ public class BrowseEntryLinkRepository extends AbstractDSpaceRestRepository
 
 
         Context context = obtainContext();
+        if (projection.getLanguage() != null) {
+            final String lang = projection.getLanguage().trim();
+            Locale locale = "fr".equalsIgnoreCase(lang) ? Locale.FRENCH : Locale.ENGLISH; // default to EN
+            context.setCurrentLocale(locale);
+        }
+
         BrowseEngine be = new BrowseEngine(context);
         BrowserScope bs = new BrowserScope(context);
 

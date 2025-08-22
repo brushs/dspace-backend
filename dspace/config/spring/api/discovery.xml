@@ -3928,6 +3928,7 @@
                 <value>dc.subject.broad_en</value>
             </list>
         </property>
+        <property name="type" value="text"/>
     </bean>
 
     <bean id="searchFilterSubject_fr" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
@@ -3937,6 +3938,7 @@
                 <value>dc.subject.broad_fr</value>
             </list>
         </property>
+        <property name="type" value="text"/>
     </bean>
 
     <bean id="searchFilterIssued" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
@@ -4584,6 +4586,13 @@
     <bean id="sortEntityType" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
         <property name="metadataField" value="dspace.entity.type"/>
         <property name="defaultSortOrder" value="desc"/>
+    </bean>
+
+    <bean id="localeAwareSubjectFacetPlugin" class="org.dspace.discovery.LocaleAwareSubjectFacetPlugin">
+        <!-- Optional: treat fr_CA as French too -->
+        <!-- <property name="frPrimaries">
+          <list><value>fr</value><value>fr_CA</value></list>
+        </property> -->
     </bean>
 
 </beans>
