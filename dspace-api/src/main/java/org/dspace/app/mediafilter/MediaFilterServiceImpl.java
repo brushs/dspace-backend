@@ -51,6 +51,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class MediaFilterServiceImpl implements MediaFilterService, InitializingBean {
 
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(MediaFilterServiceImpl.class);
+
     @Autowired(required = true)
     protected AuthorizeService authorizeService;
     @Autowired(required = true)
@@ -119,10 +121,16 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
                 applyFiltersCommunity(context, topLevelCommunity);
             }
         } else {
+            log.info("FILTER-MEDIA job: Processing up to: " + max2Process + " items.");
+            int count = 0;
             //otherwise, just find every item and process
             Iterator<Item> itemIterator = itemService.findAll(context);
             while (itemIterator.hasNext() && processed < max2Process) {
                 applyFiltersItem(context, itemIterator.next());
+                count++;
+                if (count % 500 == 0) {
+                    log.info("FILTER-MEDIA job: Processed " + count + " items.");
+                }
             }
         }
     }
@@ -160,6 +168,7 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
     @Override
     public void applyFiltersItem(Context c, Item item) throws Exception {
         //only apply filters if item not in skip-list
+        log.info("FILTER-MEDIA job: Processing item: " + item.getID());
         if (!inSkipList(item.getHandle())) {
             //cache this item in MediaFilterManager
             //so it can be accessed by MediaFilters as necessary

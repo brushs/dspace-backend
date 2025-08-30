@@ -57,7 +57,7 @@ JAVA_OPTS="-Xms256m -Xmx4096m -Dfile.encoding=UTF-8"
 # (This task ensures that thumbnails are generated for newly add images,
 # and ensures full text search is available for newly added PDF/Word/PPT/HTML documents)
 # REQUIRED for Thumbnails to be generated & full-text indexing to work.
-# 0 2 * * * root $DSPACE/bin/dspace filter-media -m 1000 > $DSPACE/log/filter-media.log 2>&1
+0 2 * * * root $DSPACE/bin/dspace filter-media -m 1000 > $DSPACE/log/filter-media.log 2>&1
 
 # Run the metadata copy task (for keywords mostly) at 05:00 every day.
 # (This task ensures that thumbnails are generated for newly add images,
