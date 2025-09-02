@@ -10,6 +10,7 @@ import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.models.BlobProperties;
+import com.azure.storage.blob.models.BlobStorageException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -84,20 +85,26 @@ public class AzureBitStoreService implements BitStoreService{
             sInternalId = sInternalId.substring(2);
         }
 
-        StringBuilder bufFilename = new StringBuilder();
-        bufFilename.append(sInternalId);
-
+        StringBuilder bufFilename = new StringBuilder(sInternalId);
         if (bufFilename.indexOf(".") <= 0) {
             bufFilename.append(BLOB_SUFFIX);
         }
-
         String filename = bufFilename.toString();
-        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
         try {
+            BlobContainerClient containerClient =
+                    blobServiceClient.getBlobContainerClient(containerName);
             BlobClient blobClient = containerClient.getBlobClient(filename);
-            ByteArrayInputStream bis = new ByteArrayInputStream(blobClient.downloadContent().toBytes());
-            return bis;
-        } catch (Exception e) {
+
+            // Streams the blob lazily in chunks; no giant byte[] allocation.
+            return blobClient.openInputStream();
+        } catch (BlobStorageException e) {
+            if (e.getMessage().contains("BlobNotFound")) {
+                throw new IOException("Error retrieving bitstream: " + sInternalId);
+            }
+            log.error("get(" + bufFilename + ")", e);
+            throw new IOException(e);
+        } catch (Throwable e) {
             log.error("get(" + bufFilename + ")", e);
             throw new IOException(e);
         }
