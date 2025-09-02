@@ -106,6 +106,12 @@
                 level='ERROR'/>
         <Logger name='org.dspace.utils'
                 level='ERROR'/>
+        <Logger name='org.ehcache'
+                level='WARN'/>
+        <Logger name='org.terracotta'
+                level='WARN'/>
+        <Logger name='org.hibernate'
+                level='WARN'/>
 
         <!-- Block passwords from being exposed in Axis logs. (DEBUG exposes passwords in Basic Auth) -->
         <Logger name='org.apache.axis.handlers.http.HTTPAuthHandler'
