@@ -1,0 +1,11 @@
+INSERT INTO term VALUES (51389, null,'Fire ecology','Écologie des feux', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51390, null,'Fire behaviour','Comportement des feux', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51391, null,'Fire weather','Conditions météorologiques propices aux feux', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51392, null,'Fire regime','Régime des feux', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51393, null,'Fire management','Gestion des feux', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51394, null,'Evacuations','Évacuations', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51395, null,'Preparedness','Préparation', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51396, null,'Fire risk','Danger d’incendie', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51397, null,'Fire impacts','Conséquences des feux', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51398, null,'Suppression','Suppression', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
+INSERT INTO term VALUES (51399, null,'Mitigation','Atténuation', '', '', true, 5, null, 'system', current_timestamp, 'system', current_timestamp);
