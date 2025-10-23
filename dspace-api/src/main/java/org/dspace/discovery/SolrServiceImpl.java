@@ -1211,11 +1211,13 @@ public class SolrServiceImpl implements SearchService, IndexingService {
      */
     protected IndexableObject findIndexableObject(Context context, SolrDocument doc) throws SQLException {
         String type = (String) doc.getFirstValue(SearchUtils.RESOURCE_TYPE_FIELD);
+        if (!(type.equals("Community") || type.equals("Collection"))) {
+            type = "Item";
+        }
+
         String id = (String) doc.getFirstValue(SearchUtils.RESOURCE_ID_FIELD);
         final IndexFactory indexableObjectService = indexObjectServiceFactory.
                 getIndexFactoryByType(type);
-
-        log.error("Index Type: " + type);
 
         Optional<IndexableObject> indexableObject = indexableObjectService.findIndexableObject(context, id);
 
