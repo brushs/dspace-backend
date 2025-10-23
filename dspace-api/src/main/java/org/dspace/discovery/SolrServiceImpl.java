@@ -1214,6 +1214,17 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         String id = (String) doc.getFirstValue(SearchUtils.RESOURCE_ID_FIELD);
         final IndexFactory indexableObjectService = indexObjectServiceFactory.
                 getIndexFactoryByType(type);
+
+        if (indexableObjectService == null) {
+            log.error("indexableObjectService is null");
+        }
+        if (context == null) {
+            log.error("context is null");
+        }
+        if (id == null) {
+            log.error("id is null");
+        }
+
         Optional<IndexableObject> indexableObject = indexableObjectService.findIndexableObject(context, id);
 
         if (!indexableObject.isPresent()) {
