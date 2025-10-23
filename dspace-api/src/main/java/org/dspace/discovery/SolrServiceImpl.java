@@ -1215,7 +1215,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         final IndexFactory indexableObjectService = indexObjectServiceFactory.
                 getIndexFactoryByType(type);
 
-        log.error("Index Type: " + indexableObjectService.getType());
+        log.error("Index Type: " + type);
 
         Optional<IndexableObject> indexableObject = indexableObjectService.findIndexableObject(context, id);
 
