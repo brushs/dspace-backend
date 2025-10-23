@@ -8,28 +8,17 @@
 package org.dspace.app.mediafilter;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.apache.logging.log4j.Logger;
 import org.dspace.app.mediafilter.service.MediaFilterService;
+import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.service.AuthorizeService;
-import org.dspace.content.Bitstream;
-import org.dspace.content.BitstreamFormat;
-import org.dspace.content.Bundle;
+import org.dspace.content.*;
 import org.dspace.content.Collection;
-import org.dspace.content.Community;
-import org.dspace.content.DCDate;
-import org.dspace.content.Item;
-import org.dspace.content.service.BitstreamFormatService;
-import org.dspace.content.service.BitstreamService;
-import org.dspace.content.service.BundleService;
-import org.dspace.content.service.CollectionService;
-import org.dspace.content.service.CommunityService;
-import org.dspace.content.service.ItemService;
+import org.dspace.content.service.*;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.SelfNamedPlugin;
@@ -71,6 +60,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
     protected ItemService itemService;
     @Autowired(required = true)
     protected ConfigurationService configurationService;
+    @Autowired
+    private MetadataFieldService metadataFieldService;
 
     protected DSpaceRunnableHandler handler;
 
@@ -112,6 +103,8 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
 
     @Override
     public void applyFiltersAllItems(Context context) throws Exception {
+        int limit = max2Process;
+
         if (skipList != null) {
             //if a skip-list exists, we need to filter community-by-community
             //so we can respect what is in the skip-list
@@ -123,10 +116,22 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         } else {
             log.info("FILTER-MEDIA job: Processing up to: " + max2Process + " items.");
             int count = 0;
+
+            MetadataField metadataField = metadataFieldService.findByString(
+                    context, "nrcan.internal.filtermediaprocessdate", '.');
+
+            if (metadataField == null) {
+                throw new IllegalStateException(
+                        "Metadata field 'nrcan.internal.filtermediaprocessdate' not found. Cannot proceed with filter media job.");
+            }
+
             //otherwise, just find every item and process
-            Iterator<Item> itemIterator = itemService.findAll(context);
+            Item item2process;
+            Iterator<Item> itemIterator = itemService.findMissingThenOldestByField(context, metadataField, limit);
             while (itemIterator.hasNext() && processed < max2Process) {
+                item2process = itemIterator.next();
                 applyFiltersItem(context, itemIterator.next());
+                addOrUpdateFilterMediaProcessedDate(context, item2process);
                 count++;
                 if (count % 500 == 0) {
                     log.info("FILTER-MEDIA job: Processed " + count + " items.");
@@ -481,6 +486,24 @@ public class MediaFilterServiceImpl implements MediaFilterService, InitializingB
         } else {
             System.out.println(message);
         }
+    }
+
+    private void addOrUpdateFilterMediaProcessedDate(Context context, Item item) throws SQLException, AuthorizeException {
+
+        List<MetadataValue> values = itemService.getMetadataByMetadataString(item, "nrcan.internal.filtermediaprocessdate");
+
+        SimpleDateFormat fullIso2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        if (values.isEmpty()) {
+            // add
+            itemService.addMetadata(context, item, "nrcan", "internal", "filtermediaprocessdate", null, fullIso2.format(new Date()));
+            log.info("Adding Filter Media Process Date for " + item.getID());
+        } else {
+            // update
+            values.get(0).setValue(fullIso2.format(new Date()));
+            log.info("Updating Filter Media Process Date for " + item.getID());
+        }
+
+        itemService.update(context, item);
     }
 
     @Override

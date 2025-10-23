@@ -240,6 +240,11 @@ public class CustomItemServiceImpl extends DSpaceObjectServiceImpl<Item> impleme
     }
 
     @Override
+    public Iterator<Item> findMissingThenOldestByField(Context context, MetadataField metadataField, int limit) throws SQLException {
+        return itemDAO.findMissingThenOldestByField(context, metadataField, true, limit);
+    }
+
+    @Override
     public Iterator<Item> findAll(Context context) throws SQLException {
         return itemDAO.findAll(context, true);
     }

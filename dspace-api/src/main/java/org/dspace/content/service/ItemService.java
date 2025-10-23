@@ -648,6 +648,8 @@ public interface ItemService
                                               String regexClause, int offset, int limit)
         throws SQLException, AuthorizeException, IOException;
 
+    public Iterator<Item> findMissingThenOldestByField(Context context, MetadataField metadataField, int limit) throws SQLException;
+
     /**
      * Find all the items in the archive with a given authority key value
      * in the indicated metadata field.

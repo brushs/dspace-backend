@@ -374,6 +374,11 @@ public class ItemDAOImpl extends AbstractHibernateDSODAO<Item> implements ItemDA
     }
 
     @Override
+    public Iterator<Item> findMissingThenOldestByField(Context context, MetadataField metadataField, boolean inArchive, int limit) throws SQLException {
+        return null;
+    }
+
+    @Override
     public int countItems(Context context, Collection collection, boolean includeArchived, boolean includeWithdrawn)
         throws SQLException {
         Query query = createQuery(context,

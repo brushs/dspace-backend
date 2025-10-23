@@ -1267,6 +1267,11 @@ prevent the generation of resource policy entry values with null dspace_object a
     }
 
     @Override
+    public Iterator<Item> findMissingThenOldestByField(Context context, MetadataField metadataField, int limit) throws SQLException {
+        return null;
+    }
+
+    @Override
     public DSpaceObject getAdminObject(Context context, Item item, int action) throws SQLException {
         DSpaceObject adminObject = null;
         //Items are always owned by collections
