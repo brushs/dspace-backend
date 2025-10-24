@@ -240,7 +240,25 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             }
             String uniqueID = indexableObject.getUniqueIndexID();
             log.info("Try to delete uniqueID:" + uniqueID);
-            indexObjectServiceFactory.getIndexableObjectFactory(indexableObject).delete(indexableObject);
+            
+            if (indexObjectServiceFactory == null) {
+                indexObjectServiceFactory =
+                        DSpaceServicesFactory.getInstance()
+                                .getServiceManager()
+                                .getServiceByName(
+                                        IndexObjectFactoryFactory.class.getName(),
+                                        IndexObjectFactoryFactory.class
+                                );
+            }
+
+            IndexFactory idxFactory =
+                    indexObjectServiceFactory.getIndexableObjectFactory(indexableObject);
+            if (idxFactory != null) {
+                idxFactory.delete(indexableObject);
+            }
+
+
+            //indexObjectServiceFactory.getIndexableObjectFactory(indexableObject).delete(indexableObject);
             if (commit) {
                 solrSearchCore.getSolr().commit();
             }
