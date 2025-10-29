@@ -977,6 +977,20 @@
             </row>
          </form>
        <form name="recordmanagementStep">
+           <row>
+               <field>
+                   <dc-schema>dc</dc-schema>
+                   <dc-element>identifier</dc-element>
+                   <dc-qualifier></dc-qualifier>
+                   <!-- An input-type of qualdrop_value MUST be marked as repeatable -->
+                   <repeatable>true</repeatable>
+                   <label>Workflow Identifiers</label>
+                   <input-type value-pairs-name="workflow_identifiers">qualdrop_value</input-type>
+                   <hint>If the item has any identifier related to a source system please select the system and enter the ID.
+                   </hint>
+                   <required></required>
+               </field>
+           </row>
             <row>
                 <field>
                     <dc-schema>nrcan</dc-schema>
@@ -3619,6 +3633,16 @@
             <pair>
                 <displayed-value>Other</displayed-value>
                 <stored-value>other</stored-value>
+            </pair>
+        </value-pairs>
+        <value-pairs value-pairs-name="workflow_identifiers" dc-term="identifier">
+            <pair>
+                <displayed-value>STPS</displayed-value>
+                <stored-value>stps</stored-value>
+            </pair>
+            <pair>
+                <displayed-value>PMT</displayed-value>
+                <stored-value>pmt</stored-value>
             </pair>
         </value-pairs>
         <value-pairs value-pairs-name="common_relations" dc-term="relation">

@@ -1130,6 +1130,13 @@
   <dc-type>
     <schema>dc</schema>
     <element>identifier</element>
+    <qualifier>stps</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
     <qualifier>catn</qualifier>
     <scope_note></scope_note>
   </dc-type>
