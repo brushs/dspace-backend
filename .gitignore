@@ -43,6 +43,9 @@ nb-configuration.xml
 ##Ignore JRebel project configuration
 rebel.xml
 
+# IntelliJ SmartTomcat plugin
+.smartomcat/
+*.smartomcat
 
 ## Ignore jenv configuration
 .java-version
