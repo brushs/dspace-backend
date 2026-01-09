@@ -242,6 +242,13 @@
   </dc-type>
 
   <dc-type>
+    <schema>nrcan</schema>
+    <element>unilingual</element>
+    <qualifier></qualifier>
+    <scope_note>Indicates if the resource is unilingual.</scope_note>
+  </dc-type>
+
+  <dc-type>
     <schema>dc</schema>
     <element>identifier</element>
     <qualifier>employeeid</qualifier>
