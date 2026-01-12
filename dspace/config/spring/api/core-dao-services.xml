@@ -40,6 +40,8 @@
     <bean class="org.dspace.eperson.dao.impl.RegistrationDataDAOImpl"/>
     <bean class="org.dspace.eperson.dao.impl.SubscriptionDAOImpl"/>
 
+    <bean class="org.dspace.publicationrequest.dao.impl.PublicationRequestDAOImpl"/>
+
     <bean class="org.dspace.handle.dao.impl.HandleDAOImpl"/>
 
     <bean class="org.dspace.harvest.dao.impl.HarvestedItemDAOImpl"/>

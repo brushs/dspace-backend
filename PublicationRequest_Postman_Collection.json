@@ -1,0 +1,256 @@
+{
+  "info": {
+    "name": "DSpace PublicationRequest API",
+    "description": "Postman collection for testing PublicationRequest endpoints. NOTE: The POST endpoint requires CSRF token from DSpace UI. Direct API calls will fail with 403 unless you include a valid CSRF token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create PublicationRequest (Requires CSRF Token)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-XSRF-TOKEN",
+            "value": "{{csrf_token}}",
+            "type": "text",
+            "description": "CSRF token obtained from DSpace UI or initial GET request"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"publicationGUID\": \"test-guid-12345\",\n  \"userEmailAddress\": \"test@example.com\",\n  \"language\": \"en\",\n  \"status\": 0\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/server/api/request/publicationrequests",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "server",
+            "api",
+            "core",
+            "publicationrequests"
+          ]
+        },
+        "description": "Creates a new publication request. This endpoint is PUBLIC (no authentication required) but CSRF protected. You must include a valid CSRF token in the X-XSRF-TOKEN header, which is typically obtained from the DSpace UI session."
+      },
+      "response": []
+    },
+    {
+      "name": "Get CSRF Token",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/server/api",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "server",
+            "api"
+          ]
+        },
+        "description": "Make a GET request to the API root to establish a session and receive a CSRF token. Look for the DSPACE-XSRF-TOKEN cookie in the response and use its value in subsequent POST requests."
+      },
+      "response": []
+    },
+    {
+      "name": "Get PublicationRequest by ID (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/server/api/request/publicationrequests/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "server",
+            "api",
+            "core",
+            "publicationrequests",
+            "1"
+          ]
+        },
+        "description": "Retrieves a publication request by ID. Requires ADMIN authentication."
+      },
+      "response": []
+    },
+    {
+      "name": "List All PublicationRequests (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/server/api/request/publicationrequests?page=0&size=20",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "server",
+            "api",
+            "core",
+            "publicationrequests"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "20"
+            }
+          ]
+        },
+        "description": "Lists all publication requests with pagination. Requires ADMIN authentication."
+      },
+      "response": []
+    },
+    {
+      "name": "Search by Publication GUID (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/server/api/request/publicationrequests/search/byPublicationGUID?publicationGUID=test-guid-12345",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "server",
+            "api",
+            "core",
+            "publicationrequests",
+            "search",
+            "byPublicationGUID"
+          ],
+          "query": [
+            {
+              "key": "publicationGUID",
+              "value": "test-guid-12345"
+            }
+          ]
+        },
+        "description": "Search for publication requests by publication GUID. Requires ADMIN authentication."
+      },
+      "response": []
+    },
+    {
+      "name": "Search by User Email (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/server/api/request/publicationrequests/search/byUserEmail?email=test@example.com",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "server",
+            "api",
+            "core",
+            "publicationrequests",
+            "search",
+            "byUserEmail"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "test@example.com"
+            }
+          ]
+        },
+        "description": "Search for publication requests by user email address. Requires ADMIN authentication."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete PublicationRequest (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/server/api/request/publicationrequests/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "server",
+            "api",
+            "core",
+            "publicationrequests",
+            "1"
+          ]
+        },
+        "description": "Deletes a publication request. Requires ADMIN authentication."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "admin_token",
+      "value": "YOUR_ADMIN_TOKEN_HERE",
+      "type": "string"
+    },
+    {
+      "key": "csrf_token",
+      "value": "CSRF_TOKEN_FROM_COOKIE",
+      "type": "string",
+      "description": "Get this from the DSPACE-XSRF-TOKEN cookie after making a GET request to /server/api"
+    }
+  ]
+}
+
