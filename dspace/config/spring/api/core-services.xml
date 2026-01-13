@@ -101,6 +101,8 @@
     <bean class="org.dspace.eperson.SubscribeServiceImpl"/>
 
     <bean class="org.dspace.publicationrequest.PublicationRequestServiceImpl"/>
+    <bean class="org.dspace.translationrequest.TranslationRequestServiceImpl"/>
+
     <bean class="org.dspace.eperson.SupervisorServiceImpl"/>
 
     <bean class="org.dspace.event.EventServiceImpl"/>

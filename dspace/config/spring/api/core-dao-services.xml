@@ -41,6 +41,7 @@
     <bean class="org.dspace.eperson.dao.impl.SubscriptionDAOImpl"/>
 
     <bean class="org.dspace.publicationrequest.dao.impl.PublicationRequestDAOImpl"/>
+    <bean class="org.dspace.translationrequest.dao.impl.TranslationRequestDAOImpl"/>
 
     <bean class="org.dspace.handle.dao.impl.HandleDAOImpl"/>
 

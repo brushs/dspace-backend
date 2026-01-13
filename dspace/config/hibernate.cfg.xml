@@ -68,6 +68,7 @@
         <mapping class="org.dspace.eperson.Subscription"/>
 
         <mapping class="org.dspace.publicationrequest.PublicationRequest"/>
+        <mapping class="org.dspace.translationrequest.TranslationRequest"/>
 
         <mapping class="org.dspace.handle.Handle"/>
 
