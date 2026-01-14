@@ -30,7 +30,6 @@ RUN mvn --no-transfer-progress package && \
 
 # Step 2 - Run Ant Deploy
 FROM eclipse-temurin:${JDK_VERSION}-jre as ant_build
-#FROM openjdk:${JDK_VERSION}-slim as ant_build
 ARG TARGET_DIR=dspace-installer
 # COPY the /install directory from 'build' container to /dspace-src in this container
 COPY --from=build /install /dspace-src
