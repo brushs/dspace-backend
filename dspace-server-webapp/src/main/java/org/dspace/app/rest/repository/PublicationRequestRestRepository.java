@@ -191,7 +191,7 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
      * @param pageable Pagination information
      * @return Page of PublicationRequestRest objects
      */
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("permitAll()")
     @SearchRestMethod(name = "byUserEmail")
     public Page<PublicationRequestRest> findByUserEmail(
         @Parameter(value = "email", required = true) String email,
@@ -239,6 +239,38 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
             return new PageImpl<>(restList, pageable, total);
         } catch (SQLException e) {
             log.error("Error finding PublicationRequests by title: " + title, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Search for publication requests by translation request ID
+     *
+     * @param translationRequestId The translation request ID to search for
+     * @param pageable             Pagination information
+     * @return Page of PublicationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byTranslationRequestId")
+    public Page<PublicationRequestRest> findByTranslationRequestId(
+        @Parameter(value = "translationRequestId", required = true) Integer translationRequestId,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            int total = publicationRequestService.countByTranslationRequestId(context, translationRequestId);
+            List<PublicationRequest> publicationRequests = publicationRequestService.findByTranslationRequestId(
+                context,
+                translationRequestId,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<PublicationRequestRest> restList = publicationRequests.stream()
+                .map(pr -> converter.convert(pr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException e) {
+            log.error("Error finding PublicationRequests by translation request ID: " + translationRequestId, e);
             throw new RuntimeException(e.getMessage(), e);
         }
     }

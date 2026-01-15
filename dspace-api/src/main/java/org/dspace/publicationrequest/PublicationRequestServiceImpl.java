@@ -124,5 +124,16 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
     public int countByTitle(Context context, String title) throws SQLException {
         return publicationRequestDAO.countByTitle(context, title);
     }
+
+    @Override
+    public List<PublicationRequest> findByTranslationRequestId(Context context, Integer translationRequestId,
+                                                                 int offset, int limit) throws SQLException {
+        return publicationRequestDAO.findByTranslationRequestId(context, translationRequestId, offset, limit);
+    }
+
+    @Override
+    public int countByTranslationRequestId(Context context, Integer translationRequestId) throws SQLException {
+        return publicationRequestDAO.countByTranslationRequestId(context, translationRequestId);
+    }
 }
 

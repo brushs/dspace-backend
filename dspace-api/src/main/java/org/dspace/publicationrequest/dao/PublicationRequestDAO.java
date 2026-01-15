@@ -95,5 +95,28 @@ public interface PublicationRequestDAO extends GenericDAO<PublicationRequest> {
      * @throws SQLException An exception that provides information on a database access error or other errors.
      */
     int countByTitle(Context context, String title) throws SQLException;
+
+    /**
+     * Find PublicationRequests by translation request ID (via translation2publication table join)
+     *
+     * @param context              The relevant DSpace Context
+     * @param translationRequestId The translation request ID to search for
+     * @param offset               The offset for pagination
+     * @param limit                The limit for pagination
+     * @return List of PublicationRequests linked to the translation request
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    List<PublicationRequest> findByTranslationRequestId(Context context, Integer translationRequestId,
+                                                         int offset, int limit) throws SQLException;
+
+    /**
+     * Count PublicationRequests by translation request ID (via translation2publication table join)
+     *
+     * @param context              The relevant DSpace Context
+     * @param translationRequestId The translation request ID to search for
+     * @return The count of matching PublicationRequests
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    int countByTranslationRequestId(Context context, Integer translationRequestId) throws SQLException;
 }
 

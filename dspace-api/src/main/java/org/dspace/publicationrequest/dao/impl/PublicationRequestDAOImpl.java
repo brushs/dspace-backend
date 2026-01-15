@@ -126,5 +126,42 @@ public class PublicationRequestDAOImpl extends AbstractHibernateDAO<PublicationR
         Number result = (Number) query.getSingleResult();
         return result != null ? result.intValue() : 0;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PublicationRequest> findByTranslationRequestId(Context context, Integer translationRequestId,
+                                                                 int offset, int limit) throws SQLException {
+        // Use native SQL to join with translation2publication table
+        String sql = "SELECT pr.* FROM publicationrequest pr " +
+                     "INNER JOIN translation2publication t2p ON pr.publicationrequest_id = t2p.publicationrequest_id " +
+                     "WHERE t2p.translationrequest_id = :translationRequestId " +
+                     "ORDER BY pr.publicationrequest_id DESC";
+
+        Query query = getHibernateSession(context).createNativeQuery(sql, PublicationRequest.class);
+        query.setParameter("translationRequestId", translationRequestId);
+
+        if (limit > 0) {
+            query.setMaxResults(limit);
+        }
+        if (offset > 0) {
+            query.setFirstResult(offset);
+        }
+
+        return query.getResultList();
+    }
+
+    @Override
+    public int countByTranslationRequestId(Context context, Integer translationRequestId) throws SQLException {
+        // Use native SQL to count with the same join logic
+        String sql = "SELECT COUNT(pr.publicationrequest_id) FROM publicationrequest pr " +
+                     "INNER JOIN translation2publication t2p ON pr.publicationrequest_id = t2p.publicationrequest_id " +
+                     "WHERE t2p.translationrequest_id = :translationRequestId";
+
+        Query query = getHibernateSession(context).createNativeQuery(sql);
+        query.setParameter("translationRequestId", translationRequestId);
+
+        Number result = (Number) query.getSingleResult();
+        return result != null ? result.intValue() : 0;
+    }
 }
 
