@@ -211,6 +211,38 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
         }
     }
 
+    /**
+     * Search for publication requests by title (searches both English and French titles)
+     *
+     * @param title    The title to search for (case-insensitive partial match)
+     * @param pageable Pagination information
+     * @return Page of PublicationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byTitle")
+    public Page<PublicationRequestRest> findByTitle(
+        @Parameter(value = "title", required = true) String title,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            int total = publicationRequestService.countByTitle(context, title);
+            List<PublicationRequest> publicationRequests = publicationRequestService.findByTitle(
+                context,
+                title,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<PublicationRequestRest> restList = publicationRequests.stream()
+                .map(pr -> converter.convert(pr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException e) {
+            log.error("Error finding PublicationRequests by title: " + title, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
     @Override
     public Class<PublicationRequestRest> getDomainClass() {
         return PublicationRequestRest.class;

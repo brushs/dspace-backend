@@ -73,5 +73,27 @@ public interface PublicationRequestDAO extends GenericDAO<PublicationRequest> {
      * @throws SQLException An exception that provides information on a database access error or other errors.
      */
     int countRows(Context context) throws SQLException;
+
+    /**
+     * Find PublicationRequests by title (searches both English and French titles in metadatavalue table)
+     *
+     * @param context The relevant DSpace Context
+     * @param title   The title to search for (case-insensitive partial match)
+     * @param offset  The offset for pagination
+     * @param limit   The limit for pagination
+     * @return List of PublicationRequests matching the title
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    List<PublicationRequest> findByTitle(Context context, String title, int offset, int limit) throws SQLException;
+
+    /**
+     * Count PublicationRequests by title (searches both English and French titles in metadatavalue table)
+     *
+     * @param context The relevant DSpace Context
+     * @param title   The title to search for (case-insensitive partial match)
+     * @return The count of matching PublicationRequests
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    int countByTitle(Context context, String title) throws SQLException;
 }
 

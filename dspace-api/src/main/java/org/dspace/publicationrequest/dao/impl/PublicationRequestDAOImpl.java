@@ -80,5 +80,51 @@ public class PublicationRequestDAOImpl extends AbstractHibernateDAO<PublicationR
         Query query = createQuery(context, "SELECT count(*) FROM PublicationRequest");
         return count(query);
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PublicationRequest> findByTitle(Context context, String title, int offset, int limit)
+        throws SQLException {
+        // Use native SQL to join with metadatavalue table
+        // Join twice (LEFT JOIN) to get both English and French titles without duplicating rows
+        String sql = "SELECT DISTINCT pr.* FROM publicationrequest pr " +
+                     "LEFT JOIN metadatavalue mv_en ON CAST(pr.publication_guid AS UUID) = mv_en.dspace_object_id " +
+                     "  AND mv_en.metadata_field_id = 73 AND mv_en.text_lang = 'en' " +
+                     "LEFT JOIN metadatavalue mv_fr ON CAST(pr.publication_guid AS UUID) = mv_fr.dspace_object_id " +
+                     "  AND mv_fr.metadata_field_id = 73 AND mv_fr.text_lang = 'fr' " +
+                     "WHERE (LOWER(mv_en.text_value) LIKE LOWER(:title) " +
+                     "   OR LOWER(mv_fr.text_value) LIKE LOWER(:title)) " +
+                     "ORDER BY pr.publicationrequest_id DESC";
+
+        Query query = getHibernateSession(context).createNativeQuery(sql, PublicationRequest.class);
+        query.setParameter("title", "%" + title + "%");
+
+        if (limit > 0) {
+            query.setMaxResults(limit);
+        }
+        if (offset > 0) {
+            query.setFirstResult(offset);
+        }
+
+        return query.getResultList();
+    }
+
+    @Override
+    public int countByTitle(Context context, String title) throws SQLException {
+        // Use native SQL to count with the same join logic
+        String sql = "SELECT COUNT(DISTINCT pr.publicationrequest_id) FROM publicationrequest pr " +
+                     "LEFT JOIN metadatavalue mv_en ON CAST(pr.publication_guid AS UUID) = mv_en.dspace_object_id " +
+                     "  AND mv_en.metadata_field_id = 73 AND mv_en.text_lang = 'en' " +
+                     "LEFT JOIN metadatavalue mv_fr ON CAST(pr.publication_guid AS UUID) = mv_fr.dspace_object_id " +
+                     "  AND mv_fr.metadata_field_id = 73 AND mv_fr.text_lang = 'fr' " +
+                     "WHERE (LOWER(mv_en.text_value) LIKE LOWER(:title) " +
+                     "   OR LOWER(mv_fr.text_value) LIKE LOWER(:title))";
+
+        Query query = getHibernateSession(context).createNativeQuery(sql);
+        query.setParameter("title", "%" + title + "%");
+
+        Number result = (Number) query.getSingleResult();
+        return result != null ? result.intValue() : 0;
+    }
 }
 
