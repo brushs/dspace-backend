@@ -24,6 +24,8 @@ public class PublicationRequestRest extends RestAddressableModel {
     private String userEmailAddress;
     private String language;
     private Integer status;
+    private String titleEn;
+    private String titleFr;
 
     @Override
     @JsonProperty(access = Access.READ_ONLY)
@@ -80,6 +82,22 @@ public class PublicationRequestRest extends RestAddressableModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getTitleEn() {
+        return titleEn;
+    }
+
+    public void setTitleEn(String titleEn) {
+        this.titleEn = titleEn;
+    }
+
+    public String getTitleFr() {
+        return titleFr;
+    }
+
+    public void setTitleFr(String titleFr) {
+        this.titleFr = titleFr;
     }
 }
 

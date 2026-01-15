@@ -7,9 +7,21 @@
  */
 package org.dspace.app.rest.converter;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dspace.app.rest.model.PublicationRequestRest;
 import org.dspace.app.rest.projection.Projection;
+import org.dspace.app.rest.utils.ContextUtil;
+import org.dspace.content.Item;
+import org.dspace.content.MetadataValue;
+import org.dspace.content.service.ItemService;
+import org.dspace.core.Context;
 import org.dspace.publicationrequest.PublicationRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,6 +33,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class PublicationRequestConverter implements DSpaceConverter<PublicationRequest, PublicationRequestRest> {
 
+    private static final Logger log = LogManager.getLogger();
+
+    @Autowired
+    private ItemService itemService;
+
     @Override
     public PublicationRequestRest convert(PublicationRequest obj, Projection projection) {
         PublicationRequestRest rest = new PublicationRequestRest();
@@ -30,6 +47,48 @@ public class PublicationRequestConverter implements DSpaceConverter<PublicationR
         rest.setUserEmailAddress(obj.getUserEmailAddress());
         rest.setLanguage(obj.getLanguage());
         rest.setStatus(obj.getStatus());
+
+        // Fetch title metadata from the Item if publicationGUID is a valid UUID
+        if (obj.getPublicationGUID() != null) {
+            try {
+                UUID itemUuid = UUID.fromString(obj.getPublicationGUID());
+                Context context = ContextUtil.obtainCurrentRequestContext();
+                if (context != null) {
+                    Item item = itemService.find(context, itemUuid);
+                    if (item != null) {
+                        // Get English title (dc.title with language 'en' or no language)
+                        List<MetadataValue> titleMetadata = itemService.getMetadata(
+                            item, "dc", "title", null, "en"
+                        );
+                        if (titleMetadata != null && !titleMetadata.isEmpty()) {
+                            rest.setTitleEn(titleMetadata.get(0).getValue());
+                        } else {
+                            // If no 'en' title, try without language specification
+                            titleMetadata = itemService.getMetadata(
+                                item, "dc", "title", null, Item.ANY
+                            );
+                            if (titleMetadata != null && !titleMetadata.isEmpty()) {
+                                rest.setTitleEn(titleMetadata.get(0).getValue());
+                            }
+                        }
+
+                        // Get French title (dc.title with language 'fr')
+                        List<MetadataValue> titleMetadataFr = itemService.getMetadata(
+                            item, "dc", "title", null, "fr"
+                        );
+                        if (titleMetadataFr != null && !titleMetadataFr.isEmpty()) {
+                            rest.setTitleFr(titleMetadataFr.get(0).getValue());
+                        }
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                // publicationGUID is not a valid UUID, skip title lookup
+                log.debug("publicationGUID is not a valid UUID: " + obj.getPublicationGUID());
+            } catch (SQLException e) {
+                log.error("Error fetching item for publicationGUID: " + obj.getPublicationGUID(), e);
+            }
+        }
+
         return rest;
     }
 
