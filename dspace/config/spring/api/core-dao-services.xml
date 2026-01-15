@@ -42,6 +42,7 @@
 
     <bean class="org.dspace.publicationrequest.dao.impl.PublicationRequestDAOImpl"/>
     <bean class="org.dspace.translationrequest.dao.impl.TranslationRequestDAOImpl"/>
+    <bean class="org.dspace.translation2publication.dao.impl.Translation2PublicationDAOImpl"/>
 
     <bean class="org.dspace.handle.dao.impl.HandleDAOImpl"/>
 

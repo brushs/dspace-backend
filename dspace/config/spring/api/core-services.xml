@@ -102,6 +102,7 @@
 
     <bean class="org.dspace.publicationrequest.PublicationRequestServiceImpl"/>
     <bean class="org.dspace.translationrequest.TranslationRequestServiceImpl"/>
+    <bean class="org.dspace.translation2publication.Translation2PublicationServiceImpl"/>
 
     <bean class="org.dspace.eperson.SupervisorServiceImpl"/>
 
