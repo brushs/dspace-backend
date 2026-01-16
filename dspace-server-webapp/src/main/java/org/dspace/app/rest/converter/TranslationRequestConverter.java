@@ -16,8 +16,10 @@ import org.apache.logging.log4j.Logger;
 import org.dspace.app.rest.model.TranslationRequestRest;
 import org.dspace.app.rest.projection.Projection;
 import org.dspace.app.rest.utils.ContextUtil;
+import org.dspace.content.Bitstream;
 import org.dspace.content.Item;
 import org.dspace.content.MetadataValue;
+import org.dspace.content.service.BitstreamService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.dspace.translationrequest.TranslationRequest;
@@ -37,6 +39,9 @@ public class TranslationRequestConverter implements DSpaceConverter<TranslationR
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private BitstreamService bitstreamService;
 
     @Override
     public TranslationRequestRest convert(TranslationRequest obj, Projection projection) {
@@ -88,6 +93,33 @@ public class TranslationRequestConverter implements DSpaceConverter<TranslationR
                 log.debug("publicationUUID is not a valid UUID: " + obj.getPublicationUUID());
             } catch (SQLException e) {
                 log.error("Error fetching item for publicationUUID: " + obj.getPublicationUUID(), e);
+            }
+        }
+
+        // Fetch bitstream name from the Bitstream if bitstreamUUID is a valid UUID
+        if (obj.getBitstreamUUID() != null) {
+            try {
+                UUID bitstreamUuid = UUID.fromString(obj.getBitstreamUUID());
+                Context context = ContextUtil.obtainCurrentRequestContext();
+                if (context != null) {
+                    Bitstream bitstream = bitstreamService.find(context, bitstreamUuid);
+                    if (bitstream != null && bitstream.getInternalId() != null) {
+                        // Extract filename from internal_id (part after last "/")
+                        String internalId = bitstream.getInternalId();
+                        int lastSlashIndex = internalId.lastIndexOf('/');
+                        if (lastSlashIndex >= 0 && lastSlashIndex < internalId.length() - 1) {
+                            rest.setBitstreamName(internalId.substring(lastSlashIndex + 1));
+                        } else {
+                            // If no "/" found, use the whole internal_id
+                            rest.setBitstreamName(internalId);
+                        }
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                // bitstreamUUID is not a valid UUID, skip bitstream lookup
+                log.debug("bitstreamUUID is not a valid UUID: " + obj.getBitstreamUUID());
+            } catch (SQLException e) {
+                log.error("Error fetching bitstream for bitstreamUUID: " + obj.getBitstreamUUID(), e);
             }
         }
 

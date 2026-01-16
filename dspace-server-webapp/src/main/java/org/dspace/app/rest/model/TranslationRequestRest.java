@@ -30,6 +30,7 @@ public class TranslationRequestRest extends RestAddressableModel {
     private Date closedDate;
     private String titleEn;
     private String titleFr;
+    private String bitstreamName;
 
     @Override
     @JsonProperty(access = Access.READ_ONLY)
@@ -118,6 +119,14 @@ public class TranslationRequestRest extends RestAddressableModel {
 
     public void setTitleFr(String titleFr) {
         this.titleFr = titleFr;
+    }
+
+    public String getBitstreamName() {
+        return bitstreamName;
+    }
+
+    public void setBitstreamName(String bitstreamName) {
+        this.bitstreamName = bitstreamName;
     }
 }
 
