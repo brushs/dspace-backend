@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS translationrequest
     language VARCHAR(50) NOT NULL,
     status INTEGER,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    closed_date TIMESTAMP
+    closed_date TIMESTAMP,
+    notes TEXT
     );
 
 -- ========================================

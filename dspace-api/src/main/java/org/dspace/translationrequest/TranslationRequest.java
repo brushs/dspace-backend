@@ -53,6 +53,9 @@ public class TranslationRequest {
     @Temporal(TemporalType.TIMESTAMP)
     private Date closedDate;
 
+    @Column(name = "notes", columnDefinition = "TEXT")
+    private String notes;
+
     /**
      * Protected constructor, create object using TranslationRequestService
      */
@@ -109,6 +112,14 @@ public class TranslationRequest {
 
     public void setClosedDate(Date closedDate) {
         this.closedDate = closedDate;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
 

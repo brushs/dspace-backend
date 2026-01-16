@@ -54,6 +54,7 @@ public class TranslationRequestConverter implements DSpaceConverter<TranslationR
         rest.setStatus(obj.getStatus());
         rest.setCreatedDate(obj.getCreatedDate());
         rest.setClosedDate(obj.getClosedDate());
+        rest.setNotes(obj.getNotes());
 
         // Fetch title metadata from the Item if publicationUUID is a valid UUID
         if (obj.getPublicationUUID() != null) {

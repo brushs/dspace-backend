@@ -142,6 +142,10 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
             if (requestRest.getClosedDate() != null) {
                 translationRequest.setClosedDate(requestRest.getClosedDate());
             }
+            // Set notes if provided (nullable)
+            if (requestRest.getNotes() != null) {
+                translationRequest.setNotes(requestRest.getNotes());
+            }
             // Directly save without going through update() which requires admin
             context.turnOffAuthorisationSystem();
             translationRequestService.updateWithoutAuthCheck(context, translationRequest);
