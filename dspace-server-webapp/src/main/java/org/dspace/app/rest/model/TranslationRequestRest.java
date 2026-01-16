@@ -28,6 +28,8 @@ public class TranslationRequestRest extends RestAddressableModel {
     private Integer status;
     private Date createdDate;
     private Date closedDate;
+    private String titleEn;
+    private String titleFr;
 
     @Override
     @JsonProperty(access = Access.READ_ONLY)
@@ -100,6 +102,22 @@ public class TranslationRequestRest extends RestAddressableModel {
 
     public void setClosedDate(Date closedDate) {
         this.closedDate = closedDate;
+    }
+
+    public String getTitleEn() {
+        return titleEn;
+    }
+
+    public void setTitleEn(String titleEn) {
+        this.titleEn = titleEn;
+    }
+
+    public String getTitleFr() {
+        return titleFr;
+    }
+
+    public void setTitleFr(String titleFr) {
+        this.titleFr = titleFr;
     }
 }
 
