@@ -30,8 +30,8 @@ public class PublicationRequest {
     @SequenceGenerator(name = "publicationrequest_seq", sequenceName = "publicationrequest_seq", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "publication_guid", nullable = false, length = 255)
-    private String publicationGUID;
+    @Column(name = "publication_uuid", nullable = false, length = 255)
+    private String publicationUUID;
 
     @Column(name = "user_email_address", nullable = false, length = 255)
     private String userEmailAddress;
@@ -52,12 +52,12 @@ public class PublicationRequest {
         return id;
     }
 
-    public String getPublicationGUID() {
-        return publicationGUID;
+    public String getPublicationUUID() {
+        return publicationUUID;
     }
 
-    public void setPublicationGUID(String publicationGUID) {
-        this.publicationGUID = publicationGUID;
+    public void setPublicationUUID(String publicationUUID) {
+        this.publicationUUID = publicationUUID;
     }
 
     public String getUserEmailAddress() {

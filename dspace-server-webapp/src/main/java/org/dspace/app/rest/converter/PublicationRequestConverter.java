@@ -43,15 +43,15 @@ public class PublicationRequestConverter implements DSpaceConverter<PublicationR
         PublicationRequestRest rest = new PublicationRequestRest();
         rest.setProjection(projection);
         rest.setId(obj.getId());
-        rest.setPublicationGUID(obj.getPublicationGUID());
+        rest.setPublicationUUID(obj.getPublicationUUID());
         rest.setUserEmailAddress(obj.getUserEmailAddress());
         rest.setLanguage(obj.getLanguage());
         rest.setStatus(obj.getStatus());
 
-        // Fetch title metadata from the Item if publicationGUID is a valid UUID
-        if (obj.getPublicationGUID() != null) {
+        // Fetch title metadata from the Item if publicationUUID is a valid UUID
+        if (obj.getPublicationUUID() != null) {
             try {
-                UUID itemUuid = UUID.fromString(obj.getPublicationGUID());
+                UUID itemUuid = UUID.fromString(obj.getPublicationUUID());
                 Context context = ContextUtil.obtainCurrentRequestContext();
                 if (context != null) {
                     Item item = itemService.find(context, itemUuid);
@@ -82,10 +82,10 @@ public class PublicationRequestConverter implements DSpaceConverter<PublicationR
                     }
                 }
             } catch (IllegalArgumentException e) {
-                // publicationGUID is not a valid UUID, skip title lookup
-                log.debug("publicationGUID is not a valid UUID: " + obj.getPublicationGUID());
+                // publicationUUID is not a valid UUID, skip title lookup
+                log.debug("publicationUUID is not a valid UUID: " + obj.getPublicationUUID());
             } catch (SQLException e) {
-                log.error("Error fetching item for publicationGUID: " + obj.getPublicationGUID(), e);
+                log.error("Error fetching item for publicationUUID: " + obj.getPublicationUUID(), e);
             }
         }
 

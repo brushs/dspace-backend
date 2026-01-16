@@ -35,14 +35,14 @@ public interface TranslationRequestDAO extends GenericDAO<TranslationRequest> {
     TranslationRequest findByID(Context context, Integer id) throws SQLException;
 
     /**
-     * Find TranslationRequests by publication GUID
+     * Find TranslationRequests by publication UUID
      *
      * @param context         The relevant DSpace Context
-     * @param publicationGUID The publication GUID to search for
-     * @return List of TranslationRequests matching the GUID
+     * @param publicationUUID The publication UUID to search for
+     * @return List of TranslationRequests matching the UUID
      * @throws SQLException An exception that provides information on a database access error or other errors.
      */
-    List<TranslationRequest> findByPublicationGUID(Context context, String publicationGUID) throws SQLException;
+    List<TranslationRequest> findByPublicationUUID(Context context, String publicationUUID) throws SQLException;
 
     /**
      * Find all TranslationRequests with pagination

@@ -93,9 +93,9 @@ public class TranslationRequestServiceImpl implements TranslationRequestService 
     }
 
     @Override
-    public List<TranslationRequest> findByPublicationGUID(Context context, String publicationGUID)
+    public List<TranslationRequest> findByPublicationUUID(Context context, String publicationUUID)
         throws SQLException {
-        return translationRequestDAO.findByPublicationGUID(context, publicationGUID);
+        return translationRequestDAO.findByPublicationUUID(context, publicationUUID);
     }
 
     @Override

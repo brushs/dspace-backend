@@ -93,9 +93,9 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
     }
 
     @Override
-    public List<PublicationRequest> findByPublicationGUID(Context context, String publicationGUID)
+    public List<PublicationRequest> findByPublicationUUID(Context context, String publicationUUID)
         throws SQLException {
-        return publicationRequestDAO.findByPublicationGUID(context, publicationGUID);
+        return publicationRequestDAO.findByPublicationUUID(context, publicationUUID);
     }
 
     @Override

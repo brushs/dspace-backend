@@ -20,7 +20,7 @@ public class PublicationRequestRest extends RestAddressableModel {
     public static final String CATEGORY = RestModel.REQUEST;
 
     private Integer id;
-    private String publicationGUID;
+    private String publicationUUID;
     private String userEmailAddress;
     private String language;
     private Integer status;
@@ -52,12 +52,12 @@ public class PublicationRequestRest extends RestAddressableModel {
         this.id = id;
     }
 
-    public String getPublicationGUID() {
-        return publicationGUID;
+    public String getPublicationUUID() {
+        return publicationUUID;
     }
 
-    public void setPublicationGUID(String publicationGUID) {
-        this.publicationGUID = publicationGUID;
+    public void setPublicationUUID(String publicationUUID) {
+        this.publicationUUID = publicationUUID;
     }
 
     public String getUserEmailAddress() {

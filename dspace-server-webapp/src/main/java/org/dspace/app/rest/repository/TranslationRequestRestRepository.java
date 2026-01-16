@@ -113,8 +113,11 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
         }
 
         // Validate required fields
-        if (requestRest.getPublicationGUID() == null || requestRest.getPublicationGUID().isEmpty()) {
-            throw new UnprocessableEntityException("publicationGUID is required");
+        if (requestRest.getPublicationUUID() == null || requestRest.getPublicationUUID().isEmpty()) {
+            throw new UnprocessableEntityException("publicationUUID is required");
+        }
+        if (requestRest.getBitstreamUUID() == null || requestRest.getBitstreamUUID().isEmpty()) {
+            throw new UnprocessableEntityException("bitstreamUUID is required");
         }
         if (requestRest.getLanguage() == null || requestRest.getLanguage().isEmpty()) {
             throw new UnprocessableEntityException("language is required");
@@ -124,7 +127,8 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
         try {
             // Create the entity and set values directly (bypass update authorization)
             translationRequest = translationRequestService.create(context);
-            translationRequest.setPublicationGUID(requestRest.getPublicationGUID());
+            translationRequest.setPublicationUUID(requestRest.getPublicationUUID());
+            translationRequest.setBitstreamUUID(requestRest.getBitstreamUUID());
             translationRequest.setLanguage(requestRest.getLanguage());
             translationRequest.setStatus(requestRest.getStatus());
             // Set created date to current time if not provided
@@ -164,28 +168,28 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
     }
 
     /**
-     * Search for translation requests by publication GUID
+     * Search for translation requests by publication UUID
      *
-     * @param guid     The publication GUID to search for
+     * @param uuid     The publication UUID to search for
      * @param pageable Pagination information
      * @return Page of TranslationRequestRest objects
      */
     @PreAuthorize("hasAuthority('ADMIN')")
-    @SearchRestMethod(name = "byPublicationGuid")
-    public Page<TranslationRequestRest> findByPublicationGuid(
-        @Parameter(value = "guid", required = true) String guid,
+    @SearchRestMethod(name = "byPublicationUuid")
+    public Page<TranslationRequestRest> findByPublicationUuid(
+        @Parameter(value = "uuid", required = true) String uuid,
         Pageable pageable
     ) {
         try {
             Context context = obtainContext();
             List<TranslationRequest> translationRequests =
-                translationRequestService.findByPublicationGUID(context, guid);
+                translationRequestService.findByPublicationUUID(context, uuid);
             List<TranslationRequestRest> restList = translationRequests.stream()
                 .map(tr -> converter.convert(tr, utils.obtainProjection()))
                 .collect(java.util.stream.Collectors.toList());
             return new PageImpl<>(restList, pageable, restList.size());
         } catch (SQLException e) {
-            log.error("Error finding TranslationRequests by publication GUID: " + guid, e);
+            log.error("Error finding TranslationRequests by publication UUID: " + uuid, e);
             throw new RuntimeException(e.getMessage(), e);
         }
     }

@@ -77,14 +77,14 @@ public interface PublicationRequestService {
     void delete(Context context, PublicationRequest publicationRequest) throws SQLException, AuthorizeException;
 
     /**
-     * Find PublicationRequests by publication GUID
+     * Find PublicationRequests by publication UUID
      *
      * @param context         The relevant DSpace Context
-     * @param publicationGUID The publication GUID to search for
-     * @return List of PublicationRequests matching the GUID
+     * @param publicationUUID The publication UUID to search for
+     * @return List of PublicationRequests matching the UUID
      * @throws SQLException An exception that provides information on a database access error or other errors.
      */
-    List<PublicationRequest> findByPublicationGUID(Context context, String publicationGUID) throws SQLException;
+    List<PublicationRequest> findByPublicationUUID(Context context, String publicationUUID) throws SQLException;
 
     /**
      * Find PublicationRequests by user email address

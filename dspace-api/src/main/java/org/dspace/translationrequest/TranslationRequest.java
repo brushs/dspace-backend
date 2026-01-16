@@ -33,8 +33,11 @@ public class TranslationRequest {
     @SequenceGenerator(name = "translationrequest_seq", sequenceName = "translationrequest_seq", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "publication_guid", nullable = false, length = 255)
-    private String publicationGUID;
+    @Column(name = "publication_uuid", nullable = false, length = 255)
+    private String publicationUUID;
+
+    @Column(name = "bitstream_uuid", nullable = false, length = 255)
+    private String bitstreamUUID;
 
     @Column(name = "language", nullable = false, length = 50)
     private String language;
@@ -60,12 +63,20 @@ public class TranslationRequest {
         return id;
     }
 
-    public String getPublicationGUID() {
-        return publicationGUID;
+    public String getPublicationUUID() {
+        return publicationUUID;
     }
 
-    public void setPublicationGUID(String publicationGUID) {
-        this.publicationGUID = publicationGUID;
+    public void setPublicationUUID(String publicationUUID) {
+        this.publicationUUID = publicationUUID;
+    }
+
+    public String getBitstreamUUID() {
+        return bitstreamUUID;
+    }
+
+    public void setBitstreamUUID(String bitstreamUUID) {
+        this.bitstreamUUID = bitstreamUUID;
     }
 
     public String getLanguage() {

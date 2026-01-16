@@ -22,7 +22,8 @@ public class TranslationRequestRest extends RestAddressableModel {
     public static final String CATEGORY = RestModel.REQUEST;
 
     private Integer id;
-    private String publicationGUID;
+    private String publicationUUID;
+    private String bitstreamUUID;
     private String language;
     private Integer status;
     private Date createdDate;
@@ -53,12 +54,20 @@ public class TranslationRequestRest extends RestAddressableModel {
         this.id = id;
     }
 
-    public String getPublicationGUID() {
-        return publicationGUID;
+    public String getPublicationUUID() {
+        return publicationUUID;
     }
 
-    public void setPublicationGUID(String publicationGUID) {
-        this.publicationGUID = publicationGUID;
+    public void setPublicationUUID(String publicationUUID) {
+        this.publicationUUID = publicationUUID;
+    }
+
+    public String getBitstreamUUID() {
+        return bitstreamUUID;
+    }
+
+    public void setBitstreamUUID(String bitstreamUUID) {
+        this.bitstreamUUID = bitstreamUUID;
     }
 
     public String getLanguage() {

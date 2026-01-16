@@ -113,8 +113,8 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
         }
 
         // Validate required fields
-        if (requestRest.getPublicationGUID() == null || requestRest.getPublicationGUID().isEmpty()) {
-            throw new UnprocessableEntityException("publicationGUID is required");
+        if (requestRest.getPublicationUUID() == null || requestRest.getPublicationUUID().isEmpty()) {
+            throw new UnprocessableEntityException("publicationUUID is required");
         }
         if (requestRest.getUserEmailAddress() == null || requestRest.getUserEmailAddress().isEmpty()) {
             throw new UnprocessableEntityException("userEmailAddress is required");
@@ -127,7 +127,7 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
         try {
             // Create the entity and set values directly (bypass update authorization)
             publicationRequest = publicationRequestService.create(context);
-            publicationRequest.setPublicationGUID(requestRest.getPublicationGUID());
+            publicationRequest.setPublicationUUID(requestRest.getPublicationUUID());
             publicationRequest.setUserEmailAddress(requestRest.getUserEmailAddress());
             publicationRequest.setLanguage(requestRest.getLanguage());
             publicationRequest.setStatus(requestRest.getStatus());
@@ -158,28 +158,28 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
     }
 
     /**
-     * Search for publication requests by publication GUID
+     * Search for publication requests by publication UUID
      *
-     * @param guid     The publication GUID to search for
+     * @param uuid     The publication UUID to search for
      * @param pageable Pagination information
      * @return Page of PublicationRequestRest objects
      */
     @PreAuthorize("hasAuthority('ADMIN')")
-    @SearchRestMethod(name = "byPublicationGUID")
-    public Page<PublicationRequestRest> findByPublicationGUID(
-        @Parameter(value = "guid", required = true) String guid,
+    @SearchRestMethod(name = "byPublicationUUID")
+    public Page<PublicationRequestRest> findByPublicationUUID(
+        @Parameter(value = "uuid", required = true) String uuid,
         Pageable pageable
     ) {
         try {
             Context context = obtainContext();
             List<PublicationRequest> publicationRequests =
-                publicationRequestService.findByPublicationGUID(context, guid);
+                publicationRequestService.findByPublicationUUID(context, uuid);
             List<PublicationRequestRest> restList = publicationRequests.stream()
                 .map(pr -> converter.convert(pr, utils.obtainProjection()))
                 .collect(java.util.stream.Collectors.toList());
             return new PageImpl<>(restList, pageable, restList.size());
         } catch (SQLException e) {
-            log.error("Error finding PublicationRequests by publication GUID: " + guid, e);
+            log.error("Error finding PublicationRequests by publication UUID: " + uuid, e);
             throw new RuntimeException(e.getMessage(), e);
         }
     }

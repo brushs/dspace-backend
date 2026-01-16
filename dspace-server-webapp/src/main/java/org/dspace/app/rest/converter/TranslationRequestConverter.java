@@ -26,7 +26,8 @@ public class TranslationRequestConverter implements DSpaceConverter<TranslationR
         TranslationRequestRest rest = new TranslationRequestRest();
         rest.setProjection(projection);
         rest.setId(obj.getId());
-        rest.setPublicationGUID(obj.getPublicationGUID());
+        rest.setPublicationUUID(obj.getPublicationUUID());
+        rest.setBitstreamUUID(obj.getBitstreamUUID());
         rest.setLanguage(obj.getLanguage());
         rest.setStatus(obj.getStatus());
         rest.setCreatedDate(obj.getCreatedDate());

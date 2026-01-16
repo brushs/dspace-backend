@@ -44,13 +44,13 @@ public class TranslationRequestDAOImpl extends AbstractHibernateDAO<TranslationR
     }
 
     @Override
-    public List<TranslationRequest> findByPublicationGUID(Context context, String publicationGUID)
+    public List<TranslationRequest> findByPublicationUUID(Context context, String publicationUUID)
         throws SQLException {
         CriteriaBuilder criteriaBuilder = getCriteriaBuilder(context);
         CriteriaQuery<TranslationRequest> criteriaQuery = getCriteriaQuery(criteriaBuilder, TranslationRequest.class);
         Root<TranslationRequest> root = criteriaQuery.from(TranslationRequest.class);
         criteriaQuery.select(root);
-        criteriaQuery.where(criteriaBuilder.equal(root.get("publicationGUID"), publicationGUID));
+        criteriaQuery.where(criteriaBuilder.equal(root.get("publicationUUID"), publicationUUID));
         return list(context, criteriaQuery, false, TranslationRequest.class, -1, -1);
     }
 
