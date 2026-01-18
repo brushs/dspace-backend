@@ -88,9 +88,9 @@ public class PublicationRequestDAOImpl extends AbstractHibernateDAO<PublicationR
         // Use native SQL to join with metadatavalue table
         // Join twice (LEFT JOIN) to get both English and French titles without duplicating rows
         String sql = "SELECT DISTINCT pr.* FROM publicationrequest pr " +
-                     "LEFT JOIN metadatavalue mv_en ON CAST(pr.publication_guid AS UUID) = mv_en.dspace_object_id " +
+                     "LEFT JOIN metadatavalue mv_en ON CAST(pr.publication_uuid AS UUID) = mv_en.dspace_object_id " +
                      "  AND mv_en.metadata_field_id = 73 AND mv_en.text_lang = 'en' " +
-                     "LEFT JOIN metadatavalue mv_fr ON CAST(pr.publication_guid AS UUID) = mv_fr.dspace_object_id " +
+                     "LEFT JOIN metadatavalue mv_fr ON CAST(pr.publication_uuid AS UUID) = mv_fr.dspace_object_id " +
                      "  AND mv_fr.metadata_field_id = 73 AND mv_fr.text_lang = 'fr' " +
                      "WHERE (LOWER(mv_en.text_value) LIKE LOWER(:title) " +
                      "   OR LOWER(mv_fr.text_value) LIKE LOWER(:title)) " +
@@ -113,9 +113,9 @@ public class PublicationRequestDAOImpl extends AbstractHibernateDAO<PublicationR
     public int countByTitle(Context context, String title) throws SQLException {
         // Use native SQL to count with the same join logic
         String sql = "SELECT COUNT(DISTINCT pr.publicationrequest_id) FROM publicationrequest pr " +
-                     "LEFT JOIN metadatavalue mv_en ON CAST(pr.publication_guid AS UUID) = mv_en.dspace_object_id " +
+                     "LEFT JOIN metadatavalue mv_en ON CAST(pr.publication_uuid AS UUID) = mv_en.dspace_object_id " +
                      "  AND mv_en.metadata_field_id = 73 AND mv_en.text_lang = 'en' " +
-                     "LEFT JOIN metadatavalue mv_fr ON CAST(pr.publication_guid AS UUID) = mv_fr.dspace_object_id " +
+                     "LEFT JOIN metadatavalue mv_fr ON CAST(pr.publication_uuid AS UUID) = mv_fr.dspace_object_id " +
                      "  AND mv_fr.metadata_field_id = 73 AND mv_fr.text_lang = 'fr' " +
                      "WHERE (LOWER(mv_en.text_value) LIKE LOWER(:title) " +
                      "   OR LOWER(mv_fr.text_value) LIKE LOWER(:title))";
