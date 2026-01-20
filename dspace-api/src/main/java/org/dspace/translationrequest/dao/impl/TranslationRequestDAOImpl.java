@@ -55,6 +55,22 @@ public class TranslationRequestDAOImpl extends AbstractHibernateDAO<TranslationR
     }
 
     @Override
+    public TranslationRequest findByBitstreamUUIDAndPublicationUUID(Context context, String bitstreamUUID,
+                                                                      String publicationUUID) throws SQLException {
+        CriteriaBuilder criteriaBuilder = getCriteriaBuilder(context);
+        CriteriaQuery<TranslationRequest> criteriaQuery = getCriteriaQuery(criteriaBuilder, TranslationRequest.class);
+        Root<TranslationRequest> root = criteriaQuery.from(TranslationRequest.class);
+        criteriaQuery.select(root);
+        criteriaQuery.where(
+            criteriaBuilder.and(
+                criteriaBuilder.equal(root.get("bitstreamUUID"), bitstreamUUID),
+                criteriaBuilder.equal(root.get("publicationUUID"), publicationUUID)
+            )
+        );
+        return singleResult(context, criteriaQuery);
+    }
+
+    @Override
     public List<TranslationRequest> findAll(Context context, int offset, int limit) throws SQLException {
         CriteriaBuilder criteriaBuilder = getCriteriaBuilder(context);
         CriteriaQuery<TranslationRequest> criteriaQuery = getCriteriaQuery(criteriaBuilder, TranslationRequest.class);

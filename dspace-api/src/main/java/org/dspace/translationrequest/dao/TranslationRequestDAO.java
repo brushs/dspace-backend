@@ -45,6 +45,18 @@ public interface TranslationRequestDAO extends GenericDAO<TranslationRequest> {
     List<TranslationRequest> findByPublicationUUID(Context context, String publicationUUID) throws SQLException;
 
     /**
+     * Find a TranslationRequest by bitstream UUID and publication UUID
+     *
+     * @param context         The relevant DSpace Context
+     * @param bitstreamUUID   The bitstream UUID to search for
+     * @param publicationUUID The publication UUID to search for
+     * @return The TranslationRequest or null if not found
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    TranslationRequest findByBitstreamUUIDAndPublicationUUID(Context context, String bitstreamUUID,
+                                                              String publicationUUID) throws SQLException;
+
+    /**
      * Find all TranslationRequests with pagination
      *
      * @param context  The relevant DSpace Context

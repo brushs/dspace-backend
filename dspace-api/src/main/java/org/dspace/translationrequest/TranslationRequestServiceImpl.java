@@ -99,6 +99,12 @@ public class TranslationRequestServiceImpl implements TranslationRequestService 
     }
 
     @Override
+    public TranslationRequest findByBitstreamUUIDAndPublicationUUID(Context context, String bitstreamUUID,
+                                                                      String publicationUUID) throws SQLException {
+        return translationRequestDAO.findByBitstreamUUIDAndPublicationUUID(context, bitstreamUUID, publicationUUID);
+    }
+
+    @Override
     public List<TranslationRequest> findAll(Context context, int offset, int limit) throws SQLException {
         return translationRequestDAO.findAll(context, offset, limit);
     }

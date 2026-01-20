@@ -8,14 +8,25 @@
 package org.dspace.publicationrequest;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.service.AuthorizeService;
+import org.dspace.content.Bitstream;
+import org.dspace.content.Bundle;
+import org.dspace.content.Item;
+import org.dspace.content.service.ItemService;
+import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.publicationrequest.dao.PublicationRequestDAO;
 import org.dspace.publicationrequest.service.PublicationRequestService;
+import org.dspace.translation2publication.Translation2Publication;
+import org.dspace.translation2publication.service.Translation2PublicationService;
+import org.dspace.translationrequest.TranslationRequest;
+import org.dspace.translationrequest.service.TranslationRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -37,6 +48,15 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
 
     @Autowired(required = true)
     protected AuthorizeService authorizeService;
+
+    @Autowired(required = true)
+    protected ItemService itemService;
+
+    @Autowired(required = true)
+    protected TranslationRequestService translationRequestService;
+
+    @Autowired(required = true)
+    protected Translation2PublicationService translation2PublicationService;
 
     protected PublicationRequestServiceImpl() {
     }
@@ -70,14 +90,134 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
         throws SQLException {
         // No authorization check - used for public creation only
         // Check if this is a new entity (no ID) or an existing one
-        if (publicationRequest.getId() == null) {
+        boolean isNewRequest = (publicationRequest.getId() == null);
+
+        if (isNewRequest) {
             // New entity - use create
             publicationRequest = publicationRequestDAO.create(context, publicationRequest);
             log.info("Created PublicationRequest with ID: " + publicationRequest.getId());
+
+            // Automatically create translation requests for each bitstream in ORIGINAL bundle
+            createTranslationRequestsForOriginalBitstreams(context, publicationRequest);
         } else {
             // Existing entity - use save
             publicationRequestDAO.save(context, publicationRequest);
             log.info("Updated PublicationRequest with ID: " + publicationRequest.getId());
+        }
+    }
+
+    /**
+     * Create translation requests for each bitstream in the ORIGINAL bundle of the publication item
+     *
+     * @param context The DSpace context
+     * @param publicationRequest The publication request that was just created
+     */
+    private void createTranslationRequestsForOriginalBitstreams(Context context,
+                                                                 PublicationRequest publicationRequest) {
+        try {
+            // Get the item from the publicationUUID
+            UUID itemUuid = UUID.fromString(publicationRequest.getPublicationUUID());
+            Item item = itemService.find(context, itemUuid);
+
+            if (item == null) {
+                log.warn("Could not find item with UUID: " + publicationRequest.getPublicationUUID()
+                        + " for PublicationRequest ID: " + publicationRequest.getId());
+                return;
+            }
+
+            // Get all ORIGINAL bundles
+            List<Bundle> originalBundles = itemService.getBundles(item, Constants.CONTENT_BUNDLE_NAME);
+
+            if (originalBundles == null || originalBundles.isEmpty()) {
+                log.info("No ORIGINAL bundle found for item: " + itemUuid
+                        + ", PublicationRequest ID: " + publicationRequest.getId());
+                return;
+            }
+
+            int translationRequestCount = 0;
+            int existingTranslationRequestCount = 0;
+
+            // Iterate through each ORIGINAL bundle and its bitstreams
+            for (Bundle bundle : originalBundles) {
+                List<Bitstream> bitstreams = bundle.getBitstreams();
+
+                if (bitstreams != null && !bitstreams.isEmpty()) {
+                    for (Bitstream bitstream : bitstreams) {
+                        String bitstreamUUID = bitstream.getID().toString();
+
+                        // Check if a TranslationRequest already exists for this bitstream and publication
+                        TranslationRequest existingTranslationRequest =
+                            translationRequestService.findByBitstreamUUIDAndPublicationUUID(
+                                context, bitstreamUUID, publicationRequest.getPublicationUUID());
+
+                        TranslationRequest translationRequest;
+
+                        if (existingTranslationRequest != null) {
+                            // TranslationRequest already exists - reuse it
+                            translationRequest = existingTranslationRequest;
+                            existingTranslationRequestCount++;
+                            log.info("Found existing TranslationRequest ID: " + translationRequest.getId()
+                                    + " for Bitstream: " + bitstreamUUID
+                                    + ", reusing for PublicationRequest ID: " + publicationRequest.getId());
+                        } else {
+                            // Create a new translation request for this bitstream
+                            translationRequest = translationRequestService.create(context);
+                            translationRequest.setPublicationUUID(publicationRequest.getPublicationUUID());
+                            translationRequest.setBitstreamUUID(bitstreamUUID);
+                            translationRequest.setLanguage(publicationRequest.getLanguage());
+                            translationRequest.setStatus(1); // Set initial status
+                            translationRequest.setCreatedDate(new Date());
+
+                            // Save the translation request
+                            translationRequestService.updateWithoutAuthCheck(context, translationRequest);
+                            translationRequestCount++;
+
+                            log.info("Created TranslationRequest ID: " + translationRequest.getId()
+                                    + " for Bitstream: " + bitstreamUUID
+                                    + " linked to PublicationRequest ID: " + publicationRequest.getId());
+                        }
+
+                        // Create Translation2Publication link entity (whether new or existing TranslationRequest)
+                        createTranslation2PublicationLink(context, translationRequest.getId(),
+                                                         publicationRequest.getId());
+                    }
+                }
+            }
+
+            log.info("Created " + translationRequestCount + " new TranslationRequest(s) and reused "
+                    + existingTranslationRequestCount + " existing TranslationRequest(s) for PublicationRequest ID: "
+                    + publicationRequest.getId());
+
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid UUID format for publicationUUID: " + publicationRequest.getPublicationUUID(), e);
+        } catch (SQLException | AuthorizeException e) {
+            log.error("Error creating translation requests for PublicationRequest ID: "
+                    + publicationRequest.getId(), e);
+        }
+    }
+
+    /**
+     * Create a Translation2Publication link entity between a translation request and publication request
+     *
+     * @param context The DSpace context
+     * @param translationRequestId The ID of the translation request
+     * @param publicationRequestId The ID of the publication request
+     */
+    private void createTranslation2PublicationLink(Context context, Integer translationRequestId,
+                                                    Integer publicationRequestId) {
+        try {
+            Translation2Publication link = translation2PublicationService.create(context);
+            link.setTranslationRequestId(translationRequestId);
+            link.setPublicationRequestId(publicationRequestId);
+
+            translation2PublicationService.update(context, link);
+
+            log.info("Created Translation2Publication link: TranslationRequest ID " + translationRequestId
+                    + " <-> PublicationRequest ID " + publicationRequestId);
+
+        } catch (SQLException | AuthorizeException e) {
+            log.error("Error creating Translation2Publication link for TranslationRequest ID: "
+                    + translationRequestId + " and PublicationRequest ID: " + publicationRequestId, e);
         }
     }
 
