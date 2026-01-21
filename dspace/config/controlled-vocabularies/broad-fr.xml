@@ -208,5 +208,14 @@
         <node id="30069" label="Forêt expérimentale nationale">
             <isComposedBy/>
         </node>
+        <node id="30070" label="Feux de végétation">
+            <isComposedBy/>
+        </node>
+        <node id="30071" label="Écologie">
+            <isComposedBy/>
+        </node>
+        <node id="30072" label="Centre national de semences forestières">
+            <isComposedBy/>
+        </node>
     </isComposedBy>
 </node>
