@@ -208,5 +208,14 @@
         <node id="30069" label="National Research Forest">
             <isComposedBy/>
         </node>
+        <node id="30070" label="Wildland fires">
+            <isComposedBy/>
+        </node>
+        <node id="30071" label="Ecology">
+            <isComposedBy/>
+        </node>
+        <node id="30072" label="National Tree Seed Centre">
+            <isComposedBy/>
+        </node>
     </isComposedBy>
 </node>
