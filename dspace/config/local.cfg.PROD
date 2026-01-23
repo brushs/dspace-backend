@@ -141,6 +141,28 @@ db.maxconnections = 50
 # Recipient for new user registration emails (defaults to unspecified)
 #registration.notify =
 
+##########################
+# GC NOTIFY CONFIGURATION #
+##########################
+# GC Notify is the Government of Canada's notification service for sending emails
+# API Documentation: https://api.notification.canada.ca/v2/openapi-en
+
+# Enable or disable the GC Notify service
+gcnotify.enabled = true
+
+# GC Notify API Key (from GC Notify dashboard)
+gcnotify.api.key = @gc-notify-key@
+
+# GC Notify API URL (production)
+gcnotify.api.url = https://api.notification.canada.ca
+
+# Default Email Template ID (UUID from GC Notify dashboard)
+# gcnotify.template.id = your-template-uuid-here
+
+# Additional template IDs for specific notifications
+# gcnotify.template.publication.request = your-template-uuid-here
+# gcnotify.template.translation.request = your-template-uuid-here
+# gcnotify.template.request.status.update = your-template-uuid-here
 
 ########################
 # HANDLE CONFIGURATION #
