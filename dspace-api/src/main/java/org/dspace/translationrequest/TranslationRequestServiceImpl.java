@@ -113,5 +113,38 @@ public class TranslationRequestServiceImpl implements TranslationRequestService 
     public int countTotal(Context context) throws SQLException {
         return translationRequestDAO.countRows(context);
     }
+
+    @Override
+    public List<TranslationRequest> findByPublicationTitle(Context context, String title, int offset, int limit)
+        throws SQLException {
+        return translationRequestDAO.findByPublicationTitle(context, title, offset, limit);
+    }
+
+    @Override
+    public int countByPublicationTitle(Context context, String title) throws SQLException {
+        return translationRequestDAO.countByPublicationTitle(context, title);
+    }
+
+    @Override
+    public List<TranslationRequest> findByUserEmail(Context context, String email, int offset, int limit)
+        throws SQLException {
+        return translationRequestDAO.findByUserEmail(context, email, offset, limit);
+    }
+
+    @Override
+    public int countByUserEmail(Context context, String email) throws SQLException {
+        return translationRequestDAO.countByUserEmail(context, email);
+    }
+
+    @Override
+    public List<TranslationRequest> findByStatus(Context context, int status, int offset, int limit)
+        throws SQLException {
+        return translationRequestDAO.findByStatus(context, status, offset, limit);
+    }
+
+    @Override
+    public int countByStatus(Context context, int status) throws SQLException {
+        return translationRequestDAO.countByStatus(context, status);
+    }
 }
 

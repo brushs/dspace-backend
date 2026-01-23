@@ -203,5 +203,101 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
     public Class<TranslationRequestRest> getDomainClass() {
         return TranslationRequestRest.class;
     }
+
+    /**
+     * Search for translation requests by publication title (searches both English and French titles)
+     *
+     * @param title    The title to search for (case-insensitive partial match)
+     * @param pageable Pagination information
+     * @return Page of TranslationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byTitle")
+    public Page<TranslationRequestRest> findByTitle(
+        @Parameter(value = "title", required = true) String title,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            int total = translationRequestService.countByPublicationTitle(context, title);
+            List<TranslationRequest> translationRequests = translationRequestService.findByPublicationTitle(
+                context,
+                title,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<TranslationRequestRest> restList = translationRequests.stream()
+                .map(tr -> converter.convert(tr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException e) {
+            log.error("Error finding TranslationRequests by title: " + title, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Search for translation requests by user email (from related publication request)
+     *
+     * @param email    The email address to search for
+     * @param pageable Pagination information
+     * @return Page of TranslationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byUserEmail")
+    public Page<TranslationRequestRest> findByUserEmail(
+        @Parameter(value = "email", required = true) String email,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            int total = translationRequestService.countByUserEmail(context, email);
+            List<TranslationRequest> translationRequests = translationRequestService.findByUserEmail(
+                context,
+                email,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<TranslationRequestRest> restList = translationRequests.stream()
+                .map(tr -> converter.convert(tr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException e) {
+            log.error("Error finding TranslationRequests by user email: " + email, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Search for translation requests by status
+     *
+     * @param status   The status to search for
+     * @param pageable Pagination information
+     * @return Page of TranslationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byStatus")
+    public Page<TranslationRequestRest> findByStatus(
+        @Parameter(value = "status", required = true) int status,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            int total = translationRequestService.countByStatus(context, status);
+            List<TranslationRequest> translationRequests = translationRequestService.findByStatus(
+                context,
+                status,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<TranslationRequestRest> restList = translationRequests.stream()
+                .map(tr -> converter.convert(tr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException e) {
+            log.error("Error finding TranslationRequests by status: " + status, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
 }
 

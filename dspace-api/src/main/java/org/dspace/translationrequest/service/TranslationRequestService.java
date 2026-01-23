@@ -117,5 +117,74 @@ public interface TranslationRequestService {
      * @throws SQLException An exception that provides information on a database access error or other errors.
      */
     int countTotal(Context context) throws SQLException;
+
+    /**
+     * Find TranslationRequests by publication title (searches both English and French titles)
+     *
+     * @param context The relevant DSpace Context
+     * @param title   The title to search for (case-insensitive partial match)
+     * @param offset  The offset for pagination
+     * @param limit   The limit for pagination
+     * @return List of TranslationRequests matching the title
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    List<TranslationRequest> findByPublicationTitle(Context context, String title, int offset, int limit)
+        throws SQLException;
+
+    /**
+     * Count TranslationRequests by publication title
+     *
+     * @param context The relevant DSpace Context
+     * @param title   The title to search for (case-insensitive partial match)
+     * @return The total count
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    int countByPublicationTitle(Context context, String title) throws SQLException;
+
+    /**
+     * Find TranslationRequests by user email (from related publication request)
+     *
+     * @param context The relevant DSpace Context
+     * @param email   The email address to search for
+     * @param offset  The offset for pagination
+     * @param limit   The limit for pagination
+     * @return List of TranslationRequests matching the email
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    List<TranslationRequest> findByUserEmail(Context context, String email, int offset, int limit)
+        throws SQLException;
+
+    /**
+     * Count TranslationRequests by user email
+     *
+     * @param context The relevant DSpace Context
+     * @param email   The email address to search for
+     * @return The total count
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    int countByUserEmail(Context context, String email) throws SQLException;
+
+    /**
+     * Find TranslationRequests by status
+     *
+     * @param context The relevant DSpace Context
+     * @param status  The status to search for
+     * @param offset  The offset for pagination
+     * @param limit   The limit for pagination
+     * @return List of TranslationRequests matching the status
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    List<TranslationRequest> findByStatus(Context context, int status, int offset, int limit)
+        throws SQLException;
+
+    /**
+     * Count TranslationRequests by status
+     *
+     * @param context The relevant DSpace Context
+     * @param status  The status to search for
+     * @return The total count
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    int countByStatus(Context context, int status) throws SQLException;
 }
 
