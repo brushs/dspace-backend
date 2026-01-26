@@ -65,4 +65,9 @@
         <property name="description" value="Update the database status of Items in solr"/>
         <property name="dspaceRunnableClass" value="org.dspace.app.solrdatabaseresync.SolrDatabaseResyncCli"/>
     </bean>
+
+    <bean id="publication-request-notification" class="org.dspace.app.publicationrequest.PublicationRequestNotificationCLIScriptConfiguration">
+        <property name="description" value="Process publication requests in Pending Notification status and send email notifications"/>
+        <property name="dspaceRunnableClass" value="org.dspace.app.publicationrequest.PublicationRequestNotificationCLI"/>
+    </bean>
 </beans>

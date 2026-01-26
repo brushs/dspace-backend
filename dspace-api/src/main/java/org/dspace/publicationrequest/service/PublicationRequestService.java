@@ -160,5 +160,27 @@ public interface PublicationRequestService {
      * @throws SQLException An exception that provides information on a database access error or other errors.
      */
     int countByTranslationRequestId(Context context, Integer translationRequestId) throws SQLException;
+
+    /**
+     * Find PublicationRequests by status
+     *
+     * @param context The relevant DSpace Context
+     * @param status  The status to search for
+     * @param offset  The offset for pagination
+     * @param limit   The limit for pagination (-1 for all)
+     * @return List of PublicationRequests matching the status
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    List<PublicationRequest> findByStatus(Context context, int status, int offset, int limit) throws SQLException;
+
+    /**
+     * Count PublicationRequests by status
+     *
+     * @param context The relevant DSpace Context
+     * @param status  The status to search for
+     * @return The count of matching PublicationRequests
+     * @throws SQLException An exception that provides information on a database access error or other errors.
+     */
+    int countByStatus(Context context, int status) throws SQLException;
 }
 

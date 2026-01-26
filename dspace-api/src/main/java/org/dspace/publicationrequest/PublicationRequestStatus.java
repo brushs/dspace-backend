@@ -18,7 +18,9 @@ public enum PublicationRequestStatus {
     PENDING_NOTIFICATION(3, "Pending Notification"),
     COMPLETED(4, "Completed"),
     CANCELLED(5, "Cancelled"),
-    ON_HOLD(6, "On Hold");
+    ON_HOLD(6, "On Hold"),
+    ERROR(7, "Error"),
+    NO_TRANSLATION_NEEDED(8, "No Translation Needed");
 
     private final int id;
     private final String name;

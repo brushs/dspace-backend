@@ -18,7 +18,11 @@ import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
+import org.dspace.content.Relationship;
+import org.dspace.content.RelationshipType;
 import org.dspace.content.service.ItemService;
+import org.dspace.content.service.RelationshipService;
+import org.dspace.content.service.RelationshipTypeService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.publicationrequest.dao.PublicationRequestDAO;
@@ -57,6 +61,12 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
 
     @Autowired(required = true)
     protected Translation2PublicationService translation2PublicationService;
+
+    @Autowired(required = true)
+    protected RelationshipService relationshipService;
+
+    @Autowired(required = true)
+    protected RelationshipTypeService relationshipTypeService;
 
     protected PublicationRequestServiceImpl() {
     }
@@ -125,7 +135,22 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
                 return;
             }
 
-            // Get all ORIGINAL bundles
+            // Check if the publication is already available in the requested language
+            if (isPublicationAvailableInLanguage(context, item, publicationRequest.getLanguage())) {
+                log.info("Publication with UUID: " + publicationRequest.getPublicationUUID()
+                        + " is already available in requested language: " + publicationRequest.getLanguage()
+                        + ". Setting PublicationRequest ID: " + publicationRequest.getId()
+                        + " to 'No Translation Needed' status.");
+
+                // Update status to "No Translation Needed"
+                publicationRequest.setStatus(PublicationRequestStatus.NO_TRANSLATION_NEEDED.getId());
+                publicationRequestDAO.save(context, publicationRequest);
+
+                log.info("Updated PublicationRequest ID: " + publicationRequest.getId()
+                        + " status to 'No Translation Needed'");
+                return;
+            }
+
             List<Bundle> originalBundles = itemService.getBundles(item, Constants.CONTENT_BUNDLE_NAME);
 
             if (originalBundles == null || originalBundles.isEmpty()) {
@@ -278,5 +303,72 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
     public int countByTranslationRequestId(Context context, Integer translationRequestId) throws SQLException {
         return publicationRequestDAO.countByTranslationRequestId(context, translationRequestId);
     }
-}
 
+    @Override
+    public List<PublicationRequest> findByStatus(Context context, int status, int offset, int limit)
+        throws SQLException {
+        return publicationRequestDAO.findByStatus(context, status, offset, limit);
+    }
+
+    @Override
+    public int countByStatus(Context context, int status) throws SQLException {
+        return publicationRequestDAO.countByStatus(context, status);
+    }
+
+    /**
+     * Check if the publication is already available in the requested language
+     * by examining isLanguageOfPublication relationships
+     *
+     * @param context The DSpace context
+     * @param item The item to check
+     * @param requestedLanguage The requested language ('en' or 'fr')
+     * @return true if the publication is already available in the requested language
+     */
+    private boolean isPublicationAvailableInLanguage(Context context, Item item, String requestedLanguage) {
+        try {
+            // Find the relationship type "isLanguageOfPublication"
+            List<RelationshipType> relationshipTypes = relationshipTypeService
+                .findByLeftwardOrRightwardTypeName(context, "isLanguageOfPublication");
+
+            if (relationshipTypes == null || relationshipTypes.isEmpty()) {
+                log.debug("No 'isLanguageOfPublication' relationship type found");
+                return false;
+            }
+
+            // Check relationships for each relationship type (there should typically be only one)
+            for (RelationshipType relationshipType : relationshipTypes) {
+                List<Relationship> relationships = relationshipService
+                    .findByItemAndRelationshipType(context, item, relationshipType);
+
+                if (relationships != null && !relationships.isEmpty()) {
+                    for (Relationship relationship : relationships) {
+                        // Get the related item (the language item)
+                        Item relatedItem = relationship.getLeftItem().equals(item)
+                            ? relationship.getRightItem()
+                            : relationship.getLeftItem();
+
+                        // Check if the related item has the ISO code matching the requested language
+                        // The language ISO code should be in dc.identifier.iso
+                        String isoCode = itemService.getMetadataFirstValue(
+                            relatedItem, "dc", "identifier", "iso", Item.ANY);
+
+                        if (isoCode != null && isoCode.equalsIgnoreCase(requestedLanguage)) {
+                            log.info("Found matching language relationship: Item " + item.getID()
+                                    + " has isLanguageOfPublication relationship with language item "
+                                    + relatedItem.getID() + " (ISO code: " + isoCode + ")");
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            log.debug("No matching language relationship found for item " + item.getID()
+                    + " and language: " + requestedLanguage);
+            return false;
+
+        } catch (SQLException e) {
+            log.error("Error checking language availability for item " + item.getID(), e);
+            return false;
+        }
+    }
+}

@@ -163,5 +163,24 @@ public class PublicationRequestDAOImpl extends AbstractHibernateDAO<PublicationR
         Number result = (Number) query.getSingleResult();
         return result != null ? result.intValue() : 0;
     }
+
+    @Override
+    public List<PublicationRequest> findByStatus(Context context, int status, int offset, int limit)
+        throws SQLException {
+        CriteriaBuilder criteriaBuilder = getCriteriaBuilder(context);
+        CriteriaQuery<PublicationRequest> criteriaQuery = getCriteriaQuery(criteriaBuilder, PublicationRequest.class);
+        Root<PublicationRequest> root = criteriaQuery.from(PublicationRequest.class);
+        criteriaQuery.select(root);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("status"), status));
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("id")));
+        return list(context, criteriaQuery, false, PublicationRequest.class, limit, offset);
+    }
+
+    @Override
+    public int countByStatus(Context context, int status) throws SQLException {
+        Query query = createQuery(context, "SELECT count(*) FROM PublicationRequest WHERE status = :status");
+        query.setParameter("status", status);
+        return count(query);
+    }
 }
 
