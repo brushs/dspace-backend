@@ -81,10 +81,16 @@ public class PublicationRequestNotificationCLI extends DSpaceRunnable<Publicatio
     }
 
     /**
-     * Process all PublicationRequests in "Pending Notification" status
+     * Process all PublicationRequests in "Pending Notification" and "No Translation Needed" statuses
      */
     private void processNotifications(Context context) throws SQLException {
         log.info("Starting publication request notification processing...");
+
+        // Get the configurable delay in hours for "No Translation Needed" requests
+        int noTranslationNeededDelayHours = configurationService.getIntProperty(
+            "publicationrequest.notification.notranslation.delay.hours", 0);
+
+        log.info("No Translation Needed delay configured: {} hours", noTranslationNeededDelayHours);
 
         // Find all PublicationRequests with "Pending Notification" status (ID=3)
         List<PublicationRequest> pendingRequests = publicationRequestService.findByStatus(
@@ -94,33 +100,127 @@ public class PublicationRequestNotificationCLI extends DSpaceRunnable<Publicatio
             -1  // Get all
         );
 
-        if (pendingRequests == null || pendingRequests.isEmpty()) {
-            log.info("No publication requests in 'Pending Notification' status found.");
+        // Find all PublicationRequests with "No Translation Needed" status (ID=8)
+        List<PublicationRequest> noTranslationNeededRequests = publicationRequestService.findByStatus(
+            context,
+            PublicationRequestStatus.NO_TRANSLATION_NEEDED.getId(),
+            0,
+            -1  // Get all
+        );
+
+        int totalPendingCount = (pendingRequests != null ? pendingRequests.size() : 0);
+        int totalNoTranslationCount = (noTranslationNeededRequests != null ? noTranslationNeededRequests.size() : 0);
+
+        if (totalPendingCount == 0 && totalNoTranslationCount == 0) {
+            log.info("No publication requests found in 'Pending Notification' or 'No Translation Needed' status.");
             return;
         }
 
-        log.info("Found {} publication request(s) in 'Pending Notification' status. Processing...",
-            pendingRequests.size());
+        log.info("Found {} 'Pending Notification' and {} 'No Translation Needed' publication request(s). Processing...",
+            totalPendingCount, totalNoTranslationCount);
 
         int successCount = 0;
         int errorCount = 0;
+        int skippedCount = 0;
 
-        for (PublicationRequest request : pendingRequests) {
-            try {
-                processRequest(context, request);
-                successCount++;
-            } catch (Exception e) {
-                errorCount++;
-                log.error("Failed to process PublicationRequest ID: " + request.getId(), e);
-                // Update status to Error and log the error
-                updateStatusToError(context, request, e);
+        // Process Pending Notification requests (no delay check needed)
+        if (pendingRequests != null && !pendingRequests.isEmpty()) {
+            for (PublicationRequest request : pendingRequests) {
+                try {
+                    processRequest(context, request);
+                    successCount++;
+                } catch (Exception e) {
+                    errorCount++;
+                    log.error("Failed to process PublicationRequest ID: " + request.getId(), e);
+                    updateStatusToError(context, request, e);
+                }
             }
         }
 
-        log.info("Publication request notification processing complete. Success: {}, Errors: {}",
-            successCount, errorCount);
+        // Process No Translation Needed requests (with delay check)
+        if (noTranslationNeededRequests != null && !noTranslationNeededRequests.isEmpty()) {
+            for (PublicationRequest request : noTranslationNeededRequests) {
+                try {
+                    // Check if request is old enough to be processed
+                    if (!isRequestOldEnough(request, noTranslationNeededDelayHours)) {
+                        skippedCount++;
+                        log.info("Skipping PublicationRequest ID: {} - not old enough (created less than {} hours ago)",
+                            request.getId(), noTranslationNeededDelayHours);
+                        continue;
+                    }
+
+                    processRequest(context, request);
+                    successCount++;
+                } catch (Exception e) {
+                    errorCount++;
+                    log.error("Failed to process PublicationRequest ID: " + request.getId(), e);
+                    updateStatusToError(context, request, e);
+                }
+            }
+        }
+
+        log.info("Publication request notification processing complete. Success: {}, Errors: {}, Skipped: {}",
+            successCount, errorCount, skippedCount);
     }
 
+    /**
+     * Check if a PublicationRequest is old enough to be processed based on configured delay
+     *
+     * @param request The PublicationRequest to check
+     * @param delayHours The minimum age in hours before processing
+     * @return true if the request is old enough to be processed
+     */
+    private boolean isRequestOldEnough(PublicationRequest request, int delayHours) {
+        // If no delay configured, process immediately
+        if (delayHours <= 0) {
+            return true;
+        }
+
+        // Get created date from the request
+        // Note: PublicationRequest doesn't have a created_date field currently
+        // We'll need to add this field or use another approach
+        // For now, we'll check if the field exists via a custom method
+
+        try {
+            // Calculate the threshold time
+            long delayMillis = delayHours * 60L * 60L * 1000L;
+            long thresholdTime = System.currentTimeMillis() - delayMillis;
+
+            // Note: This requires a created_date field on PublicationRequest
+            // If it doesn't exist, this will need to be added to the entity
+            java.util.Date createdDate = getCreatedDate(request);
+
+            if (createdDate == null) {
+                log.warn("PublicationRequest ID: {} has no created date, processing anyway", request.getId());
+                return true;
+            }
+
+            long createdTime = createdDate.getTime();
+            boolean isOldEnough = createdTime <= thresholdTime;
+
+            if (isOldEnough) {
+                log.debug("PublicationRequest ID: {} created at {} is old enough to process (threshold: {})",
+                    request.getId(), createdDate, new java.util.Date(thresholdTime));
+            } else {
+                log.debug("PublicationRequest ID: {} created at {} is too recent (threshold: {})",
+                    request.getId(), createdDate, new java.util.Date(thresholdTime));
+            }
+
+            return isOldEnough;
+
+        } catch (Exception e) {
+            log.error("Error checking age of PublicationRequest ID: " + request.getId() + ", processing anyway", e);
+            return true;
+        }
+    }
+
+    /**
+     * Get the created date of a PublicationRequest
+     */
+    private java.util.Date getCreatedDate(PublicationRequest request) {
+        return request.getCreatedDate();
+    }
+}
     /**
      * Process a single PublicationRequest
      */

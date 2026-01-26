@@ -48,6 +48,7 @@ public class PublicationRequestConverter implements DSpaceConverter<PublicationR
         rest.setLanguage(obj.getLanguage());
         // Convert status ID to status name
         rest.setStatus(obj.getStatusName());
+        rest.setCreatedDate(obj.getCreatedDate());
 
         // Fetch title metadata from the Item if publicationUUID is a valid UUID
         if (obj.getPublicationUUID() != null) {

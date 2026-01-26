@@ -7,6 +7,8 @@
  */
 package org.dspace.app.rest.model;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -24,6 +26,7 @@ public class PublicationRequestRest extends RestAddressableModel {
     private String userEmailAddress;
     private String language;
     private String status;
+    private Date createdDate;
     private String titleEn;
     private String titleFr;
 
@@ -82,6 +85,14 @@ public class PublicationRequestRest extends RestAddressableModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getTitleEn() {

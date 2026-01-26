@@ -103,7 +103,12 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
         boolean isNewRequest = (publicationRequest.getId() == null);
 
         if (isNewRequest) {
-            // New entity - use create
+            // New entity - set created date
+            if (publicationRequest.getCreatedDate() == null) {
+                publicationRequest.setCreatedDate(new Date());
+            }
+
+            // Create in database
             publicationRequest = publicationRequestDAO.create(context, publicationRequest);
             log.info("Created PublicationRequest with ID: " + publicationRequest.getId());
 
