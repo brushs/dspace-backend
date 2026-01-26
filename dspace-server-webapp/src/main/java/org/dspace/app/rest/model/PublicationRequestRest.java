@@ -23,7 +23,7 @@ public class PublicationRequestRest extends RestAddressableModel {
     private String publicationUUID;
     private String userEmailAddress;
     private String language;
-    private Integer status;
+    private String status;
     private String titleEn;
     private String titleFr;
 
@@ -76,11 +76,11 @@ public class PublicationRequestRest extends RestAddressableModel {
         this.language = language;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

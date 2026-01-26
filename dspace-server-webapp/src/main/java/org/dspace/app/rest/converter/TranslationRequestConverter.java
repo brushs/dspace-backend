@@ -51,7 +51,8 @@ public class TranslationRequestConverter implements DSpaceConverter<TranslationR
         rest.setPublicationUUID(obj.getPublicationUUID());
         rest.setBitstreamUUID(obj.getBitstreamUUID());
         rest.setLanguage(obj.getLanguage());
-        rest.setStatus(obj.getStatus());
+        // Convert status ID to status name
+        rest.setStatus(obj.getStatusName());
         rest.setCreatedDate(obj.getCreatedDate());
         rest.setClosedDate(obj.getClosedDate());
         rest.setNotes(obj.getNotes());

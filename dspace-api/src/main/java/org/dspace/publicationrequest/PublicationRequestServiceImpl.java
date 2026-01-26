@@ -165,7 +165,10 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
                             translationRequest.setPublicationUUID(publicationRequest.getPublicationUUID());
                             translationRequest.setBitstreamUUID(bitstreamUUID);
                             translationRequest.setLanguage(publicationRequest.getLanguage());
-                            translationRequest.setStatus(1); // Set initial status
+                            // Set initial status to "New"
+                            translationRequest.setStatus(
+                                org.dspace.translationrequest.TranslationRequestStatus.NEW.getId()
+                            );
                             translationRequest.setCreatedDate(new Date());
 
                             // Save the translation request

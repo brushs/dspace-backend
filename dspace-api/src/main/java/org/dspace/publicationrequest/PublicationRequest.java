@@ -83,5 +83,18 @@ public class PublicationRequest {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    /**
+     * Get the status name as a string
+     *
+     * @return The status name, or null if status is not set or invalid
+     */
+    public String getStatusName() {
+        if (status == null) {
+            return null;
+        }
+        PublicationRequestStatus statusEnum = PublicationRequestStatus.fromId(status);
+        return statusEnum != null ? statusEnum.getName() : null;
+    }
 }
 

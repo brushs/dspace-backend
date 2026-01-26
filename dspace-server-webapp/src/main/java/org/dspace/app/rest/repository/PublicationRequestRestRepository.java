@@ -130,7 +130,32 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
             publicationRequest.setPublicationUUID(requestRest.getPublicationUUID());
             publicationRequest.setUserEmailAddress(requestRest.getUserEmailAddress());
             publicationRequest.setLanguage(requestRest.getLanguage());
-            publicationRequest.setStatus(requestRest.getStatus());
+
+            // Handle status - convert name to ID if needed, or use default
+            Integer statusId = null;
+            if (requestRest.getStatus() != null && !requestRest.getStatus().isEmpty()) {
+                // Try to parse as status name first
+                org.dspace.publicationrequest.PublicationRequestStatus statusEnum =
+                    org.dspace.publicationrequest.PublicationRequestStatus.fromName(requestRest.getStatus());
+                if (statusEnum != null) {
+                    statusId = statusEnum.getId();
+                } else {
+                    // Try to parse as integer
+                    try {
+                        statusId = Integer.parseInt(requestRest.getStatus());
+                    } catch (NumberFormatException e) {
+                        // Invalid status, will use default
+                        log.warn("Invalid status provided: " + requestRest.getStatus() + ", using default");
+                    }
+                }
+            }
+
+            // Set status - use "Pending Translation" (ID=1) as default for new requests
+            if (statusId == null) {
+                statusId = org.dspace.publicationrequest.PublicationRequestStatus.PENDING_TRANSLATION.getId();
+            }
+            publicationRequest.setStatus(statusId);
+
             // Directly save without going through update() which requires admin
             context.turnOffAuthorisationSystem();
             publicationRequestService.updateWithoutAuthCheck(context, publicationRequest);

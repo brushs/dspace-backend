@@ -131,7 +131,32 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
             translationRequest.setPublicationUUID(requestRest.getPublicationUUID());
             translationRequest.setBitstreamUUID(requestRest.getBitstreamUUID());
             translationRequest.setLanguage(requestRest.getLanguage());
-            translationRequest.setStatus(requestRest.getStatus());
+
+            // Handle status - convert name to ID if needed, or use default
+            Integer statusId = null;
+            if (requestRest.getStatus() != null && !requestRest.getStatus().isEmpty()) {
+                // Try to parse as status name first
+                org.dspace.translationrequest.TranslationRequestStatus statusEnum =
+                    org.dspace.translationrequest.TranslationRequestStatus.fromName(requestRest.getStatus());
+                if (statusEnum != null) {
+                    statusId = statusEnum.getId();
+                } else {
+                    // Try to parse as integer
+                    try {
+                        statusId = Integer.parseInt(requestRest.getStatus());
+                    } catch (NumberFormatException e) {
+                        // Invalid status, will use default
+                        log.warn("Invalid status provided: " + requestRest.getStatus() + ", using default");
+                    }
+                }
+            }
+
+            // Set status - use "New" (ID=1) as default for new requests
+            if (statusId == null) {
+                statusId = org.dspace.translationrequest.TranslationRequestStatus.NEW.getId();
+            }
+            translationRequest.setStatus(statusId);
+
             // Set created date to current time if not provided
             if (requestRest.getCreatedDate() != null) {
                 translationRequest.setCreatedDate(requestRest.getCreatedDate());

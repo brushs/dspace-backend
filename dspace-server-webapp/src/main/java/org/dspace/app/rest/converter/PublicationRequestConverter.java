@@ -46,7 +46,8 @@ public class PublicationRequestConverter implements DSpaceConverter<PublicationR
         rest.setPublicationUUID(obj.getPublicationUUID());
         rest.setUserEmailAddress(obj.getUserEmailAddress());
         rest.setLanguage(obj.getLanguage());
-        rest.setStatus(obj.getStatus());
+        // Convert status ID to status name
+        rest.setStatus(obj.getStatusName());
 
         // Fetch title metadata from the Item if publicationUUID is a valid UUID
         if (obj.getPublicationUUID() != null) {

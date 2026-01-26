@@ -121,5 +121,18 @@ public class TranslationRequest {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    /**
+     * Get the status name as a string
+     *
+     * @return The status name, or null if status is not set or invalid
+     */
+    public String getStatusName() {
+        if (status == null) {
+            return null;
+        }
+        TranslationRequestStatus statusEnum = TranslationRequestStatus.fromId(status);
+        return statusEnum != null ? statusEnum.getName() : null;
+    }
 }
 
