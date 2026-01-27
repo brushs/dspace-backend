@@ -21,6 +21,8 @@ import org.dspace.app.rest.SearchRestMethod;
 import org.dspace.app.rest.converter.TranslationRequestConverter;
 import org.dspace.app.rest.exception.UnprocessableEntityException;
 import org.dspace.app.rest.model.TranslationRequestRest;
+import org.dspace.app.rest.model.patch.Patch;
+import org.dspace.app.rest.repository.patch.ResourcePatch;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.core.Context;
@@ -30,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -51,6 +54,9 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
 
     @Autowired
     private AuthorizeService authorizeService;
+
+    @Autowired
+    private ResourcePatch<TranslationRequest> resourcePatch;
 
     public TranslationRequestRestRepository() {
         super();
@@ -195,6 +201,34 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
             log.error("Error deleting TranslationRequest with id: " + id, e);
             throw new RuntimeException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    @PreAuthorize("permitAll()")
+    protected void patch(Context context, HttpServletRequest request, String apiCategory, String model, Integer id,
+                         Patch patch) throws AuthorizeException, SQLException {
+        // TODO: Re-enable admin check for production
+        // Temporarily public for development
+        // if (!authorizeService.isAdmin(context)) {
+        //     throw new AuthorizeException("Only administrators can update translation requests");
+        // }
+
+        TranslationRequest translationRequest = translationRequestService.find(context, id);
+        if (translationRequest == null) {
+            throw new ResourceNotFoundException(
+                TranslationRequestRest.CATEGORY + "." + TranslationRequestRest.NAME +
+                " with id: " + id + " not found");
+        }
+
+        log.info("Patching TranslationRequest ID: {}", id);
+
+        // Apply the patch operations
+        resourcePatch.patch(context, translationRequest, patch.getOperations());
+
+        // Update the translation request (this will trigger automated status updates)
+        translationRequestService.updateWithoutAuthCheck(context, translationRequest);
+
+        log.info("Successfully patched TranslationRequest ID: {}", id);
     }
 
     /**
