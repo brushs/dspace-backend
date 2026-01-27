@@ -20,6 +20,8 @@ import org.dspace.app.rest.SearchRestMethod;
 import org.dspace.app.rest.converter.PublicationRequestConverter;
 import org.dspace.app.rest.exception.UnprocessableEntityException;
 import org.dspace.app.rest.model.PublicationRequestRest;
+import org.dspace.app.rest.model.patch.Patch;
+import org.dspace.app.rest.repository.patch.ResourcePatch;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.core.Context;
@@ -29,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +53,9 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
 
     @Autowired
     private AuthorizeService authorizeService;
+
+    @Autowired
+    private ResourcePatch<PublicationRequest> resourcePatch;
 
     public PublicationRequestRestRepository() {
         super();
@@ -180,6 +186,34 @@ public class PublicationRequestRestRepository extends DSpaceRestRepository<Publi
             log.error("Error deleting PublicationRequest with id: " + id, e);
             throw new RuntimeException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    @PreAuthorize("permitAll()")
+    protected void patch(Context context, HttpServletRequest request, String apiCategory, String model, Integer id,
+                         Patch patch) throws AuthorizeException, SQLException {
+        // TODO: Re-enable admin check for production
+        // Temporarily public for development
+        // if (!authorizeService.isAdmin(context)) {
+        //     throw new AuthorizeException("Only administrators can update publication requests");
+        // }
+
+        PublicationRequest publicationRequest = publicationRequestService.find(context, id);
+        if (publicationRequest == null) {
+            throw new ResourceNotFoundException(
+                PublicationRequestRest.CATEGORY + "." + PublicationRequestRest.NAME +
+                " with id: " + id + " not found");
+        }
+
+        log.info("Patching PublicationRequest ID: {}", id);
+
+        // Apply the patch operations
+        resourcePatch.patch(context, publicationRequest, patch.getOperations());
+
+        // Update the publication request
+        publicationRequestService.update(context, publicationRequest);
+
+        log.info("Successfully patched PublicationRequest ID: {}", id);
     }
 
     /**
