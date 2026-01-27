@@ -220,7 +220,7 @@ public class PublicationRequestNotificationCLI extends DSpaceRunnable<Publicatio
     private java.util.Date getCreatedDate(PublicationRequest request) {
         return request.getCreatedDate();
     }
-}
+
     /**
      * Process a single PublicationRequest
      */
