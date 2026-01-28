@@ -330,22 +330,42 @@ public class TranslationRequestRestRepository extends DSpaceRestRepository<Trans
     /**
      * Search for translation requests by status
      *
-     * @param status   The status to search for
+     * @param status   The status name to search for (e.g., "New", "Translation In Progress", "Completed", etc.)
      * @param pageable Pagination information
      * @return Page of TranslationRequestRest objects
      */
     @PreAuthorize("permitAll()")
     @SearchRestMethod(name = "byStatus")
     public Page<TranslationRequestRest> findByStatus(
-        @Parameter(value = "status", required = true) int status,
+        @Parameter(value = "status", required = true) String status,
         Pageable pageable
     ) {
         try {
+            // Convert status name to ID
+            org.dspace.translationrequest.TranslationRequestStatus statusEnum =
+                org.dspace.translationrequest.TranslationRequestStatus.fromName(status);
+
+            if (statusEnum == null) {
+                // Try to parse as integer as fallback
+                try {
+                    int statusId = Integer.parseInt(status);
+                    // Validate that this is a valid status ID
+                    statusEnum = org.dspace.translationrequest.TranslationRequestStatus.fromId(statusId);
+                    if (statusEnum == null) {
+                        throw new UnprocessableEntityException("Invalid status value: " + status);
+                    }
+                } catch (NumberFormatException e) {
+                    throw new UnprocessableEntityException("Invalid status name: " + status +
+                        ". Valid statuses are: New, Translation In Progress, Completed, Cancelled, On Hold");
+                }
+            }
+
+            int statusId = statusEnum.getId();
             Context context = obtainContext();
-            int total = translationRequestService.countByStatus(context, status);
+            int total = translationRequestService.countByStatus(context, statusId);
             List<TranslationRequest> translationRequests = translationRequestService.findByStatus(
                 context,
-                status,
+                statusId,
                 Math.toIntExact(pageable.getOffset()),
                 pageable.getPageSize()
             );
