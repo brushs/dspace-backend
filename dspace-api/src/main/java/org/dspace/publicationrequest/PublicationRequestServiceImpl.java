@@ -129,6 +129,8 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
      */
     private void createTranslationRequestsForOriginalBitstreams(Context context,
                                                                  PublicationRequest publicationRequest) {
+        log.info("Creating Translation Request for PR: " + publicationRequest.getId());
+
         try {
             // Get the item from the publicationUUID
             UUID itemUuid = UUID.fromString(publicationRequest.getPublicationUUID());
@@ -226,6 +228,10 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
         } catch (SQLException | AuthorizeException e) {
             log.error("Error creating translation requests for PublicationRequest ID: "
                     + publicationRequest.getId(), e);
+        } catch (Exception e) {
+            log.error("Error creating translation requests for PublicationRequest ID: "
+                    + publicationRequest.getId(), e);
+            throw e;
         }
     }
 
