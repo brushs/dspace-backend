@@ -136,11 +136,15 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
             UUID itemUuid = UUID.fromString(publicationRequest.getPublicationUUID());
             Item item = itemService.find(context, itemUuid);
 
+            log.info("Step 1");
+
             if (item == null) {
                 log.warn("Could not find item with UUID: " + publicationRequest.getPublicationUUID()
                         + " for PublicationRequest ID: " + publicationRequest.getId());
                 return;
             }
+
+            log.info("Step 2");
 
             // Check if the publication is already available in the requested language
             if (isPublicationAvailableInLanguage(context, item, publicationRequest.getLanguage())) {
@@ -158,6 +162,8 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
                 return;
             }
 
+            log.info("Step 3");
+
             List<Bundle> originalBundles = itemService.getBundles(item, Constants.CONTENT_BUNDLE_NAME);
 
             if (originalBundles == null || originalBundles.isEmpty()) {
@@ -165,6 +171,8 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
                         + ", PublicationRequest ID: " + publicationRequest.getId());
                 return;
             }
+
+            log.info("Step 4");
 
             int translationRequestCount = 0;
             int existingTranslationRequestCount = 0;
@@ -182,9 +190,12 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
                             translationRequestService.findByBitstreamUUIDAndPublicationUUID(
                                 context, bitstreamUUID, publicationRequest.getPublicationUUID());
 
+                        log.info("Step 5");
+
                         TranslationRequest translationRequest;
 
                         if (existingTranslationRequest != null) {
+                            log.info("Step 6");
                             // TranslationRequest already exists - reuse it
                             translationRequest = existingTranslationRequest;
                             existingTranslationRequestCount++;
@@ -192,6 +203,7 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
                                     + " for Bitstream: " + bitstreamUUID
                                     + ", reusing for PublicationRequest ID: " + publicationRequest.getId());
                         } else {
+                            log.info("Step 7");
                             // Create a new translation request for this bitstream
                             translationRequest = translationRequestService.create(context);
                             translationRequest.setPublicationUUID(publicationRequest.getPublicationUUID());
