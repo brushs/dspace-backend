@@ -158,6 +158,10 @@ gcnotify.api.key = @gc-notify-key@
 # The sandbox endpoint (api.sandbox.notification.canada.ca) is not publicly accessible
 gcnotify.api.url = https://api.notification.canada.ca
 
+gc.notify.template.publication.notification=96bc8e33-6418-42d9-bcf5-40dad07d6cb5
+
+publicationrequest.notification.notranslation.delay.hours = 1
+
 # Default Email Template ID (UUID from GC Notify dashboard)
 # NOTE: Use template IDs from your test/sandbox service when using a test API key
 # gcnotify.template.id = your-template-uuid-here
