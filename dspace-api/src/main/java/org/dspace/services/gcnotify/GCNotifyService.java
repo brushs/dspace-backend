@@ -24,7 +24,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Service for sending email notifications via GC Notify API.
@@ -49,7 +48,6 @@ import org.springframework.stereotype.Service;
  *
  * @author DSpace Community
  */
-@Service
 public class GCNotifyService {
 
     private static final Logger log = LogManager.getLogger(GCNotifyService.class);

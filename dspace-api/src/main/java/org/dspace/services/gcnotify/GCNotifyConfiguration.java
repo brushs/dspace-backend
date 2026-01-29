@@ -9,14 +9,12 @@ package org.dspace.services.gcnotify;
 
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Configuration provider for GC Notify service settings.
  *
  * @author DSpace Community
  */
-@Component
 public class GCNotifyConfiguration {
 
     @Autowired

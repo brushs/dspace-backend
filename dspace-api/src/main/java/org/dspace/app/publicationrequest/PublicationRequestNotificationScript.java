@@ -7,21 +7,12 @@
  */
 package org.dspace.app.publicationrequest;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.UUID;
-
 import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dspace.content.Item;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.dspace.handle.service.HandleService;
-import org.dspace.publicationrequest.PublicationRequest;
-import org.dspace.publicationrequest.PublicationRequestStatus;
 import org.dspace.publicationrequest.service.PublicationRequestService;
 import org.dspace.scripts.DSpaceRunnable;
 import org.dspace.services.ConfigurationService;
@@ -29,14 +20,17 @@ import org.dspace.services.gcnotify.GCNotifyService;
 import org.dspace.utils.DSpace;
 
 /**
- * Script to process PublicationRequests in "Pending Notification" status,
- * send email notifications via GC Notify, and update their status accordingly.
+ * Script to process PublicationRequest notifications on-demand via REST API/UI.
+ * This bypasses the Curator framework to avoid the 200K item iteration issue.
  *
- * @author [Your Name]
+ * This is functionally identical to PublicationRequestNotificationCLI but designed
+ * to be invoked via REST API instead of command line.
+ *
+ * @author DSpace Community
  */
-public class PublicationRequestNotificationCLI extends DSpaceRunnable<PublicationRequestNotificationCLIScriptConfiguration> {
+public class PublicationRequestNotificationScript extends DSpaceRunnable<PublicationRequestNotificationScriptConfiguration> {
 
-    private static final Logger log = LogManager.getLogger(PublicationRequestNotificationCLI.class);
+    private static final Logger log = LogManager.getLogger(PublicationRequestNotificationScript.class);
 
     private PublicationRequestService publicationRequestService;
     private GCNotifyService gcNotifyService;
@@ -45,9 +39,10 @@ public class PublicationRequestNotificationCLI extends DSpaceRunnable<Publicatio
     private ConfigurationService configurationService;
 
     @Override
-    public PublicationRequestNotificationCLIScriptConfiguration getScriptConfiguration() {
+    public PublicationRequestNotificationScriptConfiguration getScriptConfiguration() {
         return new DSpace().getServiceManager()
-            .getServiceByName("publication-request-notification", PublicationRequestNotificationCLIScriptConfiguration.class);
+            .getServiceByName("publication-request-notification-script",
+                PublicationRequestNotificationScriptConfiguration.class);
     }
 
     @Override
@@ -69,6 +64,8 @@ public class PublicationRequestNotificationCLI extends DSpaceRunnable<Publicatio
         context.turnOffAuthorisationSystem();
 
         try {
+            log.info("Starting publication request notification processing via script (not curation task)");
+
             // Create the processor with required services
             PublicationRequestNotificationProcessor processor = new PublicationRequestNotificationProcessor(
                 publicationRequestService,
@@ -82,12 +79,16 @@ public class PublicationRequestNotificationCLI extends DSpaceRunnable<Publicatio
             PublicationRequestNotificationProcessor.ProcessingResult result = processor.processNotifications(context);
 
             // Log summary
-            log.info("Processing summary: Found {} total, Success: {}, Errors: {}, Skipped: {}",
-                result.getTotalFound(), result.getSuccessCount(), result.getErrorCount(), result.getSkippedCount());
+            handler.logInfo("Publication Request Notification Processing Complete:");
+            handler.logInfo("  Found: " + result.getTotalFound() + " total requests");
+            handler.logInfo("  Success: " + result.getSuccessCount());
+            handler.logInfo("  Errors: " + result.getErrorCount());
+            handler.logInfo("  Skipped: " + result.getSkippedCount());
 
             context.complete();
         } catch (Exception e) {
             log.error("Error processing publication request notifications", e);
+            handler.handleException(e);
             context.abort();
             throw e;
         } finally {

@@ -104,6 +104,10 @@
     <bean class="org.dspace.translationrequest.TranslationRequestServiceImpl"/>
     <bean class="org.dspace.translation2publication.Translation2PublicationServiceImpl"/>
 
+    <!-- GC Notify services for email notifications -->
+    <bean class="org.dspace.services.gcnotify.GCNotifyConfiguration"/>
+    <bean class="org.dspace.services.gcnotify.GCNotifyService"/>
+
     <bean class="org.dspace.eperson.SupervisorServiceImpl"/>
 
     <bean class="org.dspace.event.EventServiceImpl"/>
