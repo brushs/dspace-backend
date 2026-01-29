@@ -349,17 +349,22 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
      */
     private boolean isPublicationAvailableInLanguage(Context context, Item item, String requestedLanguage) {
         try {
+            log.info("Checking Language");
+
             // Find the relationship type "isLanguageOfPublication"
             List<RelationshipType> relationshipTypes = relationshipTypeService
                 .findByLeftwardOrRightwardTypeName(context, "isLanguageOfPublication");
 
             if (relationshipTypes == null || relationshipTypes.isEmpty()) {
-                log.debug("No 'isLanguageOfPublication' relationship type found");
+                log.info("No 'isLanguageOfPublication' relationship type found");
                 return false;
             }
 
             // Check relationships for each relationship type (there should typically be only one)
             for (RelationshipType relationshipType : relationshipTypes) {
+
+                log.info("Checking Rels for Type: " + relationshipType.getID());
+
                 List<Relationship> relationships = relationshipService
                     .findByItemAndRelationshipType(context, item, relationshipType);
 
@@ -385,7 +390,7 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
                 }
             }
 
-            log.debug("No matching language relationship found for item " + item.getID()
+            log.info("No matching language relationship found for item " + item.getID()
                     + " and language: " + requestedLanguage);
             return false;
 
