@@ -18,6 +18,7 @@ import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
+import org.dspace.content.MetadataValue;
 import org.dspace.content.Relationship;
 import org.dspace.content.RelationshipType;
 import org.dspace.content.service.ItemService;
@@ -348,55 +349,156 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
      * @return true if the publication is already available in the requested language
      */
     private boolean isPublicationAvailableInLanguage(Context context, Item item, String requestedLanguage) {
+        long startTime = System.currentTimeMillis();
+
         try {
-            log.info("Checking Language");
+            log.debug("Checking if item {} is available in language: {}", item.getID(), requestedLanguage);
 
             // Find the relationship type "isLanguageOfPublication"
             List<RelationshipType> relationshipTypes = relationshipTypeService
                 .findByLeftwardOrRightwardTypeName(context, "isLanguageOfPublication");
 
             if (relationshipTypes == null || relationshipTypes.isEmpty()) {
-                log.info("No 'isLanguageOfPublication' relationship type found");
+                log.debug("No 'isLanguageOfPublication' relationship type found - assuming translation needed");
                 return false;
             }
 
             // Check relationships for each relationship type (there should typically be only one)
             for (RelationshipType relationshipType : relationshipTypes) {
+                long typeStartTime = System.currentTimeMillis();
+                log.info("Checking relationships for type ID: {}", relationshipType.getID());
 
-                log.info("Checking Rels for Type: " + relationshipType.getID());
+                // Fetch relationships in batches to avoid loading too many at once
+                // Most items should only have a few language relationships
+                int batchSize = 50;
+                int offset = 0;
+                boolean foundMatch = false;
+                int totalFetched = 0;
 
-                List<Relationship> relationships = relationshipService
-                    .findByItemAndRelationshipType(context, item, relationshipType);
+                while (!foundMatch) {
+                    long batchStartTime = System.currentTimeMillis();
 
-                if (relationships != null && !relationships.isEmpty()) {
+                    List<Relationship> relationships = relationshipService
+                        .findByItemAndRelationshipType(context, item, relationshipType, batchSize, offset);
+
+                    long fetchTime = System.currentTimeMillis() - batchStartTime;
+                    int relationshipCount = (relationships != null) ? relationships.size() : 0;
+                    totalFetched += relationshipCount;
+
+                    log.info("Fetched batch of {} relationship(s) (offset: {}) in {} ms",
+                            relationshipCount, offset, fetchTime);
+
+                    if (relationships == null || relationships.isEmpty()) {
+                        // No more relationships to check
+                        break;
+                    }
+
                     for (Relationship relationship : relationships) {
+                        long itemStartTime = System.currentTimeMillis();
+
                         // Get the related item (the language item)
-                        Item relatedItem = relationship.getLeftItem().equals(item)
-                            ? relationship.getRightItem()
-                            : relationship.getLeftItem();
+                        Item relatedItem = relationship.getRightItem();
+
+                        // Skip if related item is null (shouldn't happen but be defensive)
+                        if (relatedItem == null) {
+                            log.warn("Related item is null for relationship ID: {}", relationship.getID());
+                            continue;
+                        }
 
                         // Check if the related item has the ISO code matching the requested language
                         // The language ISO code should be in dc.identifier.iso
-                        String isoCode = itemService.getMetadataFirstValue(
-                            relatedItem, "dc", "identifier", "iso", Item.ANY);
+                        // Use getMetadata() to get already-loaded metadata, then use our utility method
+                        // to search it without any database calls
+                        List<MetadataValue> allMetadata = relatedItem.getMetadata();
+
+                        String isoCode = findMetadataValue(allMetadata, "dc", "identifier", "iso");
+
+                        long itemCheckTime = System.currentTimeMillis() - itemStartTime;
 
                         if (isoCode != null && isoCode.equalsIgnoreCase(requestedLanguage)) {
-                            log.info("Found matching language relationship: Item " + item.getID()
-                                    + " has isLanguageOfPublication relationship with language item "
-                                    + relatedItem.getID() + " (ISO code: " + isoCode + ")");
+                            long totalTime = System.currentTimeMillis() - startTime;
+                            log.info("Found matching language relationship for item {} in {} ms " +
+                                    "(checked {} total relationships): language item {} (ISO code: {})",
+                                    item.getID(), totalTime, totalFetched, relatedItem.getID(), isoCode);
+                            foundMatch = true;
                             return true;
                         }
+
+                        if (itemCheckTime > 100) {
+                            log.warn("Checking relationship {} took {} ms (slow)",
+                                    relationship.getID(), itemCheckTime);
+                        }
+                    }
+
+                    // Move to next batch
+                    offset += batchSize;
+
+                    // Safety limit: stop after checking 1000 relationships
+                    if (offset >= 1000) {
+                        log.warn("Stopped checking relationships after {} entries for item {}",
+                                offset, item.getID());
+                        break;
                     }
                 }
+
+                long typeTime = System.currentTimeMillis() - typeStartTime;
+                log.info("Finished checking type {} in {} ms (total relationships checked: {})",
+                        relationshipType.getID(), typeTime, totalFetched);
             }
 
-            log.info("No matching language relationship found for item " + item.getID()
-                    + " and language: " + requestedLanguage);
+            long totalTime = System.currentTimeMillis() - startTime;
+            log.info("No matching language relationship found for item {} and language: {} (checked in {} ms)",
+                    item.getID(), requestedLanguage, totalTime);
             return false;
 
         } catch (SQLException e) {
-            log.error("Error checking language availability for item " + item.getID(), e);
+            long totalTime = System.currentTimeMillis() - startTime;
+            log.error("Error checking language availability for item {} after {} ms",
+                    item.getID(), totalTime, e);
             return false;
         }
+    }
+
+    /**
+     * Find the first metadata value matching the specified schema, element, and qualifier
+     * from an already-loaded collection of metadata values.
+     *
+     * This method does NOT make any database calls - it only searches the provided collection.
+     * This is useful for performance when you already have metadata loaded and want to avoid
+     * additional database queries.
+     *
+     * @param metadataValues The collection of metadata values to search (already loaded)
+     * @param schema The metadata schema to match (e.g., "dc")
+     * @param element The metadata element to match (e.g., "identifier")
+     * @param qualifier The metadata qualifier to match (e.g., "iso"), or null for unqualified
+     * @return The value of the first matching metadata field, or null if not found
+     */
+    public static String findMetadataValue(List<MetadataValue> metadataValues,
+                                          String schema, String element, String qualifier) {
+        if (metadataValues == null || metadataValues.isEmpty()) {
+            return null;
+        }
+
+        for (MetadataValue mv : metadataValues) {
+            if (mv.getMetadataField() == null) {
+                continue;
+            }
+
+            boolean schemaMatches = schema == null ||
+                                   (mv.getMetadataField().getMetadataSchema() != null &&
+                                    schema.equals(mv.getMetadataField().getMetadataSchema().getName()));
+
+            boolean elementMatches = element == null ||
+                                    element.equals(mv.getMetadataField().getElement());
+
+            boolean qualifierMatches = (qualifier == null && mv.getMetadataField().getQualifier() == null) ||
+                                      (qualifier != null && qualifier.equals(mv.getMetadataField().getQualifier()));
+
+            if (schemaMatches && elementMatches && qualifierMatches) {
+                return mv.getValue();
+            }
+        }
+
+        return null;
     }
 }
