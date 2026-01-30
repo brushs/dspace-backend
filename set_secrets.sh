@@ -14,3 +14,7 @@ sed -i $(printf 's:@crossref-password@:%s:g' "$STORAGE_ACCOUNT") /app/dspace/con
 echo setting crossref email
 export STORAGE_ACCOUNT=$(cat ./crossref_email.txt)
 sed -i $(printf 's:@crossref-email@:%s:g' "$STORAGE_ACCOUNT") /app/dspace/config/local.cfg
+
+echo setting gc notify key
+export STORAGE_ACCOUNT=$(cat ./gc_notify_key.txt)
+sed -i $(printf 's:@gc-notify-key@:%s:g' "$STORAGE_ACCOUNT") /app/dspace/config/local.cfg
