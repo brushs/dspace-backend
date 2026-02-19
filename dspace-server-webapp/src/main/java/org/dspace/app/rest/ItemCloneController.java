@@ -108,6 +108,8 @@ public class ItemCloneController {
             throws SQLException, AuthorizeException {
         Context context = ContextUtil.obtainContext(request);
 
+        log.info("Cloning item with id: " + uuid);
+
         // Find the source item
         Item sourceItem = itemService.find(context, uuid);
 
@@ -124,6 +126,8 @@ public class ItemCloneController {
         // Create a workspace item and get the new item
         WorkspaceItem workspaceItem = workspaceItemService.create(context, collection, false);
         Item clonedItem = workspaceItem.getItem();
+
+        log.info("Created workspace item with id: " + workspaceItem.getID() + " for cloned item");
 
         // Copy all metadata from source item to cloned item
         List<MetadataValue> sourceMetadata = itemService.getMetadata(
@@ -143,6 +147,8 @@ public class ItemCloneController {
             );
         }
 
+        log.info("Copied " + sourceMetadata.size() + " metadata values from source item to cloned item");
+
         // Set item properties
         //clonedItem.setArchived(true);
         clonedItem.setOwningCollection(collection);
@@ -150,6 +156,8 @@ public class ItemCloneController {
 
         // Install the item
         Item installedItem = installItemService.installItem(context, workspaceItem);
+
+        log.info("Installed cloned item with id: " + installedItem.getID() + " from workspace item with id: " + workspaceItem.getID());
 
         // Copy relationships from source item to cloned item
         List<Relationship> sourceRelationships = relationshipService.findByItem(context, sourceItem);
@@ -181,6 +189,8 @@ public class ItemCloneController {
                 sourceRelationship.getRightwardValue()
             );
         }
+
+        log.info("Copied " + sourceRelationships.size() + " relationships from source item to cloned item");
 
         context.commit();
 
