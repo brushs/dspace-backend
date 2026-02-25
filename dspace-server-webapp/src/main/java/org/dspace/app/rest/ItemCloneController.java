@@ -68,7 +68,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ItemCloneController {
 
     private static final Logger log = org.apache.logging.log4j.LogManager
-            .getLogger(BitstreamRestController.class);
+            .getLogger(ItemCloneController.class);
 
     @Autowired
     ConverterService converter;
@@ -108,7 +108,7 @@ public class ItemCloneController {
             throws SQLException, AuthorizeException {
         Context context = ContextUtil.obtainContext(request);
 
-        log.info("Cloning item with id: " + uuid);
+        log.error("Cloning item with id: " + uuid);
 
         // Find the source item
         Item sourceItem = itemService.find(context, uuid);
