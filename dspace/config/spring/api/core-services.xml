@@ -56,6 +56,7 @@
     <bean class="org.dspace.content.CustomRelationshipMetadataServiceImpl"/>
     <bean class="org.dspace.content.CustomItemServiceImpl"/>
     <bean class="org.dspace.content.FeedbackServiceImpl"/>
+    <bean class="org.dspace.content.ItemCloningServiceImpl"/>
 
     <bean class="org.dspace.scripts.ProcessServiceImpl"/>
     <bean class="org.dspace.scripts.ScriptServiceImpl"/>

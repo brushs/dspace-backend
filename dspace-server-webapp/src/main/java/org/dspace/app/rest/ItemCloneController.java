@@ -10,27 +10,28 @@ package org.dspace.app.rest;
 import static org.dspace.app.rest.utils.RegexUtils.REGEX_REQUESTMAPPING_IDENTIFIER_AS_UUID;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.Logger;
 import org.dspace.app.rest.converter.ConverterService;
-import org.dspace.app.rest.model.ItemRest;
-import org.dspace.app.rest.model.hateoas.ItemResource;
+import org.dspace.app.rest.model.ProcessRest;
+import org.dspace.app.rest.model.hateoas.ProcessResource;
+import org.dspace.app.rest.scripts.handler.impl.RestDSpaceRunnableHandler;
 import org.dspace.app.rest.utils.ContextUtil;
 import org.dspace.app.rest.utils.Utils;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.content.Collection;
 import org.dspace.content.Item;
-import org.dspace.content.MetadataValue;
-import org.dspace.content.Relationship;
-import org.dspace.content.WorkspaceItem;
-import org.dspace.content.service.InstallItemService;
 import org.dspace.content.service.ItemService;
-import org.dspace.content.service.RelationshipService;
-import org.dspace.content.service.WorkspaceItemService;
 import org.dspace.core.Context;
+import org.dspace.scripts.DSpaceCommandLineParameter;
+import org.dspace.scripts.DSpaceRunnable;
+import org.dspace.scripts.configuration.ScriptConfiguration;
+import org.dspace.scripts.service.ScriptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ControllerUtils;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -46,9 +47,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller to clone an item with the given UUID in the URL.
- * This will create a new item with all metadata and relationships from the source item,
- * but without any bundles or bitstreams. The new item will be placed in the same collection
- * as the source item.
+ * This will create an asynchronous curation task to clone the item with all metadata
+ * and relationships from the source item, but without any bundles or bitstreams.
+ * The new item will be placed in the same collection as the source item.
+ *
+ * The cloning is done asynchronously via a curation task and will appear in the Processes list.
  *
  * Usage: POST /api/core/items/<:uuid>/clone
  *
@@ -63,7 +66,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author DSpace Community
  */
 @RestController
-@RequestMapping("/api/" + ItemRest.CATEGORY + "/" + ItemRest.PLURAL_NAME + REGEX_REQUESTMAPPING_IDENTIFIER_AS_UUID
+@RequestMapping("/api/" + org.dspace.app.rest.model.ItemRest.CATEGORY + "/" +
+        org.dspace.app.rest.model.ItemRest.PLURAL_NAME + REGEX_REQUESTMAPPING_IDENTIFIER_AS_UUID
         + "/clone")
 public class ItemCloneController {
 
@@ -77,27 +81,21 @@ public class ItemCloneController {
     ItemService itemService;
 
     @Autowired
-    WorkspaceItemService workspaceItemService;
-
-    @Autowired
-    InstallItemService installItemService;
-
-    @Autowired
-    RelationshipService relationshipService;
+    ScriptService scriptService;
 
     @Autowired
     Utils utils;
 
     /**
-     * Method to clone an Item with the given UUID in the URL. This will create a new Item with all
-     * metadata and relationships from the source item, but without any bundles or bitstreams.
-     * The new item will be placed in the same collection as the source item.
+     * Method to initiate the cloning of an Item with the given UUID in the URL.
+     * This will start an asynchronous curation task to clone the item.
+     * The cloning process will appear in the Processes list and can be monitored there.
      *
      * Only administrators can clone items.
      *
      * @param uuid The UUID of the item to clone
      * @param request The HTTP request
-     * @return The cloned ItemResource
+     * @return A Process resource representing the cloning task
      * @throws SQLException if database error
      * @throws AuthorizeException if authorization error
      */
@@ -108,100 +106,87 @@ public class ItemCloneController {
             throws SQLException, AuthorizeException {
         Context context = ContextUtil.obtainContext(request);
 
-        log.info("Cloning item with id: " + uuid);
+        log.info("Initiating clone task for item with UUID: {}", uuid);
 
-        // Find the source item
+        // Find the source item to verify it exists
         Item sourceItem = itemService.find(context, uuid);
 
         if (sourceItem == null) {
-            throw new ResourceNotFoundException("Could not find item with id " + uuid);
+            throw new ResourceNotFoundException("Could not find item with UUID: " + uuid);
         }
 
-        // Get the owning collection of the source item
-        Collection collection = sourceItem.getOwningCollection();
-        if (collection == null) {
-            throw new IllegalStateException("Source item does not have an owning collection");
+        // Get the item's handle for the curation task
+        String handle = sourceItem.getHandle();
+        if (handle == null) {
+            throw new IllegalStateException("Item does not have a handle. Only archived items can be cloned.");
         }
 
-        // Create a workspace item and get the new item
-        WorkspaceItem workspaceItem = workspaceItemService.create(context, collection, false);
-        Item clonedItem = workspaceItem.getItem();
+        log.info("Starting asynchronous clone task for item with handle: {}", handle);
 
-        log.info("Created workspace item with id: " + workspaceItem.getID() + " for cloned item");
-
-        // Copy all metadata from source item to cloned item
-        List<MetadataValue> sourceMetadata = itemService.getMetadata(
-            sourceItem, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
-
-        for (MetadataValue metadataValue : sourceMetadata) {
-            itemService.addMetadata(
-                context,
-                clonedItem,
-                metadataValue.getMetadataField().getMetadataSchema().getName(),
-                metadataValue.getMetadataField().getElement(),
-                metadataValue.getMetadataField().getQualifier(),
-                metadataValue.getLanguage(),
-                metadataValue.getValue(),
-                metadataValue.getAuthority(),
-                metadataValue.getConfidence()
-            );
-        }
-
-        log.info("Copied " + sourceMetadata.size() + " metadata values from source item to cloned item");
-
-        // Set item properties
-        //clonedItem.setArchived(true);
-        clonedItem.setOwningCollection(collection);
-        clonedItem.setDiscoverable(sourceItem.isDiscoverable());
-
-        log.info("Installing cloned item from workspace item with id: " + workspaceItem.getID());
-
-        // Install the item
-        Item installedItem = installItemService.installItem(context, workspaceItem);
-
-        log.info("Installed cloned item with id: " + installedItem.getID() + " from workspace item with id: " + workspaceItem.getID());
-
-        // Copy relationships from source item to cloned item
-        List<Relationship> sourceRelationships = relationshipService.findByItem(context, sourceItem);
-
-        for (Relationship sourceRelationship : sourceRelationships) {
-            Item leftItem;
-            Item rightItem;
-            int leftPlace = sourceRelationship.getLeftPlace();
-            int rightPlace = -1; // rightPlace is commented out in Relationship class, use -1 to append
-
-            // Determine which side of the relationship is the source item
-            if (sourceRelationship.getLeftItem().equals(sourceItem)) {
-                leftItem = installedItem;
-                rightItem = sourceRelationship.getRightItem();
-            } else {
-                leftItem = sourceRelationship.getLeftItem();
-                rightItem = installedItem;
+        try {
+            // Get the curate script configuration
+            ScriptConfiguration scriptConfig = scriptService.getScriptConfiguration("curate");
+            if (scriptConfig == null) {
+                throw new IllegalStateException("Could not find 'curate' script configuration");
             }
 
-            // Create the new relationship with leftward and rightward values
-            relationshipService.create(
-                context,
-                leftItem,
-                rightItem,
-                sourceRelationship.getRelationshipType(),
-                leftPlace,
-                rightPlace,
-                sourceRelationship.getLeftwardValue(),
-                sourceRelationship.getRightwardValue()
+            // Verify user is authorized to execute the script
+            if (!scriptConfig.isAllowedToExecute(context)) {
+                throw new AuthorizeException("Current user is not authorized to execute curation tasks");
+            }
+
+            // Create parameters for the curation script
+            List<DSpaceCommandLineParameter> parameters = new ArrayList<>();
+            parameters.add(new DSpaceCommandLineParameter("-t", "cloneitem"));
+            parameters.add(new DSpaceCommandLineParameter("-i", handle));
+
+            // Create the runnable handler which will create the process
+            RestDSpaceRunnableHandler runnableHandler = new RestDSpaceRunnableHandler(
+                context.getCurrentUser(),
+                scriptConfig.getName(),
+                parameters,
+                new HashSet<>(context.getSpecialGroups())
             );
+
+            // Create the DSpaceRunnable instance
+            DSpaceRunnable runnable = scriptService.createDSpaceRunnableForScriptConfiguration(scriptConfig);
+
+            // Prepare arguments array
+            List<String> args = new ArrayList<>();
+            for (DSpaceCommandLineParameter param : parameters) {
+                args.add(param.getName());
+                if (param.getValue() != null) {
+                    args.add(param.getValue());
+                }
+            }
+
+            // Initialize the runnable
+            try {
+                runnable.initialize(args.toArray(new String[0]), runnableHandler, context.getCurrentUser());
+
+                // Schedule the process for execution
+                runnableHandler.schedule(runnable);
+
+                log.info("Successfully scheduled clone task process for item: {}", handle);
+
+                // Get the process that was created by the handler
+                org.dspace.scripts.Process process = runnableHandler.getProcess(context);
+
+                // Convert to REST resource and return
+                ProcessRest processRest = converter.toRest(process, utils.obtainProjection());
+                ProcessResource processResource = converter.toResource(processRest);
+
+                return ControllerUtils.toResponseEntity(HttpStatus.ACCEPTED, new HttpHeaders(), processResource);
+
+            } catch (ParseException e) {
+                log.error("Failed to parse arguments for clone task: {}", e.getMessage(), e);
+                runnable.printHelp();
+                throw new RuntimeException("Failed to parse clone task arguments: " + e.getMessage(), e);
+            }
+
+        } catch (Exception e) {
+            log.error("Error starting clone task for item with UUID: {}", uuid, e);
+            throw new RuntimeException("Failed to start clone task: " + e.getMessage(), e);
         }
-
-        log.info("Copied " + sourceRelationships.size() + " relationships from source item to cloned item");
-
-        context.commit();
-
-        log.info("Successfully cloned item with id: " + sourceItem.getID()
-            + " to new item with id: " + installedItem.getID());
-
-        // Convert to REST resource and return
-        ItemResource itemResource = converter.toResource(
-            converter.toRest(installedItem, utils.obtainProjection()));
-        return ControllerUtils.toResponseEntity(HttpStatus.CREATED, new HttpHeaders(), itemResource);
     }
 }
