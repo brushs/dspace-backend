@@ -112,10 +112,16 @@
                 level='WARN'/>
         <Logger name='org.hibernate'
                 level='WARN'/>
+        <Logger name='org.hibernate.cfg.annotations'
+                level='ERROR'/>
         <Logger name='org.flywaydb'
                 level='ERROR'/>
         <Logger name='org.dspace.app.rest'
                 level='INFO'/>
+        <Logger name='org.springframework.beans.factory'
+                level='WARN'/>
+        <Logger name='org.apache.commons.beanutils'
+                level='WARN'/>
 
         <!-- Block passwords from being exposed in Axis logs. (DEBUG exposes passwords in Basic Auth) -->
         <Logger name='org.apache.axis.handlers.http.HTTPAuthHandler'
