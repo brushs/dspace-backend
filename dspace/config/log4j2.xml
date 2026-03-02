@@ -111,8 +111,8 @@
                 level='ERROR'/>
         <Logger name='org.flywaydb'
                 level='ERROR'/>
-        <Logger name='org.dspace.app.rest'
-                level='INFO'/>
+        <Logger name='org.dspace.app.rest.utils'
+                level='WARN'/>
         <Logger name='org.springframework.beans.factory'
                 level='WARN'/>
         <Logger name='org.apache.commons.beanutils'
