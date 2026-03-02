@@ -80,6 +80,7 @@
                 level='${loglevel.dspace}'
                 additivity='false'>
             <AppenderRef ref='A1'/>
+            <AppenderRef ref='A3'/>
         </Logger>
 
         <!-- The checksum checker -->
@@ -87,12 +88,6 @@
                 level='INFO'
                 additivity='false'>
             <AppenderRef ref='A2'/>
-        </Logger>
-
-        <Logger name='org.dspace'
-                level='${loglevel.dspace}'
-                additivity='false'>
-            <AppenderRef ref='A3'/>
         </Logger>
 
         <!-- Block services logging except on exceptions -->

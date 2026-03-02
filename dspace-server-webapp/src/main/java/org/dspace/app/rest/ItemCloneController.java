@@ -154,6 +154,8 @@ public class ItemCloneController {
         clonedItem.setOwningCollection(collection);
         clonedItem.setDiscoverable(sourceItem.isDiscoverable());
 
+        log.info("Installing cloned item from workspace item with id: " + workspaceItem.getID());
+
         // Install the item
         Item installedItem = installItemService.installItem(context, workspaceItem);
 
