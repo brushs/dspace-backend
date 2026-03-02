@@ -108,7 +108,7 @@ public class ItemCloneController {
             throws SQLException, AuthorizeException {
         Context context = ContextUtil.obtainContext(request);
 
-        log.error("Cloning item with id: " + uuid);
+        log.info("Cloning item with id: " + uuid);
 
         // Find the source item
         Item sourceItem = itemService.find(context, uuid);

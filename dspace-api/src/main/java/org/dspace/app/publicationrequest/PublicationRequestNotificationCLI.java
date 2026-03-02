@@ -7,21 +7,12 @@
  */
 package org.dspace.app.publicationrequest;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.UUID;
-
 import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dspace.content.Item;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.dspace.handle.service.HandleService;
-import org.dspace.publicationrequest.PublicationRequest;
-import org.dspace.publicationrequest.PublicationRequestStatus;
 import org.dspace.publicationrequest.service.PublicationRequestService;
 import org.dspace.scripts.DSpaceRunnable;
 import org.dspace.services.ConfigurationService;
@@ -52,15 +43,33 @@ public class PublicationRequestNotificationCLI extends DSpaceRunnable<Publicatio
 
     @Override
     public void setup() throws ParseException {
-        publicationRequestService = new DSpace().getServiceManager()
-            .getServiceByName("publicationRequestService", PublicationRequestService.class);
-        gcNotifyService = new DSpace().getServiceManager()
-            .getServiceByName("gcNotifyService", GCNotifyService.class);
-        itemService = new DSpace().getServiceManager()
-            .getServiceByName("itemService", ItemService.class);
-        handleService = new DSpace().getServiceManager()
-            .getServiceByName("handleService", HandleService.class);
-        configurationService = new DSpace().getConfigurationService();
+        DSpace dspace = new DSpace();
+
+        // Get services by type since they don't have explicit bean IDs
+        publicationRequestService = dspace.getSingletonService(PublicationRequestService.class);
+        gcNotifyService = dspace.getSingletonService(GCNotifyService.class);
+        itemService = dspace.getSingletonService(ItemService.class);
+        handleService = dspace.getSingletonService(HandleService.class);
+        configurationService = dspace.getConfigurationService();
+
+        // Validate that all required services were loaded
+        if (publicationRequestService == null) {
+            throw new ParseException("Failed to load PublicationRequestService");
+        }
+        if (gcNotifyService == null) {
+            throw new ParseException("Failed to load GCNotifyService");
+        }
+        if (itemService == null) {
+            throw new ParseException("Failed to load ItemService");
+        }
+        if (handleService == null) {
+            throw new ParseException("Failed to load HandleService");
+        }
+        if (configurationService == null) {
+            throw new ParseException("Failed to load ConfigurationService");
+        }
+
+        log.info("All required services loaded successfully");
     }
 
     @Override
