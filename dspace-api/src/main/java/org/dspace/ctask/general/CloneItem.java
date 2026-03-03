@@ -87,18 +87,25 @@ public class CloneItem extends AbstractCurationTask {
             // Clone the item using the service
             Item clonedItem = itemCloningService.cloneItem(Curator.curationContext(), sourceItem);
 
-            String message = String.format(
-                "Successfully cloned item %s (UUID: %s) to new item with UUID: %s",
-                sourceItem.getHandle() != null ? sourceItem.getHandle() : "workspace item",
-                sourceItem.getID(),
-                clonedItem.getID()
-            );
+            // Build a comprehensive result message with both UUID and handle
+            StringBuilder resultMsg = new StringBuilder();
+            resultMsg.append("Successfully cloned item ");
+            resultMsg.append(sourceItem.getHandle() != null ? sourceItem.getHandle() : sourceItem.getID().toString());
+            resultMsg.append(" to new item: ");
 
+            if (clonedItem.getHandle() != null) {
+                resultMsg.append(clonedItem.getHandle());
+                resultMsg.append(" (UUID: ").append(clonedItem.getID()).append(")");
+            } else {
+                resultMsg.append("UUID: ").append(clonedItem.getID());
+            }
+
+            String message = resultMsg.toString();
             setResult(message);
             log.info(message);
 
-            // Report the cloned item's details
-            report(message);
+            // Also report individual details
+            report("Source item: " + (sourceItem.getHandle() != null ? sourceItem.getHandle() : sourceItem.getID()));
             report("Cloned item UUID: " + clonedItem.getID());
             if (clonedItem.getHandle() != null) {
                 report("Cloned item handle: " + clonedItem.getHandle());
