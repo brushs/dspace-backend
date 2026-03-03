@@ -166,12 +166,16 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     protected void update(Context context, IndexFactory indexableObjectService,
                           IndexableObject indexableObject) throws IOException, SQLException, SolrServerException {
         boolean index = true;
+        // Commented out for normal operations - can be re-enabled for special bulk data loading
+        // to prevent indexing overhead during mass imports
+        /*
         if (context.getCurrentUser() != null) {
             if (context.getCurrentUser().getEmail().equals("steve.brush@nrcan-rncan.gc.ca") ||
                     context.getCurrentUser().getEmail().equals("steve.brush@apption.com")) {
                 index = false;
             }
         }
+        */
 
         if (index) {
             final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
@@ -188,14 +192,17 @@ public class SolrServiceImpl implements SearchService, IndexingService {
      */
     protected void update(Context context, IndexFactory indexableObjectService, IndexableObject indexableObject,
                           boolean preDB) throws IOException, SQLException, SolrServerException {
-
         boolean index = true;
+        // Commented out for normal operations - can be re-enabled for special bulk data loading
+        // to prevent indexing overhead during mass imports
+        /*
         if (context.getCurrentUser() != null) {
             if (context.getCurrentUser().getEmail().equals("steve.brush@nrcan-rncan.gc.ca") ||
                     context.getCurrentUser().getEmail().equals("steve.brush@apption.com")) {
                 index = false;
             }
         }
+        */
 
         if (index) {
             if (preDB) {

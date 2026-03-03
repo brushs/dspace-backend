@@ -32,6 +32,9 @@ import org.dspace.content.virtual.VirtualMetadataPopulator;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.LogHelper;
+import org.dspace.discovery.IndexingService;
+import org.dspace.discovery.SearchServiceException;
+import org.dspace.discovery.indexobject.IndexableItem;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
 import org.dspace.event.Event;
@@ -132,6 +135,9 @@ public class CustomItemServiceImpl extends DSpaceObjectServiceImpl<Item> impleme
 
     @Autowired(required = true)
     private ResearcherProfileService researcherProfileService;
+
+    @Autowired(required = true)
+    private IndexingService indexingService;
 
     protected CustomItemServiceImpl() {
         super();
@@ -602,8 +608,180 @@ public class CustomItemServiceImpl extends DSpaceObjectServiceImpl<Item> impleme
                     null, getIdentifiers(context, item)));
             item.clearModified();
             item.clearDetails();
+
+            // Re-index related publications if this is a Person (Author) entity
+            // This is done asynchronously to avoid blocking the update operation
+            reindexRelatedPublicationsAsync(item);
         }
 
+    }
+
+    /**
+     * Asynchronously re-indexes all publications related to a Person entity when the Person is updated.
+     * This ensures that author information in publication search results is always current.
+     * Executes in a background thread to avoid blocking the update operation.
+     *
+     * @param authorItem The Person item being updated
+     */
+    private void reindexRelatedPublicationsAsync(Item authorItem) {
+        // Create a background thread to handle the re-indexing
+        Thread reindexThread = new Thread(() -> {
+            Context asyncContext = null;
+            try {
+                // Create a new context for this background operation
+                asyncContext = new Context();
+                asyncContext.turnOffAuthorisationSystem();
+
+                // Perform the re-indexing
+                reindexRelatedPublications(asyncContext, authorItem);
+
+                // Complete the context
+                asyncContext.complete();
+
+            } catch (Exception e) {
+                log.error("Error in async re-indexing thread for Person {}: {}",
+                         authorItem.getID(), e.getMessage(), e);
+                if (asyncContext != null && asyncContext.isValid()) {
+                    asyncContext.abort();
+                }
+            } finally {
+                if (asyncContext != null && asyncContext.isValid()) {
+                    try {
+                        asyncContext.restoreAuthSystemState();
+                    } catch (Exception e) {
+                        log.error("Error restoring auth system state in async thread", e);
+                    }
+                }
+            }
+        });
+
+        // Set as daemon thread so it doesn't prevent JVM shutdown
+        reindexThread.setDaemon(true);
+        reindexThread.setName("Publication-Reindex-" + authorItem.getID());
+
+        // Start the background thread
+        reindexThread.start();
+
+        log.debug("Started async re-indexing thread for Person {}", authorItem.getID());
+    }
+
+    /**
+     * Re-indexes all publications related to a Person entity when the Person is updated.
+     * This ensures that author information in publication search results is always current.
+     * This method is resilient to individual item failures and will continue processing
+     * even if some publications fail to re-index.
+     *
+     * @param context DSpace context
+     * @param item The item being updated
+     */
+    private void reindexRelatedPublications(Context context, Item item) {
+        try {
+            // Check if this is a Person entity
+            String entityType = getEntityTypeLabel(item);
+            if (!"Person".equalsIgnoreCase(entityType)) {
+                // Not a Person entity, nothing to do
+                return;
+            }
+
+            log.debug("Item {} is a Person entity, checking for related publications to re-index", item.getID());
+
+            // Find all relationships where this Person is involved
+            List<Relationship> relationships = null;
+            try {
+                relationships = relationshipService.findByItem(context, item);
+            } catch (Exception e) {
+                log.error("Failed to find relationships for Person {}: {}",
+                         item.getID(), e.getMessage(), e);
+                return;
+            }
+
+            if (relationships == null || relationships.isEmpty()) {
+                log.debug("No relationships found for Person {}", item.getID());
+                return;
+            }
+
+            Set<UUID> publicationsToReindex = new HashSet<>();
+
+            // Iterate through relationships to find publications
+            // Continue even if individual relationships fail
+            for (Relationship relationship : relationships) {
+                try {
+                    Item relatedItem = null;
+
+                    // Check which side of the relationship is the Person
+                    if (relationship.getLeftItem().equals(item)) {
+                        relatedItem = relationship.getRightItem();
+                    } else if (relationship.getRightItem().equals(item)) {
+                        relatedItem = relationship.getLeftItem();
+                    }
+
+                    if (relatedItem != null) {
+                        // Check if the related item is a Publication
+                        String relatedEntityType = getEntityTypeLabel(relatedItem);
+                        if ("Publication".equalsIgnoreCase(relatedEntityType)) {
+                            publicationsToReindex.add(relatedItem.getID());
+                        }
+                    }
+                } catch (Exception e) {
+                    log.warn("Error processing relationship {} for Person {}: {}",
+                            relationship.getID(), item.getID(), e.getMessage());
+                    // Continue with next relationship
+                }
+            }
+
+            if (publicationsToReindex.isEmpty()) {
+                log.debug("No publications found related to Person {}", item.getID());
+                return;
+            }
+
+            log.info("Re-indexing {} publication(s) related to updated Person {}",
+                     publicationsToReindex.size(), item.getID());
+
+            // Re-index each publication
+            // Continue even if individual publications fail
+            int reindexedCount = 0;
+            int failedCount = 0;
+
+            for (UUID publicationId : publicationsToReindex) {
+                try {
+                    Item publication = find(context, publicationId);
+                    if (publication != null) {
+                        // Update the last modified date so SOLR recognizes it as changed
+                        publication.setLastModified(new Date());
+                        itemDAO.save(context, publication);
+
+                        // Re-index with force=true AND commit=true (same as CLI command)
+                        // This ensures each item is actually committed to SOLR
+                        indexingService.indexContent(context, new IndexableItem(publication), true, true);
+                        reindexedCount++;
+
+                        // Clear from context cache to prevent memory issues with large numbers
+                        context.uncacheEntity(publication);
+
+                        log.debug("Updated last modified date and re-indexed publication {}", publicationId);
+                    } else {
+                        log.warn("Publication {} not found for re-indexing (related to Person {})",
+                                publicationId, item.getID());
+                        failedCount++;
+                    }
+                } catch (Exception e) {
+                    failedCount++;
+                    log.error("Failed to re-index publication {} related to Person {}: {}",
+                             publicationId, item.getID(), e.getMessage(), e);
+                    // Continue with next publication - don't let one failure stop the rest
+                }
+            }
+
+            if (reindexedCount > 0 || failedCount > 0) {
+                log.info("Completed re-indexing for Person {}: {} successful, {} failed",
+                         item.getID(), reindexedCount, failedCount);
+            }
+
+        } catch (Exception e) {
+            // Log but don't fail the update operation
+            log.error("Error re-indexing publications for Person {}: {}",
+                     item.getID(), e.getMessage(), e);
+        }
     }
 
     @Override
