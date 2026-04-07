@@ -27,7 +27,7 @@ JAVA_OPTS="-Xms256m -Xmx4096m -Dfile.encoding=UTF-8"
 30 * * * * root $DSPACE/bin/dspace doi-organiser -c > $DSPACE/log/doi-callback.log 2>&1
 
 # Process publication requests in Pending Notification status and send email notifications
-*/15 * * * * root $DSPACE/bin/dspace publication-request-notification > $DSPACE/log/publication-notification.log 2>&1
+#*/15 * * * * root $DSPACE/bin/dspace publication-request-notification > $DSPACE/log/publication-notification.log 2>&1
 
 #----------------
 # DAILY TASKS
