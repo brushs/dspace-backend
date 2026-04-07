@@ -382,5 +382,3 @@ oai.import.batch.size = 500
 usage-statistics.dbfile = /dspace/config/GeoLite2-City.mmdb
 
 discovery.autoReindex = false
-
-flyway.validateOnMigrate=false
