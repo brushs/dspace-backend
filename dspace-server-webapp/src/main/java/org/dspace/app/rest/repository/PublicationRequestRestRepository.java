@@ -1,0 +1,342 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ *
+ * http://www.dspace.org/license/
+ */
+package org.dspace.app.rest.repository;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.dspace.app.rest.Parameter;
+import org.dspace.app.rest.SearchRestMethod;
+import org.dspace.app.rest.converter.PublicationRequestConverter;
+import org.dspace.app.rest.exception.UnprocessableEntityException;
+import org.dspace.app.rest.model.PublicationRequestRest;
+import org.dspace.app.rest.model.patch.Patch;
+import org.dspace.app.rest.repository.patch.ResourcePatch;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.authorize.service.AuthorizeService;
+import org.dspace.core.Context;
+import org.dspace.publicationrequest.PublicationRequest;
+import org.dspace.publicationrequest.service.PublicationRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
+
+/**
+ * This is the repository responsible to manage PublicationRequest Rest object
+ *
+ * @author [Your Name]
+ */
+@Component(PublicationRequestRest.CATEGORY + "." + PublicationRequestRest.NAME)
+public class PublicationRequestRestRepository extends DSpaceRestRepository<PublicationRequestRest, Integer> {
+
+    private static final Logger log = LogManager.getLogger();
+
+    @Autowired
+    private PublicationRequestService publicationRequestService;
+
+    @Autowired
+    private PublicationRequestConverter converter;
+
+    @Autowired
+    private AuthorizeService authorizeService;
+
+    @Autowired
+    private ResourcePatch<PublicationRequest> resourcePatch;
+
+    public PublicationRequestRestRepository() {
+        super();
+    }
+
+    @Override
+    @PreAuthorize("permitAll()")
+    public PublicationRequestRest findOne(Context context, Integer id) {
+        try {
+            // TODO: Re-enable admin check for production
+            // Temporarily public for development
+            // if (!authorizeService.isAdmin(context)) {
+            //     throw new AuthorizeException("Only administrators can view publication requests");
+            // }
+            PublicationRequest publicationRequest = publicationRequestService.find(context, id);
+            if (publicationRequest == null) {
+                return null;
+            }
+            return converter.convert(publicationRequest, utils.obtainProjection());
+        } catch (SQLException e) {
+            log.error("Error finding PublicationRequest with id: " + id, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    @PreAuthorize("permitAll()")
+    public Page<PublicationRequestRest> findAll(Context context, Pageable pageable) {
+        try {
+            // Only admins can list all publication requests
+            if (!authorizeService.isAdmin(context)) {
+                throw new AuthorizeException("Only administrators can list publication requests");
+            }
+            int total = publicationRequestService.countTotal(context);
+            List<PublicationRequest> publicationRequests = publicationRequestService.findAll(
+                context,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<PublicationRequestRest> restList = publicationRequests.stream()
+                .map(pr -> converter.convert(pr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException | AuthorizeException e) {
+            log.error("Error finding all PublicationRequests", e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    protected PublicationRequestRest createAndReturn(Context context) throws AuthorizeException {
+        // Creation is public - no admin check required
+        // CSRF protection is automatically handled by Spring Security for POST requests from the UI
+        HttpServletRequest req = getRequestService().getCurrentRequest().getHttpServletRequest();
+        ObjectMapper mapper = new ObjectMapper();
+        PublicationRequestRest requestRest;
+        try {
+            requestRest = mapper.readValue(req.getInputStream(), PublicationRequestRest.class);
+        } catch (IOException e) {
+            throw new UnprocessableEntityException("Error parsing the request body", e);
+        }
+
+        // Validate required fields
+        if (requestRest.getPublicationUUID() == null || requestRest.getPublicationUUID().isEmpty()) {
+            throw new UnprocessableEntityException("publicationUUID is required");
+        }
+        if (requestRest.getUserEmailAddress() == null || requestRest.getUserEmailAddress().isEmpty()) {
+            throw new UnprocessableEntityException("userEmailAddress is required");
+        }
+        if (requestRest.getLanguage() == null || requestRest.getLanguage().isEmpty()) {
+            throw new UnprocessableEntityException("language is required");
+        }
+
+        PublicationRequest publicationRequest;
+        try {
+            // Create the entity and set values directly (bypass update authorization)
+            publicationRequest = publicationRequestService.create(context);
+            publicationRequest.setPublicationUUID(requestRest.getPublicationUUID());
+            publicationRequest.setUserEmailAddress(requestRest.getUserEmailAddress());
+            publicationRequest.setLanguage(requestRest.getLanguage());
+
+            // Handle status - convert name to ID if needed, or use default
+            Integer statusId = null;
+            if (requestRest.getStatus() != null && !requestRest.getStatus().isEmpty()) {
+                // Try to parse as status name first
+                org.dspace.publicationrequest.PublicationRequestStatus statusEnum =
+                    org.dspace.publicationrequest.PublicationRequestStatus.fromName(requestRest.getStatus());
+                if (statusEnum != null) {
+                    statusId = statusEnum.getId();
+                } else {
+                    // Try to parse as integer
+                    try {
+                        statusId = Integer.parseInt(requestRest.getStatus());
+                    } catch (NumberFormatException e) {
+                        // Invalid status, will use default
+                        log.warn("Invalid status provided: " + requestRest.getStatus() + ", using default");
+                    }
+                }
+            }
+
+            // Set status - use "Pending Translation" (ID=1) as default for new requests
+            if (statusId == null) {
+                statusId = org.dspace.publicationrequest.PublicationRequestStatus.PENDING_TRANSLATION.getId();
+            }
+            publicationRequest.setStatus(statusId);
+
+            // Directly save without going through update() which requires admin
+            context.turnOffAuthorisationSystem();
+            publicationRequestService.updateWithoutAuthCheck(context, publicationRequest);
+            context.restoreAuthSystemState();
+        } catch (SQLException e) {
+            log.error("Error creating PublicationRequest", e);
+            throw new RuntimeException("Error creating PublicationRequest", e);
+        }
+
+        return converter.convert(publicationRequest, utils.obtainProjection());
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
+    protected void delete(Context context, Integer id) throws AuthorizeException {
+        try {
+            PublicationRequest publicationRequest = publicationRequestService.find(context, id);
+            if (publicationRequest != null) {
+                publicationRequestService.delete(context, publicationRequest);
+            }
+        } catch (SQLException e) {
+            log.error("Error deleting PublicationRequest with id: " + id, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    @PreAuthorize("permitAll()")
+    protected void patch(Context context, HttpServletRequest request, String apiCategory, String model, Integer id,
+                         Patch patch) throws AuthorizeException, SQLException {
+        // TODO: Re-enable admin check for production
+        // Temporarily public for development
+        // if (!authorizeService.isAdmin(context)) {
+        //     throw new AuthorizeException("Only administrators can update publication requests");
+        // }
+
+        PublicationRequest publicationRequest = publicationRequestService.find(context, id);
+        if (publicationRequest == null) {
+            throw new ResourceNotFoundException(
+                PublicationRequestRest.CATEGORY + "." + PublicationRequestRest.NAME +
+                " with id: " + id + " not found");
+        }
+
+        log.info("Patching PublicationRequest ID: {}", id);
+
+        // Apply the patch operations
+        resourcePatch.patch(context, publicationRequest, patch.getOperations());
+
+        // Update the publication request
+        publicationRequestService.update(context, publicationRequest);
+
+        log.info("Successfully patched PublicationRequest ID: {}", id);
+    }
+
+    /**
+     * Search for publication requests by publication UUID
+     *
+     * @param uuid     The publication UUID to search for
+     * @param pageable Pagination information
+     * @return Page of PublicationRequestRest objects
+     */
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @SearchRestMethod(name = "byPublicationUUID")
+    public Page<PublicationRequestRest> findByPublicationUUID(
+        @Parameter(value = "uuid", required = true) String uuid,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            List<PublicationRequest> publicationRequests =
+                publicationRequestService.findByPublicationUUID(context, uuid);
+            List<PublicationRequestRest> restList = publicationRequests.stream()
+                .map(pr -> converter.convert(pr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, restList.size());
+        } catch (SQLException e) {
+            log.error("Error finding PublicationRequests by publication UUID: " + uuid, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Search for publication requests by user email address
+     *
+     * @param email    The email address to search for
+     * @param pageable Pagination information
+     * @return Page of PublicationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byUserEmail")
+    public Page<PublicationRequestRest> findByUserEmail(
+        @Parameter(value = "email", required = true) String email,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            List<PublicationRequest> publicationRequests =
+                publicationRequestService.findByUserEmailAddress(context, email);
+            List<PublicationRequestRest> restList = publicationRequests.stream()
+                .map(pr -> converter.convert(pr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, restList.size());
+        } catch (SQLException e) {
+            log.error("Error finding PublicationRequests by user email: " + email, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Search for publication requests by title (searches both English and French titles)
+     *
+     * @param title    The title to search for (case-insensitive partial match)
+     * @param pageable Pagination information
+     * @return Page of PublicationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byTitle")
+    public Page<PublicationRequestRest> findByTitle(
+        @Parameter(value = "title", required = true) String title,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            int total = publicationRequestService.countByTitle(context, title);
+            List<PublicationRequest> publicationRequests = publicationRequestService.findByTitle(
+                context,
+                title,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<PublicationRequestRest> restList = publicationRequests.stream()
+                .map(pr -> converter.convert(pr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException e) {
+            log.error("Error finding PublicationRequests by title: " + title, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Search for publication requests by translation request ID
+     *
+     * @param translationRequestId The translation request ID to search for
+     * @param pageable             Pagination information
+     * @return Page of PublicationRequestRest objects
+     */
+    @PreAuthorize("permitAll()")
+    @SearchRestMethod(name = "byTranslationRequestId")
+    public Page<PublicationRequestRest> findByTranslationRequestId(
+        @Parameter(value = "translationRequestId", required = true) Integer translationRequestId,
+        Pageable pageable
+    ) {
+        try {
+            Context context = obtainContext();
+            int total = publicationRequestService.countByTranslationRequestId(context, translationRequestId);
+            List<PublicationRequest> publicationRequests = publicationRequestService.findByTranslationRequestId(
+                context,
+                translationRequestId,
+                Math.toIntExact(pageable.getOffset()),
+                pageable.getPageSize()
+            );
+            List<PublicationRequestRest> restList = publicationRequests.stream()
+                .map(pr -> converter.convert(pr, utils.obtainProjection()))
+                .collect(java.util.stream.Collectors.toList());
+            return new PageImpl<>(restList, pageable, total);
+        } catch (SQLException e) {
+            log.error("Error finding PublicationRequests by translation request ID: " + translationRequestId, e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Class<PublicationRequestRest> getDomainClass() {
+        return PublicationRequestRest.class;
+    }
+}
+

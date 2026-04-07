@@ -141,6 +141,35 @@ db.schema = public
 # Recipient for new user registration emails (defaults to unspecified)
 #registration.notify =
 
+##########################
+# GC NOTIFY CONFIGURATION #
+##########################
+# GC Notify is the Government of Canada's notification service for sending emails
+# API Documentation: https://api.notification.canada.ca/v2/openapi-en
+
+# Enable or disable the GC Notify service
+gcnotify.enabled = true
+
+# GC Notify API Key (use test/sandbox key for non-production testing)
+# NOTE: The sandbox vs production distinction is made by the API key, not the URL
+gcnotify.api.key = @gc-notify-key@
+
+# GC Notify API URL (production URL is used for both production and test keys)
+# The sandbox endpoint (api.sandbox.notification.canada.ca) is not publicly accessible
+gcnotify.api.url = https://api.notification.canada.ca
+
+gc.notify.template.publication.notification=96bc8e33-6418-42d9-bcf5-40dad07d6cb5
+
+publicationrequest.notification.notranslation.delay.hours = 1
+
+# Default Email Template ID (UUID from GC Notify dashboard)
+# NOTE: Use template IDs from your test/sandbox service when using a test API key
+# gcnotify.template.id = your-template-uuid-here
+
+# Additional template IDs for specific notifications
+# gcnotify.template.publication.request = your-template-uuid-here
+# gcnotify.template.translation.request = your-template-uuid-here
+# gcnotify.template.request.status.update = your-template-uuid-here
 
 ########################
 # HANDLE CONFIGURATION #

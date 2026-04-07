@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.CollectionService;
@@ -31,6 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version $Revision$
  */
 public class InstallItemServiceImpl implements InstallItemService {
+
+    private static final Logger log = org.apache.logging.log4j.LogManager
+            .getLogger(InstallItemServiceImpl.class);
 
     @Autowired(required = true)
     protected ContentServiceFactory contentServiceFactory;
@@ -69,10 +73,19 @@ public class InstallItemServiceImpl implements InstallItemService {
             throw new RuntimeException("Can't create an Identifier!", e);
         }
 
+        log.info("Populating metadata for item " + item.getID() + " in collection "
+            + collection.getID());
+
         populateMetadata(c, item);
+
+        log.info("Done metadata for item " + item.getID() + " in collection "
+                + collection.getID());
 
         // Finish up / archive the item
         item = finishItem(c, item, is);
+
+        log.info("Finished item " + item.getID() + " in collection "
+                + collection.getID());
 
         // As this is a BRAND NEW item, as a final step we need to remove the
         // submitter item policies created during deposit and replace them with

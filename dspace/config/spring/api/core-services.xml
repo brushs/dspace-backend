@@ -56,6 +56,7 @@
     <bean class="org.dspace.content.CustomRelationshipMetadataServiceImpl"/>
     <bean class="org.dspace.content.CustomItemServiceImpl"/>
     <bean class="org.dspace.content.FeedbackServiceImpl"/>
+    <bean class="org.dspace.content.ItemCloningServiceImpl"/>
 
     <bean class="org.dspace.scripts.ProcessServiceImpl"/>
     <bean class="org.dspace.scripts.ScriptServiceImpl"/>
@@ -99,6 +100,15 @@
     <bean class="org.dspace.eperson.GroupServiceImpl"/>
     <bean class="org.dspace.eperson.RegistrationDataServiceImpl"/>
     <bean class="org.dspace.eperson.SubscribeServiceImpl"/>
+
+    <bean class="org.dspace.publicationrequest.PublicationRequestServiceImpl"/>
+    <bean class="org.dspace.translationrequest.TranslationRequestServiceImpl"/>
+    <bean class="org.dspace.translation2publication.Translation2PublicationServiceImpl"/>
+
+    <!-- GC Notify services for email notifications -->
+    <bean class="org.dspace.services.gcnotify.GCNotifyConfiguration"/>
+    <bean class="org.dspace.services.gcnotify.GCNotifyService"/>
+
     <bean class="org.dspace.eperson.SupervisorServiceImpl"/>
 
     <bean class="org.dspace.event.EventServiceImpl"/>

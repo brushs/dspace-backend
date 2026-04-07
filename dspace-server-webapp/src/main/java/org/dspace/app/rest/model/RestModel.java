@@ -34,6 +34,7 @@ public interface RestModel extends Serializable {
     public static final String VERSIONING = "versioning";
     public static final String AUTHENTICATION = "authn";
     public static final String TOOLS = "tools";
+    public static final String REQUEST = "request";
 
     public String getType();
 

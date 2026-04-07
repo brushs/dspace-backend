@@ -134,6 +134,12 @@ public class Curation extends DSpaceRunnable<CurationScriptConfiguration> {
         } else {
             curator.curate(context, this.id);
         }
+
+        // Report task results to process output
+        String taskResult = curator.getResult(this.task);
+        if (taskResult != null && !taskResult.isEmpty()) {
+            super.handler.logInfo("Task result: " + taskResult);
+        }
     }
 
     /**

@@ -446,13 +446,19 @@ public class Curator {
                 return false;
             }
 
-            //Then, perform this task for all Top-Level Communities in the Site
-            // (this will recursively perform task for all objects in DSpace)
+            // Check if this is the publicationnotify task - if so, skip iteration
+            if ("publicationnotify".equals(tr.task.getName())) {
+                log.info("Skipping hierarchy traversal for task: {}", tr.task.getName());
+                return true;  // Stop here, don't iterate through communities
+            }
+
+            // For all other tasks, iterate through hierarchy
             for (Community subcomm : communityService.findAllTop(ctx)) {
                 if (!doCommunity(tr, subcomm)) {
                     return false;
                 }
             }
+
         } catch (SQLException sqlE) {
             throw new IOException(sqlE);
         }

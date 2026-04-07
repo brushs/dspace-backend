@@ -67,6 +67,10 @@
         <mapping class="org.dspace.eperson.RegistrationData"/>
         <mapping class="org.dspace.eperson.Subscription"/>
 
+        <mapping class="org.dspace.publicationrequest.PublicationRequest"/>
+        <mapping class="org.dspace.translationrequest.TranslationRequest"/>
+        <mapping class="org.dspace.translation2publication.Translation2Publication"/>
+
         <mapping class="org.dspace.handle.Handle"/>
 
         <mapping class="org.dspace.harvest.HarvestedCollection"/>

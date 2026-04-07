@@ -48,4 +48,9 @@
         <property name="description" value="export metadata from a discovery search" />
         <property name="dspaceRunnableClass" value="org.dspace.app.bulkedit.MetadataExportSearch" />
     </bean>
+
+    <bean id="publication-request-notification-script" class="org.dspace.app.publicationrequest.PublicationRequestNotificationScriptConfiguration" primary="true">
+        <property name="description" value="Process publication request notifications and send emails via GC Notify"/>
+        <property name="dspaceRunnableClass" value="org.dspace.app.publicationrequest.PublicationRequestNotificationScript"/>
+    </bean>
 </beans>
