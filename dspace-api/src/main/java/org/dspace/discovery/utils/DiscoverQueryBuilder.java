@@ -278,7 +278,7 @@ public class DiscoverQueryBuilder implements InitializingBean {
                                                    String geoQuery)
             throws IllegalArgumentException {
         return buildCommonDiscoverQuery(context, discoveryConfiguration, query, searchFilters,
-                dsoTypes, null, false);
+                dsoTypes, geoQuery, false);
     }
 
     private DiscoverQuery buildCommonDiscoverQuery(Context context, DiscoveryConfiguration discoveryConfiguration,
