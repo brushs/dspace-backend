@@ -418,6 +418,9 @@
         <node id="50713" label="Intégrité d’un écosystème">
             <isComposedBy/>
         </node>
+        <node id="51402" label="Acadienne">
+            <isComposedBy/>
+        </node>
         <node id="51142" label="Règle de marquage">
             <isComposedBy/>
         </node>
@@ -683,6 +686,9 @@
             <isComposedBy/>
         </node>
         <node id="50370" label="Débris ligneux">
+            <isComposedBy/>
+        </node>
+        <node id="51403" label="Boréale">
             <isComposedBy/>
         </node>
         <node id="50531" label="Éthos">
@@ -1765,6 +1771,9 @@
         <node id="51062" label="Produit chimique de plateforme">
             <isComposedBy/>
         </node>
+        <node id="51409" label="Subalpine">
+            <isComposedBy/>
+        </node>
         <node id="50829" label="Multiplication végétative">
             <isComposedBy/>
         </node>
@@ -2093,6 +2102,9 @@
             <isComposedBy/>
         </node>
         <node id="51366" label="Zone / aire protégée">
+            <isComposedBy/>
+        </node>
+        <node id="51408" label="Montagnarde">
             <isComposedBy/>
         </node>
         <node id="50619" label="Futaie pluriétagée ">
@@ -2797,6 +2809,9 @@
         <node id="50664" label="Hamule">
             <isComposedBy/>
         </node>
+        <node id="51407" label="Grands Lacs et du Saint-Laurent">
+            <isComposedBy/>
+        </node>
         <node id="50013" label="ADN recombinant">
             <isComposedBy/>
         </node>
@@ -3499,6 +3514,9 @@
         <node id="50898" label="Particules de bois">
             <isComposedBy/>
         </node>
+        <node id="51406" label="Columbia">
+            <isComposedBy/>
+        </node>
         <node id="50456" label="Écotourisme">
             <isComposedBy/>
         </node>
@@ -3617,6 +3635,9 @@
             <isComposedBy/>
         </node>
         <node id="50035" label="Aménagement compatible">
+            <isComposedBy/>
+        </node>
+        <node id="51404" label="Carolinienne">
             <isComposedBy/>
         </node>
         <node id="51033" label="Poteau">
@@ -4166,6 +4187,9 @@
             <isComposedBy/>
         </node>
         <node id="51126" label="Réduction anthropique">
+            <isComposedBy/>
+        </node>
+        <node id="51405" label="Côtière">
             <isComposedBy/>
         </node>
         <node id="51255" label="Surface limite entre les terres non défrichées et les zones urbaines ">

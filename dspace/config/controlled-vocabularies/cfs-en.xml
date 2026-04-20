@@ -418,6 +418,9 @@
         <node id="50713" label="Ecosystem integrity">
             <isComposedBy/>
         </node>
+        <node id="51402" label="Acadian">
+            <isComposedBy/>
+        </node>
         <node id="51142" label="Marking rule">
             <isComposedBy/>
         </node>
@@ -683,6 +686,9 @@
             <isComposedBy/>
         </node>
         <node id="50370" label="Woody debris">
+            <isComposedBy/>
+        </node>
+        <node id="51403" label="Boreal">
             <isComposedBy/>
         </node>
         <node id="50531" label="Ethos">
@@ -1765,6 +1771,9 @@
         <node id="51062" label="Platform chemical">
             <isComposedBy/>
         </node>
+        <node id="51409" label="Subalpine">
+            <isComposedBy/>
+        </node>
         <node id="50829" label="Vegetative propagation">
             <isComposedBy/>
         </node>
@@ -2093,6 +2102,9 @@
             <isComposedBy/>
         </node>
         <node id="51366" label="Protected area">
+            <isComposedBy/>
+        </node>
+        <node id="51408" label="Montane">
             <isComposedBy/>
         </node>
         <node id="50619" label="Storied high forest">
@@ -2797,6 +2809,9 @@
         <node id="50664" label="Hamuli">
             <isComposedBy/>
         </node>
+        <node id="51407" label="Great Lakes–St Lawrence">
+            <isComposedBy/>
+        </node>
         <node id="50013" label="Recombinant DNA">
             <isComposedBy/>
         </node>
@@ -3499,6 +3514,9 @@
         <node id="50898" label="Particle (wood)">
             <isComposedBy/>
         </node>
+        <node id="51406" label="Columbia">
+            <isComposedBy/>
+        </node>
         <node id="50456" label="Ecotourism">
             <isComposedBy/>
         </node>
@@ -3617,6 +3635,9 @@
             <isComposedBy/>
         </node>
         <node id="50035" label="Compatible management">
+            <isComposedBy/>
+        </node>
+        <node id="51404" label="Carolinian">
             <isComposedBy/>
         </node>
         <node id="51033" label="Post">
@@ -4166,6 +4187,9 @@
             <isComposedBy/>
         </node>
         <node id="51126" label="Anthropogenic removal">
+            <isComposedBy/>
+        </node>
+        <node id="51405" label="Coastal">
             <isComposedBy/>
         </node>
         <node id="51255" label="Wildland-urban interface">
