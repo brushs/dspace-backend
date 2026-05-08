@@ -402,7 +402,8 @@ SELECT
     mv.confidence,
     v_new_uuid
 FROM   metadatavalue mv
-WHERE  mv.dspace_object_id = p_source_uuid;
+WHERE  mv.dspace_object_id = p_source_uuid
+  AND  mv.metadata_field_id NOT IN (32,73);
 
 -- ----------------------------------------------------------
 -- 6. resourcepolicy
@@ -984,6 +985,7 @@ SELECT mv.metadata_field_id,
        mv.confidence
 FROM   metadatavalue mv
 WHERE  mv.dspace_object_id = p_source_uuid
+  AND  mv.metadata_field_id <> 32
 ORDER  BY mv.metadata_field_id, mv.place
     LOOP
         RETURN NEXT format(
