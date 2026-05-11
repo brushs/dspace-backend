@@ -249,6 +249,13 @@
   </dc-type>
 
   <dc-type>
+    <schema>nrcan</schema>
+    <element>translation</element>
+    <qualifier>autogenpub</qualifier>
+    <scope_note>Indicates if the resource was created via a script from an existing item for official language requirements</scope_note>
+  </dc-type>
+
+  <dc-type>
     <schema>dc</schema>
     <element>identifier</element>
     <qualifier>employeeid</qualifier>
