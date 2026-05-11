@@ -403,7 +403,8 @@ SELECT
     v_new_uuid
 FROM   metadatavalue mv
 WHERE  mv.dspace_object_id = p_source_uuid
-  AND  mv.metadata_field_id NOT IN (32,73);
+  AND  mv.metadata_field_id NOT IN (32,73,275,27);
+-- exclude fields DOI, Title, CATN and ISBN
 
 -- ----------------------------------------------------------
 -- 6. resourcepolicy
