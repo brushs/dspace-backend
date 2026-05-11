@@ -15,22 +15,10 @@
 --
 --   Bundles and bitstreams are intentionally NOT cloned.
 --
--- TWO EXECUTION MODES
---   1. DIRECT (live)  – Call clone_items_batch(TRUE)
---      All clones are written to the database inside individual
---      savepoints so one failure does not abort the whole batch.
---
---   2. SCRIPT (offline) – Call clone_items_batch(FALSE)  **or**
---                         generate_clone_script_to_table()
---      SQL statements are accumulated in `clone_script_output`.
---      Export them to a file with psql:
---
---        \copy (SELECT sql_line
---               FROM   clone_script_output
---               ORDER  BY line_num)
---        TO '/path/to/clone_output.sql'
---
---      Then review and run the file on any target database.
+-- EXECUTION MODE
+--   DIRECT (live)  – Call clone_items_batch(TRUE)
+--   All clones are written directly to the database. If one item
+--   fails, its row is moved to ERROR and the batch continues.
 --
 -- QUICK-START
 --   -- 1. Install
@@ -49,10 +37,8 @@
 --   -- 3a. Execute directly
 --   CALL clone_items_batch(TRUE);
 --
---   -- 3b. Or generate an SQL script
---   CALL generate_clone_script_to_table();
---   \copy (SELECT sql_line FROM clone_script_output ORDER BY line_num) TO '/tmp/clone.sql'
---   -- review /tmp/clone.sql, then:  psql -f /tmp/clone.sql
+--   -- 3b. FALSE is no longer supported
+--   -- CALL clone_items_batch(FALSE);  -- raises an error
 --
 -- ============================================================
 
@@ -116,17 +102,12 @@ COMMENT ON TABLE clone_log IS 'Audit trail for clone operations.';
 
 
 -- ============================================================
--- 3. SCRIPT-OUTPUT TABLE  (used by script-generation mode)
+-- 3. UPGRADE CLEANUP FOR REMOVED SQL-GENERATION MODE
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS clone_script_output (
-                                                   line_num    SERIAL  PRIMARY KEY,
-                                                   sql_line    TEXT
-);
-
-COMMENT ON TABLE clone_script_output IS
-  'Holds generated SQL lines from generate_clone_script_to_table(). '
-  'Export with: \copy (SELECT sql_line FROM clone_script_output ORDER BY line_num) TO ''/path/to/file.sql''';
+DROP PROCEDURE IF EXISTS generate_clone_script_to_table();
+DROP FUNCTION IF EXISTS generate_clone_sql(UUID, UUID, VARCHAR, BOOLEAN);
+DROP TABLE IF EXISTS clone_script_output;
 
 
 -- ============================================================
@@ -169,11 +150,17 @@ RETURNS TEXT
 LANGUAGE plpgsql
 AS $$
 DECLARE
+    v_fr_uuid CONSTANT UUID := 'ddf014c4-9d2f-4497-bbd1-1417bf9d5468'::uuid;
+    v_en_uuid CONSTANT UUID := '676fccb3-0b45-41b0-ad49-3eaa3e7e866c'::uuid;
     v_relationship_count INTEGER;
-    v_language_uuid      UUID;
+    v_fr_count INTEGER;
+    v_en_count INTEGER;
 BEGIN
-    SELECT COUNT(*), MIN(r.right_id)
-    INTO   v_relationship_count, v_language_uuid
+    SELECT
+        COUNT(*),
+        COUNT(*) FILTER (WHERE r.right_id = v_fr_uuid),
+        COUNT(*) FILTER (WHERE r.right_id = v_en_uuid)
+    INTO   v_relationship_count, v_fr_count, v_en_count
     FROM   relationship r
     WHERE  r.type_id = 18
       AND  r.left_id = p_source_uuid;
@@ -185,8 +172,12 @@ BEGIN
             v_relationship_count;
     END IF;
 
-    IF v_language_uuid = 'ddf014c4-9d2f-4497-bbd1-1417bf9d5468'::uuid THEN
+    IF v_fr_count = 1 THEN
         RETURN 'fr';
+    END IF;
+
+    IF v_en_count = 1 THEN
+        RETURN 'en';
     END IF;
 
     RETURN 'en';
@@ -405,6 +396,28 @@ FROM   metadatavalue mv
 WHERE  mv.dspace_object_id = p_source_uuid
   AND  mv.metadata_field_id NOT IN (32,73,275,27);
 -- exclude fields DOI, Title, CATN and ISBN
+
+    -- Add clone-only flag metadata: field 527 = 'Y'
+    INSERT INTO metadatavalue (
+        metadata_value_id,
+        metadata_field_id,
+        text_value,
+        text_lang,
+        place,
+        authority,
+        confidence,
+        dspace_object_id
+    )
+    VALUES (
+        nextval('metadatavalue_seq'),
+        527,
+        'Y',
+        NULL,
+        0,
+        NULL,
+        -1,
+        v_new_uuid
+    );
 
 -- ----------------------------------------------------------
 -- 6. resourcepolicy
@@ -779,544 +792,9 @@ COMMENT ON FUNCTION clone_item_direct IS
 
 
 -- ============================================================
--- 5. SQL-GENERATION FUNCTION  –  generate_clone_sql()
---    Returns a SETOF TEXT: one SQL statement per row.
---    The caller can store, review, and execute these later.
---    Uses gen_random_uuid() at call-time so the UUID is
---    embedded in the generated SQL (stable, no guessing).
--- ============================================================
-
-CREATE OR REPLACE FUNCTION generate_clone_sql(
-    p_source_uuid           UUID,
-    p_target_collection     UUID    DEFAULT NULL,
-    p_new_handle            VARCHAR DEFAULT NULL,
-    p_clone_relationships   BOOLEAN DEFAULT TRUE
-)
-RETURNS SETOF TEXT
-LANGUAGE plpgsql
-AS $$
-DECLARE
-v_new_uuid      UUID;
-    v_src           RECORD;
-    v_coll_uuid     UUID;
-    v_mv            RECORD;
-    v_rp            RECORD;
-    v_rel           RECORD;
-    v_c2i           RECORD;
-    v_mv_count      BIGINT;
-    v_rp_count      BIGINT;
-    v_handle_prefix TEXT;
-    v_source_handle TEXT;
-    v_language_code TEXT;
-    v_new_language_code TEXT;
-    v_opposite_language_right_id UUID;
-    v_title_field_id INTEGER;
-    v_source_title TEXT;
-    v_has_new_lang_title BOOLEAN;
-    v_other_language_source_title TEXT;
-    v_clone_title_for_source_link TEXT;
-    v_translation_field_id CONSTANT INTEGER := 282;
-    v_new_handle_sql_expr TEXT;
-BEGIN
-    -- ----------------------------------------------------------
-    -- Validate
-    -- ----------------------------------------------------------
-SELECT i.uuid,
-       i.in_archive,
-       i.discoverable,
-       i.withdrawn,
-       i.last_modified,
-       i.owning_collection,
-       i.submitter_id
-INTO   v_src
-FROM   item i
-WHERE  i.uuid = p_source_uuid;
-
-IF NOT FOUND THEN
-        RAISE EXCEPTION 'generate_clone_sql: source item % not found.', p_source_uuid;
-END IF;
-
-    v_new_uuid  := gen_random_uuid();
-    v_coll_uuid := COALESCE(p_target_collection, v_src.owning_collection);
-
-SELECT COUNT(*) INTO v_mv_count FROM metadatavalue  WHERE dspace_object_id = p_source_uuid;
-SELECT COUNT(*) INTO v_rp_count FROM resourcepolicy WHERE dspace_object     = p_source_uuid;
-
-    SELECT h.handle
-    INTO   v_source_handle
-    FROM   handle h
-    WHERE  h.resource_id = p_source_uuid
-      AND  h.resource_type_id = 2
-    ORDER  BY CASE WHEN h.handle !~ '.*/.*\\.[0-9]+$' THEN 0 ELSE 1 END,
-              h.handle_id
-    LIMIT  1;
-
-    IF v_source_handle IS NULL OR btrim(v_source_handle) = '' THEN
-        RAISE EXCEPTION 'generate_clone_sql: source item % has no handle.', p_source_uuid;
-    END IF;
-
-    v_language_code := get_item_language_code(p_source_uuid);
-    v_new_language_code := CASE WHEN v_language_code = 'en' THEN 'fr' ELSE 'en' END;
-    v_opposite_language_right_id := get_opposite_language_right_id(v_language_code);
-
-    SELECT mf.metadata_field_id
-    INTO   v_title_field_id
-    FROM   metadatafieldregistry mf
-    JOIN   metadataschemaregistry ms ON ms.metadata_schema_id = mf.metadata_schema_id
-    WHERE  ms.short_id = 'dc'
-      AND  mf.element = 'title'
-      AND  mf.qualifier IS NULL
-    LIMIT 1;
-
-    IF v_title_field_id IS NULL THEN
-        RAISE EXCEPTION 'generate_clone_sql: dc.title metadata field was not found in metadatafieldregistry.';
-    END IF;
-
-    SELECT mv.text_value
-    INTO   v_source_title
-    FROM   metadatavalue mv
-    WHERE  mv.dspace_object_id = p_source_uuid
-      AND  mv.metadata_field_id = v_title_field_id
-      AND  mv.text_lang = v_language_code
-    ORDER  BY mv.place
-    LIMIT 1;
-
-    IF v_source_title IS NULL OR btrim(v_source_title) = '' THEN
-        RAISE EXCEPTION
-            'generate_clone_sql: source item % has no dc.title value for language %.',
-            p_source_uuid,
-            v_language_code;
-    END IF;
-
-    SELECT EXISTS (
-        SELECT 1
-        FROM metadatavalue mv
-        WHERE mv.dspace_object_id = p_source_uuid
-          AND mv.metadata_field_id = v_title_field_id
-          AND mv.text_lang = v_new_language_code
-          AND btrim(COALESCE(mv.text_value, '')) <> ''
-    )
-    INTO v_has_new_lang_title;
-
-    SELECT mv.text_value
-    INTO   v_other_language_source_title
-    FROM   metadatavalue mv
-    WHERE  mv.dspace_object_id = p_source_uuid
-      AND  mv.metadata_field_id = v_title_field_id
-      AND  mv.text_lang = v_new_language_code
-    ORDER  BY mv.place
-    LIMIT 1;
-
-    v_clone_title_for_source_link := COALESCE(v_other_language_source_title, '_' || v_source_title);
-
--- ----------------------------------------------------------
--- Header comment
--- ----------------------------------------------------------
-RETURN NEXT '-- =============================================';
-    RETURN NEXT format('-- Clone of source item : %s', p_source_uuid);
-    RETURN NEXT format('-- New item UUID        : %s', v_new_uuid);
-    RETURN NEXT format('-- Target collection    : %s', v_coll_uuid);
-    RETURN NEXT format('-- Handle               : %s', COALESCE(p_new_handle, '(none)'));
-    RETURN NEXT format('-- Clone relationships  : %s', p_clone_relationships);
-    RETURN NEXT format('-- Metadata values      : %s', v_mv_count);
-    RETURN NEXT format('-- Resource policies    : %s', v_rp_count);
-    RETURN NEXT format('-- Generated            : %s', NOW());
-    RETURN NEXT '-- =============================================';
-    RETURN NEXT '';
-
-    -- ----------------------------------------------------------
-    -- 1. dspaceobject
-    -- ----------------------------------------------------------
-    RETURN NEXT '-- 1. dspaceobject';
-    RETURN NEXT format(
-        'INSERT INTO dspaceobject (uuid) VALUES (%L);',
-        v_new_uuid
-    );
-    RETURN NEXT '';
-
-    -- ----------------------------------------------------------
-    -- 2. item
-    -- ----------------------------------------------------------
-    RETURN NEXT '-- 2. item';
-    RETURN NEXT format(
-        'INSERT INTO item'
-        ' (uuid, in_archive, discoverable, withdrawn, last_modified, owning_collection, submitter_id)'
-        ' VALUES (%L, %L, %L, %L, NOW(), %L, %L);',
-        v_new_uuid,
-        v_src.in_archive,
-        v_src.discoverable,
-        v_src.withdrawn,
-        v_coll_uuid,
-        v_src.submitter_id
-    );
-    RETURN NEXT '';
-
-    -- ----------------------------------------------------------
-    -- 3 & 4. collection2item
-    -- ----------------------------------------------------------
-    RETURN NEXT '-- 3-4. collection2item (owning + mapped collections)';
-    RETURN NEXT format(
-        'INSERT INTO collection2item (collection_id, item_id) VALUES (%L, %L) ON CONFLICT DO NOTHING;',
-        v_coll_uuid, v_new_uuid
-    );
-
-FOR v_c2i IN
-SELECT c2i.collection_id
-FROM   collection2item c2i
-WHERE  c2i.item_id       = p_source_uuid
-  AND  c2i.collection_id <> v_coll_uuid
-    LOOP
-        RETURN NEXT format(
-            'INSERT INTO collection2item (collection_id, item_id) VALUES (%L, %L) ON CONFLICT DO NOTHING;',
-            v_c2i.collection_id, v_new_uuid
-        );
-END LOOP;
-    RETURN NEXT '';
-
-    -- ----------------------------------------------------------
-    -- 5. metadatavalue
-    -- ----------------------------------------------------------
-    RETURN NEXT format('-- 5. metadata values (%s rows)', v_mv_count);
-FOR v_mv IN
-SELECT mv.metadata_field_id,
-       mv.text_value,
-       mv.text_lang,
-       mv.place,
-       mv.authority,
-       mv.confidence
-FROM   metadatavalue mv
-WHERE  mv.dspace_object_id = p_source_uuid
-  AND  mv.metadata_field_id <> 32
-ORDER  BY mv.metadata_field_id, mv.place
-    LOOP
-        RETURN NEXT format(
-            'INSERT INTO metadatavalue'
-            ' (metadata_value_id, metadata_field_id, text_value, text_lang, place, authority, confidence, dspace_object_id)'
-            ' VALUES (nextval(''metadatavalue_seq''), %L, %L, %L, %L, %L, %L, %L);',
-            v_mv.metadata_field_id,
-            v_mv.text_value,
-            v_mv.text_lang,
-            v_mv.place,
-            v_mv.authority,
-            v_mv.confidence,
-            v_new_uuid
-        );
-END LOOP;
-    RETURN NEXT '';
-
-    -- ----------------------------------------------------------
-    -- 6. resourcepolicy
-    -- ----------------------------------------------------------
-    RETURN NEXT format('-- 6. resource policies (%s rows)', v_rp_count);
-FOR v_rp IN
-SELECT rp.resource_type_id,
-       rp.action_id,
-       rp.eperson_id,
-       rp.epersongroup_id,
-       rp.start_date,
-       rp.end_date,
-       rp.rpname,
-       rp.rptype,
-       rp.rpdescription
-FROM   resourcepolicy rp
-WHERE  rp.dspace_object = p_source_uuid
-    LOOP
-        RETURN NEXT format(
-            'INSERT INTO resourcepolicy'
-            ' (policy_id, dspace_object, resource_type_id, action_id,'
-            '  eperson_id, epersongroup_id, start_date, end_date, rpname, rptype, rpdescription)'
-            ' VALUES (nextval(''resourcepolicy_seq''), %L, %L, %L, %L, %L, %L, %L, %L, %L, %L);',
-            v_new_uuid,
-            v_rp.resource_type_id,
-            v_rp.action_id,
-            v_rp.eperson_id,
-            v_rp.epersongroup_id,
-            v_rp.start_date,
-            v_rp.end_date,
-            v_rp.rpname,
-            v_rp.rptype,
-            v_rp.rpdescription
-        );
-END LOOP;
-    RETURN NEXT '';
-
-    -- ----------------------------------------------------------
-    -- 7. relationships
-    -- ----------------------------------------------------------
-    IF p_clone_relationships THEN
-        RETURN NEXT '-- 7. relationships';
-
-        -- Source was LEFT
-FOR v_rel IN
-SELECT r.type_id,
-       r.right_id,
-       r.left_place,
-       r.right_place,
-       r.leftward_value,
-       r.rightward_value,
-       r.latest_version_status
-FROM   relationship r
-WHERE  r.left_id = p_source_uuid
-  AND  r.type_id <> 18
-    LOOP
-            RETURN NEXT format(
-                'INSERT INTO relationship'
-                ' (id, left_id, type_id, right_id, left_place, right_place,'
-                '  leftward_value, rightward_value, latest_version_status)'
-                ' VALUES (nextval(''relationship_id_seq''), %L, %L, %L, %L, %L, %L, %L, %L)'
-                ' ON CONFLICT DO NOTHING;',
-                v_new_uuid,
-                v_rel.type_id,
-                v_rel.right_id,
-                v_rel.left_place,
-                v_rel.right_place,
-                v_rel.leftward_value,
-                v_rel.rightward_value,
-                v_rel.latest_version_status
-            );
-END LOOP;
-
-        -- Source was RIGHT
-FOR v_rel IN
-SELECT r.left_id,
-       r.type_id,
-       r.left_place,
-       r.right_place,
-       r.leftward_value,
-       r.rightward_value,
-       r.latest_version_status
-FROM   relationship r
-WHERE  r.right_id = p_source_uuid
-  AND  r.type_id <> 18
-    LOOP
-            RETURN NEXT format(
-                'INSERT INTO relationship'
-                ' (id, left_id, type_id, right_id, left_place, right_place,'
-                '  leftward_value, rightward_value, latest_version_status)'
-                ' VALUES (nextval(''relationship_id_seq''), %L, %L, %L, %L, %L, %L, %L, %L)'
-                ' ON CONFLICT DO NOTHING;',
-                v_rel.left_id,
-                v_rel.type_id,
-                v_new_uuid,
-                v_rel.left_place,
-                v_rel.right_place,
-                v_rel.leftward_value,
-                v_rel.rightward_value,
-                v_rel.latest_version_status
-            );
-END LOOP;
-
-        RETURN NEXT '';
-END IF;
-
-    -- ----------------------------------------------------------
-    -- 8. handle
-    -- ----------------------------------------------------------
-    IF p_new_handle IS NOT NULL THEN
-        v_new_handle_sql_expr := quote_literal(p_new_handle);
-        RETURN NEXT '-- 8. handle';
-        RETURN NEXT format(
-            'INSERT INTO handle (handle_id, handle, resource_id, resource_type_id)'
-            ' VALUES (nextval(''handle_id_seq''), %L, %L, 2);',
-            p_new_handle, v_new_uuid
-        );
-        RETURN NEXT '';
-
-        IF v_source_handle IS NOT NULL AND v_source_handle <> p_new_handle THEN
-            RETURN NEXT '-- 9. rewrite cloned dc.identifier handle values';
-            RETURN NEXT format(
-                'UPDATE metadatavalue mv SET text_value = %L WHERE mv.dspace_object_id = %L AND mv.text_value = %L AND mv.metadata_field_id IN '
-                || '(SELECT mf.metadata_field_id FROM metadatafieldregistry mf JOIN metadataschemaregistry ms ON ms.metadata_schema_id = mf.metadata_schema_id WHERE ms.short_id = ''dc'' AND mf.element = ''identifier'');',
-                p_new_handle,
-                v_new_uuid,
-                v_source_handle
-            );
-            RETURN NEXT format(
-                'UPDATE metadatavalue mv SET text_value = %L WHERE mv.dspace_object_id = %L AND mv.text_value = %L AND mv.metadata_field_id IN '
-                || '(SELECT mf.metadata_field_id FROM metadatafieldregistry mf JOIN metadataschemaregistry ms ON ms.metadata_schema_id = mf.metadata_schema_id WHERE ms.short_id = ''dc'' AND mf.element = ''identifier'');',
-                'http://hdl.handle.net/' || p_new_handle,
-                v_new_uuid,
-                'http://hdl.handle.net/' || v_source_handle
-            );
-            RETURN NEXT format(
-                'UPDATE metadatavalue mv SET text_value = %L WHERE mv.dspace_object_id = %L AND mv.text_value = %L AND mv.metadata_field_id IN '
-                || '(SELECT mf.metadata_field_id FROM metadatafieldregistry mf JOIN metadataschemaregistry ms ON ms.metadata_schema_id = mf.metadata_schema_id WHERE ms.short_id = ''dc'' AND mf.element = ''identifier'');',
-                'https://hdl.handle.net/' || p_new_handle,
-                v_new_uuid,
-                'https://hdl.handle.net/' || v_source_handle
-            );
-            RETURN NEXT '';
-        END IF;
-    ELSE
-        v_handle_prefix := get_default_handle_prefix();
-        v_new_handle_sql_expr := quote_literal(v_handle_prefix || '/') || ' || currval(''handle_seq'')';
-        RETURN NEXT '-- 8. handle (auto-generated at execution time from handle_seq)';
-        RETURN NEXT
-            'INSERT INTO handle (handle_id, handle, resource_id, resource_type_id) VALUES '
-            || '(nextval(''handle_id_seq''), '
-            || quote_literal(v_handle_prefix || '/')
-            || ' || nextval(''handle_seq''), '
-            || quote_literal(v_new_uuid::text)
-            || ', 2);';
-        RETURN NEXT '';
-
-        IF v_source_handle IS NOT NULL THEN
-            RETURN NEXT '-- 9. rewrite cloned dc.identifier handle values (auto-minted handle)';
-            RETURN NEXT
-                'UPDATE metadatavalue mv SET text_value = '
-                || quote_literal(v_handle_prefix || '/')
-                || ' || currval(''handle_seq'') WHERE mv.dspace_object_id = '
-                || quote_literal(v_new_uuid::text)
-                || ' AND mv.text_value = '
-                || quote_literal(v_source_handle)
-                || ' AND mv.metadata_field_id IN '
-                || '(SELECT mf.metadata_field_id FROM metadatafieldregistry mf JOIN metadataschemaregistry ms ON ms.metadata_schema_id = mf.metadata_schema_id WHERE ms.short_id = ''dc'' AND mf.element = ''identifier'');';
-
-            RETURN NEXT
-                'UPDATE metadatavalue mv SET text_value = '
-                || quote_literal('http://hdl.handle.net/' || v_handle_prefix || '/')
-                || ' || currval(''handle_seq'') WHERE mv.dspace_object_id = '
-                || quote_literal(v_new_uuid::text)
-                || ' AND mv.text_value = '
-                || quote_literal('http://hdl.handle.net/' || v_source_handle)
-                || ' AND mv.metadata_field_id IN '
-                || '(SELECT mf.metadata_field_id FROM metadatafieldregistry mf JOIN metadataschemaregistry ms ON ms.metadata_schema_id = mf.metadata_schema_id WHERE ms.short_id = ''dc'' AND mf.element = ''identifier'');';
-
-            RETURN NEXT
-                'UPDATE metadatavalue mv SET text_value = '
-                || quote_literal('https://hdl.handle.net/' || v_handle_prefix || '/')
-                || ' || currval(''handle_seq'') WHERE mv.dspace_object_id = '
-                || quote_literal(v_new_uuid::text)
-                || ' AND mv.text_value = '
-                || quote_literal('https://hdl.handle.net/' || v_source_handle)
-                || ' AND mv.metadata_field_id IN '
-                || '(SELECT mf.metadata_field_id FROM metadatafieldregistry mf JOIN metadataschemaregistry ms ON ms.metadata_schema_id = mf.metadata_schema_id WHERE ms.short_id = ''dc'' AND mf.element = ''identifier'');';
-            RETURN NEXT '';
-        END IF;
-END IF;
-
-    RETURN NEXT '-- 7.1 opposite language relationship (type_id=18)';
-    RETURN NEXT format('-- Source language: %s, opposite language right_id: %s', v_language_code, v_opposite_language_right_id);
-    RETURN NEXT format('DELETE FROM relationship WHERE left_id = %L AND type_id = 18;', v_new_uuid);
-    RETURN NEXT format(
-        'INSERT INTO relationship (id, left_id, type_id, right_id, left_place, right_place, latest_version_status) VALUES (nextval(''relationship_id_seq''), %L, 18, %L, 0, 0, 0);',
-        v_new_uuid,
-        v_opposite_language_right_id
-    );
-    RETURN NEXT '';
-
-    RETURN NEXT format('-- Derived item language from relationship type_id=18: %s', v_language_code);
-    RETURN NEXT '';
-
-    IF NOT v_has_new_lang_title THEN
-        RETURN NEXT '-- 10. add missing opposite-language dc.title to clone (prefixed with _)';
-        RETURN NEXT format(
-            'INSERT INTO metadatavalue (metadata_value_id, metadata_field_id, text_value, text_lang, place, authority, confidence, dspace_object_id)'
-            ' SELECT nextval(''metadatavalue_seq''), %s, %L, %L, COALESCE(MAX(mv.place), -1) + 1, NULL, -1, %L'
-            ' FROM metadatavalue mv'
-            ' WHERE mv.dspace_object_id = %L AND mv.metadata_field_id = %s AND mv.text_lang = %L;',
-            v_title_field_id,
-            '_' || v_source_title,
-            v_new_language_code,
-            v_new_uuid,
-            v_new_uuid,
-            v_title_field_id,
-            v_new_language_code
-        );
-        RETURN NEXT '';
-    END IF;
-
-    RETURN NEXT '-- 11. maintain dc.relation.istranslationof (metadata_field_id=282) for source and clone';
-    RETURN NEXT format(
-        'DELETE FROM metadatavalue WHERE dspace_object_id = %L AND metadata_field_id = %s AND text_lang IN (''en'',''fr'');',
-        p_source_uuid,
-        v_translation_field_id
-    );
-    RETURN NEXT
-        'INSERT INTO metadatavalue (metadata_value_id, metadata_field_id, text_value, text_lang, place, authority, confidence, dspace_object_id) '
-        || 'SELECT nextval(''metadatavalue_seq''), '
-        || v_translation_field_id::text
-        || ', ''<a href="https://ostrnrcan-dostrncan.canada.ca/handle/'' || '
-        || v_new_handle_sql_expr
-        || ' || ''">'
-        || replace(v_clone_title_for_source_link, '''', '''''')
-        || '</a>'', '
-        || '''en'''
-        || ', COALESCE(MAX(mv.place), -1) + 1, NULL, -1, '
-        || quote_literal(p_source_uuid::text)
-        || ' FROM metadatavalue mv WHERE mv.dspace_object_id = '
-        || quote_literal(p_source_uuid::text)
-        || ' AND mv.metadata_field_id = '
-        || v_translation_field_id::text
-        || ' AND mv.text_lang IN (''en'',''fr'')'
-        || ';';
-
-    RETURN NEXT
-        'INSERT INTO metadatavalue (metadata_value_id, metadata_field_id, text_value, text_lang, place, authority, confidence, dspace_object_id) '
-        || 'SELECT nextval(''metadatavalue_seq''), '
-        || v_translation_field_id::text
-        || ', ''<a href="https://ostrnrcan-dostrncan.canada.ca/handle/'' || '
-        || v_new_handle_sql_expr
-        || ' || ''">'
-        || replace(v_clone_title_for_source_link, '''', '''''')
-        || '</a>'', ''fr'', COALESCE(MAX(mv.place), -1) + 2, NULL, -1, '
-        || quote_literal(p_source_uuid::text)
-        || ' FROM metadatavalue mv WHERE mv.dspace_object_id = '
-        || quote_literal(p_source_uuid::text)
-        || ' AND mv.metadata_field_id = '
-        || v_translation_field_id::text
-        || ' AND mv.text_lang IN (''en'',''fr'')'
-        || ';';
-
-    RETURN NEXT format(
-        'DELETE FROM metadatavalue WHERE dspace_object_id = %L AND metadata_field_id = %s AND text_lang IN (''en'',''fr'');',
-        v_new_uuid,
-        v_translation_field_id
-    );
-    RETURN NEXT format(
-        'INSERT INTO metadatavalue (metadata_value_id, metadata_field_id, text_value, text_lang, place, authority, confidence, dspace_object_id)'
-        ' SELECT nextval(''metadatavalue_seq''), %s,'
-        ' %L, %L, COALESCE(MAX(mv.place), -1) + 1, NULL, -1, %L'
-        ' FROM metadatavalue mv'
-        ' WHERE mv.dspace_object_id = %L AND mv.metadata_field_id = %s AND mv.text_lang IN (''en'',''fr'');',
-        v_translation_field_id,
-        '<a href="https://ostrnrcan-dostrncan.canada.ca/handle/' || v_source_handle || '">' || v_source_title || '</a>',
-        'en',
-        v_new_uuid,
-        v_new_uuid,
-        v_translation_field_id
-    );
-    RETURN NEXT format(
-        'INSERT INTO metadatavalue (metadata_value_id, metadata_field_id, text_value, text_lang, place, authority, confidence, dspace_object_id)'
-        ' SELECT nextval(''metadatavalue_seq''), %s,'
-        ' %L, ''fr'', COALESCE(MAX(mv.place), -1) + 2, NULL, -1, %L'
-        ' FROM metadatavalue mv'
-        ' WHERE mv.dspace_object_id = %L AND mv.metadata_field_id = %s AND mv.text_lang IN (''en'',''fr'');',
-        v_translation_field_id,
-        '<a href="https://ostrnrcan-dostrncan.canada.ca/handle/' || v_source_handle || '">' || v_source_title || '</a>',
-        v_new_uuid,
-        v_new_uuid,
-        v_translation_field_id
-    );
-    RETURN NEXT '';
-
-    RETURN NEXT format('-- End clone %s  →  %s', p_source_uuid, v_new_uuid);
-    RETURN NEXT '';
-END;
-$$;
-
-COMMENT ON FUNCTION generate_clone_sql IS
-  'Returns a set of SQL TEXT lines that, when executed, reproduce '
-  'the given item (metadata, policies, relationships, optional handle). '
-  'Does NOT execute anything itself – safe to call in read-only transactions.';
-
-
--- ============================================================
 -- 6. BATCH PROCEDURE  –  clone_items_batch()
 --    Iterates over every PENDING row in items_to_clone.
---
---    p_execute_mode = TRUE  → clone directly (live writes)
---    p_execute_mode = FALSE → accumulate SQL in clone_script_output
+--    Only direct execution is supported.
 -- ============================================================
 
 CREATE OR REPLACE PROCEDURE clone_items_batch(
@@ -1327,16 +805,12 @@ AS $$
 DECLARE
 v_rec           RECORD;
     v_new_uuid      UUID;
-    v_sql_line      TEXT;
     v_processed     INT := 0;
     v_errors        INT := 0;
 BEGIN
     IF NOT p_execute_mode THEN
-        -- Prepare output table
-        TRUNCATE TABLE clone_script_output;
-INSERT INTO clone_script_output (sql_line) VALUES ('BEGIN;');
-INSERT INTO clone_script_output (sql_line) VALUES ('');
-END IF;
+        RAISE EXCEPTION 'clone_items_batch(FALSE) is no longer supported. Use direct mode: CALL clone_items_batch(TRUE);';
+    END IF;
 
 FOR v_rec IN
 SELECT id,
@@ -1372,22 +846,6 @@ VALUES
 RAISE NOTICE '[clone_items_batch] % → % (DONE)', v_rec.source_item_uuid, v_new_uuid;
                 v_processed := v_processed + 1;
 
-ELSE
-                -- ---- SQL GENERATION ----
-                FOR v_sql_line IN
-SELECT s
-FROM   generate_clone_sql(
-               v_rec.source_item_uuid,
-               v_rec.target_collection_uuid,
-               v_rec.new_handle,
-               COALESCE(v_rec.clone_relationships, TRUE)
-       ) s
-    LOOP
-INSERT INTO clone_script_output (sql_line) VALUES (v_sql_line);
-END LOOP;
-
-                v_processed := v_processed + 1;
-                RAISE NOTICE '[clone_items_batch] Generated SQL for item %', v_rec.source_item_uuid;
 END IF;
 
 EXCEPTION WHEN OTHERS THEN
@@ -1407,38 +865,13 @@ RAISE WARNING '[clone_items_batch] Error cloning %: %', v_rec.source_item_uuid, 
 END;
 END LOOP;
 
-    IF NOT p_execute_mode THEN
-        INSERT INTO clone_script_output (sql_line) VALUES ('');
-INSERT INTO clone_script_output (sql_line) VALUES ('COMMIT;');
-RAISE NOTICE '[clone_items_batch] Script written to clone_script_output (% items, % errors).', v_processed, v_errors;
-        RAISE NOTICE 'Export with: \copy (SELECT sql_line FROM clone_script_output ORDER BY line_num) TO ''/path/to/clone_output.sql''';
-ELSE
-        RAISE NOTICE '[clone_items_batch] Complete: % cloned, % errors.', v_processed, v_errors;
-END IF;
+    RAISE NOTICE '[clone_items_batch] Complete: % cloned, % errors.', v_processed, v_errors;
 END;
 $$;
 
 COMMENT ON PROCEDURE clone_items_batch IS
-  'Process all PENDING rows in items_to_clone. '
-  'Pass TRUE to execute live, FALSE to generate SQL into clone_script_output.';
-
-
--- ============================================================
--- 7. CONVENIENCE PROCEDURE  –  generate_clone_script_to_table()
---    Shorthand for clone_items_batch(FALSE).
--- ============================================================
-
-CREATE OR REPLACE PROCEDURE generate_clone_script_to_table()
-LANGUAGE plpgsql
-AS $$
-BEGIN
-CALL clone_items_batch(FALSE);
-END;
-$$;
-
-COMMENT ON PROCEDURE generate_clone_script_to_table IS
-  'Shorthand: generates an SQL script for all PENDING items into clone_script_output. '
-  'Equivalent to CALL clone_items_batch(FALSE).';
+  'Process all PENDING rows in items_to_clone in direct-execution mode. '
+  'Passing FALSE is not supported.';
 
 
 -- ============================================================
